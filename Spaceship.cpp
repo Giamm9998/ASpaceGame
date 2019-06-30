@@ -4,6 +4,10 @@
 
 #include "Spaceship.h"
 
+Spaceship::Spaceship(int hp, int strength, float speed, sf::Texture *texture) : hp(hp), strength(strength),
+                                                                                speed(speed) {
+    sprite.setTexture(*texture);
+}
 
 int Spaceship::getHp() const {
     return hp;
@@ -28,3 +32,4 @@ float Spaceship::getSpeed() const {
 void Spaceship::setSpeed(float speed) {
     Spaceship::speed = speed;
 }
+

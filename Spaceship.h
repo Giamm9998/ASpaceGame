@@ -10,8 +10,12 @@
 
 class Spaceship {
 public:
-    virtual void move()=0;
+    Spaceship(int hp, int strength, float speed, sf::Texture *texture);
+
+    virtual void move() = 0;
+
     void useCannon();
+
     void receiveDamage();
 
     int getHp() const;
@@ -30,7 +34,7 @@ private:
     int hp;
     int strength;
     float speed;
-    sf::Texture texture;
+    sf::Sprite sprite;
     //Cannon primaryCannon;
 };
 

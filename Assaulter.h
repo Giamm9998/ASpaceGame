@@ -8,7 +8,7 @@
 
 #include "Enemy.h"
 
-class Assaulter:public Enemy {
+class Assaulter : public Enemy {
 public:
     void move() override;
 };
