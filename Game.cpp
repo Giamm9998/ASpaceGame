@@ -3,10 +3,13 @@
 //
 
 #include "Game.h"
+#include "ResourceManager.h"
 
-Game::Game() : window(sf::VideoMode(600, 600), "A Space Game"), isPaused(false),
+Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
+
+    ResourceManager resourceManager;
 
     //Player's spaceship creation
 
