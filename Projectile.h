@@ -17,7 +17,7 @@ private:
     sf::Vector2f size;
     float speed;
     sf::Sprite sprite;
-    Cannon *projectilePtr;
+    Cannon *cannonPtr;
     sf::Vector2f movement;
 };
 

@@ -10,6 +10,8 @@
 
 class Bomber: public Player {
 public:
+    Bomber();
+
     void useSpecialPower() override;
 
 private:
