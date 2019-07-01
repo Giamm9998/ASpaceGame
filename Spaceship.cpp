@@ -1,13 +1,10 @@
 //
 // Created by gianmarco on 30/06/19.
 //
-
+#include "ResourceManager.h"
 #include "Spaceship.h"
 
-Spaceship::Spaceship(int hp, int strength, float speed, sf::Texture *texture) : hp(hp), strength(strength),
-                                                                                speed(speed) {
-    sprite.setTexture(*texture);
-}
+Spaceship::Spaceship(int hp, int strength, float speed) : hp(hp), strength(strength), speed(speed) {}
 
 int Spaceship::getHp() const {
     return hp;
@@ -31,5 +28,9 @@ float Spaceship::getSpeed() const {
 
 void Spaceship::setSpeed(float speed) {
     Spaceship::speed = speed;
+}
+
+sf::Sprite Spaceship::getSprite() {
+    return sprite;
 }
 

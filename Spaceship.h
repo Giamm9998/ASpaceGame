@@ -10,7 +10,7 @@
 
 class Spaceship {
 public:
-    Spaceship(int hp, int strength, float speed, sf::Texture *texture);
+    Spaceship(int hp, int strength, float speed);
 
     virtual void move() = 0;
 
@@ -29,6 +29,9 @@ public:
     float getSpeed() const;
 
     void setSpeed(float speed);
+
+    sf::Sprite getSprite();
+
 
 private:
     int hp;
