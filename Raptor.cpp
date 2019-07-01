@@ -8,3 +8,7 @@
 Raptor::Raptor() : Player(100, 8, 40) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Raptor"));
 }
+
+void Raptor::useSpecialPower() {
+
+}
