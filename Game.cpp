@@ -10,8 +10,6 @@ Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
 
-    ResourceManager resourceManager;
-
 
     //Player's spaceship creation
 
@@ -70,6 +68,7 @@ void Game::update(sf::Time dt) {
 
 void Game::render() {
     window.clear(sf::Color::Black);
+
     window.display();
 }
 

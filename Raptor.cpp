@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 
 Raptor::Raptor() : Player(100, 8, 40) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/Raptor"));
+    sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBase.png"));
 }
 
 void Raptor::useSpecialPower() {

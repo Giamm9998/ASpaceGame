@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "Bomber.h"
+#include "ResourceManager.h"
 
 class Game {
 public:
@@ -34,7 +35,8 @@ private:
     bool isMovingLeft;
     bool isMovingRight;
 
-};
+    ResourceManager resourceManager;
 
+};
 
 #endif //ASPACEGAME_GAME_H
