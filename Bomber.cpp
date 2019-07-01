@@ -6,6 +6,10 @@
 #include "ResourceManager.h"
 
 Bomber::Bomber() : Player(150, 10, 5) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/Bomber"));
+    sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBase.png"));
     //TODO initialize secondaryCannon
+}
+
+void Bomber::useSpecialPower() {
+
 }

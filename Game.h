@@ -8,6 +8,7 @@
 #include <exception>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include "Bomber.h"
 
 class Game {
 public:

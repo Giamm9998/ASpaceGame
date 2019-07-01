@@ -39,7 +39,7 @@ protected:
     int strength;
     float speed;
     sf::Sprite sprite;
-    Cannon primaryCannon{};
+    Cannon primaryCannon;
 };
 
 
