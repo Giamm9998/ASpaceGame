@@ -7,7 +7,6 @@
 
 
 #include <SFML/Graphics.hpp>
-#include "Cannon.h"
 
 class Projectile {
 public:
@@ -17,7 +16,7 @@ private:
     sf::Vector2f size;
     float speed;
     sf::Sprite sprite;
-    Cannon *projectilePtr;
+    //Cannon * cannonPtr; //TODO
     sf::Vector2f movement;
 };
 

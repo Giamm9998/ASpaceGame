@@ -6,7 +6,6 @@
 #define ASPACEGAME_CANNON_H
 
 
-#include "Spaceship.h"
 #include "Projectile.h"
 
 class Cannon {
@@ -15,7 +14,7 @@ public:
 
 private:
     int nShots;
-    Spaceship *spaceshipPtr;//TODO make this a smartpointer
+    //Spaceship * spaceshipPtr;//TODO make this a smartpointer
     double fireRate;
     Projectile projectilePrototype;
     bool tracker;
