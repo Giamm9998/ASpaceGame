@@ -13,7 +13,7 @@ public:
     void move() override;
     void chooseAttack();
 private:
-    //std::vector<Cannon> cannons;
+    std::vector<Cannon> cannons;
 };
 
 

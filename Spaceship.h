@@ -7,6 +7,7 @@
 
 
 #include <SFML/Graphics.hpp>
+#include "Cannon.h"
 
 class Spaceship {
 public:
@@ -38,7 +39,7 @@ private:
     int strength;
     float speed;
     sf::Sprite sprite;
-    //Cannon primaryCannon;
+    Cannon primaryCannon;
 };
 
 

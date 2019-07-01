@@ -13,7 +13,7 @@ public:
     void useSpecialPower() override;
 
 private:
-    //Cannon secondaryCannon;
+    Cannon secondaryCannon;
 };
 
 
