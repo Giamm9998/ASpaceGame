@@ -10,6 +10,7 @@
 
 class Raptor: public Player{
 public:
+    Raptor();
     void useSpecialPower() override;
 
 private:

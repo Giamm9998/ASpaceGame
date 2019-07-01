@@ -34,12 +34,12 @@ public:
     sf::Sprite getSprite();
 
 
-private:
+protected:
     int hp;
     int strength;
     float speed;
     sf::Sprite sprite;
-    Cannon primaryCannon;
+    Cannon primaryCannon{};
 };
 
 
