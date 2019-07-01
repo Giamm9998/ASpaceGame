@@ -3,3 +3,9 @@
 //
 
 #include "Enemy.h"
+
+void Enemy::move() {
+
+}
+
+Enemy::Enemy(int hp, int strength, int speed) : Spaceship(hp, strength, speed) {}

@@ -10,6 +10,7 @@
 
 class Assaulter : public Enemy {
 public:
+    Assaulter();
     void move() override;
 };
 

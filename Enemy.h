@@ -10,6 +10,7 @@
 
 class Enemy: public Spaceship{
 public:
+    Enemy(int hp, int strength, int speed);
     void move() override;
 };
 

@@ -10,6 +10,7 @@
 
 class Fighter: public Enemy{
 public:
+    Fighter();
     void move() override;
 };
 

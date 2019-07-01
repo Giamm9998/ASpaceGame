@@ -10,6 +10,7 @@
 
 class Kamikaze: public Enemy {
 public:
+    Kamikaze();
     void move() override;
     void attract();
     void explode();

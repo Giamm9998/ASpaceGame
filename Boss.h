@@ -10,6 +10,7 @@
 
 class Boss: public Enemy {
 public:
+    Boss();
     void move() override;
     void chooseAttack();
 private:
