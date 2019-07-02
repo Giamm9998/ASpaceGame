@@ -10,6 +10,7 @@
 #include "Fighter.h"
 #include "Boss.h"
 #include "Minion.h"
+#include "Assaulter.h"
 
 
 Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
@@ -26,11 +27,16 @@ Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
     auto* fighter = new Fighter;
     auto* kamikaze = new Kamikaze;
     auto *minion = new Minion;
+    auto *assaulter = new Assaulter;
+
     kamikaze->setPosition(100, 500);
     minion->setPosition(-100, 400);
+    assaulter->setPosition(200, 400);
     enemyManager.insert(enemyManager.begin(), fighter);
     enemyManager.insert(enemyManager.begin(), kamikaze);
     enemyManager.insert(enemyManager.begin(), minion);
+    enemyManager.insert(enemyManager.begin(), assaulter);
+
 
 
 
@@ -85,18 +91,23 @@ void Game::update(sf::Time dt) {
     //Player movement
     float time = dt.asSeconds();
     for (auto &i : enemyManager) {
-        //std::cout<< typeid(*i).name();
-        if (typeid(*i) == typeid(Boss)) {
-            dynamic_cast<Boss &>(*i).move(time);
-        } else if (typeid(*i) == typeid(Boss)) {
+        if (typeid(*i) == typeid(Minion))
             dynamic_cast<Minion &>(*i).move(time);
-
-        } else dynamic_cast<Enemy &>(*i).move(time);
+        else if (typeid(*i) == typeid(Boss))
+            dynamic_cast<Boss &>(*i).move(time);
+        else if (typeid(*i) == typeid(Kamikaze))
+            dynamic_cast<Kamikaze &>(*i).move(time);
+        else if (typeid(*i) == typeid(Fighter))
+            dynamic_cast<Fighter &>(*i).move(time);
+        else if (typeid(*i) == typeid(Assaulter))
+            dynamic_cast<Assaulter &>(*i).move(time);
     }
     if (isMovingRight) {
+        player->move(time);
     }
 
     if(isMovingLeft){
+
     }
 
     //View updating
