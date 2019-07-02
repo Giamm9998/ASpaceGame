@@ -13,6 +13,9 @@ public:
     Assaulter();
 
     void move(float time) override;
+
+private:
+    float elapsedTime;
 };
 
 

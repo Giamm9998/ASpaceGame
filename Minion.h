@@ -14,6 +14,9 @@ public:
 
     void move(float time) override;
 
+private:
+    float elapsedTime;
+
 };
 
 #endif //ASPACEGAME_MINION_H

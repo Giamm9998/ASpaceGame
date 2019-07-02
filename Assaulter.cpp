@@ -6,11 +6,20 @@
 #include "ResourceManager.h"
 
 void Assaulter::move(float time) {
-    Enemy::move(time);
+    elapsedTime += time;
+    auto scale = sprite.getScale().x;
+    if (elapsedTime >= 1 && elapsedTime < 2 && scale >= 0.01) {
+        sprite.setScale(scale - (1 * time), scale - (1 * time));
+    } else if (elapsedTime >= 2 && scale <= 0.35)
+        sprite.setScale(scale + (1 * time), scale + (1 * time));
+    else if (elapsedTime >= 3)
+        elapsedTime = 0;
+
 }
 
-Assaulter::Assaulter() : Enemy(50, 20, 30) {
+Assaulter::Assaulter() : Enemy(50, 20, 30), elapsedTime(0) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
+    sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
     primaryCannon.setFireRate(100);
     primaryCannon.setNShots(1);
     primaryCannon.setTracker(true);

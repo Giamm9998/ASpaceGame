@@ -5,10 +5,14 @@
 #include "Minion.h"
 #include "ResourceManager.h"
 
-Minion::Minion() : Enemy(50, 10, 10) { //todo cambia
+Minion::Minion() : Enemy(50, 10, 100), elapsedTime(0) { //todo cambia
     sprite.setTexture(ResourceManager::getTexture("../Texture/Minion.png"));
 }
 
 void Minion::move(float time) {
-    Enemy::move(time);
+    elapsedTime += time;
+    if (elapsedTime < 1)
+        sprite.move(speed * time, 0);
+    else if (elapsedTime > 2)
+        elapsedTime = 0;
 }
