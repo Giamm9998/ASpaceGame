@@ -11,7 +11,10 @@
 #include "Boss.h"
 #include "Minion.h"
 #include "Assaulter.h"
+#include "Raptor.h"
 
+#define RIGHT 1
+#define LEFT -1
 
 Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false),
@@ -37,7 +40,7 @@ Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
     enemyManager.insert(enemyManager.begin(), minion);
     enemyManager.insert(enemyManager.begin(), assaulter);
 
-
+    player = new Raptor;
 
 
 
@@ -103,11 +106,11 @@ void Game::update(sf::Time dt) {
             dynamic_cast<Assaulter &>(*i).move(time);
     }
     if (isMovingRight) {
-        player->move(time);
+        player->move(time, RIGHT);
     }
 
     if(isMovingLeft){
-
+        player->move(time, LEFT);
     }
 
     //View updating
@@ -120,6 +123,7 @@ void Game::render() {
 
     for (auto &i : enemyManager) {
         window.draw(dynamic_cast<Enemy &>(*i).getSprite());
+        window.draw(player->getSprite());
     }
     window.display();
 }

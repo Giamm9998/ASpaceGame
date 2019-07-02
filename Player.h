@@ -11,7 +11,9 @@ class Player :public Spaceship{
 public:
     Player(int hp, int strength, float speed);
 
-    void move(float time) override;
+    void move(float time) override {};
+
+    void move(float time, short int movement);
     virtual void useSpecialPower()=0;
 
 };

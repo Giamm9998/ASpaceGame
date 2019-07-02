@@ -5,7 +5,7 @@
 #include "Raptor.h"
 #include "ResourceManager.h"
 
-Raptor::Raptor() : Player(100, 8, 40) {
+Raptor::Raptor() : Player(100, 8, 150) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBase.png"));
     primaryCannon.setFireRate(300);
     primaryCannon.setNShots(1);
