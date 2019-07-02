@@ -12,6 +12,9 @@ class Cannon;
 
 class Projectile {
 public:
+    Projectile();
+
+    Projectile(sf::Vector2f size, float speed, Cannon *cannonPtr, sf::Vector2f movement, int damage);
     void move();
 
 private:
@@ -20,6 +23,7 @@ private:
     sf::Sprite sprite;
     Cannon *cannonPtr; //TODO
     sf::Vector2f movement;
+    int damage;
 };
 
 

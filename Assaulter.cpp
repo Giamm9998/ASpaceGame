@@ -11,4 +11,11 @@ void Assaulter::move() {
 
 Assaulter::Assaulter() : Enemy(50, 20, 30) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
+    primaryCannon.setFireRate(100);
+    primaryCannon.setNShots(1);
+    primaryCannon.setTracker(true);
+    primaryCannon.setSpaceshipPtr(this);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 40, &primaryCannon, sf::Vector2f(0, 1), strength);
+    primaryCannon.setProjectilePrototype(projectilePrototype);
+    //TODO establish the right default values
 }

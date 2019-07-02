@@ -12,7 +12,19 @@ class Spaceship;
 
 class Cannon {
 public:
+    Cannon();
+
     void shoot();
+
+    void setNShots(int nShots);
+
+    void setSpaceshipPtr(Spaceship *spaceshipPtr);
+
+    void setFireRate(double fireRate);
+
+    void setProjectilePrototype(const Projectile &projectilePrototype);
+
+    void setTracker(bool tracker);
 
 private:
     int nShots;

@@ -11,4 +11,11 @@ void Fighter::move() {
 
 Fighter::Fighter() : Enemy(50, 10, 30) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Fighter.png"));
+    primaryCannon.setFireRate(250);
+    primaryCannon.setNShots(3);
+    primaryCannon.setTracker(false);
+    primaryCannon.setSpaceshipPtr(this);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 40, &primaryCannon, sf::Vector2f(0, 1), strength);
+    primaryCannon.setProjectilePrototype(projectilePrototype);
+    //TODO establish the right default values
 }
