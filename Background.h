@@ -9,13 +9,15 @@
 
 class Background {
 public:
-    Background(sf::Vector2f size, sf::Texture *texture);
+    explicit Background();
 
-    void scroll();
+    void scroll(float dt);
 
 private:
     sf::Vector2f size;
-    sf::Sprite sprite;
+    sf::Sprite sprite1;
+    sf::Sprite sprite2;
+    float scrollSpeed;
 };
 
 
