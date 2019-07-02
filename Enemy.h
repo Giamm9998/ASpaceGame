@@ -7,11 +7,22 @@
 
 
 #include "Spaceship.h"
+#include <list>
 
 class Enemy: public Spaceship{
+
 public:
     Enemy(int hp, int strength, int speed);
+
+    void setPosition(float x, float y);
     void move() override;
+
+    const std::list<Enemy, std::__1::allocator<Enemy>>::iterator &getIterator() const;
+
+    void setIterator(const std::list<Enemy, std::__1::allocator<Enemy>>::iterator &iterator);
+
+private:
+    std::list<Enemy>::iterator iterator;
 };
 
 

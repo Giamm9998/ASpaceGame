@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 
 void Boss::move() {
-    Enemy::move();
+    //sprite.rotate(5.);
 }
 
 void Boss::chooseAttack() {

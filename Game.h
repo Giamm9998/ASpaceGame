@@ -8,8 +8,12 @@
 #include <exception>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "Bomber.h"
+#include <list>
 #include "ResourceManager.h"
+#include "Spaceship.h"
+#include "Enemy.h"
+#include "Player.h"
+#include <typeinfo>
 
 class Game {
 public:
@@ -34,6 +38,10 @@ private:
     bool isPaused;
     bool isMovingLeft;
     bool isMovingRight;
+
+    Player *player; //todo smart pointer
+    std::list<Spaceship *> enemyManager; //todo smart pointer
+    std::list<Projectile *> projectileManager; //todo smart pointer
 
     ResourceManager resourceManager;
 
