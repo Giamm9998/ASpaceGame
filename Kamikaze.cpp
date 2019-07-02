@@ -5,8 +5,8 @@
 #include "Kamikaze.h"
 #include "ResourceManager.h"
 
-void Kamikaze::move() {
-    Enemy::move();
+void Kamikaze::move(float time) {
+    Enemy::move(time);
 }
 
 void Kamikaze::attract() {}

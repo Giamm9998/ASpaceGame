@@ -6,6 +6,6 @@
 
 Player::Player(int hp, int strength, float speed) : Spaceship(hp, strength, speed) {}
 
-void Player::move() {
+void Player::move(float time) {
 
 }

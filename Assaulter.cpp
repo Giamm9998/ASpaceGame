@@ -5,8 +5,8 @@
 #include "Assaulter.h"
 #include "ResourceManager.h"
 
-void Assaulter::move() {
-    Enemy::move();
+void Assaulter::move(float time) {
+    Enemy::move(time);
 }
 
 Assaulter::Assaulter() : Enemy(50, 20, 30) {

@@ -11,7 +11,8 @@
 class Fighter: public Enemy{
 public:
     Fighter();
-    void move() override;
+
+    void move(float time) override;
 };
 
 

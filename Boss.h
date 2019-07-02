@@ -11,7 +11,8 @@
 class Boss: public Enemy {
 public:
     Boss();
-    void move() override;
+
+    void move(float time) override;
     void chooseAttack();
 private:
     std::vector<Cannon> cannons;

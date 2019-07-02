@@ -13,7 +13,7 @@ class Spaceship {
 public:
     Spaceship(int hp, int strength, float speed);
 
-    virtual void move() = 0;
+    virtual void move(float time) = 0;
 
     void useCannon();
 

@@ -11,7 +11,8 @@
 class Kamikaze: public Enemy {
 public:
     Kamikaze();
-    void move() override;
+
+    void move(float time) override;
     void attract();
     void explode();
 };

@@ -12,7 +12,7 @@ class Minion : public Enemy {
 public:
     Minion();
 
-    void move() override;
+    void move(float time) override;
 
 };
 

@@ -5,8 +5,8 @@
 #include "Boss.h"
 #include "ResourceManager.h"
 
-void Boss::move() {
-    //sprite.rotate(5.);
+void Boss::move(float time) {
+    sprite.rotate(speed * time);
 }
 
 void Boss::chooseAttack() {

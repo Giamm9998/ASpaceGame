@@ -5,8 +5,8 @@
 #include "Fighter.h"
 #include "ResourceManager.h"
 
-void Fighter::move() {
-    Enemy::move();
+void Fighter::move(float time) {
+    Enemy::move(time);
 }
 
 Fighter::Fighter() : Enemy(50, 10, 30) {

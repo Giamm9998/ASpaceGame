@@ -15,11 +15,12 @@ public:
     Enemy(int hp, int strength, int speed);
 
     void setPosition(float x, float y);
-    void move() override;
 
-    const std::list<Enemy, std::__1::allocator<Enemy>>::iterator &getIterator() const;
+    void move(float time) override;
 
-    void setIterator(const std::list<Enemy, std::__1::allocator<Enemy>>::iterator &iterator);
+    const std::list<Enemy>::iterator &getIterator() const;
+
+    void setIterator(const std::list<Enemy>::iterator &iterator);
 
 private:
     std::list<Enemy>::iterator iterator;
