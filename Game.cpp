@@ -24,9 +24,11 @@ Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
     //Player's spaceship creation
     for (int i = 0; i < 5; i++) {
         auto *boss = new Boss; //TODO smart pointer
-        boss->setPosition(50 * i, 200);
+        boss->setPosition(50 * i - 200, 200);
         enemyManager.insert(enemyManager.begin(), boss);
     }
+
+    auto *boss = new Boss;
     auto* fighter = new Fighter;
     auto* kamikaze = new Kamikaze;
     auto *minion = new Minion;
@@ -35,10 +37,13 @@ Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
     kamikaze->setPosition(100, 500);
     minion->setPosition(-100, 400);
     assaulter->setPosition(200, 400);
+    boss->setPosition(300, 200);
     enemyManager.insert(enemyManager.begin(), fighter);
     enemyManager.insert(enemyManager.begin(), kamikaze);
     enemyManager.insert(enemyManager.begin(), minion);
     enemyManager.insert(enemyManager.begin(), assaulter);
+    enemyManager.insert(enemyManager.begin(), boss);
+
 
     player = new Raptor;
 

@@ -6,6 +6,7 @@
 
 Bomber::Bomber() : Player(150, 10, 120) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBase.png"));
+    sprite.setOrigin(140, 161);
     primaryCannon.setFireRate(200);
     primaryCannon.setNShots(1);
     primaryCannon.setTracker(false);

@@ -7,6 +7,7 @@
 
 Raptor::Raptor() : Player(100, 8, 150) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBase.png"));
+    sprite.setOrigin(114, 155);
     primaryCannon.setFireRate(300);
     primaryCannon.setNShots(1);
     primaryCannon.setTracker(false);

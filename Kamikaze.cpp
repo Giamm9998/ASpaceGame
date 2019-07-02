@@ -15,6 +15,7 @@ void Kamikaze::explode() {}
 
 Kamikaze::Kamikaze() : Enemy(50, 30, 30) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
+    sprite.setOrigin(109, 150);
     primaryCannon.setFireRate(50);
     primaryCannon.setNShots(1);
     primaryCannon.setTracker(false);

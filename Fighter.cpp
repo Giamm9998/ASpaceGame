@@ -11,6 +11,7 @@ void Fighter::move(float time) {
 
 Fighter::Fighter() : Enemy(50, 10, 30) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Fighter.png"));
+    sprite.setOrigin(191, 166);
     primaryCannon.setFireRate(250);
     primaryCannon.setNShots(3);
     primaryCannon.setTracker(false);

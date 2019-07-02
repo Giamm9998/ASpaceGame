@@ -6,8 +6,7 @@
 
 
 Player::Player(int hp, int strength, float speed) : Spaceship(hp, strength, speed) {
-    sprite.setPosition(0, 500);
-    sprite.setOrigin(114, 155);
+    sprite.setPosition(0, 600);
 }
 
 void Player::move(float time, short int direction) {

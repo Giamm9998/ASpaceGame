@@ -9,7 +9,7 @@ void Assaulter::move(float time) {
     elapsedTime += time;
     auto scale = sprite.getScale().x;
     if (elapsedTime >= 1 && elapsedTime < 2 && scale >= 0.01) {
-        sprite.setScale(scale - (1 * time), scale - (1 * time));
+        sprite.setScale(scale - (1 * time), scale - (1 * time)); //todo set random position
     } else if (elapsedTime >= 2 && scale <= 0.35)
         sprite.setScale(scale + (1 * time), scale + (1 * time));
     else if (elapsedTime >= 3)
@@ -19,7 +19,7 @@ void Assaulter::move(float time) {
 
 Assaulter::Assaulter() : Enemy(50, 20, 30), elapsedTime(0) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
-    sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
+    sprite.setOrigin(109, 128);
     primaryCannon.setFireRate(100);
     primaryCannon.setNShots(1);
     primaryCannon.setTracker(true);
