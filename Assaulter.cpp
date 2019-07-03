@@ -13,7 +13,7 @@ void Assaulter::move(float time) {
     auto currentScale = sprite.getScale().x;
     if (elapsedTime >= 4 && elapsedTime < 6 && currentScale >= 0.01) {
         sprite.setScale(currentScale - (escapeSpeed * time),
-                        currentScale - (escapeSpeed * time)); //todo set random position
+                        currentScale - (escapeSpeed * time));
     } else if (elapsedTime >= 6 && currentScale <= maxScale) {
         if (!moved) {
             setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));

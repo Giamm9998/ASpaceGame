@@ -26,6 +26,8 @@ public:
 
     void run();
 
+    static bool isLegalMove(float x, float origin, short int direction);
+
 
 private:
     void processEvents();

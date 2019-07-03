@@ -139,3 +139,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
     else if (key == sf::Keyboard::Right)
         isMovingRight = isPressed;
 }
+
+bool Game::isLegalMove(float x, float origin, short int direction) {
+    return !((x <= origin && direction == LEFT) || (x >= windowWidth - origin && direction == RIGHT));
+}
