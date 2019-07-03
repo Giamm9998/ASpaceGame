@@ -26,6 +26,17 @@ public:
 
     void setTracker(bool tracker);
 
+    int getNShots() const;
+
+    Spaceship *getSpaceshipPtr() const;
+
+    double getFireRate() const;
+
+    Projectile &getProjectilePrototype();
+
+    bool isTracker() const;
+
+
 private:
     int nShots;
     Spaceship *spaceshipPtr;//TODO make this a smartpointer

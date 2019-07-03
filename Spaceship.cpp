@@ -38,3 +38,7 @@ sf::Sprite Spaceship::getSprite() {
     return sprite;
 }
 
+Cannon &Spaceship::getPrimaryCannon() {
+    return primaryCannon;
+}
+

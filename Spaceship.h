@@ -33,6 +33,7 @@ public:
 
     sf::Sprite getSprite();
 
+    Cannon &getPrimaryCannon();
 
 protected:
     int hp;

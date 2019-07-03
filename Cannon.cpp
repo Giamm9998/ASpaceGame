@@ -28,3 +28,24 @@ void Cannon::setTracker(bool tracker) {
 
 void Cannon::shoot() {}
 
+int Cannon::getNShots() const {
+    return nShots;
+}
+
+Spaceship *Cannon::getSpaceshipPtr() const {
+    return spaceshipPtr;
+}
+
+double Cannon::getFireRate() const {
+    return fireRate;
+}
+
+Projectile &Cannon::getProjectilePrototype() {
+    return projectilePrototype;
+}
+
+bool Cannon::isTracker() const {
+    return tracker;
+}
+
+

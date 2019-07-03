@@ -6,7 +6,28 @@
 #include "../Raptor.h"
 #include "../Bomber.h"
 
-TEST(PlayerTest, Instantiation) {
+TEST(BomberTest, Constructor) {
     Bomber bomber;
     ASSERT_EQ(bomber.getHp(), 150);
+    ASSERT_EQ(bomber.getSpeed(), 120);
+    ASSERT_EQ(bomber.getStrength(), 10);
+    ASSERT_EQ(bomber.getPrimaryCannon().getFireRate(), 200);
+    ASSERT_EQ(bomber.getPrimaryCannon().getNShots(), 1);
+    ASSERT_EQ(bomber.getPrimaryCannon().isTracker(), false);
+    ASSERT_EQ(bomber.getPrimaryCannon().getSpaceshipPtr(), &bomber);
+    ASSERT_EQ(bomber.getStrength(), 10);
+    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getSpeed(), 40);
+    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
+    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, -1));
+    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getDamage(), bomber.getStrength());
+    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getCannonPtr(), &(bomber.getPrimaryCannon()));
+    ASSERT_EQ(bomber.getSecondaryCannon().getFireRate(), 100);
+    ASSERT_EQ(bomber.getSecondaryCannon().getNShots(), 1);
+    ASSERT_EQ(bomber.getSecondaryCannon().isTracker(), false);
+    ASSERT_EQ(bomber.getSecondaryCannon().getSpaceshipPtr(), &bomber);
+    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getSpeed(), 40);
+    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.9, 0.9));
+    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, -1));
+    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getDamage(), bomber.getStrength() * 3);
+    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getCannonPtr(), &(bomber.getSecondaryCannon()));
 }

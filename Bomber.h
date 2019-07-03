@@ -14,6 +14,8 @@ public:
 
     void useSpecialPower() override;
 
+    Cannon &getSecondaryCannon();
+
 private:
     Cannon secondaryCannon;
 };

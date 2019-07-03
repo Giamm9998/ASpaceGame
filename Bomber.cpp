@@ -26,3 +26,7 @@ Bomber::Bomber() : Player(150, 10, 120) {
 void Bomber::useSpecialPower() {
 
 }
+
+Cannon &Bomber::getSecondaryCannon() {
+    return secondaryCannon;
+}
