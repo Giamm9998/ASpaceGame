@@ -5,8 +5,12 @@
 #ifndef ASPACEGAME_GAME_H
 #define ASPACEGAME_GAME_H
 
-static const int windowWidth = 900;
+namespace {
+    short int const right = 1;
+    short int const left = -1;
+}
 
+static const int windowWidth = 900;
 static const int windowHeight = 675;
 
 #include <exception>

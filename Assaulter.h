@@ -5,8 +5,6 @@
 #ifndef ASPACEGAME_ASSAULTER_H
 #define ASPACEGAME_ASSAULTER_H
 
-static const int escapeSpeed = 1;
-
 #include "Enemy.h"
 
 class Assaulter : public Enemy {
@@ -16,8 +14,8 @@ public:
     void move(float time) override;
 
 private:
-    float elapsedTime;
     bool moved = false;
+    const int escapeSpeed = 1;
 };
 
 

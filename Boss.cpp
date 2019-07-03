@@ -4,17 +4,27 @@
 
 #include "Boss.h"
 #include "ResourceManager.h"
+#include "Randomizer.h"
 
 void Boss::move(float time) {
-    sprite.rotate(10 * speed * time);
+    elapsedTime += time;
+    if (elapsedTime < 5) {
+        sprite.move(0, (finalPosition - startPosition) / 5 * time);
+    } else
+        Enemy::move(time);
+    //sprite.rotate(speed*time);
 }
 
 void Boss::chooseAttack() {
 
 }
 
-Boss::Boss() : Enemy(1000, 10, 10) {
+Boss::Boss() : Enemy(1000, 10, 50) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Boss.png"));
+    sprite.setScale(0.5, 0.4);
     sprite.setOrigin(338, 254);
+    startPosition = -sprite.getScale().y * sprite.getOrigin().y;
+    finalPosition = sprite.getScale().y * sprite.getOrigin().y;
 
+    sprite.setPosition(static_cast<float>(windowWidth) / 2, startPosition);
 }

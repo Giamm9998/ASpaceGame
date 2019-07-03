@@ -11,25 +11,27 @@
 void Assaulter::move(float time) {
     elapsedTime += time;
     auto currentScale = sprite.getScale().x;
-    if (elapsedTime >= 4 && elapsedTime < 6 && currentScale >= 0.01) {
-        sprite.setScale(currentScale - (escapeSpeed * time),
-                        currentScale - (escapeSpeed * time));
-    } else if (elapsedTime >= 6 && currentScale <= maxScale) {
-        if (!moved) {
+    if (elapsedTime >= 4 && elapsedTime < 4.5 && !moved) {
+        if (currentScale <= 0.01) {
+            sprite.setScale(0, 0);
             setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));
             moved = true;
+        } else {
+            sprite.setScale(currentScale - (escapeSpeed * time),
+                            currentScale - (escapeSpeed * time));
         }
+
+    } else if (elapsedTime >= 4.5 && currentScale <= maxScale) {
         sprite.setScale(currentScale + (escapeSpeed * time), currentScale + (escapeSpeed * time));
-    } else if (elapsedTime >= 8) {
+    } else if (elapsedTime >= 6) {
         elapsedTime = 0;
         moved = false;
     }
 
 }
 
-Assaulter::Assaulter() : Enemy(50, 20, 30), elapsedTime(0) {
+Assaulter::Assaulter() : Enemy(50, 20, 30) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
-    sprite.rotate(180);
     sprite.setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));
     sprite.setOrigin(109, 128);
     primaryCannon.setFireRate(100);

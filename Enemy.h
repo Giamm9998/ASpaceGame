@@ -8,6 +8,7 @@
 
 #include "Spaceship.h"
 #include <list>
+#include "Game.h"
 
 class Enemy: public Spaceship{
 
@@ -24,8 +25,10 @@ public:
 
     void setIterator(const std::list<Enemy>::iterator &iterator);
 
-private:
+protected:
+    short int direction = right;
     std::list<Enemy>::iterator iterator;
+    float elapsedTime = 0;
 };
 
 

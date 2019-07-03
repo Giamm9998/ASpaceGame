@@ -14,9 +14,6 @@
 #include "Raptor.h"
 #include "Background.h"
 
-#define RIGHT 1
-#define LEFT -1
-
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
@@ -25,7 +22,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     //Player's spaceship creation
     for (int i = 0; i < 5; i++) {
         auto *boss = new Boss; //TODO smart pointer
-        boss->setPosition(50 * i - 200, 200);
+        boss->setPosition(50 * i, 200);
         enemyManager.insert(enemyManager.begin(), boss);
     }
 
@@ -36,8 +33,6 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     auto *assaulter = new Assaulter;
 
     kamikaze->setPosition(0, 500);
-    minion->setPosition(-100, 400);
-    boss->setPosition(300, 200);
     enemyManager.insert(enemyManager.begin(), fighter);
     enemyManager.insert(enemyManager.begin(), kamikaze);
     enemyManager.insert(enemyManager.begin(), minion);
@@ -111,13 +106,13 @@ void Game::update(sf::Time dt) {
             dynamic_cast<Assaulter &>(*i).move(time);
     }
     if (isMovingRight)
-        player->move(time, RIGHT);
+        player->move(time, right);
 
     if (isMovingLeft)
-        player->move(time, LEFT);
+        player->move(time, left);
     background->scroll(time);
     //View updating
-    view.setCenter(window.getSize().x / 2, window.getSize().y / 2);
+    view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
     window.setView(view);
 }
 
@@ -141,5 +136,5 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
 }
 
 bool Game::isLegalMove(float x, float origin, short int direction) {
-    return !((x <= origin && direction == LEFT) || (x >= windowWidth - origin && direction == RIGHT));
+    return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
 }

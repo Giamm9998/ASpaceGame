@@ -7,16 +7,13 @@
 
 
 #include "Enemy.h"
+#include "Game.h"
 
 class Minion : public Enemy {
 public:
     Minion();
 
     void move(float time) override;
-
-private:
-    float elapsedTime;
-
 };
 
 #endif //ASPACEGAME_MINION_H

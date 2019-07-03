@@ -3,12 +3,17 @@
 //
 
 #include "Enemy.h"
+#include "Game.h"
 
 void Enemy::move(float time) {
-    sprite.rotate(1.);
+    if (!(Game::isLegalMove(sprite.getPosition().x, sprite.getScale().x * sprite.getOrigin().x, direction)))
+        direction = -direction;
+    sprite.move(direction * speed * time, 0);
 }
 
-Enemy::Enemy(int hp, int strength, int speed) : Spaceship(hp, strength, speed) {}
+Enemy::Enemy(int hp, int strength, int speed) : Spaceship(hp, strength, speed) {
+    sprite.setRotation(180);
+}
 
 void Enemy::setPosition(float x, float y) {
     sprite.setPosition(sf::Vector2f(x, y));

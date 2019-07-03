@@ -16,6 +16,8 @@ public:
     void chooseAttack();
 private:
     std::vector<Cannon> cannons;
+    float startPosition;
+    float finalPosition;
 };
 
 
