@@ -4,21 +4,26 @@
 #include "ResourceManager.h"
 #include "Background.h"
 
+#define WINDOW_HEIGTH 675
+
 Background::Background() {
-    sprite1.setTexture(ResourceManager::getTexture("../Texture/Background.png"));//TODO add texture in the folder
+    sprite1.setTexture(ResourceManager::getTexture("../Texture/Background.png"));
     sprite2.setTexture(ResourceManager::getTexture("../Texture/Background.png"));
-    sprite1.scale(0.7, 0.7);
-    //TODO initialize speed and size
+    scrollSpeed = 75;
+    sprite1.scale(0.5625, 0.5625);
+    sprite2.scale(0.5625, 0.5625);
+    sprite1.setPosition(0, 0);
+    sprite2.setPosition(0, -WINDOW_HEIGTH);
 }
 
 void Background::scroll(float dt) {
     sprite1.move(0, scrollSpeed * dt);
     sprite2.move(0, scrollSpeed * dt);
-    if (sprite2.getPosition().y == 0) {
-        //TODO sprite1.setPosition();
+    if (sprite2.getPosition().y >= WINDOW_HEIGTH) {
+        sprite2.setPosition(0, -WINDOW_HEIGTH);
     }
-    if (sprite1.getPosition().y == 0) {
-        //TODO sprite2.setPosition();
+    if (sprite1.getPosition().y >= WINDOW_HEIGTH) {
+        sprite1.setPosition(0, -WINDOW_HEIGTH);
     }
 }
 
@@ -28,4 +33,8 @@ const sf::Sprite &Background::getSprite1() const {
 
 const sf::Sprite &Background::getSprite2() const {
     return sprite2;
+}
+
+float Background::getScrollSpeed() const {
+    return scrollSpeed;
 }

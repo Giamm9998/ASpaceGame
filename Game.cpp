@@ -17,7 +17,7 @@
 #define RIGHT 1
 #define LEFT -1
 
-Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
+Game::Game() : window(sf::VideoMode(900, 675), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
 
@@ -116,7 +116,7 @@ void Game::update(sf::Time dt) {
 
     if (isMovingLeft)
         player->move(time, LEFT);
-
+    background->scroll(time);
     //View updating
     view.setCenter(window.getSize().x / 2, window.getSize().y / 2);
     window.setView(view);
@@ -126,6 +126,7 @@ void Game::render() {
     window.clear(sf::Color::Black);
 
     window.draw(background->getSprite1());
+    window.draw(background->getSprite2());
     for (auto &i : enemyManager) {
         window.draw(dynamic_cast<Enemy &>(*i).getSprite());
     }

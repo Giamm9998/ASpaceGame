@@ -17,8 +17,9 @@ public:
 
     const sf::Sprite &getSprite2() const;
 
+    float getScrollSpeed() const;
+
 private:
-    sf::Vector2f size;
     sf::Sprite sprite1;
     sf::Sprite sprite2;
     float scrollSpeed;
