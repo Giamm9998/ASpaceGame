@@ -13,6 +13,10 @@ public:
 
     void scroll(float dt);
 
+    const sf::Sprite &getSprite1() const;
+
+    const sf::Sprite &getSprite2() const;
+
 private:
     sf::Vector2f size;
     sf::Sprite sprite1;

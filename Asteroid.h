@@ -11,7 +11,7 @@ class Asteroid {
 public:
     Asteroid(sf::Vector2f size, float speed);
 
-    void move();
+    void move(float dt);
 
     const sf::Vector2f &getSize() const;
 

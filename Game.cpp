@@ -12,6 +12,7 @@
 #include "Minion.h"
 #include "Assaulter.h"
 #include "Raptor.h"
+#include "Background.h"
 
 #define RIGHT 1
 #define LEFT -1
@@ -46,7 +47,7 @@ Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
 
 
     player = new Raptor;
-
+    background = new Background;
 
 
 
@@ -126,6 +127,7 @@ void Game::update(sf::Time dt) {
 void Game::render() {
     window.clear(sf::Color::Black);
 
+    window.draw(background->getSprite1());
     for (auto &i : enemyManager) {
         window.draw(dynamic_cast<Enemy &>(*i).getSprite());
         window.draw(player->getSprite());

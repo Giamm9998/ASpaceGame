@@ -23,3 +23,7 @@ void Asteroid::setSpeed(float speed) {
 Asteroid::Asteroid(sf::Vector2f size, float speed) : size(size), speed(speed) {
     sprite.setTexture(ResourceManager::getTexture("Asteroid"));//TODO add texture in the folder
 }
+
+void Asteroid::move(float dt) {
+    sprite.move(0, speed * dt);
+}

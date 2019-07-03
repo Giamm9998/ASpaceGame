@@ -13,6 +13,7 @@
 #include "Spaceship.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Background.h"
 #include <typeinfo>
 
 class Game {
@@ -31,14 +32,13 @@ private:
 
     void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
-    void backScroll();
-
     sf::RenderWindow window;
     sf::View view;
     bool isPaused;
     bool isMovingLeft;
     bool isMovingRight;
 
+    Background *background;
     Player *player; //todo smart pointer
     std::list<Spaceship *> enemyManager; //todo smart pointer
     std::list<Projectile *> projectileManager; //todo smart pointer
