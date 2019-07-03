@@ -17,7 +17,7 @@
 #define RIGHT 1
 #define LEFT -1
 
-Game::Game() : window(sf::VideoMode(900, 675), "A Space Game"), isPaused(false),
+Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
 
@@ -37,7 +37,6 @@ Game::Game() : window(sf::VideoMode(900, 675), "A Space Game"), isPaused(false),
 
     kamikaze->setPosition(0, 500);
     minion->setPosition(-100, 400);
-    assaulter->setPosition(200, 400);
     boss->setPosition(300, 200);
     enemyManager.insert(enemyManager.begin(), fighter);
     enemyManager.insert(enemyManager.begin(), kamikaze);

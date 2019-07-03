@@ -4,10 +4,8 @@
 #include "ResourceManager.h"
 #include "Spaceship.h"
 
-#define scale 0.35f
-
 Spaceship::Spaceship(int hp, int strength, float speed) : hp(hp), strength(strength), speed(speed) {
-    sprite.setScale(scale, scale);
+    sprite.setScale(maxScale, maxScale);
 }
 
 int Spaceship::getHp() const {

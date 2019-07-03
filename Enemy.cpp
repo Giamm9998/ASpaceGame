@@ -21,3 +21,7 @@ const std::list<Enemy>::iterator &Enemy::getIterator() const {
 void Enemy::setIterator(const std::list<Enemy>::iterator &iterator) {
     Enemy::iterator = iterator;
 }
+
+void Enemy::setPosition(sf::Vector2f pos) {
+    sprite.setPosition(pos);
+}

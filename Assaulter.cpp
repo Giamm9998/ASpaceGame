@@ -4,21 +4,33 @@
 
 #include "Assaulter.h"
 #include "ResourceManager.h"
+#include "Spaceship.h"
+#include "Randomizer.h"
+#include "Game.h"
 
 void Assaulter::move(float time) {
     elapsedTime += time;
-    auto scale = sprite.getScale().x;
-    if (elapsedTime >= 1 && elapsedTime < 2 && scale >= 0.01) {
-        sprite.setScale(scale - (1 * time), scale - (1 * time)); //todo set random position
-    } else if (elapsedTime >= 2 && scale <= 0.35)
-        sprite.setScale(scale + (1 * time), scale + (1 * time));
-    else if (elapsedTime >= 3)
+    auto currentScale = sprite.getScale().x;
+    if (elapsedTime >= 4 && elapsedTime < 6 && currentScale >= 0.01) {
+        sprite.setScale(currentScale - (escapeSpeed * time),
+                        currentScale - (escapeSpeed * time)); //todo set random position
+    } else if (elapsedTime >= 6 && currentScale <= maxScale) {
+        if (!moved) {
+            setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));
+            moved = true;
+        }
+        sprite.setScale(currentScale + (escapeSpeed * time), currentScale + (escapeSpeed * time));
+    } else if (elapsedTime >= 8) {
         elapsedTime = 0;
+        moved = false;
+    }
 
 }
 
 Assaulter::Assaulter() : Enemy(50, 20, 30), elapsedTime(0) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
+    sprite.rotate(180);
+    sprite.setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));
     sprite.setOrigin(109, 128);
     primaryCannon.setFireRate(100);
     primaryCannon.setNShots(1);
