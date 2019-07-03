@@ -7,7 +7,7 @@
 
 
 Player::Player(int hp, int strength, float speed) : Spaceship(hp, strength, speed) {
-    sprite.setPosition(windowWidth / 2, windowHeight - 60);
+    sprite.setPosition(static_cast<float>(windowWidth) / 2, windowHeight - 60);
 }
 
 void Player::move(float time, short int direction) {

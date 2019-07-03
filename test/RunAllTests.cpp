@@ -3,6 +3,7 @@
 //
 #include "gtest/gtest.h"
 #include "../ResourceManager.h"
+#include "../Game.h"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
