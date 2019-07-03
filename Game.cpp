@@ -30,12 +30,12 @@ Game::Game() : window(sf::VideoMode(900, 700), "A Space Game"), isPaused(false),
     }
 
     auto *boss = new Boss;
-    auto* fighter = new Fighter;
-    auto* kamikaze = new Kamikaze;
+    auto *fighter = new Fighter;
+    auto *kamikaze = new Kamikaze;
     auto *minion = new Minion;
     auto *assaulter = new Assaulter;
 
-    kamikaze->setPosition(100, 500);
+    kamikaze->setPosition(0, 500);
     minion->setPosition(-100, 400);
     assaulter->setPosition(200, 400);
     boss->setPosition(300, 200);
@@ -111,16 +111,14 @@ void Game::update(sf::Time dt) {
         else if (typeid(*i) == typeid(Assaulter))
             dynamic_cast<Assaulter &>(*i).move(time);
     }
-    if (isMovingRight) {
+    if (isMovingRight)
         player->move(time, RIGHT);
-    }
 
-    if(isMovingLeft){
+    if (isMovingLeft)
         player->move(time, LEFT);
-    }
 
     //View updating
-    view.setCenter(window.getPosition().x - 85, window.getPosition().y + 250);
+    view.setCenter(window.getSize().x / 2, window.getSize().y / 2);
     window.setView(view);
 }
 
@@ -130,8 +128,8 @@ void Game::render() {
     window.draw(background->getSprite1());
     for (auto &i : enemyManager) {
         window.draw(dynamic_cast<Enemy &>(*i).getSprite());
-        window.draw(player->getSprite());
     }
+    window.draw(player->getSprite());
     window.display();
 }
 
