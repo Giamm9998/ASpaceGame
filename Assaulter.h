@@ -5,6 +5,7 @@
 #ifndef ASPACEGAME_ASSAULTER_H
 #define ASPACEGAME_ASSAULTER_H
 
+static const int escapeSpeed = 1;
 
 #include "Enemy.h"
 
@@ -16,6 +17,7 @@ public:
 
 private:
     float elapsedTime;
+    bool moved = false;
 };
 
 

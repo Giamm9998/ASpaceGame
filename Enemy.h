@@ -16,6 +16,8 @@ public:
 
     void setPosition(float x, float y);
 
+    void setPosition(sf::Vector2f pos);
+
     void move(float time) override;
 
     const std::list<Enemy>::iterator &getIterator() const;

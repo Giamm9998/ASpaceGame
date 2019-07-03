@@ -5,6 +5,7 @@
 #ifndef ASPACEGAME_SPACESHIP_H
 #define ASPACEGAME_SPACESHIP_H
 
+static const float maxScale = 0.35f;
 
 #include <SFML/Graphics.hpp>
 #include "Cannon.h"

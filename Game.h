@@ -5,6 +5,10 @@
 #ifndef ASPACEGAME_GAME_H
 #define ASPACEGAME_GAME_H
 
+static const int windowWidth = 900;
+
+static const int windowHeight = 675;
+
 #include <exception>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
