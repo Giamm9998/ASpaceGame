@@ -17,8 +17,6 @@ public:
 
     std::unique_ptr<Projectile> shoot(sf::Vector2f position, float dt);
 
-    void setNShots(int nShots);
-
     void setSpaceshipPtr(Spaceship *spaceshipPtr);
 
     void setFireRate(double fireRate);
@@ -26,8 +24,6 @@ public:
     void setProjectilePrototype(const Projectile &projectilePrototype);
 
     void setTracker(bool tracker);
-
-    int getNShots() const;
 
     Spaceship *getSpaceshipPtr() const;
 
@@ -42,12 +38,16 @@ public:
     void setElapsedtime(float elapsedtime);
 
 private:
-    int nShots;
     Spaceship *spaceshipPtr;//TODO make this a smartpointer
     double fireRate;
     Projectile projectilePrototype;
-    bool tracker;
-    float elapsedtime;
+    bool tracker = false;
+    float elapsedtime = 0;
+    sf::Vector2f relativePosition = sf::Vector2f(0, 0);
+public:
+    const sf::Vector2f &getRelativePosition() const;
+
+    void setRelativePosition(const sf::Vector2f &relativePosition);
 };
 
 
