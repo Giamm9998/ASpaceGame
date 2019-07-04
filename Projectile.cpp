@@ -54,4 +54,17 @@ void Projectile::setDamage(int damage) {
 }
 
 
+Projectile::Projectile(const Projectile &original) { //todo
+    this->damage = original.damage;
+    this->size = original.size;
+    this->sprite = original.sprite;
+    this->sprite.setTexture(ResourceManager::getTexture("../Texture/BaseProjectile.png"));
+    this->speed = original.speed;
+    this->movement = original.movement;
+    /* if(original.cannonPtr!= nullptr)
+         cannonPtr=new Cannon(*original.cannonPtr);
+     else*/
+}
+
+
 Projectile::Projectile() = default;

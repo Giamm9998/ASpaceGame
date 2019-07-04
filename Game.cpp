@@ -110,9 +110,11 @@ void Game::update(sf::Time dt) {
             dynamic_cast<Fighter &>(*i).move(time);
         else if (typeid(*i) == typeid(Assaulter)) {
             dynamic_cast<Assaulter &>(*i).move(time);
-            auto projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, player->getSprite().getPosition());
+            std::unique_ptr<Projectile> projectile = dynamic_cast<Assaulter &>(*i).useCannon(time,
+                                                                                             player->getSprite().getPosition());
             if (projectile != nullptr)
-                projectileManager.insert(projectileManager.begin(), std::move(projectile));
+                projectileManager.emplace_back(
+                        new Projectile(*projectile));
         }
     }
     if (isMovingRight)
@@ -124,7 +126,8 @@ void Game::update(sf::Time dt) {
     if (isShooting) {
         std::unique_ptr<Projectile> projectile = player->useCannon(time);
         if (projectile != nullptr)
-            projectileManager.insert(projectileManager.begin(), std::move(projectile));
+            projectileManager.emplace_back(
+                    new Projectile(*projectile));
     }
     for (auto &l : projectileManager) { //TODO free the memory when projectile is out of screen
         l->move(time);
