@@ -100,22 +100,27 @@ void Game::update(sf::Time dt) {
     //Player movement
     float time = dt.asSeconds();
     for (auto &i : enemyManager) {
-        if (typeid(*i) == typeid(Minion))
+        std::unique_ptr<Projectile> projectile;
+        if (typeid(*i) == typeid(Minion)) {
             dynamic_cast<Minion &>(*i).move(time);
-        else if (typeid(*i) == typeid(Boss))
+            projectile = dynamic_cast<Minion &>(*i).useCannon(time);
+        } else if (typeid(*i) == typeid(Boss)) {
             dynamic_cast<Boss &>(*i).move(time);
-        else if (typeid(*i) == typeid(Kamikaze))
+            projectile = dynamic_cast<Boss &>(*i).useCannon(time);
+
+        } else if (typeid(*i) == typeid(Kamikaze)) {
             dynamic_cast<Kamikaze &>(*i).move(time);
-        else if (typeid(*i) == typeid(Fighter))
+            projectile = dynamic_cast<Kamikaze &>(*i).useCannon(time);
+        } else if (typeid(*i) == typeid(Fighter)) {
             dynamic_cast<Fighter &>(*i).move(time);
+            projectile = dynamic_cast<Fighter &>(*i).useCannon(time);
+        }
         else if (typeid(*i) == typeid(Assaulter)) {
             dynamic_cast<Assaulter &>(*i).move(time);
-            std::unique_ptr<Projectile> projectile = dynamic_cast<Assaulter &>(*i).useCannon(time,
-                                                                                             player->getSprite().getPosition());
-            if (projectile != nullptr)
-                projectileManager.emplace_back(
-                        new Projectile(*projectile));
+            projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, player->getSprite().getPosition());
         }
+        if (projectile != nullptr)
+            projectileManager.emplace_back(new Projectile(*projectile));
     }
     if (isMovingRight)
         player->move(time, right);
@@ -126,8 +131,7 @@ void Game::update(sf::Time dt) {
     if (isShooting) {
         std::unique_ptr<Projectile> projectile = player->useCannon(time);
         if (projectile != nullptr)
-            projectileManager.emplace_back(
-                    new Projectile(*projectile));
+            projectileManager.emplace_back(new Projectile(*projectile));
     }
     for (auto &l : projectileManager) { //TODO free the memory when projectile is out of screen
         l->move(time);

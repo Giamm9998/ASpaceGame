@@ -31,11 +31,7 @@ void Cannon::setTracker(bool tracker) {
 std::unique_ptr<Projectile> Cannon::shoot(sf::Vector2f position, float dt) {
     elapsedtime += dt;
     if (elapsedtime > (1.f / fireRate)) {
-        std::unique_ptr<Projectile> projectile(new Projectile);
-        projectile->setSize(projectilePrototype.getSize());
-        projectile->setSpeed(projectilePrototype.getSpeed());
-        projectile->setDamage(projectilePrototype.getDamage());
-        projectile->setMovement(projectilePrototype.getMovement());
+        std::unique_ptr<Projectile> projectile(new Projectile(projectilePrototype));
         projectile->getSprite().setPosition(position);
         elapsedtime = 0;
         return projectile;
