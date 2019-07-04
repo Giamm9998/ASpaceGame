@@ -19,7 +19,7 @@ public:
 
     virtual void move(float time) = 0;
 
-    virtual std::unique_ptr<Projectile> useCannon(float dt);
+    virtual std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon);
 
     void receiveDamage();
 

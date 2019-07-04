@@ -15,6 +15,7 @@ Raptor::Raptor() : Player(100, 8, 150) {
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 600, sf::Vector2f(0, -1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
     primaryCannon.setElapsedtime(0);
+
     shield.setRadius(sprite.getOrigin().y * sprite.getScale().y);
     shield.setOrigin(shield.getRadius(), shield.getRadius());
     shield.setPosition(sprite.getPosition());
@@ -30,4 +31,9 @@ void Raptor::useSpecialPower() {
 
 sf::CircleShape &Raptor::getShield() {
     return shield;
+}
+
+void Raptor::move(float time, short int movement) {
+    Player::move(time, movement);
+    shield.setPosition(sprite.getPosition());
 }

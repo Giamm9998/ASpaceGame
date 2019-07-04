@@ -21,11 +21,11 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
 
 
     //Player's spaceship creation
-    for (int i = 0; i < 5; i++) {
+    /*for (int i = 0; i < 5; i++) {
         auto *boss = new Boss; //TODO smart pointer
         boss->setPosition(50 * i, 200);
         enemyManager.insert(enemyManager.begin(), boss);
-    }
+    }*/
 
     auto *boss = new Boss;
     auto *fighter = new Fighter;
@@ -103,24 +103,36 @@ void Game::update(sf::Time dt) {
         std::unique_ptr<Projectile> projectile;
         if (typeid(*i) == typeid(Minion)) {
             dynamic_cast<Minion &>(*i).move(time);
-            projectile = dynamic_cast<Minion &>(*i).useCannon(time);
+            projectile = dynamic_cast<Minion &>(*i).useCannon(time, &(i->getPrimaryCannon()));
+            if (projectile != nullptr)
+                projectileManager.emplace_back(new Projectile(*projectile));
+
         } else if (typeid(*i) == typeid(Boss)) {
             dynamic_cast<Boss &>(*i).move(time);
-            projectile = dynamic_cast<Boss &>(*i).useCannon(time);
+            projectile = dynamic_cast<Boss &>(*i).useCannon(time, &(i->getPrimaryCannon()));
+            if (projectile != nullptr)
+                projectileManager.emplace_back(new Projectile(*projectile));
 
         } else if (typeid(*i) == typeid(Kamikaze)) {
             dynamic_cast<Kamikaze &>(*i).move(time);
-            projectile = dynamic_cast<Kamikaze &>(*i).useCannon(time);
+            projectile = dynamic_cast<Kamikaze &>(*i).useCannon(time, &(i->getPrimaryCannon()));
+            if (projectile != nullptr)
+                projectileManager.emplace_back(new Projectile(*projectile));
+
         } else if (typeid(*i) == typeid(Fighter)) {
             dynamic_cast<Fighter &>(*i).move(time);
-            projectile = dynamic_cast<Fighter &>(*i).useCannon(time);
+            projectile = dynamic_cast<Fighter &>(*i).useCannon(time, &(i->getPrimaryCannon()));
+            if (projectile != nullptr)
+                projectileManager.emplace_back(new Projectile(*projectile));
         }
         else if (typeid(*i) == typeid(Assaulter)) {
             dynamic_cast<Assaulter &>(*i).move(time);
-            projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, player->getSprite().getPosition());
+            projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, &(i->getPrimaryCannon()),
+                                                                 player->getSprite().getPosition());
+            if (projectile != nullptr)
+                projectileManager.emplace_back(new Projectile(*projectile));
         }
-        if (projectile != nullptr)
-            projectileManager.emplace_back(new Projectile(*projectile));
+
     }
     if (isMovingRight)
         player->move(time, right);
@@ -129,7 +141,7 @@ void Game::update(sf::Time dt) {
         player->move(time, left);
 
     if (isShooting) {
-        std::unique_ptr<Projectile> projectile = player->useCannon(time);
+        std::unique_ptr<Projectile> projectile = player->useCannon(time, &(player->getPrimaryCannon()));
         if (projectile != nullptr)
             projectileManager.emplace_back(new Projectile(*projectile));
     }

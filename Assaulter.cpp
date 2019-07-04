@@ -44,21 +44,21 @@ Assaulter::Assaulter() : Enemy(50, 20, 30) {
     //TODO establish the right default values
 }
 
-std::unique_ptr<Projectile> Assaulter::useCannon(float dt) {
-    return Spaceship::useCannon(dt);
+std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon *cannon) {
+    return Spaceship::useCannon(dt, cannon);
 }
 
-std::unique_ptr<Projectile> Assaulter::useCannon(float dt, sf::Vector2f playerPos) {
+std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon *cannon, sf::Vector2f playerPos) {
     if (elapsedTime <= 4) {
         sf::Vector2f vector;
         vector.x = playerPos.x - sprite.getPosition().x;
         vector.y = playerPos.y - sprite.getPosition().y;
         float module = hypot(vector.x, vector.y);
         primaryCannon.getProjectilePrototype().setMovement(sf::Vector2f(vector.x / module, vector.y / module));
-        return Spaceship::useCannon(dt);
+        return Spaceship::useCannon(dt, cannon);
     }
     primaryCannon.setElapsedtime(0);
-    return Spaceship::useCannon(0);
+    return Spaceship::useCannon(0, cannon);
 
 }
 

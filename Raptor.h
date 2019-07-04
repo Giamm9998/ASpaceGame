@@ -15,6 +15,8 @@ public:
 
     sf::CircleShape &getShield();
 
+    void move(float time, short int movement) override;
+
 private:
     sf::CircleShape shield;
 

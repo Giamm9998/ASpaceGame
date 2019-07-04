@@ -13,6 +13,10 @@ public:
     Fighter();
 
     void move(float time) override;
+
+    std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon) override;
+
+    std::unique_ptr<Projectile> useCannon(float dt, short cannonNum);
 };
 
 

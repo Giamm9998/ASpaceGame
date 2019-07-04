@@ -20,3 +20,8 @@ Fighter::Fighter() : Enemy(50, 10, 30) {
     primaryCannon.setProjectilePrototype(projectilePrototype);
     //TODO establish the right default values
 }
+
+
+std::unique_ptr<Projectile> Fighter::useCannon(float dt, Cannon *cannon) {
+    return Spaceship::useCannon(dt, cannon);
+}

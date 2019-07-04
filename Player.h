@@ -13,7 +13,7 @@ public:
 
     void move(float time) override {};
 
-    void move(float time, short int movement);
+    virtual void move(float time, short int movement);
     virtual void useSpecialPower()=0;
 
 };

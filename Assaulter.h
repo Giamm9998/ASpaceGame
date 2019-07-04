@@ -13,9 +13,9 @@ public:
 
     void move(float time) override;
 
-    std::unique_ptr<Projectile> useCannon(float dt) override;
+    std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon) override;
 
-    std::unique_ptr<Projectile> useCannon(float dt, sf::Vector2f playerPos);
+    std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon, sf::Vector2f playerPos);
 
 
 
