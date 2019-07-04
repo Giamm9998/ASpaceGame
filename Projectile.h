@@ -15,7 +15,8 @@ public:
     Projectile();
 
     Projectile(sf::Vector2f size, float speed, Cannon *cannonPtr, sf::Vector2f movement, int damage);
-    void move();
+
+    void move(float time);
 
     const sf::Vector2f &getSize() const;
 
@@ -26,6 +27,8 @@ public:
     const sf::Vector2f &getMovement() const;
 
     int getDamage() const;
+
+    sf::Sprite &getSprite();
 
 private:
     sf::Vector2f size;

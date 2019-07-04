@@ -3,6 +3,7 @@
 //
 
 #include "Cannon.h"
+#include "Game.h"
 
 Cannon::Cannon() = default;
 
@@ -26,7 +27,16 @@ void Cannon::setTracker(bool tracker) {
     Cannon::tracker = tracker;
 }
 
-void Cannon::shoot() {}
+Projectile *Cannon::shoot(float dt) {
+    elapsedtime += dt; //TODO implement elapsedtime as attribute of spaceship
+    if (elapsedtime > 0.75) {
+        auto *projectile = new Projectile(projectilePrototype);
+        projectile->getSprite().setPosition(projectile->getCannonPtr()->getSpaceshipPtr()->getSprite().getPosition());
+        elapsedtime = 0;
+        return projectile;
+    } else return nullptr;
+
+}
 
 int Cannon::getNShots() const {
     return nShots;
@@ -48,4 +58,10 @@ bool Cannon::isTracker() const {
     return tracker;
 }
 
+float Cannon::getElapsedtime() const {
+    return elapsedtime;
+}
 
+void Cannon::setElapsedtime(float elapsedtime) {
+    Cannon::elapsedtime = elapsedtime;
+}

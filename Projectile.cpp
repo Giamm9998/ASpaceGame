@@ -5,11 +5,14 @@
 #include "Projectile.h"
 #include "ResourceManager.h"
 
-void Projectile::move() {}
+void Projectile::move(float time) {
+    sprite.move(movement.x * speed * time, movement.y * speed * time);
+}
 
 Projectile::Projectile(sf::Vector2f size, float speed, Cannon *cannonPtr, sf::Vector2f movement, int damage) : size(
         size), speed(speed), cannonPtr(cannonPtr), movement(movement), damage(damage) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BaseProjectile.png"));
+    sprite.setScale(size);
 }
 
 const sf::Vector2f &Projectile::getSize() const {
@@ -30,6 +33,10 @@ const sf::Vector2f &Projectile::getMovement() const {
 
 int Projectile::getDamage() const {
     return damage;
+}
+
+sf::Sprite &Projectile::getSprite() {
+    return sprite;
 }
 
 Projectile::Projectile() = default;

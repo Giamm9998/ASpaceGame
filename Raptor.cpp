@@ -12,8 +12,9 @@ Raptor::Raptor() : Player(100, 8, 150) {
     primaryCannon.setNShots(1);
     primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 40, &primaryCannon, sf::Vector2f(0, -1), strength);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 600, &primaryCannon, sf::Vector2f(0, -1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
+    primaryCannon.setElapsedtime(0);
     //TODO establish the right default values
     //TODO initialize the shield
 

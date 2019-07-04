@@ -14,7 +14,7 @@ class Cannon {
 public:
     Cannon();
 
-    void shoot();
+    Projectile *shoot(float dt);
 
     void setNShots(int nShots);
 
@@ -36,6 +36,9 @@ public:
 
     bool isTracker() const;
 
+    float getElapsedtime() const;
+
+    void setElapsedtime(float elapsedtime);
 
 private:
     int nShots;
@@ -43,6 +46,7 @@ private:
     double fireRate;
     Projectile projectilePrototype;
     bool tracker;
+    float elapsedtime;
 };
 
 

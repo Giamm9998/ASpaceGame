@@ -15,7 +15,7 @@
 #include "Background.h"
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
-               isMovingLeft(false), isMovingRight(false),
+               isMovingLeft(false), isMovingRight(false), isShooting(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
 
 
@@ -110,6 +110,14 @@ void Game::update(sf::Time dt) {
 
     if (isMovingLeft)
         player->move(time, left);
+    if (isShooting) {
+        auto projectile = player->useCannon(time);
+        if (projectile != nullptr)
+            projectileManager.insert(projectileManager.begin(), projectile);
+    }
+    for (auto &l : projectileManager) { //TODO free the memory when projectile is out of screen
+        l->move(time);
+    }
     background->scroll(time);
     //View updating
     view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
@@ -124,6 +132,9 @@ void Game::render() {
     for (auto &i : enemyManager) {
         window.draw(dynamic_cast<Enemy &>(*i).getSprite());
     }
+    for (auto &i : projectileManager) {
+        window.draw(i->getSprite());
+    }
     window.draw(player->getSprite());
     window.display();
 }
@@ -133,6 +144,8 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
         isMovingLeft = isPressed;
     else if (key == sf::Keyboard::Right)
         isMovingRight = isPressed;
+    else if (key == sf::Keyboard::Z)
+        isShooting = isPressed;
 }
 
 bool Game::isLegalMove(float x, float origin, short int direction) {
