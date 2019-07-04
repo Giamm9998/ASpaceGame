@@ -107,14 +107,19 @@ void Game::update(sf::Time dt) {
             dynamic_cast<Kamikaze &>(*i).move(time);
         else if (typeid(*i) == typeid(Fighter))
             dynamic_cast<Fighter &>(*i).move(time);
-        else if (typeid(*i) == typeid(Assaulter))
+        else if (typeid(*i) == typeid(Assaulter)) {
             dynamic_cast<Assaulter &>(*i).move(time);
+            auto projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, player->getSprite().getPosition());
+            if (projectile != nullptr)
+                projectileManager.insert(projectileManager.begin(), projectile);
+        }
     }
     if (isMovingRight)
         player->move(time, right);
 
     if (isMovingLeft)
         player->move(time, left);
+
     if (isShooting) {
         auto projectile = player->useCannon(time);
         if (projectile != nullptr)

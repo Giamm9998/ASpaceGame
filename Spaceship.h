@@ -18,7 +18,7 @@ public:
 
     virtual void move(float time) = 0;
 
-    Projectile *useCannon(float dt);
+    virtual Projectile *useCannon(float dt);
 
     void receiveDamage();
 

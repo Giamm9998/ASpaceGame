@@ -27,14 +27,15 @@ void Cannon::setTracker(bool tracker) {
     Cannon::tracker = tracker;
 }
 
-Projectile *Cannon::shoot(float dt) {
-    elapsedtime += dt; //TODO implement elapsedtime as attribute of spaceship
-    if (elapsedtime > 0.75) {
+Projectile *Cannon::shoot(sf::Vector2f position, float dt) {
+    elapsedtime += dt;
+    if (elapsedtime > (1.f / fireRate)) {
         auto *projectile = new Projectile(projectilePrototype);
-        projectile->getSprite().setPosition(projectile->getCannonPtr()->getSpaceshipPtr()->getSprite().getPosition());
+        projectile->getSprite().setPosition(position);
         elapsedtime = 0;
         return projectile;
-    } else return nullptr;
+    }
+    return nullptr;
 
 }
 

@@ -36,6 +36,10 @@ private:
     sf::Sprite sprite;
     Cannon *cannonPtr; //TODO
     sf::Vector2f movement;
+public:
+    void setMovement(const sf::Vector2f &movement);
+
+private:
     int damage;
 };
 

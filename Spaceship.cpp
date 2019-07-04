@@ -41,7 +41,7 @@ Cannon &Spaceship::getPrimaryCannon() {
 }
 
 Projectile *Spaceship::useCannon(float dt) {
-    auto projectile = primaryCannon.shoot(dt);
+    auto projectile = primaryCannon.shoot(sprite.getPosition(), dt);
     return projectile;
 }
 

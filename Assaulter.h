@@ -13,6 +13,12 @@ public:
 
     void move(float time) override;
 
+    Projectile *useCannon(float dt) override;
+
+    Projectile *useCannon(float dt, sf::Vector2f playerPos);
+
+
+
 private:
     bool moved = false;
     const int escapeSpeed = 1;

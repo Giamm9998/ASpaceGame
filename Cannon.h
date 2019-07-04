@@ -14,7 +14,7 @@ class Cannon {
 public:
     Cannon();
 
-    Projectile *shoot(float dt);
+    Projectile *shoot(sf::Vector2f position, float dt);
 
     void setNShots(int nShots);
 

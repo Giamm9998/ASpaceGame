@@ -12,6 +12,7 @@ void Projectile::move(float time) {
 Projectile::Projectile(sf::Vector2f size, float speed, Cannon *cannonPtr, sf::Vector2f movement, int damage) : size(
         size), speed(speed), cannonPtr(cannonPtr), movement(movement), damage(damage) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BaseProjectile.png"));
+    sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
     sprite.setScale(size);
 }
 
@@ -37,6 +38,10 @@ int Projectile::getDamage() const {
 
 sf::Sprite &Projectile::getSprite() {
     return sprite;
+}
+
+void Projectile::setMovement(const sf::Vector2f &movement) {
+    Projectile::movement = movement;
 }
 
 Projectile::Projectile() = default;
