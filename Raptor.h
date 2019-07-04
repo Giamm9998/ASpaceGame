@@ -11,7 +11,8 @@
 class Raptor: public Player{
 public:
     Raptor();
-    void useSpecialPower() override;
+
+    void useSpecialPower(float dt);
 
     sf::CircleShape &getShield();
 

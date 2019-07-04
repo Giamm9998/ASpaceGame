@@ -41,7 +41,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.insert(enemyManager.begin(), boss);
 
 
-    player = new Raptor;
+    player = new Bomber;
 
     //Background creation
     background = new Background;
@@ -124,8 +124,7 @@ void Game::update(sf::Time dt) {
             projectile = dynamic_cast<Fighter &>(*i).useCannon(time, &(i->getPrimaryCannon()));
             if (projectile != nullptr)
                 projectileManager.emplace_back(new Projectile(*projectile));
-        }
-        else if (typeid(*i) == typeid(Assaulter)) {
+        } else if (typeid(*i) == typeid(Assaulter)) {
             dynamic_cast<Assaulter &>(*i).move(time);
             projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, &(i->getPrimaryCannon()),
                                                                  player->getSprite().getPosition());
@@ -145,6 +144,16 @@ void Game::update(sf::Time dt) {
         if (projectile != nullptr)
             projectileManager.emplace_back(new Projectile(*projectile));
     }
+
+    if (isUsingSpecial) {
+        if (typeid(*player) == typeid(Bomber)) {
+            std::unique_ptr<Projectile> projectile;
+            projectile = dynamic_cast<Bomber &>(*player).useBomb(time);
+            if (projectile != nullptr)
+                projectileManager.emplace_back(new Projectile(*projectile));
+        }
+    }
+
     for (auto &l : projectileManager) { //TODO free the memory when projectile is out of screen
         l->move(time);
     }
@@ -153,6 +162,7 @@ void Game::update(sf::Time dt) {
     view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
     window.setView(view);
 }
+
 
 void Game::render() {
     window.clear(sf::Color::Black);

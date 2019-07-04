@@ -25,7 +25,7 @@ Raptor::Raptor() : Player(100, 8, 150) {
     //TODO establish the right default values
 }
 
-void Raptor::useSpecialPower() {
+void Raptor::useSpecialPower(float dt) {
 
 }
 
