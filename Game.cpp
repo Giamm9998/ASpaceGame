@@ -115,9 +115,6 @@ void Game::render() {
     window.draw(background->getSprite1());
     window.draw(background->getSprite2());
 
-    for (auto &i : projectileManager) {
-        window.draw(i->getSprite());
-    }
 
     for (auto &i : enemyManager) {
         window.draw(dynamic_cast<Enemy &>(*i).getSprite());
@@ -129,6 +126,11 @@ void Game::render() {
             window.draw(dynamic_cast<Raptor &>(*player).getShield());
         }
     }
+
+    for (auto &i : projectileManager) {
+        window.draw(i->getSprite());
+    }
+
     window.draw(explosion);
     window.display();
 }
