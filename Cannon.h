@@ -7,6 +7,7 @@
 
 
 #include "Projectile.h"
+#include <memory>
 
 class Spaceship;
 
@@ -14,7 +15,7 @@ class Cannon {
 public:
     Cannon();
 
-    Projectile *shoot(float dt);
+    std::unique_ptr<Projectile> shoot(float dt);
 
     void setNShots(int nShots);
 

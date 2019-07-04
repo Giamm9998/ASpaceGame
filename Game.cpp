@@ -13,6 +13,7 @@
 #include "Assaulter.h"
 #include "Raptor.h"
 #include "Background.h"
+#include <memory>
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false), isShooting(false),
@@ -116,9 +117,10 @@ void Game::update(sf::Time dt) {
     if (isMovingLeft)
         player->move(time, left);
     if (isShooting) {
-        auto projectile = player->useCannon(time);
+        std::unique_ptr<Projectile> projectile = player->useCannon(time);
         if (projectile != nullptr)
-            projectileManager.insert(projectileManager.begin(), projectile);
+            projectileManager.insert(projectileManager.begin(), std::unique_ptr<Projectile>(std::move(projectile)))
+        z;
     }
     for (auto &l : projectileManager) { //TODO free the memory when projectile is out of screen
         l->move(time);

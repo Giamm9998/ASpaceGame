@@ -7,6 +7,7 @@
 
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 class Cannon;
 
@@ -22,13 +23,23 @@ public:
 
     float getSpeed() const;
 
-    Cannon *getCannonPtr();
-
     const sf::Vector2f &getMovement() const;
 
     int getDamage() const;
 
     sf::Sprite &getSprite();
+
+    void setSize(const sf::Vector2f &size);
+
+    void setSpeed(float speed);
+
+    void setMovement(const sf::Vector2f &movement);
+
+    void setDamage(int damage);
+
+    void setCannonPtr(Cannon *cannonPtr);
+
+    Cannon *getCannonPtr();
 
 private:
     sf::Vector2f size;

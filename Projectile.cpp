@@ -23,10 +23,6 @@ float Projectile::getSpeed() const {
     return speed;
 }
 
-Cannon *Projectile::getCannonPtr() {
-    return cannonPtr;
-}
-
 const sf::Vector2f &Projectile::getMovement() const {
     return movement;
 }
@@ -38,5 +34,32 @@ int Projectile::getDamage() const {
 sf::Sprite &Projectile::getSprite() {
     return sprite;
 }
+
+void Projectile::setSize(const sf::Vector2f &size) {
+    Projectile::size = size;
+}
+
+void Projectile::setSpeed(float speed) {
+    Projectile::speed = speed;
+}
+
+
+void Projectile::setMovement(const sf::Vector2f &movement) {
+    Projectile::movement = movement;
+}
+
+void Projectile::setDamage(int damage) {
+    Projectile::damage = damage;
+}
+
+void Projectile::setCannonPtr(Cannon *cannonPtr) {
+    Projectile::cannonPtr = cannonPtr;
+}
+
+Cannon *Projectile::getCannonPtr() {
+    return cannonPtr;
+}
+
+
 
 Projectile::Projectile() = default;

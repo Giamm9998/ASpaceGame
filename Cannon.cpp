@@ -27,10 +27,15 @@ void Cannon::setTracker(bool tracker) {
     Cannon::tracker = tracker;
 }
 
-Projectile *Cannon::shoot(float dt) {
+std::unique_ptr<Projectile> Cannon::shoot(float dt) {
     elapsedtime += dt; //TODO implement elapsedtime as attribute of spaceship
     if (elapsedtime > 0.75) {
-        auto *projectile = new Projectile(projectilePrototype);
+        std::unique_ptr<Projectile> projectile(new Projectile);
+        projectile->setSize(projectilePrototype.getSize());
+        projectile->setSpeed(projectilePrototype.getSpeed());
+        projectile->setDamage(projectilePrototype.getDamage());
+        projectile->setMovement(projectilePrototype.getMovement());
+        projectile->setCannonPtr(projectilePrototype.getCannonPtr());
         projectile->getSprite().setPosition(projectile->getCannonPtr()->getSpaceshipPtr()->getSprite().getPosition());
         elapsedtime = 0;
         return projectile;
@@ -42,9 +47,7 @@ int Cannon::getNShots() const {
     return nShots;
 }
 
-Spaceship *Cannon::getSpaceshipPtr() const {
-    return spaceshipPtr;
-}
+
 
 double Cannon::getFireRate() const {
     return fireRate;
@@ -64,4 +67,8 @@ float Cannon::getElapsedtime() const {
 
 void Cannon::setElapsedtime(float elapsedtime) {
     Cannon::elapsedtime = elapsedtime;
+}
+
+Spaceship *Cannon::getSpaceshipPtr() const {
+    return spaceshipPtr;
 }
