@@ -12,9 +12,10 @@ class Bomber: public Player {
 public:
     Bomber();
 
-    void useSpecialPower() override;
+    std::unique_ptr<Projectile> useBomb(float dt);
 
     Cannon &getSecondaryCannon();
+
 
 private:
     Cannon secondaryCannon;
