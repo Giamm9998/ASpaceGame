@@ -13,6 +13,8 @@ public:
     Raptor();
     void useSpecialPower() override;
 
+    sf::CircleShape &getShield();
+
 private:
     sf::CircleShape shield;
 

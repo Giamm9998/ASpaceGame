@@ -49,6 +49,7 @@ private:
     bool isMovingLeft;
     bool isMovingRight;
     bool isShooting;
+    bool isUsingSpecial;
 
     Background *background;
     Player *player; //todo smart pointer

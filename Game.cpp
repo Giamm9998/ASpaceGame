@@ -153,7 +153,11 @@ void Game::render() {
     }
 
     window.draw(player->getSprite());
-
+    if (isUsingSpecial) {
+        if (typeid(*player) == typeid(Raptor)) {
+            window.draw(dynamic_cast<Raptor &>(*player).getShield());
+        }
+    }
     window.draw(explosion);
     window.display();
 }
@@ -165,6 +169,8 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
         isMovingRight = isPressed;
     else if (key == sf::Keyboard::Z)
         isShooting = isPressed;
+    else if (key == sf::Keyboard::Q)
+        isUsingSpecial = isPressed;
 }
 
 bool Game::isLegalMove(float x, float origin, short int direction) {
