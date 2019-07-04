@@ -9,6 +9,7 @@ static const float maxScale = 0.35f;
 
 #include <SFML/Graphics.hpp>
 #include "Cannon.h"
+#include <memory>
 
 class Spaceship {
 public:
@@ -18,7 +19,7 @@ public:
 
     virtual void move(float time) = 0;
 
-    virtual Projectile *useCannon(float dt);
+    virtual std::unique_ptr<Projectile> useCannon(float dt);
 
     void receiveDamage();
 

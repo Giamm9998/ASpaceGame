@@ -9,8 +9,8 @@ void Projectile::move(float time) {
     sprite.move(movement.x * speed * time, movement.y * speed * time);
 }
 
-Projectile::Projectile(sf::Vector2f size, float speed, Cannon *cannonPtr, sf::Vector2f movement, int damage) : size(
-        size), speed(speed), cannonPtr(cannonPtr), movement(movement), damage(damage) {
+Projectile::Projectile(sf::Vector2f size, float speed, sf::Vector2f movement, int damage) : size(
+        size), speed(speed), movement(movement), damage(damage) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BaseProjectile.png"));
     sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
     sprite.setScale(size);
@@ -22,10 +22,6 @@ const sf::Vector2f &Projectile::getSize() const {
 
 float Projectile::getSpeed() const {
     return speed;
-}
-
-Cannon *Projectile::getCannonPtr() {
-    return cannonPtr;
 }
 
 const sf::Vector2f &Projectile::getMovement() const {
@@ -40,8 +36,22 @@ sf::Sprite &Projectile::getSprite() {
     return sprite;
 }
 
+void Projectile::setSize(const sf::Vector2f &size) {
+    Projectile::size = size;
+}
+
+void Projectile::setSpeed(float speed) {
+    Projectile::speed = speed;
+}
+
+
 void Projectile::setMovement(const sf::Vector2f &movement) {
     Projectile::movement = movement;
 }
+
+void Projectile::setDamage(int damage) {
+    Projectile::damage = damage;
+}
+
 
 Projectile::Projectile() = default;

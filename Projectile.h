@@ -7,6 +7,7 @@
 
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 class Cannon;
 
@@ -14,7 +15,7 @@ class Projectile {
 public:
     Projectile();
 
-    Projectile(sf::Vector2f size, float speed, Cannon *cannonPtr, sf::Vector2f movement, int damage);
+    Projectile(sf::Vector2f size, float speed, sf::Vector2f movement, int damage);
 
     void move(float time);
 
@@ -22,24 +23,25 @@ public:
 
     float getSpeed() const;
 
-    Cannon *getCannonPtr();
-
     const sf::Vector2f &getMovement() const;
 
     int getDamage() const;
 
     sf::Sprite &getSprite();
 
+    void setSize(const sf::Vector2f &size);
+
+    void setSpeed(float speed);
+
+    void setMovement(const sf::Vector2f &movement);
+
+    void setDamage(int damage);
+
 private:
     sf::Vector2f size;
     float speed;
     sf::Sprite sprite;
-    Cannon *cannonPtr; //TODO
     sf::Vector2f movement;
-public:
-    void setMovement(const sf::Vector2f &movement);
-
-private:
     int damage;
 };
 

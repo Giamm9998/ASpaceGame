@@ -16,7 +16,7 @@ Fighter::Fighter() : Enemy(50, 10, 30) {
     primaryCannon.setNShots(3);
     primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 40, &primaryCannon, sf::Vector2f(0, 1), strength);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 40, sf::Vector2f(0, 1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
     //TODO establish the right default values
 }

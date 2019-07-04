@@ -39,16 +39,16 @@ Assaulter::Assaulter() : Enemy(50, 20, 30) {
     primaryCannon.setNShots(1);
     primaryCannon.setTracker(true);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 100, &primaryCannon, sf::Vector2f(0, 1), strength);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 100, sf::Vector2f(0, 1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
     //TODO establish the right default values
 }
 
-Projectile *Assaulter::useCannon(float dt) {
+std::unique_ptr<Projectile> Assaulter::useCannon(float dt) {
     return Spaceship::useCannon(dt);
 }
 
-Projectile *Assaulter::useCannon(float dt, sf::Vector2f playerPos) {
+std::unique_ptr<Projectile> Assaulter::useCannon(float dt, sf::Vector2f playerPos) {
     if (elapsedTime <= 4) {
         sf::Vector2f vector;
         vector.x = playerPos.x - sprite.getPosition().x;

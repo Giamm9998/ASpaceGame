@@ -40,7 +40,7 @@ Cannon &Spaceship::getPrimaryCannon() {
     return primaryCannon;
 }
 
-Projectile *Spaceship::useCannon(float dt) {
+std::unique_ptr<Projectile> Spaceship::useCannon(float dt) {
     auto projectile = primaryCannon.shoot(sprite.getPosition(), dt);
     return projectile;
 }
@@ -49,5 +49,5 @@ void Spaceship::receiveDamage() {
 
 }
 
-Spaceship::~Spaceship() {}
+Spaceship::~Spaceship() = default;
 

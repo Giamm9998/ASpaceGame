@@ -14,7 +14,7 @@ Minion::Minion() : Enemy(50, 10, 100) { //todo adjust values
     primaryCannon.setNShots(1);
     primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 40, &primaryCannon, sf::Vector2f(0, 1), strength);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 40, sf::Vector2f(0, 1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
 }
 
