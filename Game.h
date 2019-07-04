@@ -70,6 +70,9 @@ private:
     void emplaceProj(std::unique_ptr<Projectile> uniquePtr);
 
     void updateProjectiles(float time);
+
+    void checkForCollisions(
+            std::__list_iterator<std::unique_ptr<Projectile, std::default_delete<Projectile>>, void *> uniquePtr);
 };
 
 #endif //ASPACEGAME_GAME_H

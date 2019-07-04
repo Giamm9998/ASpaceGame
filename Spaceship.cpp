@@ -1,8 +1,11 @@
 //
 // Created by gianmarco on 30/06/19.
 //
+#include <cmath>
 #include "ResourceManager.h"
 #include "Spaceship.h"
+
+#define PI 3.14
 
 Spaceship::Spaceship(int hp, int strength, float speed) : hp(hp), strength(strength), speed(speed) {
     sprite.setScale(maxScale, maxScale);
@@ -42,7 +45,8 @@ Cannon &Spaceship::getPrimaryCannon() {
 
 std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon *cannon) {
     sf::Vector2f position(sprite.getPosition().x + cannon->getRelativePosition().x * sprite.getScale().x,
-                          sprite.getPosition().y + sprite.getGlobalBounds().width / 2 +
+                          sprite.getPosition().y -
+                          (sprite.getGlobalBounds().width / 2) * cos(sprite.getRotation() * PI / 180) +
                           cannon->getRelativePosition().y * sprite.getScale().y);
     return cannon->shoot(position, dt);
 }

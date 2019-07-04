@@ -36,12 +36,12 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     kamikaze->setPosition(0, 500);
     enemyManager.insert(enemyManager.begin(), fighter);
     enemyManager.insert(enemyManager.begin(), kamikaze);
-    enemyManager.insert(enemyManager.begin(), minion);
     enemyManager.insert(enemyManager.begin(), assaulter);
+    enemyManager.insert(enemyManager.begin(), minion);
     enemyManager.insert(enemyManager.begin(), boss);
 
 
-    player = new Bomber;
+    player = new Raptor;
 
     //Background creation
     background = new Background;
@@ -214,6 +214,18 @@ void Game::emplaceProj(std::unique_ptr<Projectile> projectile) {
 }
 
 void Game::updateProjectiles(float time) {
-    for (auto &l : projectileManager) //TODO free the memory when projectile is out of screen
-        l->move(time);
+    for (auto it = projectileManager.begin(); it != projectileManager.end(); it++) {
+        (*it)->move(time);
+        checkForCollisions(it);
+    }
+}
+
+void Game::checkForCollisions(
+        std::__list_iterator<std::unique_ptr<Projectile, std::default_delete<Projectile>>, void *> projectile) {
+    for (auto &i : enemyManager) {
+        if (i->getSprite().getGlobalBounds().intersects((*projectile)->getSprite().getGlobalBounds())) {
+            projectileManager.erase(projectile);
+            break;
+        }
+    }
 }
