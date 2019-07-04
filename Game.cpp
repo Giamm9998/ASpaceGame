@@ -119,8 +119,9 @@ void Game::update(sf::Time dt) {
     if (isShooting) {
         std::unique_ptr<Projectile> projectile = player->useCannon(time);
         if (projectile != nullptr)
-            projectileManager.insert(projectileManager.begin(), std::unique_ptr<Projectile>(std::move(projectile)))
-        z;
+            projectileManager.emplace_back(
+                    new Projectile(projectile->getSize(), projectile->getSpeed(), projectile->getCannonPtr(),
+                                   projectile->getMovement(), projectile->getDamage()));
     }
     for (auto &l : projectileManager) { //TODO free the memory when projectile is out of screen
         l->move(time);

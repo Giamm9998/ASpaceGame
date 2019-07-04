@@ -7,6 +7,7 @@
 
 Cannon::Cannon() = default;
 
+
 void Cannon::setNShots(int nShots) {
     Cannon::nShots = nShots;
 }

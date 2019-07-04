@@ -15,6 +15,8 @@ class Projectile {
 public:
     Projectile();
 
+    Projectile(const Projectile &original);
+
     Projectile(sf::Vector2f size, float speed, Cannon *cannonPtr, sf::Vector2f movement, int damage);
 
     void move(float time);

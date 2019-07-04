@@ -60,6 +60,18 @@ Cannon *Projectile::getCannonPtr() {
     return cannonPtr;
 }
 
+Projectile::Projectile(const Projectile &original) {
+    this->damage = original.damage;
+    this->size = original.size;
+    this->sprite = original.sprite;
+    this->speed = original.speed;
+    this->movement = original.movement;
+    /* if(original.cannonPtr!= nullptr)
+         cannonPtr=new Cannon(*original.cannonPtr);
+     else*/
+    this->cannonPtr = original.cannonPtr;
+
+}
 
 
 Projectile::Projectile() = default;
