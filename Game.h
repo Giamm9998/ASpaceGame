@@ -22,7 +22,8 @@ static const int windowHeight = 675;
 #include "Enemy.h"
 #include "Player.h"
 #include "Background.h"
-#include <typeinfo>
+#include "Animator.h"
+
 
 class Game {
 public:
@@ -55,6 +56,9 @@ private:
     std::list<Projectile *> projectileManager; //todo smart pointer
 
     ResourceManager resourceManager;
+
+    sf::Sprite explosion;
+    Animator *animator;
 
 };
 

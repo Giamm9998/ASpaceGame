@@ -41,14 +41,17 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
 
 
     player = new Raptor;
-    background = new Background;
-
-
 
     //Background creation
+    background = new Background;
 
     //Limitation of the framerate
     window.setFramerateLimit(60);
+
+    animator = new Animator(explosion);
+    auto &boom = animator->createAnimation("Boom", "../Texture/Explosion.png", sf::seconds(1), true);
+    boom.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), 8, 8);
+    explosion.setPosition(100, 100);
 }
 
 void Game::run() {
@@ -91,6 +94,8 @@ void Game::processEvents() {
 }
 
 void Game::update(sf::Time dt) {
+
+    animator->update(dt);
     //Player movement
     float time = dt.asSeconds();
     for (auto &i : enemyManager) {
@@ -129,13 +134,18 @@ void Game::render() {
 
     window.draw(background->getSprite1());
     window.draw(background->getSprite2());
+
     for (auto &i : enemyManager) {
         window.draw(dynamic_cast<Enemy &>(*i).getSprite());
     }
+
     for (auto &i : projectileManager) {
         window.draw(i->getSprite());
     }
+
     window.draw(player->getSprite());
+
+    window.draw(explosion);
     window.display();
 }
 
