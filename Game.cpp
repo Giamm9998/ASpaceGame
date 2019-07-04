@@ -99,55 +99,10 @@ void Game::update(sf::Time dt) {
     animator->update(dt);
     //Player movement
     float time = dt.asSeconds();
-    for (auto &i : enemyManager) {
-        std::unique_ptr<Projectile> projectile;
-        if (typeid(*i) == typeid(Minion)) {
-            dynamic_cast<Minion &>(*i).move(time);
-            projectile = dynamic_cast<Minion &>(*i).useCannon(time, &(i->getPrimaryCannon()));
-            if (projectile != nullptr)
-                projectileManager.emplace_back(new Projectile(*projectile));
+    updateEnemies(time);
+    updatePlayer(time);
+    updateProjectiles(time);
 
-        } else if (typeid(*i) == typeid(Boss)) {
-            dynamic_cast<Boss &>(*i).move(time);
-            projectile = dynamic_cast<Boss &>(*i).useCannon(time, &(i->getPrimaryCannon()));
-            if (projectile != nullptr)
-                projectileManager.emplace_back(new Projectile(*projectile));
-
-        } else if (typeid(*i) == typeid(Kamikaze)) {
-            dynamic_cast<Kamikaze &>(*i).move(time);
-            projectile = dynamic_cast<Kamikaze &>(*i).useCannon(time, &(i->getPrimaryCannon()));
-            if (projectile != nullptr)
-                projectileManager.emplace_back(new Projectile(*projectile));
-
-        } else if (typeid(*i) == typeid(Fighter)) {
-            dynamic_cast<Fighter &>(*i).move(time);
-            projectile = dynamic_cast<Fighter &>(*i).useCannon(time, &(i->getPrimaryCannon()));
-            if (projectile != nullptr)
-                projectileManager.emplace_back(new Projectile(*projectile));
-        }
-        else if (typeid(*i) == typeid(Assaulter)) {
-            dynamic_cast<Assaulter &>(*i).move(time);
-            projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, &(i->getPrimaryCannon()),
-                                                                 player->getSprite().getPosition());
-            if (projectile != nullptr)
-                projectileManager.emplace_back(new Projectile(*projectile));
-        }
-
-    }
-    if (isMovingRight)
-        player->move(time, right);
-
-    if (isMovingLeft)
-        player->move(time, left);
-
-    if (isShooting) {
-        std::unique_ptr<Projectile> projectile = player->useCannon(time, &(player->getPrimaryCannon()));
-        if (projectile != nullptr)
-            projectileManager.emplace_back(new Projectile(*projectile));
-    }
-    for (auto &l : projectileManager) { //TODO free the memory when projectile is out of screen
-        l->move(time);
-    }
     background->scroll(time);
     //View updating
     view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
@@ -160,12 +115,12 @@ void Game::render() {
     window.draw(background->getSprite1());
     window.draw(background->getSprite2());
 
-    for (auto &i : enemyManager) {
-        window.draw(dynamic_cast<Enemy &>(*i).getSprite());
-    }
-
     for (auto &i : projectileManager) {
         window.draw(i->getSprite());
+    }
+
+    for (auto &i : enemyManager) {
+        window.draw(dynamic_cast<Enemy &>(*i).getSprite());
     }
 
     window.draw(player->getSprite());
@@ -191,4 +146,64 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
 
 bool Game::isLegalMove(float x, float origin, short int direction) {
     return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
+}
+
+void Game::updatePlayer(float time) {
+    if (isMovingRight)
+        player->move(time, right);
+
+    if (isMovingLeft)
+        player->move(time, left);
+
+    if (isShooting) {
+        std::unique_ptr<Projectile> projectile = player->useCannon(time, &(player->getPrimaryCannon()));
+        emplaceProj(std::move(projectile));
+    }
+}
+
+void Game::updateEnemies(float time) {
+    for (auto &i : enemyManager) {
+        std::unique_ptr<Projectile> projectile;
+        if (typeid(*i) == typeid(Minion)) {
+            dynamic_cast<Minion &>(*i).move(time);
+            projectile = dynamic_cast<Minion &>(*i).useCannon(time, &(i->getPrimaryCannon()));
+            emplaceProj(std::move(projectile));
+
+        } else if (typeid(*i) == typeid(Boss)) {
+            dynamic_cast<Boss &>(*i).move(time);
+            projectile = dynamic_cast<Boss &>(*i).useCannon(time, &(i->getPrimaryCannon()));
+            emplaceProj(std::move(projectile));
+
+        } else if (typeid(*i) == typeid(Kamikaze)) {
+            dynamic_cast<Kamikaze &>(*i).move(time);
+            projectile = dynamic_cast<Kamikaze &>(*i).useCannon(time, &(i->getPrimaryCannon()));
+            emplaceProj(std::move(projectile));
+
+        } else if (typeid(*i) == typeid(Fighter)) {
+            dynamic_cast<Fighter &>(*i).move(time);
+            projectile = dynamic_cast<Fighter &>(*i).useCannon(time, &(i->getPrimaryCannon()));
+            emplaceProj(std::move(projectile));
+            for (auto &j : dynamic_cast<Fighter &>(*i).getExternalCannons()) {
+                Cannon *cannon = &j;
+                projectile = dynamic_cast<Fighter &>(*i).useCannon(time, cannon);
+                emplaceProj(std::move(projectile));
+            }
+        } else if (typeid(*i) == typeid(Assaulter)) {
+            dynamic_cast<Assaulter &>(*i).move(time);
+            projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, &(i->getPrimaryCannon()),
+                                                                 player->getSprite().getPosition());
+            emplaceProj(std::move(projectile));
+        }
+
+    }
+}
+
+void Game::emplaceProj(std::unique_ptr<Projectile> projectile) {
+    if (projectile != nullptr)
+        projectileManager.emplace_back(new Projectile(*projectile));
+}
+
+void Game::updateProjectiles(float time) {
+    for (auto &l : projectileManager) //TODO free the memory when projectile is out of screen
+        l->move(time);
 }

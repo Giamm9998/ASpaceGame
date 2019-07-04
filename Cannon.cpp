@@ -8,10 +8,6 @@
 Cannon::Cannon() = default;
 
 
-void Cannon::setNShots(int nShots) {
-    Cannon::nShots = nShots;
-}
-
 void Cannon::setSpaceshipPtr(Spaceship *spaceshipPtr) {
     Cannon::spaceshipPtr = spaceshipPtr;
 }
@@ -40,11 +36,6 @@ std::unique_ptr<Projectile> Cannon::shoot(sf::Vector2f position, float dt) {
 
 }
 
-int Cannon::getNShots() const {
-    return nShots;
-}
-
-
 
 double Cannon::getFireRate() const {
     return fireRate;
@@ -68,4 +59,12 @@ void Cannon::setElapsedtime(float elapsedtime) {
 
 Spaceship *Cannon::getSpaceshipPtr() const {
     return spaceshipPtr;
+}
+
+const sf::Vector2f &Cannon::getRelativePosition() const {
+    return relativePosition;
+}
+
+void Cannon::setRelativePosition(const sf::Vector2f &relativePosition) {
+    Cannon::relativePosition = relativePosition;
 }

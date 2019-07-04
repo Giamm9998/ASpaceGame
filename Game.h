@@ -63,6 +63,13 @@ private:
     sf::Sprite explosion;
     Animator *animator;
 
+    void updateEnemies(float time);
+
+    void updatePlayer(float time);
+
+    void emplaceProj(std::unique_ptr<Projectile> uniquePtr);
+
+    void updateProjectiles(float time);
 };
 
 #endif //ASPACEGAME_GAME_H

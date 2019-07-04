@@ -36,7 +36,6 @@ Assaulter::Assaulter() : Enemy(50, 20, 30) {
     sprite.setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));
     sprite.setOrigin(109, 128);
     primaryCannon.setFireRate(0.5);
-    primaryCannon.setNShots(1);
     primaryCannon.setTracker(true);
     primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 100, sf::Vector2f(0, 1), strength);

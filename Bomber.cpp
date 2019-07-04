@@ -8,14 +8,10 @@ Bomber::Bomber() : Player(150, 10, 120) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBase.png"));
     sprite.setOrigin(140, 161);
     primaryCannon.setFireRate(200);
-    primaryCannon.setNShots(1);
-    primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 40, sf::Vector2f(0, -1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
     secondaryCannon.setSpaceshipPtr(this);
-    secondaryCannon.setTracker(false);
-    secondaryCannon.setNShots(1);
     secondaryCannon.setFireRate(100);
     Projectile secondaryProjectilePrototype(sf::Vector2f(0.9, 0.9), 40, sf::Vector2f(0, -1),
                                             strength * 3);

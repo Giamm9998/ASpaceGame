@@ -41,7 +41,9 @@ Cannon &Spaceship::getPrimaryCannon() {
 }
 
 std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon *cannon) {
-    return cannon->shoot(sprite.getPosition(), dt);
+    sf::Vector2f position(sprite.getPosition().x + cannon->getRelativePosition().x * sprite.getScale().x,
+                          sprite.getPosition().y + cannon->getRelativePosition().y * sprite.getScale().y);
+    return cannon->shoot(position, dt);
 }
 
 void Spaceship::receiveDamage() {

@@ -17,8 +17,6 @@ Kamikaze::Kamikaze() : Enemy(50, 30, 30) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
     sprite.setOrigin(109, 150);
     primaryCannon.setFireRate(0.8);
-    primaryCannon.setNShots(1);
-    primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, 1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
