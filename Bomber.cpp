@@ -5,7 +5,7 @@
 #include "ResourceManager.h"
 
 Bomber::Bomber() : Player(150, 10, 120) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBase.png"));
+    sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setFireRate(1);
     primaryCannon.setTracker(false);
@@ -15,7 +15,7 @@ Bomber::Bomber() : Player(150, 10, 120) {
     secondaryCannon.setSpaceshipPtr(this);
     secondaryCannon.setFireRate(0.5);
     Projectile secondaryProjectilePrototype(sf::Vector2f(0.9, 0.9), 40, sf::Vector2f(0, -1),
-                                            strength * 3, false);
+                                            strength * 50, false);
     secondaryCannon.setProjectilePrototype(secondaryProjectilePrototype);
     //TODO establish the right default values for both cannons
 }

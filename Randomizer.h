@@ -11,8 +11,9 @@
 class Randomizer {
 
 public:
-    static sf::Vector2f getRandomPosition(int xMin, int xMax, int yMin, int yMax);
+    static sf::Vector2f getRandomPosition(float xMin, float xMax, float yMin, float yMax);
 
+    static float getRandomReal(float min, float max);
 };
 
 

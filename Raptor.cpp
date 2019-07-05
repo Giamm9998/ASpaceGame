@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 
 Raptor::Raptor() : Player(100, 8, 150) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBase.png"));
+    sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setFireRate(2);
     primaryCannon.setSpaceshipPtr(this);

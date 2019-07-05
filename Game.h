@@ -21,6 +21,7 @@ static const int windowHeight = 675;
 #include "Spaceship.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Asteroid.h"
 #include "Background.h"
 #include "Animator.h"
 
@@ -54,14 +55,13 @@ private:
     Background *background;
     Player *player; //todo smart pointer
     std::list<Spaceship *> enemyManager; //todo smart pointer
-    //std::list<Projectile *> projectileManager; //todo smart pointer
     //std::list<std::unique_ptr<Spaceship>> enemyManager;
     std::list<std::unique_ptr<Projectile>> projectileManager;
     //std::unique_ptr<Player> player;
+    std::list<Asteroid *> asteroidManager;
     ResourceManager resourceManager;
 
     sf::Sprite explosion;
-    Animator *animator;
 
     void updateEnemies(float time);
 
@@ -71,7 +71,9 @@ private:
 
     void updateProjectiles(float time);
 
-    void checkForCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectile);
+    void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectile);
+
+    void updateAsteroids(sf::Time dt);
 };
 
 #endif //ASPACEGAME_GAME_H

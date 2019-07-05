@@ -5,11 +5,17 @@
 #ifndef ASPACEGAME_ASTEROID_H
 #define ASPACEGAME_ASTEROID_H
 
+#define APPEARANCE_TIME 5.f
+#define FREEZE_TIME 3
+
 #include <SFML/Graphics.hpp>
+#include "Animator.h"
 
 class Asteroid {
 public:
-    Asteroid(sf::Vector2f size, float speed);
+    Asteroid(float size, float speed);
+
+    Asteroid();
 
     void move(float dt);
 
@@ -22,9 +28,18 @@ public:
     void setSpeed(float speed);
 
 private:
-    sf::Vector2f size;
+    float size;
     float speed;
     sf::Sprite sprite;
+    Animator *animator = new Animator(sprite);
+    float elapsedTime = 0;
+    sf::Vector2f a;
+public:
+    Animator *getAnimator();
+
+public:
+    sf::Sprite &getSprite();
+
 };
 
 

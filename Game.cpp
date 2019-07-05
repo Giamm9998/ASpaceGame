@@ -13,6 +13,7 @@
 #include "Assaulter.h"
 #include "Raptor.h"
 #include "Background.h"
+#include "Asteroid.h"
 #include <memory>
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
@@ -41,7 +42,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.insert(enemyManager.begin(), boss);
 
 
-    player = new Raptor;
+    player = new Bomber;
 
     //Background creation
     background = new Background;
@@ -49,10 +50,10 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     //Limitation of the framerate
     window.setFramerateLimit(60);
 
-    animator = new Animator(explosion);
-    auto &boom = animator->createAnimation("Boom", "../Texture/Explosion.png", sf::seconds(1), true);
-    boom.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), 8, 8);
-    explosion.setPosition(100, 100);
+    for (int i = 0; i < 5; i++) {
+        auto asteroid = new Asteroid;
+        asteroidManager.insert(asteroidManager.begin(), asteroid);
+    }
 }
 
 void Game::run() {
@@ -96,9 +97,9 @@ void Game::processEvents() {
 
 void Game::update(sf::Time dt) {
 
-    animator->update(dt);
     //Player movement
     float time = dt.asSeconds();
+    updateAsteroids(dt);
     updateEnemies(time);
     updatePlayer(time);
     updateProjectiles(time);
@@ -115,6 +116,9 @@ void Game::render() {
     window.draw(background->getSprite1());
     window.draw(background->getSprite2());
 
+    for (auto &i : asteroidManager) {
+        window.draw(i->getSprite());
+    }
 
     for (auto &i : enemyManager) {
         window.draw(dynamic_cast<Enemy &>(*i).getSprite());
@@ -131,7 +135,6 @@ void Game::render() {
         window.draw(i->getSprite());
     }
 
-    window.draw(explosion);
     window.display();
 }
 
@@ -216,11 +219,11 @@ void Game::emplaceProj(std::unique_ptr<Projectile> projectile) {
 void Game::updateProjectiles(float time) {
     for (auto it = projectileManager.begin(); it != projectileManager.end();) {
         (*it)->move(time);
-        checkForCollisions(it++);
+        checkForProjectileCollisions(it++);
     }
 }
 
-void Game::checkForCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectile) {
+void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectile) {
     bool dead;
     if ((*projectile)->getSprite().getPosition().x < 0 || (*projectile)->getSprite().getPosition().x > windowWidth ||
         (*projectile)->getSprite().getPosition().y < 0 || (*projectile)->getSprite().getPosition().y > windowHeight) {
@@ -242,5 +245,12 @@ void Game::checkForCollisions(std::list<std::unique_ptr<Projectile>>::iterator p
                 }
             }
         }
+    }
+}
+
+void Game::updateAsteroids(sf::Time dt) {
+    for (auto &i : asteroidManager) {
+        i->getAnimator()->update(dt);
+        i->move(dt.asSeconds());
     }
 }

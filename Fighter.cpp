@@ -16,6 +16,7 @@ Fighter::Fighter() : Enemy(50, 10, 30) {
     primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 200, sf::Vector2f(0, 1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
+    primaryCannon.getProjectilePrototype().getSprite().setColor(sf::Color::Green);
 
     externalCannons.resize(2);
     externalCannons[0].setFireRate(0.6);
