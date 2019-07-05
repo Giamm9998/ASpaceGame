@@ -71,8 +71,7 @@ private:
 
     void updateProjectiles(float time);
 
-    void checkForCollisions(
-            std::__list_iterator<std::unique_ptr<Projectile, std::default_delete<Projectile>>, void *> uniquePtr);
+    void checkForCollisions(std::list<std::unique_ptr<Projectile>>::iterator uniquePtr);
 };
 
 #endif //ASPACEGAME_GAME_H

@@ -16,7 +16,7 @@
 #include <memory>
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
-               isMovingLeft(false), isMovingRight(false), isShooting(false),
+               isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
 
 
@@ -214,18 +214,22 @@ void Game::emplaceProj(std::unique_ptr<Projectile> projectile) {
 }
 
 void Game::updateProjectiles(float time) {
-    for (auto it = projectileManager.begin(); it != projectileManager.end(); it++) {
+    for (auto it = projectileManager.begin(); it != projectileManager.end();) {
         (*it)->move(time);
-        checkForCollisions(it);
+        checkForCollisions(it++);
     }
 }
 
-void Game::checkForCollisions(
-        std::__list_iterator<std::unique_ptr<Projectile, std::default_delete<Projectile>>, void *> projectile) {
-    for (auto &i : enemyManager) {
-        if (i->getSprite().getGlobalBounds().intersects((*projectile)->getSprite().getGlobalBounds())) {
-            projectileManager.erase(projectile);
-            break;
+void Game::checkForCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectile) {
+    if ((*projectile)->getSprite().getPosition().x < 0 || (*projectile)->getSprite().getPosition().x > windowWidth ||
+        (*projectile)->getSprite().getPosition().y < 0 || (*projectile)->getSprite().getPosition().y > windowHeight) {
+        //projectileManager.erase(projectile);
+    } else
+        for (auto &i : enemyManager) {
+
+            if (i->getSprite().getGlobalBounds().intersects((*projectile)->getSprite().getGlobalBounds())) {
+                projectileManager.erase(projectile);
+                break;
+            }
         }
-    }
 }
