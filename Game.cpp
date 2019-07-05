@@ -214,14 +214,14 @@ void Game::emplaceProj(std::unique_ptr<Projectile> projectile) {
 }
 
 void Game::updateProjectiles(float time) {
-    for (auto it = projectileManager.begin(); it != projectileManager.end(); it++) {
+    for (auto it = projectileManager.begin(); it != projectileManager.end();) {
         (*it)->move(time);
-        checkForCollisions(it);
+        checkForCollisions(it++);
     }
 }
 
 void Game::checkForCollisions(
-        std::__list_iterator<std::unique_ptr<Projectile, std::default_delete<Projectile>>, void *> projectile) {
+        std::list<std::unique_ptr<Projectile>>::iterator projectile) {
     for (auto &i : enemyManager) {
         if (i->getSprite().getGlobalBounds().intersects((*projectile)->getSprite().getGlobalBounds())) {
             projectileManager.erase(projectile);

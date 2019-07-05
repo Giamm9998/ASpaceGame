@@ -34,7 +34,7 @@ void Assaulter::move(float time) {
 Assaulter::Assaulter() : Enemy(50, 20, 30) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
     sprite.setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));
-    sprite.setOrigin(109, 128);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setFireRate(0.5);
     primaryCannon.setTracker(true);
     primaryCannon.setSpaceshipPtr(this);

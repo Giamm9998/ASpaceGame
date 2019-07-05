@@ -22,7 +22,7 @@ void Boss::chooseAttack() {
 Boss::Boss() : Enemy(1000, 10, 50) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Boss.png"));
     sprite.setScale(0.5, 0.4);
-    sprite.setOrigin(338, 254);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     startPosition = -sprite.getScale().y * sprite.getOrigin().y;
     finalPosition = sprite.getScale().y * sprite.getOrigin().y;
 

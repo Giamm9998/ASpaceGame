@@ -7,7 +7,7 @@
 
 Raptor::Raptor() : Player(100, 8, 150) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBase.png"));
-    sprite.setOrigin(114, 155);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setFireRate(2);
     primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 600, sf::Vector2f(0, -1), strength);

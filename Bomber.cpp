@@ -6,7 +6,7 @@
 
 Bomber::Bomber() : Player(150, 10, 120) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBase.png"));
-    sprite.setOrigin(140, 161);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setFireRate(1);
     primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
