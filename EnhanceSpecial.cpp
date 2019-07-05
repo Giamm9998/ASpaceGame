@@ -6,6 +6,10 @@
 #include "ResourceManager.h"
 
 EnhanceSpecial::EnhanceSpecial() : PowerUp(true) {
-    sf::Texture texture = ResourceManager::getTexture("Enhance Special Texture"); //TODO add enhance special texture
-    getSprite().setTexture(texture);
+    sprite.setTexture(
+            ResourceManager::getTexture("../Texture/EnhanceSpecialTexture")); //TODO add enhance special texture
+}
+
+void EnhanceSpecial::powerUp(Player *player) {
+
 }

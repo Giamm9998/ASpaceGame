@@ -12,7 +12,7 @@ class LaserCannon : public PowerUp {
 public:
     LaserCannon();
 
-    void powerUp() override;
+    void powerUp(Player *player) override;
 };
 
 

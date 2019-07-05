@@ -6,6 +6,9 @@
 #include "ResourceManager.h"
 
 FireRate::FireRate() : PowerUp(false) {
-    sf::Texture texture = ResourceManager::getTexture("Fire Rate Texture"); //TODO add fire rate texture
-    getSprite().setTexture(texture);
+    sprite.setTexture(ResourceManager::getTexture("../Texture/BaseProjectile.png")); //TODO add fire rate texture
+}
+
+void FireRate::powerUp(Player *player) {
+    player->getPrimaryCannon().setFireRate(player->getPrimaryCannon().getFireRate() * 1.2);
 }

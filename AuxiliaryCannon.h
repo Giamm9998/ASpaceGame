@@ -12,7 +12,7 @@ class AuxiliaryCannon : public PowerUp {
 public:
     AuxiliaryCannon();
 
-    void powerUp() override;
+    void powerUp(Player *player) override;
 };
 
 

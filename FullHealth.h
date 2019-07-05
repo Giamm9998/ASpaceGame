@@ -12,7 +12,7 @@ class FullHealth : public PowerUp {
 public:
     FullHealth();
 
-    void powerUp() override;
+    void powerUp(Player *player) override;
 };
 
 

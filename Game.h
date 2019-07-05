@@ -23,6 +23,7 @@ static const int windowHeight = 675;
 #include "Player.h"
 #include "Background.h"
 #include "Animator.h"
+#include "PowerUp.h"
 
 
 class Game {
@@ -54,10 +55,10 @@ private:
     Background *background;
     Player *player; //todo smart pointer
     std::list<Spaceship *> enemyManager; //todo smart pointer
-    //std::list<Projectile *> projectileManager; //todo smart pointer
     //std::list<std::unique_ptr<Spaceship>> enemyManager;
     std::list<std::unique_ptr<Projectile>> projectileManager;
     //std::unique_ptr<Player> player;
+    PowerUp *powerUp;
     ResourceManager resourceManager;
 
     sf::Sprite explosion;

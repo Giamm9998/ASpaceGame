@@ -6,6 +6,10 @@
 #include "ResourceManager.h"
 
 AuxiliaryCannon::AuxiliaryCannon() : PowerUp(true) {
-    sf::Texture texture = ResourceManager::getTexture("Auxiliary Cannon Texture"); //TODO add auxiliary cannon texture
-    getSprite().setTexture(texture);
+    sprite.setTexture(
+            ResourceManager::getTexture("../Texture/AuxiliaryCannonTexture")); //TODO add auxiliary cannon texture
+}
+
+void AuxiliaryCannon::powerUp(Player *player) {
+
 }

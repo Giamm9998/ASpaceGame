@@ -4,7 +4,7 @@
 #include "Bomber.h"
 #include "ResourceManager.h"
 
-Bomber::Bomber() : Player(150, 10, 120) {
+Bomber::Bomber() : Player(150, 10, 120, 150) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBase.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setFireRate(1);

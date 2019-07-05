@@ -12,7 +12,7 @@ class Speed : public PowerUp {
 public:
     Speed();
 
-    void powerUp() override;
+    void powerUp(Player *player) override;
 };
 
 
