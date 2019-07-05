@@ -10,12 +10,12 @@ Bomber::Bomber() : Player(150, 10, 120) {
     primaryCannon.setFireRate(1);
     primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, -1), strength);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, -1), strength, false);
     primaryCannon.setProjectilePrototype(projectilePrototype);
     secondaryCannon.setSpaceshipPtr(this);
     secondaryCannon.setFireRate(0.5);
     Projectile secondaryProjectilePrototype(sf::Vector2f(0.9, 0.9), 40, sf::Vector2f(0, -1),
-                                            strength * 3);
+                                            strength * 3, false);
     secondaryCannon.setProjectilePrototype(secondaryProjectilePrototype);
     //TODO establish the right default values for both cannons
 }

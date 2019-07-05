@@ -223,13 +223,20 @@ void Game::updateProjectiles(float time) {
 void Game::checkForCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectile) {
     if ((*projectile)->getSprite().getPosition().x < 0 || (*projectile)->getSprite().getPosition().x > windowWidth ||
         (*projectile)->getSprite().getPosition().y < 0 || (*projectile)->getSprite().getPosition().y > windowHeight) {
-        //projectileManager.erase(projectile);
-    } else
-        for (auto &i : enemyManager) {
-
-            if (i->getSprite().getGlobalBounds().intersects((*projectile)->getSprite().getGlobalBounds())) {
+        projectileManager.erase(projectile);
+    } else {
+        if ((*projectile)->isEvil()) {
+            if (player->getSprite().getGlobalBounds().intersects((*projectile)->getSprite().getGlobalBounds())) {
                 projectileManager.erase(projectile);
-                break;
+            }
+        } else {
+            for (auto &i : enemyManager) {
+
+                if (i->getSprite().getGlobalBounds().intersects((*projectile)->getSprite().getGlobalBounds())) {
+                    projectileManager.erase(projectile);
+                    break;
+                }
             }
         }
+    }
 }
