@@ -28,7 +28,6 @@ public:
 protected:
     short int direction = right;
     std::list<Enemy>::iterator iterator;
-    float elapsedTime = 0;
 };
 
 

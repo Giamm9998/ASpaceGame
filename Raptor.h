@@ -5,6 +5,7 @@
 #ifndef ASPACEGAME_RAPTOR_H
 #define ASPACEGAME_RAPTOR_H
 
+static const int rechargeTime = 5;
 
 #include "Player.h"
 
@@ -12,15 +13,22 @@ class Raptor: public Player{
 public:
     Raptor();
 
-    void useSpecialPower(float dt);
-
     sf::CircleShape &getShield();
 
     void move(float time, short int movement) override;
 
+    void useShield(float dt);
+
+    void recharge(float dt);
+
 private:
     sf::CircleShape shield;
+    float shieldDuration;
+public:
+    bool isCharging1() const;
 
+private:
+    bool isCharging;
 };
 
 

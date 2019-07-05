@@ -28,7 +28,7 @@ void Asteroid::move(float dt) {
             float t = elapsedTime - FREEZE_TIME;
             float deltaT = APPEARANCE_TIME - FREEZE_TIME;
             sprite.setPosition(sprite.getPosition().x,
-                               a.y + 0.5 * (speed / (deltaT)) * pow(t, 2));
+                               initialPosition.y + 0.5 * (speed / (deltaT)) * pow(t, 2));
         }
     } else
         sprite.move(0, speed * dt);
@@ -38,16 +38,19 @@ Asteroid::Asteroid() {
     auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
     int frames = 8;
     int rows = 4;
-    rotation.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames, rows);
+    int startAnim = 0;
+    if (Randomizer::getRandomInt(0, 1))
+        startAnim = 128 * 4;
+    rotation.addFrames(sf::Vector2i(0, startAnim), sf::Vector2i(128, 128), frames, rows);
     speed = Randomizer::getRandomReal(90, 120);
-    size = Randomizer::getRandomReal(0.4, 0.8);
+    size = Randomizer::getRandomReal(0.3, 0.6);
     sprite.setScale(0, 0);
-    sf::Vector2f distOrigin(sprite.getLocalBounds().width * size / (2 * frames),
-                            sprite.getLocalBounds().height * size / (2 * rows));
-    a = Randomizer::getRandomPosition(
+    sf::Vector2f distOrigin(sprite.getLocalBounds().width / (2 * frames),
+                            sprite.getLocalBounds().height / (2 * 8));
+    initialPosition = Randomizer::getRandomPosition(
             distOrigin.x, windowWidth - distOrigin.x, distOrigin.y, distOrigin.y + 50);
-    sprite.setPosition(a);
     sprite.setOrigin(distOrigin);
+    sprite.setPosition(initialPosition);
 }
 
 sf::Sprite &Asteroid::getSprite() {

@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 
 FireRate::FireRate() : PowerUp(false) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/BaseProjectile.png")); //TODO add fire rate texture
+    sprite.setTexture(ResourceManager::getTexture("../Texture/BasicProjectile.png")); //TODO add fire rate texture
 }
 
 void FireRate::powerUp(Player *player) {

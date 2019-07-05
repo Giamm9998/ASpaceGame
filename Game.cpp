@@ -44,7 +44,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.insert(enemyManager.begin(), boss);
 
 
-    player = new Bomber;
+    player = new Raptor;
 
     powerUp = new FireRate;
 
@@ -54,7 +54,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     //Limitation of the framerate
     window.setFramerateLimit(60);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 1000; i++) {
         auto asteroid = new Asteroid;
         asteroidManager.insert(asteroidManager.begin(), asteroid);
     }
@@ -179,6 +179,12 @@ void Game::updatePlayer(float time) {
             if (projectile != nullptr)
                 projectileManager.emplace_back(new Projectile(*projectile));
         }
+        if (typeid(*player) == typeid(Raptor)) {
+            if (!dynamic_cast<Raptor &>(*player).isCharging1())
+                dynamic_cast<Raptor &>(*player).useShield(time);
+        }
+    } else if (dynamic_cast<Raptor &>(*player).isCharging1()) {
+        dynamic_cast<Raptor &>(*player).recharge(time);
     }
 }
 

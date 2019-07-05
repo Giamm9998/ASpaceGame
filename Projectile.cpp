@@ -11,7 +11,7 @@ void Projectile::move(float time) {
 
 Projectile::Projectile(sf::Vector2f size, float speed, sf::Vector2f movement, int damage, bool evil) : size(
         size), speed(speed), movement(movement), damage(damage), evil(evil) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/BaseProjectile.png"));
+    sprite.setTexture(ResourceManager::getTexture("../Texture/BasicProjectile.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setScale(size);
 }

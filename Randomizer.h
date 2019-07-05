@@ -14,6 +14,9 @@ public:
     static sf::Vector2f getRandomPosition(float xMin, float xMax, float yMin, float yMax);
 
     static float getRandomReal(float min, float max);
+
+    static int getRandomInt(int min, int max);
+
 };
 
 

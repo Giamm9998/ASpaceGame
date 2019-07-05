@@ -24,3 +24,12 @@ float Randomizer::getRandomReal(float min, float max) {
     auto random = uni(rng);
     return random;
 }
+
+int Randomizer::getRandomInt(int min, int max) {
+    std::random_device rd;     // only used once to initialise (seed) engine
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> uni(min, max);
+
+    auto random = uni(rng);
+    return random;
+}

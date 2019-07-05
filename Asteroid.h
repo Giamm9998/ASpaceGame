@@ -33,7 +33,7 @@ private:
     sf::Sprite sprite;
     Animator *animator = new Animator(sprite);
     float elapsedTime = 0;
-    sf::Vector2f a;
+    sf::Vector2f initialPosition;
 public:
     Animator *getAnimator();
 

@@ -45,6 +45,8 @@ protected:
     float speed;
     sf::Sprite sprite;
     Cannon primaryCannon;
+    float elapsedTime = 0;
+
 };
 
 
