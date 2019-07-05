@@ -13,6 +13,8 @@
 #include "Assaulter.h"
 #include "Raptor.h"
 #include "Background.h"
+#include "FireRate.h"
+#include "Speed.h"
 #include "Asteroid.h"
 #include <memory>
 
@@ -23,7 +25,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
 
     //Player's spaceship creation
     /*for (int i = 0; i < 5; i++) {
-        auto *boss = new Boss; //TODO smart pointer
+        auto *boss = new Boss;
         boss->setPosition(50 * i, 200);
         enemyManager.insert(enemyManager.begin(), boss);
     }*/
@@ -43,6 +45,8 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
 
 
     player = new Bomber;
+
+    powerUp = new FireRate;
 
     //Background creation
     background = new Background;
@@ -103,7 +107,9 @@ void Game::update(sf::Time dt) {
     updateEnemies(time);
     updatePlayer(time);
     updateProjectiles(time);
-
+    powerUp->move(time);
+    if (powerUp->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds()))
+        powerUp->powerUp(player);
     background->scroll(time);
     //View updating
     view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
@@ -135,6 +141,8 @@ void Game::render() {
         window.draw(i->getSprite());
     }
 
+    window.draw(powerUp->getSprite());
+    window.draw(explosion);
     window.display();
 }
 

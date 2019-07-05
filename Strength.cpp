@@ -7,7 +7,10 @@
 
 
 Strength::Strength() : PowerUp(false) {
-    sf::Texture texture = ResourceManager::getTexture("Strength Texture"); //TODO add strength texture
-    getSprite().setTexture(texture);
+    sprite.setTexture(ResourceManager::getTexture("../Texture/StrengthTexture")); //TODO add strength texture
+}
+
+void Strength::powerUp(Player *player) {
+    player->setStrength(player->getStrength() * 1.2);
 }
 

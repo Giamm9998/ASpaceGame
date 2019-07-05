@@ -6,6 +6,9 @@
 #include "ResourceManager.h"
 
 Speed::Speed() : PowerUp(false) {
-    sf::Texture texture = ResourceManager::getTexture("Speed Texture"); //TODO add speed texture
-    getSprite().setTexture(texture);
+    sprite.setTexture(ResourceManager::getTexture("../Texture/SpeedTexture")); //TODO add speed texture
+}
+
+void Speed::powerUp(Player *player) {
+    player->setSpeed(player->getSpeed() * 1.2);
 }

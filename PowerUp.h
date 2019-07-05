@@ -7,20 +7,25 @@
 
 
 #include <SFML/Graphics.hpp>
+#include "Player.h"
+
+static const int speed = 400;
 
 class PowerUp {
 public:
-    PowerUp(bool special);
+    explicit PowerUp(bool special);
 
-    void move();
+    void move(float dt);
 
-    virtual void powerUp() = 0;
+    virtual void powerUp(Player *player) = 0;
 
     sf::Sprite getSprite();
 
-private:
+protected:
     bool special;
     sf::Sprite sprite;
+    short int direction = 1;
+    double angle = 0.6;
 };
 
 

@@ -9,11 +9,16 @@
 
 class Player :public Spaceship{
 public:
-    Player(int hp, int strength, float speed);
+    Player(int hp, int strength, float speed, int maxHp);
 
     void move(float time) override {};
 
     virtual void move(float time, short int movement);
+
+    int getMaxHp() const;
+
+protected:
+    int maxHp;
 
 };
 

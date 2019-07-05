@@ -24,6 +24,7 @@ static const int windowHeight = 675;
 #include "Asteroid.h"
 #include "Background.h"
 #include "Animator.h"
+#include "PowerUp.h"
 
 
 class Game {
@@ -59,6 +60,7 @@ private:
     std::list<std::unique_ptr<Projectile>> projectileManager;
     //std::unique_ptr<Player> player;
     std::list<Asteroid *> asteroidManager;
+    PowerUp *powerUp;
     ResourceManager resourceManager;
 
     sf::Sprite explosion;

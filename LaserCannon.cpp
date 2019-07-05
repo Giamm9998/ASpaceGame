@@ -6,6 +6,9 @@
 #include "ResourceManager.h"
 
 LaserCannon::LaserCannon() : PowerUp(true) {
-    sf::Texture texture = ResourceManager::getTexture("Laser Cannon Texture"); //TODO add laser cannon texture
-    getSprite().setTexture(texture);
+    sprite.setTexture(ResourceManager::getTexture("../Texture/LaserCannonTexture")); //TODO add laser cannon texture
+}
+
+void LaserCannon::powerUp(Player *player) {
+
 }
