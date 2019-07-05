@@ -21,7 +21,7 @@ public:
 
     virtual std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon);
 
-    void receiveDamage();
+    bool receiveDamage(int damage);
 
     int getHp() const;
 

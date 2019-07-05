@@ -51,8 +51,12 @@ std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon *cannon) {
     return cannon->shoot(position, dt);
 }
 
-void Spaceship::receiveDamage() {
-
+bool Spaceship::receiveDamage(int damage) {
+    bool dead = false;
+    this->hp -= damage;
+    if (hp <= 0)
+        dead = true;
+    return dead;
 }
 
 Spaceship::~Spaceship() = default;
