@@ -20,8 +20,9 @@ Animator::Animation &Animator::createAnimation(std::string const &name, std::str
 
 void Animator::switchAnimation(Animator::Animation *animation) {
 
-    if (animation != nullptr)
+    if (animation != nullptr) {
         sprite.setTexture(ResourceManager::getTexture(animation->animTextureName));
+    }
 
     currentAnimation = animation;
     currentTime = sf::Time::Zero;

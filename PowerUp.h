@@ -8,6 +8,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Player.h"
+#include "Animator.h"
 
 static const int speed = 200;
 
@@ -27,6 +28,11 @@ protected:
     bool special;
     sf::Sprite sprite;
     short int direction = 1;
+    Animator *animator = new Animator(sprite);
+public:
+    Animator *getAnimator();
+
+protected:
     double angle;
 };
 

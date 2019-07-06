@@ -79,7 +79,7 @@ private:
 
     void updateProjectiles(float time);
 
-    void updatePowerUp(float time);
+    void updatePowerUp(sf::Time dt);
 
     void updateAsteroids(sf::Time dt);
 
