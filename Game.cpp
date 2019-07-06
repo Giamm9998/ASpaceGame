@@ -21,7 +21,10 @@
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
-
+    specialHud.setSize(sf::Vector2f(15, 100));
+    specialHud.setPosition(400, 500);
+    specialHud.rotate(-90.f);
+    specialHud.setFillColor(sf::Color::Red);
 
     //Player's spaceship creation
     /*for (int i = 0; i < 5; i++) {
@@ -44,7 +47,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.insert(enemyManager.begin(), boss);
 
 
-    player = new Bomber;
+    player = new Raptor;
 
     powerUp = std::unique_ptr<PowerUp>(new FireRate);
 
@@ -123,6 +126,8 @@ void Game::render() {
     drawPlayer();
     drawProjectiles();
     drawPowerUp();
+    window.draw(specialHud);
+
 
     window.display();
 }
@@ -212,7 +217,7 @@ void Game::updatePlayer(float time) {
         }
         if (typeid(*player) == typeid(Raptor)) {
             if (!dynamic_cast<Raptor &>(*player).isCharging1())
-                dynamic_cast<Raptor &>(*player).useShield(time);
+                dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
         }
     } else {
         if (typeid(*player) == typeid(Bomber)) {
@@ -220,7 +225,7 @@ void Game::updatePlayer(float time) {
         }
         if (typeid(*player) == typeid(Raptor)) {
             if (dynamic_cast<Raptor &>(*player).isCharging1())
-                dynamic_cast<Raptor &>(*player).recharge(time);
+                dynamic_cast<Raptor &>(*player).recharge(time, specialHud);
         }
     }
 }
