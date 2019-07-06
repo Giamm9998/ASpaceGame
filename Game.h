@@ -59,23 +59,37 @@ private:
     //std::list<std::unique_ptr<Spaceship>> enemyManager;
     std::list<std::unique_ptr<Projectile>> projectileManager;
     //std::unique_ptr<Player> player;
-    std::list<Asteroid *> asteroidManager;
+    std::list<std::unique_ptr<Asteroid>> asteroidManager;
     PowerUp *powerUp;
     ResourceManager resourceManager;
 
-    sf::Sprite explosion;
+    void drawAsteroids();
+
+    void drawBackground();
+
+    void drawEnemies();
+
+    void drawPlayer();
+
+    void drawProjectiles();
 
     void updateEnemies(float time);
 
     void updatePlayer(float time);
 
-    void emplaceProj(std::unique_ptr<Projectile> uniquePtr);
-
     void updateProjectiles(float time);
 
-    void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectile);
+    void updatePowerUp(float time);
 
     void updateAsteroids(sf::Time dt);
+
+    void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter);
+
+    void emplaceProj(std::unique_ptr<Projectile> uniquePtr);
+
+    bool isOutOfSigth(const sf::Sprite &sprite) const;
+
+    void checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter);
 };
 
 #endif //ASPACEGAME_GAME_H

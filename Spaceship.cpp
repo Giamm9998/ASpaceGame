@@ -35,7 +35,7 @@ void Spaceship::setSpeed(float speed) {
     Spaceship::speed = speed;
 }
 
-sf::Sprite Spaceship::getSprite() {
+sf::Sprite &Spaceship::getSprite() {
     return sprite;
 }
 

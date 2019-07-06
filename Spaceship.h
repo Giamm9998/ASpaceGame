@@ -35,7 +35,7 @@ public:
 
     void setSpeed(float speed);
 
-    sf::Sprite getSprite();
+    sf::Sprite &getSprite();
 
     Cannon &getPrimaryCannon();
 
