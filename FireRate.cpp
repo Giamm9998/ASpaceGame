@@ -7,6 +7,8 @@
 
 FireRate::FireRate() : PowerUp(false) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BasicProjectile.png")); //TODO add fire rate texture
+    sprite.setOrigin(sprite.getLocalBounds().width / 2,
+                     sprite.getLocalBounds().height / 2); //TODO add to all the others powerUp
 }
 
 void FireRate::powerUp(Player *player) {

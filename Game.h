@@ -60,7 +60,7 @@ private:
     std::list<std::unique_ptr<Projectile>> projectileManager;
     //std::unique_ptr<Player> player;
     std::list<std::unique_ptr<Asteroid>> asteroidManager;
-    PowerUp *powerUp;
+    std::unique_ptr<PowerUp> powerUp;
     ResourceManager resourceManager;
 
     void drawAsteroids();
@@ -90,6 +90,8 @@ private:
     bool isOutOfSigth(const sf::Sprite &sprite) const;
 
     void checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter);
+
+    void drawPowerUp();
 };
 
 #endif //ASPACEGAME_GAME_H

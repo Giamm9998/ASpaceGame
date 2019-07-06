@@ -7,7 +7,7 @@
 #include "Game.h"
 #include "Randomizer.h"
 
-PowerUp::PowerUp(bool special) : special(special) {
+PowerUp::PowerUp(bool special) : special(special), angle(Randomizer::getRandomReal(0.4, 0.8)) {
     sprite.setPosition(Randomizer::getRandomPosition(20, windowWidth - 20, 10, 20));//TODO use globalbounds
 }
 
@@ -20,3 +20,5 @@ void PowerUp::move(float dt) {
         direction = -direction;
     sprite.move(cos(angle) * speed * dt * direction, sin(angle) * speed * dt);
 }
+
+PowerUp::~PowerUp() = default;

@@ -46,7 +46,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
 
     player = new Bomber;
 
-    powerUp = new FireRate;
+    powerUp = std::unique_ptr<PowerUp>(new FireRate);
 
     //Background creation
     background = new Background;
@@ -54,7 +54,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     //Limitation of the framerate
     window.setFramerateLimit(60);
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 100; i++) {
         std::unique_ptr<Asteroid> asteroid(new Asteroid);
         asteroidManager.insert(asteroidManager.begin(), std::move(asteroid));
     }
@@ -122,9 +122,14 @@ void Game::render() {
     drawEnemies();
     drawPlayer();
     drawProjectiles();
+    drawPowerUp();
 
-    window.draw(powerUp->getSprite());
     window.display();
+}
+
+void Game::drawPowerUp() {
+    if (powerUp != nullptr)
+        window.draw(powerUp->getSprite());
 }
 
 void Game::drawProjectiles() {
@@ -175,11 +180,13 @@ bool Game::isLegalMove(float x, float origin, short int direction) {
 }
 
 void Game::updatePowerUp(float time) {
-    powerUp->move(time);
-    if (powerUp->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds())) {
-        powerUp->powerUp(player);
+    if (powerUp != nullptr) {
+        powerUp->move(time);
+        if (powerUp->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds())) {
+            powerUp->powerUp(player);
+            powerUp.reset();
+        }
     }
-
 }
 
 void Game::updatePlayer(float time) {

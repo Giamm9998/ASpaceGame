@@ -9,7 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 
-static const int speed = 400;
+static const int speed = 200;
 
 class PowerUp {
 public:
@@ -21,11 +21,13 @@ public:
 
     sf::Sprite getSprite();
 
+    virtual ~PowerUp();
+
 protected:
     bool special;
     sf::Sprite sprite;
     short int direction = 1;
-    double angle = 0.6;
+    double angle;
 };
 
 
