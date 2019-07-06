@@ -17,9 +17,9 @@ public:
 
     void move(float time, short int movement) override;
 
-    void useShield(float dt);
+    void useShield(float dt, sf::RectangleShape &specialHud);
 
-    void recharge(float dt);
+    void recharge(float dt, sf::RectangleShape &specialHud);
 
 private:
     sf::CircleShape shield;

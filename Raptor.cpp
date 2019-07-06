@@ -23,8 +23,9 @@ Raptor::Raptor() : Player(100, 8, 150, 100), shieldDuration(5), isCharging(false
     //TODO establish the right default values
 }
 
-void Raptor::useShield(float dt) {
+void Raptor::useShield(float dt, sf::RectangleShape &specialHud) {
     elapsedTime += dt;
+    specialHud.setScale(1, 1 - elapsedTime / shieldDuration);
     if (elapsedTime >= shieldDuration) {
         isCharging = true;
         elapsedTime = 0;
@@ -46,8 +47,9 @@ bool Raptor::isCharging1() const {
     return isCharging;
 }
 
-void Raptor::recharge(float dt) {
+void Raptor::recharge(float dt, sf::RectangleShape &specialHud) {
     elapsedTime += dt;
+    specialHud.setScale(1, elapsedTime / rechargeTime);
     if (elapsedTime > rechargeTime) {
         shield.setScale(1, 1);
         elapsedTime = 0;
