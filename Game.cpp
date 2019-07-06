@@ -25,6 +25,12 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     specialHud.setPosition(400, 500);
     specialHud.rotate(-90.f);
     specialHud.setFillColor(sf::Color::Red);
+    specialHudOutline.setSize(sf::Vector2f(15, 100));
+    specialHudOutline.setPosition(400, 500);
+    specialHudOutline.rotate(-90.f);
+    specialHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
+    specialHudOutline.setOutlineThickness(2);
+    specialHudOutline.setOutlineColor(sf::Color::White);
 
     //Player's spaceship creation
     /*for (int i = 0; i < 5; i++) {
@@ -127,6 +133,7 @@ void Game::render() {
     drawProjectiles();
     drawPowerUp();
     window.draw(specialHud);
+    window.draw(specialHudOutline);
 
 
     window.display();
