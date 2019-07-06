@@ -29,7 +29,7 @@ public:
                 animLooping(looping) {}
 
         void addFrames(sf::Vector2i const &startFrom, sf::Vector2i const &frameSize, unsigned int frames,
-                       unsigned int rows) {
+                       unsigned int rows = 1) {
             sf::Vector2i current = startFrom;
             for (unsigned int j = 0; j < rows; j++) {
                 for (unsigned int i = 0; i < frames; i++) {

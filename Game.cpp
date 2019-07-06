@@ -112,11 +112,11 @@ void Game::update(sf::Time dt) {
 
     //Player movement
     float time = dt.asSeconds();
-    updateAsteroids(dt);
+    updateAsteroids(dt); //todo all take delta time
     updateEnemies(time);
     updatePlayer(time);
     updateProjectiles(time);
-    updatePowerUp(time);
+    updatePowerUp(dt);
     background->scroll(time);
     //View updating
     view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
@@ -191,10 +191,13 @@ bool Game::isLegalMove(float x, float origin, short int direction) {
     return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
 }
 
-void Game::updatePowerUp(float time) {
+void Game::updatePowerUp(sf::Time dt) {
     if (powerUp != nullptr) {
-        powerUp->move(time);
-        if (powerUp->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds())) {
+        powerUp->getAnimator()->update(dt);
+        powerUp->move(dt.asSeconds());
+        if (isOutOfSigth(powerUp->getSprite())) {
+            powerUp.reset();
+        } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds())) {
             powerUp->powerUp(player);
             powerUp.reset();
         }
