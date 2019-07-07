@@ -25,7 +25,22 @@ Cannon &Bomber::getSecondaryCannon() {
     return secondaryCannon;
 }
 
-std::unique_ptr<Projectile> Bomber::useBomb(float dt) {
-    return useCannon(dt, &secondaryCannon);
+std::unique_ptr<Projectile> Bomber::useBomb(float dt, sf::RectangleShape &specialHud) {
+    elapsedTime += dt;
+    std::unique_ptr<Projectile> shot = useCannon(dt, &secondaryCannon);
+    if (shot != nullptr) {
+        isCharging = true;
+        elapsedTime = 0;
+    } else specialHud.setScale(1, 1 - elapsedTime / (1.f / secondaryCannon.getFireRate()));
+
+    return shot;
 }
 
+void Bomber::recharge(float dt, sf::RectangleShape &specialHud) {
+    elapsedTime += dt;
+    specialHud.setScale(1, elapsedTime / (1.f / secondaryCannon.getFireRate()));
+    if (elapsedTime > 1.f / secondaryCannon.getFireRate()) {
+        elapsedTime = 0;
+        isCharging = false;
+    }
+}

@@ -5,7 +5,7 @@
 #include "Raptor.h"
 #include "ResourceManager.h"
 
-Raptor::Raptor() : Player(100, 8, 150, 100), shieldDuration(5), isCharging(false) {
+Raptor::Raptor() : Player(100, 8, 150, 100), shieldDuration(5) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setFireRate(2);
@@ -43,9 +43,6 @@ void Raptor::move(float time, short int movement) {
     shield.setPosition(sprite.getPosition());
 }
 
-bool Raptor::isCharging1() const {
-    return isCharging;
-}
 
 void Raptor::recharge(float dt, sf::RectangleShape &specialHud) {
     elapsedTime += dt;

@@ -53,7 +53,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.insert(enemyManager.begin(), boss);
 
 
-    player = new Raptor;
+    player = new Bomber;
 
     powerUp = std::unique_ptr<PowerUp>(new FireRate);
 
@@ -217,10 +217,12 @@ void Game::updatePlayer(float time) {
     }
     if (isUsingSpecial) {
         if (typeid(*player) == typeid(Bomber)) {
-            std::unique_ptr<Projectile> projectile;
-            projectile = dynamic_cast<Bomber &>(*player).useBomb(time);
-            if (projectile != nullptr)
-                projectileManager.emplace_back(new Projectile(*projectile));
+            if (!dynamic_cast<Bomber &>(*player).isCharging1()) {
+                std::unique_ptr<Projectile> projectile;
+                projectile = dynamic_cast<Bomber &>(*player).useBomb(time, specialHud);
+                if (projectile != nullptr)
+                    projectileManager.emplace_back(new Projectile(*projectile));
+            }
         }
         if (typeid(*player) == typeid(Raptor)) {
             if (!dynamic_cast<Raptor &>(*player).isCharging1())
@@ -228,7 +230,8 @@ void Game::updatePlayer(float time) {
         }
     } else {
         if (typeid(*player) == typeid(Bomber)) {
-
+            if (dynamic_cast<Bomber &>(*player).isCharging1())
+                dynamic_cast<Bomber &>(*player).recharge(time, specialHud);
         }
         if (typeid(*player) == typeid(Raptor)) {
             if (dynamic_cast<Raptor &>(*player).isCharging1())

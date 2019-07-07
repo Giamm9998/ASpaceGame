@@ -6,7 +6,8 @@
 #include "Game.h"
 
 
-Player::Player(int hp, int strength, float speed, int maxHp) : Spaceship(hp, strength, speed), maxHp(maxHp) {
+Player::Player(int hp, int strength, float speed, int maxHp) : Spaceship(hp, strength, speed), maxHp(maxHp),
+                                                               isCharging(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2, windowHeight - 60);
 }
 
@@ -18,4 +19,8 @@ void Player::move(float time, short int direction) {
 
 int Player::getMaxHp() const {
     return maxHp;
+}
+
+bool Player::isCharging1() const {
+    return isCharging;
 }

@@ -12,9 +12,11 @@ class Bomber: public Player {
 public:
     Bomber();
 
-    std::unique_ptr<Projectile> useBomb(float dt);
+    std::unique_ptr<Projectile> useBomb(float dt, sf::RectangleShape &specialHud);
 
     Cannon &getSecondaryCannon();
+
+    void recharge(float dt, sf::RectangleShape &specialHud);
 
 
 private:

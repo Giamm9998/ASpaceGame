@@ -17,8 +17,11 @@ public:
 
     int getMaxHp() const;
 
+    bool isCharging1() const;
+
 protected:
     int maxHp;
+    bool isCharging;
 
 };
 
