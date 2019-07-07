@@ -30,3 +30,8 @@ int Player::getMaxHp() const {
 bool Player::isCharging() const {
     return charging;
 }
+
+bool Player::receiveDamage(int damage) {
+    if (!receivingDamage)
+        return Spaceship::receiveDamage(damage);
+}

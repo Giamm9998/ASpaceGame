@@ -202,7 +202,7 @@ void Game::updatePowerUp(sf::Time dt) {
         powerUp->move(dt.asSeconds());
         if (isOutOfSigth(powerUp->getSprite())) {
             powerUp.reset();
-        } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds())) {
+        } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
             powerUp->powerUp(player);
             powerUp.reset();
         }
@@ -210,6 +210,9 @@ void Game::updatePowerUp(sf::Time dt) {
 }
 
 void Game::updatePlayer(float time) {
+    if (player->isReceivingDamage()) {
+        player->blink(time);
+    }
     if (isMovingRight)
         player->move(time, right);
 
@@ -247,6 +250,9 @@ void Game::updatePlayer(float time) {
 
 void Game::updateEnemies(float time) {
     for (auto &i : enemyManager) {
+        if (i->isReceivingDamage()) {
+            i->blink(time);
+        }
         std::unique_ptr<Projectile> projectile;
         if (typeid(*i) == typeid(Minion)) {
             dynamic_cast<Minion &>(*i).move(time);
@@ -331,7 +337,7 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
                     break;
                 }
             }
-            if (!iteratorDeleted) { //todo bounding box
+            if (!iteratorDeleted) {
                 for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end(); enemyIter++) {
                     if ((*enemyIter)->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
                         if ((*enemyIter)->receiveDamage((*projectileIter)->getDamage()))

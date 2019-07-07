@@ -21,7 +21,7 @@ public:
 
     virtual std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon);
 
-    bool receiveDamage(int damage);
+    virtual bool receiveDamage(int damage);
 
     int getHp() const;
 
@@ -41,6 +41,8 @@ public:
 
     const sf::RectangleShape &getBoundingBox() const;
 
+    virtual void blink(float time);
+
 protected:
     int hp;
     int strength;
@@ -48,7 +50,14 @@ protected:
     sf::Sprite sprite;
     Cannon primaryCannon;
     float elapsedTime = 0;
+    float blinkingTime = 0;
+    bool receivingDamage = false;
+public:
+    bool isReceivingDamage() const;
 
+    void setReceivingDamage(bool receivingDamage);
+
+protected:
     sf::RectangleShape boundingBox;
 };
 

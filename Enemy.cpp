@@ -32,3 +32,14 @@ void Enemy::setIterator(const std::list<Enemy>::iterator &iterator) {
 void Enemy::setPosition(sf::Vector2f pos) {
     sprite.setPosition(pos);
 }
+
+void Enemy::blink(float time) {
+    blinkingTime += time;
+    if (blinkingTime <= 0.15)
+        sprite.setColor(sf::Color(230, 130, 130));
+    if (blinkingTime > 0.15) {
+        blinkingTime = 0;
+        setReceivingDamage(false);
+        sprite.setColor(sf::Color::White);
+    }
+}

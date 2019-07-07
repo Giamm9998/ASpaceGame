@@ -19,6 +19,8 @@ public:
 
     bool isCharging() const;
 
+    bool receiveDamage(int damage) override;
+
 protected:
     int maxHp;
     bool charging;
