@@ -9,7 +9,8 @@
 #include "Spaceship.h"
 
 
-Player::Player(int hp, int strength, float speed, int maxHp) : Spaceship(hp, strength, speed), maxHp(maxHp) {
+Player::Player(int hp, int strength, float speed, int maxHp) : Spaceship(hp, strength, speed), maxHp(maxHp),
+                                                               charging(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2,
                        windowHeight - 60); //todo set position not based on constants
 }
@@ -25,3 +26,7 @@ int Player::getMaxHp() const {
     return maxHp;
 }
 
+
+bool Player::isCharging() const {
+    return charging;
+}

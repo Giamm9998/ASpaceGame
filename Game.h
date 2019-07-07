@@ -53,6 +53,7 @@ private:
     bool isShooting;
     bool isUsingSpecial;
     sf::RectangleShape specialHud;
+    sf::RectangleShape specialHudOutline;
     Background *background;
     Player *player; //todo smart pointer
     std::list<Spaceship *> enemyManager; //todo smart pointer
