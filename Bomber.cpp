@@ -17,6 +17,12 @@ Bomber::Bomber() : Player(150, 10, 120, 150) {
     Projectile secondaryProjectilePrototype(sf::Vector2f(0.9, 0.9), 40, sf::Vector2f(0, -1),
                                             strength * 50, false);
     secondaryCannon.setProjectilePrototype(secondaryProjectilePrototype);
+
+    boundingBox.setSize(sf::Vector2f(1.2 * sprite.getOrigin().x,
+                                     1.3 * sprite.getOrigin().y));
+    boundingBox.setScale(sprite.getScale());
+    boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
+    boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y + sprite.getGlobalBounds().height / 16);
     //TODO establish the right default values for both cannons
 }
 

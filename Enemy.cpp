@@ -9,7 +9,7 @@ void Enemy::move(float time) {
     if (!(Game::isLegalMove(sprite.getPosition().x, sprite.getScale().x * sprite.getOrigin().x, direction)))
         direction = -direction;
     sprite.move(direction * speed * time, 0);
-    boundingBox.move(direction * speed * time, 0);
+    boundingBox.setPosition(sprite.getPosition());
 
 }
 

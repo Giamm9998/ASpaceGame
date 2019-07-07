@@ -48,7 +48,8 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     auto *minion = new Minion;
     auto *assaulter = new Assaulter;
 
-    kamikaze->setPosition(0, 500);
+    kamikaze->setPosition(20, 300);
+    fighter->setPosition(700, 200);
     enemyManager.insert(enemyManager.begin(), fighter);
     enemyManager.insert(enemyManager.begin(), kamikaze);
     enemyManager.insert(enemyManager.begin(), assaulter);
@@ -56,7 +57,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.insert(enemyManager.begin(), boss);
 
 
-    player = new Raptor;
+    player = new Bomber;
 
     powerUp = std::unique_ptr<PowerUp>(new FireRate);
 
@@ -165,7 +166,7 @@ void Game::drawPlayer() {
 
 void Game::drawEnemies() {
     for (auto &i : enemyManager) {
-        window.draw(dynamic_cast<Enemy &>(*i).getSprite());
+        window.draw(i->getSprite());
     }
 }
 
@@ -321,7 +322,7 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
                     player->getSprite().setColor(sf::Color::Red);
                 projectileManager.erase(projectileIter);
             }
-        } else { //todo bounding box
+        } else { //todo bounding box or circle collision if projectile is a circle
             for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
                 if ((*asteroidIter)->getSprite().getGlobalBounds().intersects(projSprite.getGlobalBounds())) {
                     asteroidManager.erase(asteroidIter);
@@ -332,7 +333,7 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
             }
             if (!iteratorDeleted) { //todo bounding box
                 for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end(); enemyIter++) {
-                    if ((*enemyIter)->getSprite().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
+                    if ((*enemyIter)->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
                         if ((*enemyIter)->receiveDamage((*projectileIter)->getDamage()))
                             enemyManager.erase(enemyIter);
                         projectileManager.erase(projectileIter);

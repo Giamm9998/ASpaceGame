@@ -23,12 +23,11 @@ Raptor::Raptor() : Player(100, 8, 150, 100), shieldDuration(5), charging(false) 
     shield.setOutlineThickness(5);
     shield.setFillColor(sf::Color(255, 255, 255, 0));
 
-    boundingBox.setSize(sf::Vector2f(1.2 * sprite.getOrigin().x * sprite.getScale().x,
-                                     1.4 * sprite.getOrigin().y * sprite.getScale().y));
+    boundingBox.setSize(sf::Vector2f(1.2 * sprite.getOrigin().x,
+                                     1.4 * sprite.getOrigin().y));
+    boundingBox.setScale(sprite.getScale());
     boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y + sprite.getGlobalBounds().height / 8);
-    boundingBox.setFillColor(sf::Color(255, 255, 255, 255));
-
 
     //TODO establish the right default values
 }

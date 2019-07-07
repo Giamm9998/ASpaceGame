@@ -12,6 +12,7 @@
 void Assaulter::move(float time) {
     elapsedTime += time;
     auto currentScale = sprite.getScale().x;
+    boundingBox.setScale(sprite.getScale());
     if (elapsedTime >= 4 && elapsedTime < 4.5 && !moved) {
         if (currentScale <= 0.01) {
             sprite.setScale(0, 0);
@@ -30,10 +31,11 @@ void Assaulter::move(float time) {
         elapsedTime = 0;
         moved = false;
     }
+    Enemy::move(0);
 
 }
 
-Assaulter::Assaulter() : Enemy(50, 20, 30) {
+Assaulter::Assaulter() : Enemy(50, 20, 0) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
@@ -44,6 +46,13 @@ Assaulter::Assaulter() : Enemy(50, 20, 30) {
     primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 100, sf::Vector2f(0, 1), strength);
     primaryCannon.setProjectilePrototype(projectilePrototype);
+
+    boundingBox.setSize(sf::Vector2f(1.5 * sprite.getOrigin().x,
+                                     1.5 * sprite.getOrigin().y));
+    boundingBox.setScale(sprite.getScale());
+    boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
+    boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+
     //TODO establish the right default values
 }
 

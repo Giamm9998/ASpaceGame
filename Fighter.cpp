@@ -29,6 +29,12 @@ Fighter::Fighter() : Enemy(50, 10, 30) {
     externalCannons[1].setRelativePosition(sf::Vector2f(114, 0));
     externalCannons[1].setProjectilePrototype(projectilePrototype);
 
+    boundingBox.setSize(sf::Vector2f(1.5 * sprite.getOrigin().x,
+                                     1.5 * sprite.getOrigin().y));
+    boundingBox.setScale(sprite.getScale());
+    boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
+    boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+
     //TODO establish the right default values
 }
 
