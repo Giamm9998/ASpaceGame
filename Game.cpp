@@ -16,7 +16,10 @@
 #include "FireRate.h"
 #include "Speed.h"
 #include "Asteroid.h"
+#include "Player.h"
+#include "Spaceship.h"
 #include <memory>
+#include <math.h>
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
@@ -145,6 +148,7 @@ void Game::drawProjectiles() {
 
 void Game::drawPlayer() {
     window.draw(player->getSprite());
+
     if (isUsingSpecial) {
         if (typeid(*player) == typeid(Raptor)) {
             window.draw(dynamic_cast<Raptor &>(*player).getShield());
@@ -216,7 +220,7 @@ void Game::updatePlayer(float time) {
                 projectileManager.emplace_back(new Projectile(*projectile));
         }
         if (typeid(*player) == typeid(Raptor)) {
-            if (!dynamic_cast<Raptor &>(*player).isCharging1())
+            if (!dynamic_cast<Raptor &>(*player).isCharging())
                 dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
         }
     } else {
@@ -224,7 +228,7 @@ void Game::updatePlayer(float time) {
 
         }
         if (typeid(*player) == typeid(Raptor)) {
-            if (dynamic_cast<Raptor &>(*player).isCharging1())
+            if (dynamic_cast<Raptor &>(*player).isCharging())
                 dynamic_cast<Raptor &>(*player).recharge(time, specialHud);
         }
     }
@@ -283,19 +287,31 @@ void Game::updateProjectiles(float time) {
 }
 
 void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter) {
+    //todo simplify
     bool dead;
     sf::Sprite &projSprite = (*projectileIter)->getSprite();
     if (isOutOfSigth(projSprite))
         projectileManager.erase(projectileIter);
     else {
+        bool iteratorDeleted = false;
         if ((*projectileIter)->isEvil()) {
-            if (player->getSprite().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
+            if (typeid(*player) == typeid(Raptor)) {
+                if (isUsingSpecial && !dynamic_cast<Raptor &>(*player).isCharging()) {
+                    auto shield = dynamic_cast<Raptor &>(*player).getShield();
+                    if (dist(projSprite.getPosition(), shield.getPosition()) <=
+                        (shield.getRadius() + projSprite.getGlobalBounds().height / 2)) {
+                        projectileManager.erase(projectileIter);
+                        iteratorDeleted = true;
+                    }
+                }
+            }
+            if (!iteratorDeleted &&
+                player->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
                 if (player->receiveDamage((*projectileIter)->getDamage())) //todo handle death (in one position)
                     player->getSprite().setColor(sf::Color::Red);
                 projectileManager.erase(projectileIter);
             }
-        } else {
-            bool iteratorDeleted = false;
+        } else { //todo bounding box
             for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
                 if ((*asteroidIter)->getSprite().getGlobalBounds().intersects(projSprite.getGlobalBounds())) {
                     asteroidManager.erase(asteroidIter);
@@ -304,7 +320,7 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
                     break;
                 }
             }
-            if (!iteratorDeleted) {
+            if (!iteratorDeleted) { //todo bounding box
                 for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end(); enemyIter++) {
                     if ((*enemyIter)->getSprite().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
                         if ((*enemyIter)->receiveDamage((*projectileIter)->getDamage()))
@@ -331,15 +347,31 @@ void Game::emplaceProj(std::unique_ptr<Projectile> projectile) {
 }
 
 void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter) {
-    sf::Sprite &asteroidSprite = (*asteroidIter)->getSprite();
+    sf::Sprite &asteroidSprite = (*asteroidIter)->getSprite(); //todo simplify
     if (isOutOfSigth(asteroidSprite))
         asteroidManager.erase(asteroidIter);
     else {
-        if (player->getSprite().getGlobalBounds().intersects((asteroidSprite.getGlobalBounds()))) {
+        bool iteratorDeleted = false;
+        if (typeid(*player) == typeid(Raptor)) {
+            if (isUsingSpecial && !dynamic_cast<Raptor &>(*player).isCharging()) {
+                auto shield = dynamic_cast<Raptor &>(*player).getShield();
+                if (dist(asteroidSprite.getPosition(), shield.getPosition()) <=
+                    (shield.getRadius() + localRadiusPixels * (*asteroidIter)->getSize())) {
+                    asteroidManager.erase(asteroidIter);
+                    iteratorDeleted = true;
+                }
+            }
+        }
+        if (!iteratorDeleted &&
+            player->getBoundingBox().getGlobalBounds().intersects((asteroidSprite.getGlobalBounds()))) {
             if (player->receiveDamage(static_cast<int>((*asteroidIter)->getDamage())))
                 player->getSprite().setColor(sf::Color::Red);
             asteroidManager.erase(asteroidIter);
         }
     }
 
+}
+
+float Game::dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB) {
+    return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2));
 }

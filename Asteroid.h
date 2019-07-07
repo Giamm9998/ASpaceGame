@@ -7,6 +7,7 @@
 
 #define APPEARANCE_TIME 7.f
 #define FREEZE_TIME 4
+static const int localRadiusPixels = 50;
 
 #include <SFML/Graphics.hpp>
 #include "Animator.h"
@@ -31,6 +32,10 @@ public:
 
 private:
     float size;
+public:
+    float getSize() const;
+
+private:
     float speed;
     sf::Sprite sprite;
     Animator *animator = new Animator(sprite);

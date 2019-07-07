@@ -1,6 +1,9 @@
 //
 // Created by gianmarco on 30/06/19.
 //
+#include "Game.h"
+#include "Player.h"
+#include "Raptor.h"
 #include <cmath>
 #include "ResourceManager.h"
 #include "Spaceship.h"
@@ -57,6 +60,10 @@ bool Spaceship::receiveDamage(int damage) {
     if (hp <= 0)
         dead = true;
     return dead;
+}
+
+const sf::RectangleShape &Spaceship::getBoundingBox() const {
+    return boundingBox;
 }
 
 Spaceship::~Spaceship() = default;

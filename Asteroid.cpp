@@ -52,4 +52,8 @@ Animator *Asteroid::getAnimator() {
 
 float Asteroid::getDamage() const {
     return damage * size;
+}
+
+float Asteroid::getSize() const {
+    return size;
 };

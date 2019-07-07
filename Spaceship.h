@@ -39,6 +39,8 @@ public:
 
     Cannon &getPrimaryCannon();
 
+    const sf::RectangleShape &getBoundingBox() const;
+
 protected:
     int hp;
     int strength;
@@ -47,6 +49,7 @@ protected:
     Cannon primaryCannon;
     float elapsedTime = 0;
 
+    sf::RectangleShape boundingBox;
 };
 
 

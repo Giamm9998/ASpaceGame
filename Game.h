@@ -92,6 +92,8 @@ private:
     void checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter);
 
     void drawPowerUp();
+
+    float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 };
 
 #endif //ASPACEGAME_GAME_H

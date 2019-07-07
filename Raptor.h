@@ -23,12 +23,14 @@ public:
 
 private:
     sf::CircleShape shield;
-    float shieldDuration;
-public:
-    bool isCharging1() const;
 
 private:
-    bool isCharging;
+    float shieldDuration;
+public:
+    bool isCharging() const;
+
+private:
+    bool charging;
 };
 
 

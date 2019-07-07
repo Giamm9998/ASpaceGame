@@ -15,7 +15,9 @@ void Assaulter::move(float time) {
     if (elapsedTime >= 4 && elapsedTime < 4.5 && !moved) {
         if (currentScale <= 0.01) {
             sprite.setScale(0, 0);
-            setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));
+            setPosition(Randomizer::getRandomPosition(
+                    sprite.getOrigin().x * maxScale,
+                    windowWidth - sprite.getOrigin().x * maxScale, 50, 50)); //todo not based on constants
             moved = true;
         } else {
             sprite.setScale(currentScale - (escapeSpeed * time),
@@ -33,8 +35,10 @@ void Assaulter::move(float time) {
 
 Assaulter::Assaulter() : Enemy(50, 20, 30) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
-    sprite.setPosition(Randomizer::getRandomPosition(50, windowWidth - 50, 50, 50));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
+                                                     windowWidth - sprite.getOrigin().x * maxScale, 50,
+                                                     50)); //todo not based on constants
     primaryCannon.setFireRate(0.5);
     primaryCannon.setTracker(true);
     primaryCannon.setSpaceshipPtr(this);
