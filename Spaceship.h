@@ -5,6 +5,7 @@
 #ifndef ASPACEGAME_SPACESHIP_H
 #define ASPACEGAME_SPACESHIP_H
 
+#define SECONDS_FOR_DYING 3
 static const float maxScale = 0.35f;
 
 #include <SFML/Graphics.hpp>
@@ -21,7 +22,7 @@ public:
 
     virtual std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon);
 
-    virtual bool receiveDamage(int damage);
+    virtual void receiveDamage(int damage);
 
     int getHp() const;
 
@@ -43,6 +44,8 @@ public:
 
     virtual void blink(float time);
 
+    bool die(float time);
+
 protected:
     int hp;
     int strength;
@@ -51,6 +54,7 @@ protected:
     Cannon primaryCannon;
     float elapsedTime = 0;
     float blinkingTime = 0;
+    float dyingTime = 0;
     bool receivingDamage = false;
 public:
     bool isReceivingDamage() const;

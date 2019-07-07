@@ -54,13 +54,9 @@ std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon *cannon) {
     return cannon->shoot(position, dt);
 }
 
-bool Spaceship::receiveDamage(int damage) {
+void Spaceship::receiveDamage(int damage) {
     receivingDamage = true;
-    bool dead = false;
     this->hp -= damage;
-    if (hp <= 0)
-        dead = true;
-    return dead;
 }
 
 const sf::RectangleShape &Spaceship::getBoundingBox() const {
@@ -91,6 +87,15 @@ void Spaceship::blink(float time) {
         sprite.setColor(sf::Color::White);
     }
 }
+
+bool Spaceship::die(float time) {
+    if (dyingTime == 0)
+        boundingBox.setSize(sf::Vector2f(0, 0));
+    dyingTime += time;
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / SECONDS_FOR_DYING)));
+    return dyingTime >= SECONDS_FOR_DYING;
+}
+
 
 Spaceship::~Spaceship() = default;
 

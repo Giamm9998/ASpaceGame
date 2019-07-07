@@ -249,42 +249,52 @@ void Game::updatePlayer(float time) {
 }
 
 void Game::updateEnemies(float time) {
-    for (auto &i : enemyManager) {
-        if (i->isReceivingDamage()) {
-            i->blink(time);
-        }
-        std::unique_ptr<Projectile> projectile;
-        if (typeid(*i) == typeid(Minion)) {
-            dynamic_cast<Minion &>(*i).move(time);
-            projectile = dynamic_cast<Minion &>(*i).useCannon(time, &(i->getPrimaryCannon()));
-            emplaceProj(std::move(projectile));
+    for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end();) {
+        auto enemy = *enemyIter;
+        if ((enemy)->getHp() <= 0) {
+            if ((enemy)->die(time)) {
+                enemyManager.erase(enemyIter++);
+            } else
+                enemyIter++;
+        } else {
+            enemyIter++;
+            if ((enemy)->isReceivingDamage()) {
+                (enemy)->blink(time);
+            }
+            std::unique_ptr<Projectile> projectile;
 
-        } else if (typeid(*i) == typeid(Boss)) {
-            dynamic_cast<Boss &>(*i).move(time);
-            projectile = dynamic_cast<Boss &>(*i).useCannon(time, &(i->getPrimaryCannon()));
-            emplaceProj(std::move(projectile));
+            if (typeid(*enemy) == typeid(Minion)) {
+                dynamic_cast<Minion &>(*(enemy)).move(time);
+                projectile = dynamic_cast<Minion &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
+                emplaceProj(std::move(projectile));
 
-        } else if (typeid(*i) == typeid(Kamikaze)) {
-            dynamic_cast<Kamikaze &>(*i).move(time);
-            projectile = dynamic_cast<Kamikaze &>(*i).useCannon(time, &(i->getPrimaryCannon()));
-            emplaceProj(std::move(projectile));
+            } else if (typeid(*enemy) == typeid(Boss)) {
+                dynamic_cast<Boss &>(*(enemy)).move(time);
+                projectile = dynamic_cast<Boss &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
+                emplaceProj(std::move(projectile));
 
-        } else if (typeid(*i) == typeid(Fighter)) {
-            dynamic_cast<Fighter &>(*i).move(time);
-            projectile = dynamic_cast<Fighter &>(*i).useCannon(time, &(i->getPrimaryCannon()));
-            emplaceProj(std::move(projectile));
-            for (auto &j : dynamic_cast<Fighter &>(*i).getExternalCannons()) {
-                Cannon *cannon = &j;
-                projectile = dynamic_cast<Fighter &>(*i).useCannon(time, cannon);
+            } else if (typeid(*enemy) == typeid(Kamikaze)) {
+                dynamic_cast<Kamikaze &>(*(enemy)).move(time);
+                projectile = dynamic_cast<Kamikaze &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
+                emplaceProj(std::move(projectile));
+
+            } else if (typeid(*enemy) == typeid(Fighter)) {
+                dynamic_cast<Fighter &>(*(enemy)).move(time);
+                projectile = dynamic_cast<Fighter &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
+                emplaceProj(std::move(projectile));
+                for (auto &j : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons()) {
+                    Cannon *cannon = &j;
+                    projectile = dynamic_cast<Fighter &>(*(enemy)).useCannon(time, cannon);
+                    emplaceProj(std::move(projectile));
+                }
+            } else if (typeid(*enemy) == typeid(Assaulter)) {
+                dynamic_cast<Assaulter &>(*(enemy)).move(time);
+                projectile = dynamic_cast<Assaulter &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()),
+                                                                           player->getSprite().getPosition());
                 emplaceProj(std::move(projectile));
             }
-        } else if (typeid(*i) == typeid(Assaulter)) {
-            dynamic_cast<Assaulter &>(*i).move(time);
-            projectile = dynamic_cast<Assaulter &>(*i).useCannon(time, &(i->getPrimaryCannon()),
-                                                                 player->getSprite().getPosition());
-            emplaceProj(std::move(projectile));
-        }
 
+        }
     }
 }
 
@@ -305,7 +315,6 @@ void Game::updateProjectiles(float time) {
 
 void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter) {
     //todo simplify
-    bool dead;
     sf::Sprite &projSprite = (*projectileIter)->getSprite();
     if (isOutOfSigth(projSprite))
         projectileManager.erase(projectileIter);
@@ -324,8 +333,7 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
             }
             if (!iteratorDeleted &&
                 player->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
-                if (player->receiveDamage((*projectileIter)->getDamage())) //todo handle death (in one position)
-                    player->getSprite().setColor(sf::Color::Red);
+                player->receiveDamage((*projectileIter)->getDamage()); //todo handle death in one position
                 projectileManager.erase(projectileIter);
             }
         } else { //todo bounding box or circle collision if projectile is a circle
@@ -338,10 +346,9 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
                 }
             }
             if (!iteratorDeleted) {
-                for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end(); enemyIter++) {
-                    if ((*enemyIter)->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
-                        if ((*enemyIter)->receiveDamage((*projectileIter)->getDamage()))
-                            enemyManager.erase(enemyIter);
+                for (auto &enemy : enemyManager) {
+                    if (enemy->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
+                        enemy->receiveDamage((*projectileIter)->getDamage());
                         projectileManager.erase(projectileIter);
                         break;
                     }
@@ -381,8 +388,7 @@ void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::ite
         }
         if (!iteratorDeleted &&
             player->getBoundingBox().getGlobalBounds().intersects((asteroidSprite.getGlobalBounds()))) {
-            if (player->receiveDamage(static_cast<int>((*asteroidIter)->getDamage())))
-                player->getSprite().setColor(sf::Color::Red);
+            player->receiveDamage(static_cast<int>((*asteroidIter)->getDamage()));
             asteroidManager.erase(asteroidIter);
         }
     }
