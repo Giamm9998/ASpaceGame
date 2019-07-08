@@ -35,3 +35,7 @@ void Player::receiveDamage(int damage) {
     if (!receivingDamage)
         Spaceship::receiveDamage(damage);
 }
+
+std::vector<Cannon> &Player::getAuxiliaryCannons() {
+    return auxiliaryCannons;
+}

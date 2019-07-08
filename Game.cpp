@@ -18,6 +18,8 @@
 #include "Asteroid.h"
 #include "Player.h"
 #include "Spaceship.h"
+#include "EnhanceSpecial.h"
+#include "AuxiliaryCannon.h"
 #include <memory>
 #include <math.h>
 
@@ -57,9 +59,9 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.insert(enemyManager.begin(), boss);
 
 
-    player = new Bomber;
+    player = new Raptor;
 
-    powerUp = std::unique_ptr<PowerUp>(new FireRate);
+    powerUp = std::unique_ptr<PowerUp>(new AuxiliaryCannon);
 
     //Background creation
     background = new Background;
@@ -204,7 +206,7 @@ void Game::updatePowerUp(sf::Time dt) {
             powerUp.reset();
         } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
             powerUp->powerUp(player);
-            powerUp.reset();
+            powerUp.reset(new AuxiliaryCannon);
         }
     }
 }
@@ -222,6 +224,11 @@ void Game::updatePlayer(float time) {
     if (isShooting) {
         std::unique_ptr<Projectile> projectile = player->useCannon(time, &(player->getPrimaryCannon()));
         emplaceProj(std::move(projectile));
+        for (auto &j : player->getAuxiliaryCannons()) {
+            Cannon *cannon = &j;
+            projectile = player->useCannon(time, cannon);
+            emplaceProj(std::move(projectile));
+        }
     }
     if (isUsingSpecial) {
         if (typeid(*player) == typeid(Bomber)) {

@@ -66,3 +66,11 @@ void Raptor::recharge(float dt, sf::RectangleShape &specialHud) {
     }
 }
 
+float Raptor::getShieldDuration() const {
+    return shieldDuration;
+}
+
+void Raptor::setShieldDuration(float shieldDuration) {
+    Raptor::shieldDuration = shieldDuration;
+}
+

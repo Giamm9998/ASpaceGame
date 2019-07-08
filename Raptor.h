@@ -22,6 +22,12 @@ public:
     void recharge(float dt, sf::RectangleShape &specialHud);
 
 private:
+public:
+    float getShieldDuration() const;
+
+    void setShieldDuration(float shieldDuration);
+
+private:
     sf::CircleShape shield;
 
 private:

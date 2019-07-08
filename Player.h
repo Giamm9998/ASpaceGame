@@ -21,9 +21,12 @@ public:
 
     void receiveDamage(int damage) override;
 
+    std::vector<Cannon> &getAuxiliaryCannons();
+
 protected:
     int maxHp;
     bool charging;
+    std::vector<Cannon> auxiliaryCannons;
 
 };
 
