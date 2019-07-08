@@ -25,7 +25,7 @@ void Animator::switchAnimation(Animator::Animation *animation) {
     }
 
     currentAnimation = animation;
-    currentTime = sf::Time::Zero;
+    currentTime = sf::Time::Zero.asSeconds();
 
 }
 
@@ -54,14 +54,14 @@ std::string Animator::getCurrentAnimationName() const {
     return "";
 }
 
-void Animator::update(sf::Time const &dt) {
+void Animator::update(float const &time) {
 
     if (currentAnimation == nullptr)
         return;
 
-    currentTime += dt;
+    currentTime += time;
 
-    float scaledTime = (currentTime.asSeconds() / currentAnimation->animDuration.asSeconds());
+    float scaledTime = (currentTime / currentAnimation->animDuration.asSeconds());
     int numFrames = currentAnimation->animFrames.size();
     int currentFrame = static_cast<int>(scaledTime * numFrames);
 

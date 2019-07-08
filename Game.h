@@ -54,12 +54,10 @@ private:
     bool isUsingSpecial;
     sf::RectangleShape specialHud;
     sf::RectangleShape specialHudOutline;
-    Background *background;
-    Player *player; //todo smart pointer
-    std::list<Spaceship *> enemyManager; //todo smart pointer
-    //std::list<std::unique_ptr<Spaceship>> enemyManager;
+    std::unique_ptr<Background> background;
+    std::unique_ptr<Player> player;
+    std::list<std::unique_ptr<Spaceship>> enemyManager;
     std::list<std::unique_ptr<Projectile>> projectileManager;
-    //std::unique_ptr<Player> player;
     std::list<std::unique_ptr<Asteroid>> asteroidManager;
     std::unique_ptr<PowerUp> powerUp;
     ResourceManager resourceManager;
@@ -80,9 +78,9 @@ private:
 
     void updateProjectiles(float time);
 
-    void updatePowerUp(sf::Time dt);
+    void updatePowerUp(float dt);
 
-    void updateAsteroids(sf::Time dt);
+    void updateAsteroids(float dt);
 
     void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter);
 
