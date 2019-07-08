@@ -54,6 +54,10 @@ private:
     bool isUsingSpecial;
     sf::RectangleShape specialHud;
     sf::RectangleShape specialHudOutline;
+    sf::RectangleShape hud;
+    sf::RectangleShape hpHud;
+    sf::RectangleShape hpHudOutline;
+
     std::unique_ptr<Background> background;
     std::unique_ptr<Player> player;
     std::list<std::unique_ptr<Spaceship>> enemyManager;
@@ -93,6 +97,10 @@ private:
     void drawPowerUp();
 
     float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
+
+    void checkLaserCollision();
+
+    void createHud();
 };
 
 #endif //ASPACEGAME_GAME_H

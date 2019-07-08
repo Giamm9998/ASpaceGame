@@ -11,15 +11,23 @@
 
 Player::Player(float hp, float strength, float speed, float fireRate, float maxHp) : Spaceship(hp, strength, speed,
                                                                                                fireRate), maxHp(maxHp),
-                                                                                     charging(false) {
+                                                                                     charging(false),
+                                                                                     isLaserActive(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2,
-                       windowHeight - 60); //todo set position not based on constants
+                       windowHeight - 80); //todo set position not based on constants
+    laser.setSize(sf::Vector2f(windowHeight - 100, 10));
+    laser.setOrigin(laser.getGlobalBounds().width, laser.getGlobalBounds().height / 2);
+    laser.rotate(90.f);
+    laser.setFillColor(sf::Color::Red);
+
+
 }
 
 void Player::move(float time, short int direction) {
     if (Game::isLegalMove(sprite.getPosition().x, sprite.getScale().x * sprite.getOrigin().x, direction)) {
         sprite.move(speed * time * direction, 0);
         boundingBox.move(speed * time * direction, 0);
+        laser.move(speed * time * direction, 0);
     }
 }
 
@@ -39,6 +47,18 @@ void Player::receiveDamage(float damage) {
 
 std::vector<Cannon> &Player::getAuxiliaryCannons() {
     return auxiliaryCannons;
+}
+
+bool Player::isLaserActive1() const {
+    return isLaserActive;
+}
+
+void Player::setIsLaserActive(bool isLaserActive) {
+    Player::isLaserActive = isLaserActive;
+}
+
+sf::RectangleShape &Player::getLaser() {
+    return laser;
 }
 
 void Player::setStrength(float strength) {

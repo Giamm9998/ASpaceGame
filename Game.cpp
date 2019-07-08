@@ -21,22 +21,14 @@
 #include "EnhanceSpecial.h"
 #include "AuxiliaryCannon.h"
 #include "Strength.h"
+#include "LaserCannon.h"
 #include <memory>
 #include <math.h>
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
-    specialHud.setSize(sf::Vector2f(15, 100));
-    specialHud.setPosition(400, 500);
-    specialHud.rotate(-90.f);
-    specialHud.setFillColor(sf::Color::Red);
-    specialHudOutline.setSize(sf::Vector2f(15, 100));
-    specialHudOutline.setPosition(400, 500);
-    specialHudOutline.rotate(-90.f);
-    specialHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
-    specialHudOutline.setOutlineThickness(2);
-    specialHudOutline.setOutlineColor(sf::Color::White);
+    createHud();
 
     //Player's spaceship creation
     /*for (int i = 0; i < 5; i++) {
@@ -54,7 +46,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
 
     player = std::unique_ptr<Player>(new Bomber);
 
-    powerUp = std::unique_ptr<PowerUp>(new AuxiliaryCannon);
+    powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
     //Background creation
     background = std::unique_ptr<Background>(new Background);
@@ -115,6 +107,9 @@ void Game::update(sf::Time dt) {
     updatePlayer(time);
     updateProjectiles(time);
     updatePowerUp(time);
+    if (player->isLaserActive1())
+        checkLaserCollision();
+
     background->scroll(time);
     //View updating
     view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
@@ -125,13 +120,18 @@ void Game::render() {
     window.clear(sf::Color::Black);
 
     drawBackground();
+    if (player->isLaserActive1())
+        window.draw(player->getLaser());
     drawAsteroids();
     drawEnemies();
     drawPlayer();
     drawProjectiles();
     drawPowerUp();
+    window.draw(hud);
     window.draw(specialHud);
     window.draw(specialHudOutline);
+    window.draw(hpHud);
+    window.draw(hpHudOutline);
 
 
     window.display();
@@ -334,6 +334,7 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
                 player->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
                 player->receiveDamage((*projectileIter)->getDamage()); //todo handle death in one position
                 projectileManager.erase(projectileIter);
+                hpHud.setScale(1, std::max(0.f, (player->getHp() / player->getMaxHp())));
             }
         } else { //todo bounding box or circle collision if projectile is a circle
             for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
@@ -396,4 +397,48 @@ void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::ite
 
 float Game::dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB) {
     return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2));
+}
+
+void Game::checkLaserCollision() {
+    for (auto &enemy : enemyManager) {
+        if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
+            enemy->receiveDamage(100);
+            break;
+        }
+    }
+    for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
+        if ((*asteroidIter)->getSprite().getGlobalBounds().intersects(player->getLaser().getGlobalBounds())) {
+            asteroidManager.erase(asteroidIter);
+            break;
+        }
+    }
+}
+
+void Game::createHud() {
+    specialHud.setSize(sf::Vector2f(10, 100));
+    specialHud.setPosition(400, windowHeight - 5);
+    specialHud.rotate(-90.f);
+    specialHud.setFillColor(sf::Color::Red);
+    specialHudOutline.setSize(sf::Vector2f(10, 100));
+    specialHudOutline.setPosition(400, windowHeight - 5);
+    specialHudOutline.rotate(-90.f);
+    specialHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
+    specialHudOutline.setOutlineThickness(2);
+    specialHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
+    hud.setSize(sf::Vector2f(windowWidth, 20));
+    hud.setFillColor(sf::Color::Black);
+    hud.setPosition(0, windowHeight - hud.getSize().y);
+    hud.setOutlineThickness(2);
+    hud.setOutlineColor(sf::Color(173, 161, 161, 255));
+    hpHud.setSize(sf::Vector2f(10, 100));
+    hpHud.setPosition(200, windowHeight - 5);
+    hpHud.rotate(-90.f);
+    hpHud.setFillColor(sf::Color::Red);
+    hpHudOutline.setSize(sf::Vector2f(10, 100));
+    hpHudOutline.setPosition(200, windowHeight - 5);
+    hpHudOutline.rotate(-90.f);
+    hpHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
+    hpHudOutline.setOutlineThickness(2);
+    hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
+
 }
