@@ -404,7 +404,6 @@ void Game::checkForLaserCollision(float time) {
         if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
             enemy->receiveDamage(20.f * time);
             break;
-            s
         }
     }
     for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
