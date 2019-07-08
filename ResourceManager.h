@@ -7,6 +7,7 @@
 
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <map>
 
 
@@ -16,8 +17,16 @@ public:
 
     static sf::Texture &getTexture(std::string const &filename);
 
+    static sf::SoundBuffer &getSoundBuffer(std::string const &filename);
+
+    static sf::Font &getFont(std::string const &filename);
+
+
 private:
     std::map<std::string, sf::Texture> textures;
+    std::map<std::string, sf::SoundBuffer> soundBuffers;
+    std::map<std::string, sf::Font> fonts;
+
 
     static ResourceManager *sIstance;
 

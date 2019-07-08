@@ -107,8 +107,8 @@ void Game::update(sf::Time dt) {
     updatePlayer(time);
     updateProjectiles(time);
     updatePowerUp(time);
-    if (player->isLaserActive1())
-        checkLaserCollision();
+    if (player->isLaserActive())
+        checkForLaserCollision(time);
 
     background->scroll(time);
     //View updating
@@ -120,7 +120,7 @@ void Game::render() {
     window.clear(sf::Color::Black);
 
     drawBackground();
-    if (player->isLaserActive1())
+    if (player->isLaserActive())
         window.draw(player->getLaser());
     drawAsteroids();
     drawEnemies();
@@ -399,11 +399,12 @@ float Game::dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB) {
     return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2));
 }
 
-void Game::checkLaserCollision() {
+void Game::checkForLaserCollision(float time) {
     for (auto &enemy : enemyManager) {
         if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
-            enemy->receiveDamage(100);
+            enemy->receiveDamage(20.f * time);
             break;
+            s
         }
     }
     for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {

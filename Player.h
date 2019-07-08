@@ -25,9 +25,9 @@ public:
 
     std::vector<Cannon> &getAuxiliaryCannons();
 
-    bool isLaserActive1() const;
+    bool isLaserActive() const;
 
-    void setIsLaserActive(bool isLaserActive);
+    void setLaserActive(bool laserActive);
 
     sf::RectangleShape &getLaser();
 
@@ -35,7 +35,7 @@ protected:
     float maxHp;
     bool charging;
     std::vector<Cannon> auxiliaryCannons;
-    bool isLaserActive;
+    bool laserActive;
     sf::RectangleShape laser;
 
 };

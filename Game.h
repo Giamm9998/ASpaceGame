@@ -98,7 +98,7 @@ private:
 
     float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
-    void checkLaserCollision();
+    void checkForLaserCollision(float time);
 
     void createHud();
 };

@@ -12,7 +12,7 @@
 Player::Player(float hp, float strength, float speed, float fireRate, float maxHp) : Spaceship(hp, strength, speed,
                                                                                                fireRate), maxHp(maxHp),
                                                                                      charging(false),
-                                                                                     isLaserActive(false) {
+                                                                                     laserActive(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2,
                        windowHeight - 80); //todo set position not based on constants
     laser.setSize(sf::Vector2f(windowHeight - 100, 10));
@@ -49,12 +49,12 @@ std::vector<Cannon> &Player::getAuxiliaryCannons() {
     return auxiliaryCannons;
 }
 
-bool Player::isLaserActive1() const {
-    return isLaserActive;
+bool Player::isLaserActive() const {
+    return laserActive;
 }
 
-void Player::setIsLaserActive(bool isLaserActive) {
-    Player::isLaserActive = isLaserActive;
+void Player::setLaserActive(bool laserActive) {
+    Player::laserActive = laserActive;
 }
 
 sf::RectangleShape &Player::getLaser() {

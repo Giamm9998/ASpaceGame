@@ -21,5 +21,5 @@ LaserCannon::LaserCannon() : PowerUp(true) {
 }
 
 void LaserCannon::powerUp(Player *player) {
-    player->setIsLaserActive(true);
+    player->setLaserActive(true);
 }
