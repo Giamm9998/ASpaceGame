@@ -9,8 +9,9 @@
 #include "Spaceship.h"
 
 
-Player::Player(int hp, int strength, float speed, int maxHp) : Spaceship(hp, strength, speed), maxHp(maxHp),
-                                                               charging(false) {
+Player::Player(float hp, float strength, float speed, float fireRate, float maxHp) : Spaceship(hp, strength, speed,
+                                                                                               fireRate), maxHp(maxHp),
+                                                                                     charging(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2,
                        windowHeight - 60); //todo set position not based on constants
 }
@@ -22,7 +23,7 @@ void Player::move(float time, short int direction) {
     }
 }
 
-int Player::getMaxHp() const {
+float Player::getMaxHp() const {
     return maxHp;
 }
 
@@ -31,11 +32,19 @@ bool Player::isCharging() const {
     return charging;
 }
 
-void Player::receiveDamage(int damage) {
+void Player::receiveDamage(float damage) {
     if (!receivingDamage)
         Spaceship::receiveDamage(damage);
 }
 
 std::vector<Cannon> &Player::getAuxiliaryCannons() {
     return auxiliaryCannons;
+}
+
+void Player::setStrength(float strength) {
+    Spaceship::setStrength(strength);
+    primaryCannon.getProjectilePrototype().setDamage(strength * primaryCannon.getStrengthMultiplier());
+    for (auto &cannon : auxiliaryCannons) {
+        cannon.getProjectilePrototype().setDamage(strength * cannon.getStrengthMultiplier());
+    }
 }

@@ -9,22 +9,20 @@ void Fighter::move(float time) {
     Enemy::move(time);
 }
 
-Fighter::Fighter() : Enemy(50, 10, 30) {
+Fighter::Fighter() : Enemy(50.f, 10.f, 30.f, 0.6f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Fighter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    primaryCannon.setFireRate(0.6);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 200, sf::Vector2f(0, 1), strength);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 200, sf::Vector2f(0, 1),
+                                   strength * primaryCannon.getStrengthMultiplier());
     primaryCannon.setProjectilePrototype(projectilePrototype);
     primaryCannon.getProjectilePrototype().getSprite().setColor(sf::Color::Green);
 
     externalCannons.resize(2);
-    externalCannons[0].setFireRate(0.6);
     externalCannons[0].setSpaceshipPtr(this);
     externalCannons[0].setRelativePosition(sf::Vector2f(-114, 0));
     externalCannons[0].setProjectilePrototype(projectilePrototype);
 
-    externalCannons[1].setFireRate(0.6);
     externalCannons[1].setSpaceshipPtr(this);
     externalCannons[1].setRelativePosition(sf::Vector2f(114, 0));
     externalCannons[1].setProjectilePrototype(projectilePrototype);

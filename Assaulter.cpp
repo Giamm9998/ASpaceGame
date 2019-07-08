@@ -35,16 +35,16 @@ void Assaulter::move(float time) {
 
 }
 
-Assaulter::Assaulter() : Enemy(50, 20, 0) {
+Assaulter::Assaulter() : Enemy(50.f, 20.f, 0.f, 0.5f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
                                                      windowWidth - sprite.getOrigin().x * maxScale, 50,
                                                      50)); //todo not based on constants
-    primaryCannon.setFireRate(0.5);
     primaryCannon.setTracker(true);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 100, sf::Vector2f(0, 1), strength);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 100, sf::Vector2f(0, 1),
+                                   strength * primaryCannon.getStrengthMultiplier());
     primaryCannon.setProjectilePrototype(projectilePrototype);
 
     boundingBox.setSize(sf::Vector2f(1.5 * sprite.getOrigin().x,

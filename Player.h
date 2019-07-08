@@ -9,22 +9,24 @@
 
 class Player :public Spaceship{
 public:
-    Player(int hp, int strength, float speed, int maxHp);
+    Player(float hp, float strength, float speed, float fireRate, float maxHp);
 
     void move(float time) override {};
 
     virtual void move(float time, short int movement);
 
-    int getMaxHp() const;
+    float getMaxHp() const;
 
     bool isCharging() const;
 
-    void receiveDamage(int damage) override;
+    void receiveDamage(float damage) override;
+
+    void setStrength(float strength) override;
 
     std::vector<Cannon> &getAuxiliaryCannons();
 
 protected:
-    int maxHp;
+    float maxHp;
     bool charging;
     std::vector<Cannon> auxiliaryCannons;
 

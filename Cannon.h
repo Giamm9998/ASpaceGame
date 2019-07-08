@@ -19,7 +19,7 @@ public:
 
     void setSpaceshipPtr(Spaceship *spaceshipPtr);
 
-    void setFireRate(double fireRate);
+    void setFireRateMultiplier(double multiplier);
 
     void setProjectilePrototype(const Projectile &projectilePrototype);
 
@@ -27,7 +27,7 @@ public:
 
     Spaceship *getSpaceshipPtr() const;
 
-    double getFireRate() const;
+    double getFireRateMultiplier() const;
 
     Projectile &getProjectilePrototype();
 
@@ -39,7 +39,12 @@ public:
 
 private:
     Spaceship *spaceshipPtr;//TODO make this a smartpointer
-    double fireRate;
+    float fireRateMultiplier = 1;
+    float strengthMultiplier = 1;
+public:
+    float getStrengthMultiplier() const;
+
+private:
     Projectile projectilePrototype;
     bool tracker = false;
     float elapsedtime = 0;
@@ -49,6 +54,4 @@ public:
 
     void setRelativePosition(const sf::Vector2f &relativePosition);
 };
-
-
 #endif //ASPACEGAME_CANNON_H

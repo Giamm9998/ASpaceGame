@@ -10,7 +10,7 @@
 #include "Player.h"
 #include "Animator.h"
 
-static const int speed = 200;
+static const int powerUpSpeed = 200;
 
 class PowerUp {
 public:

@@ -14,7 +14,7 @@ static const float maxScale = 0.35f;
 
 class Spaceship {
 public:
-    Spaceship(int hp, int strength, float speed);
+    Spaceship(float hp, float strength, float speed, float fireRate);
 
     virtual ~Spaceship();
 
@@ -22,15 +22,15 @@ public:
 
     virtual std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon);
 
-    virtual void receiveDamage(int damage);
+    virtual void receiveDamage(float damage);
 
-    int getHp() const;
+    float getHp() const;
 
-    void setHp(int hp);
+    void setHp(float hp);
 
-    int getStrength() const;
+    float getStrength() const;
 
-    void setStrength(int strength);
+    virtual void setStrength(float strength);
 
     float getSpeed() const;
 
@@ -47,9 +47,16 @@ public:
     bool die(float time);
 
 protected:
-    int hp;
-    int strength;
+    float hp;
+    float strength;
     float speed;
+    float fireRate;
+public:
+    float getFireRate() const;
+
+    void setFireRate(float fireRate);
+
+protected:
     sf::Sprite sprite;
     Cannon primaryCannon;
     float elapsedTime = 0;

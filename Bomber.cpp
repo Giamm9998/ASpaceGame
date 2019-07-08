@@ -4,18 +4,18 @@
 #include "Bomber.h"
 #include "ResourceManager.h"
 
-Bomber::Bomber() : Player(150, 10, 120, 150) {
+Bomber::Bomber() : Player(150.f, 10.f, 120.f, 1.f, 150.f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    primaryCannon.setFireRate(1);
     primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, -1), strength, false);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, -1),
+                                   strength * primaryCannon.getStrengthMultiplier(), false);
     primaryCannon.setProjectilePrototype(projectilePrototype);
     secondaryCannon.setSpaceshipPtr(this);
-    secondaryCannon.setFireRate(0.5);
-    Projectile secondaryProjectilePrototype(sf::Vector2f(0.9, 0.9), 40, sf::Vector2f(0, -1),
-                                            strength * 50, false);
+    secondaryCannon.setFireRateMultiplier(0.5);
+    Projectile secondaryProjectilePrototype(sf::Vector2f(0.9, 0.9), 200, sf::Vector2f(0, -1),
+                                            strength * secondaryCannon.getStrengthMultiplier(), false);
     secondaryCannon.setProjectilePrototype(secondaryProjectilePrototype);
 
     boundingBox.setSize(sf::Vector2f(1.2 * sprite.getOrigin().x,
@@ -37,15 +37,15 @@ std::unique_ptr<Projectile> Bomber::useBomb(float dt, sf::RectangleShape &specia
     if (shot != nullptr) {
         charging = true;
         elapsedTime = 0;
-    } else specialHud.setScale(1, 1 - elapsedTime / (1.f / secondaryCannon.getFireRate()));
+    } else specialHud.setScale(1, 1 - elapsedTime / (1.f / (fireRate * secondaryCannon.getFireRateMultiplier())));
 
     return shot;
 }
 
 void Bomber::recharge(float dt, sf::RectangleShape &specialHud) {
     elapsedTime += dt;
-    specialHud.setScale(1, elapsedTime / (1.f / secondaryCannon.getFireRate()));
-    if (elapsedTime > 1.f / secondaryCannon.getFireRate()) {
+    specialHud.setScale(1, elapsedTime / (1.f / (fireRate * secondaryCannon.getFireRateMultiplier())));
+    if (elapsedTime > 1.f / (fireRate * secondaryCannon.getFireRateMultiplier())) {
         elapsedTime = 0;
         charging = false;
     }

@@ -13,7 +13,7 @@
 class Enemy: public Spaceship{
 
 public:
-    Enemy(int hp, int strength, int speed);
+    Enemy(float hp, float strength, float speed, float fireRate);
 
     void setPosition(float x, float y);
 
@@ -21,13 +21,8 @@ public:
 
     void move(float time) override;
 
-    const std::list<Enemy>::iterator &getIterator() const;
-
-    void setIterator(const std::list<Enemy>::iterator &iterator);
-
 protected:
     short int direction = right;
-    std::list<Enemy>::iterator iterator;
 public:
     void blink(float time) override;
 };

@@ -10,23 +10,24 @@
 
 #define PI 3.14
 
-Spaceship::Spaceship(int hp, int strength, float speed) : hp(hp), strength(strength), speed(speed) {
+Spaceship::Spaceship(float hp, float strength, float speed, float fireRate) : hp(hp), strength(strength), speed(speed),
+                                                                              fireRate(fireRate) {
     sprite.setScale(maxScale, maxScale);
 }
 
-int Spaceship::getHp() const {
+float Spaceship::getHp() const {
     return hp;
 }
 
-void Spaceship::setHp(int hp) {
+void Spaceship::setHp(float hp) {
     Spaceship::hp = hp;
 }
 
-int Spaceship::getStrength() const {
+float Spaceship::getStrength() const {
     return strength;
 }
 
-void Spaceship::setStrength(int strength) {
+void Spaceship::setStrength(float strength) {
     Spaceship::strength = strength;
 }
 
@@ -54,7 +55,7 @@ std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon *cannon) {
     return cannon->shoot(position, dt);
 }
 
-void Spaceship::receiveDamage(int damage) {
+void Spaceship::receiveDamage(float damage) {
     receivingDamage = true;
     this->hp -= damage;
 }
@@ -94,6 +95,14 @@ bool Spaceship::die(float time) {
     dyingTime += time;
     sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / SECONDS_FOR_DYING)));
     return dyingTime >= SECONDS_FOR_DYING;
+}
+
+float Spaceship::getFireRate() const {
+    return fireRate;
+}
+
+void Spaceship::setFireRate(float fireRate) {
+    Spaceship::fireRate = fireRate;
 }
 
 

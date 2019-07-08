@@ -12,8 +12,8 @@ void Cannon::setSpaceshipPtr(Spaceship *spaceshipPtr) {
     Cannon::spaceshipPtr = spaceshipPtr;
 }
 
-void Cannon::setFireRate(double fireRate) {
-    Cannon::fireRate = fireRate;
+void Cannon::setFireRateMultiplier(double multiplier) {
+    Cannon::fireRateMultiplier = multiplier;
 }
 
 void Cannon::setProjectilePrototype(const Projectile &projectilePrototype) {
@@ -26,7 +26,7 @@ void Cannon::setTracker(bool tracker) {
 
 std::unique_ptr<Projectile> Cannon::shoot(sf::Vector2f position, float dt) {
     elapsedtime += dt;
-    if (elapsedtime > (1.f / fireRate)) {
+    if (elapsedtime > (1.f / (spaceshipPtr->getFireRate() * fireRateMultiplier))) {
         std::unique_ptr<Projectile> projectile(new Projectile(projectilePrototype));
         projectile->getSprite().setPosition(position);
         elapsedtime = 0;
@@ -37,8 +37,8 @@ std::unique_ptr<Projectile> Cannon::shoot(sf::Vector2f position, float dt) {
 }
 
 
-double Cannon::getFireRate() const {
-    return fireRate;
+double Cannon::getFireRateMultiplier() const {
+    return fireRateMultiplier;
 }
 
 Projectile &Cannon::getProjectilePrototype() {
@@ -67,4 +67,8 @@ const sf::Vector2f &Cannon::getRelativePosition() const {
 
 void Cannon::setRelativePosition(const sf::Vector2f &relativePosition) {
     Cannon::relativePosition = relativePosition;
+}
+
+float Cannon::getStrengthMultiplier() const {
+    return strengthMultiplier;
 }

@@ -16,7 +16,7 @@ sf::Sprite PowerUp::getSprite() {
 void PowerUp::move(float dt) {
     if (!(Game::isLegalMove(sprite.getPosition().x, sprite.getScale().x * sprite.getOrigin().x, direction)))
         direction = -direction;
-    sprite.move(cos(angle) * speed * dt * direction, sin(angle) * speed * dt);
+    sprite.move(cos(angle) * powerUpSpeed * dt * direction, sin(angle) * powerUpSpeed * dt);
 }
 
 Animator *PowerUp::getAnimator() {

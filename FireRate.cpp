@@ -23,5 +23,5 @@ FireRate::FireRate() : PowerUp(false) { //TODO add fire rate texture
 }
 
 void FireRate::powerUp(Player *player) {
-    player->getPrimaryCannon().setFireRate(player->getPrimaryCannon().getFireRate() * 10);
+    player->setFireRate(player->getFireRate() * 10);
 }

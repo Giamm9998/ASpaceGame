@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "Game.h"
 #include "Randomizer.h"
+#include "Raptor.h"
 
 AuxiliaryCannon::AuxiliaryCannon() : PowerUp(true) {
     auto &rotation = animator->createAnimation("Rotation", "../Texture/BasicPowerUp.png", sf::seconds(0.33), true);
@@ -20,13 +21,20 @@ AuxiliaryCannon::AuxiliaryCannon() : PowerUp(true) {
             -distOrigin.y * sprite.getScale().y, -distOrigin.y * sprite.getScale().y));
 }
 
-void AuxiliaryCannon::powerUp(Player *player) {
+void AuxiliaryCannon::powerUp(Player *player) { //todo prendi reference
     Cannon cannon(player->getPrimaryCannon());
     if (player->getAuxiliaryCannons().empty()) {
-        player->getSprite().setTexture(ResourceManager::getTexture("../Texture/RaptorCannon.png"));
-        sf::Vector2f relativePosition(76, 0);
+        sf::Vector2f relativePosition;
+        if (typeid(*player) == typeid(Raptor)) {
+            player->getSprite().setTexture(ResourceManager::getTexture("../Texture/RaptorCannon.png"));
+            relativePosition = sf::Vector2f(76, 0);
+        } else {
+            player->getSprite().setTexture(ResourceManager::getTexture("../Texture/BomberCannon.png"));
+            relativePosition = sf::Vector2f(106, 0);
+        }
+
         cannon.setRelativePosition(relativePosition);
-        player->getPrimaryCannon().setRelativePosition(sf::Vector2f(-76, 0));
+        player->getPrimaryCannon().setRelativePosition(sf::Vector2f(-relativePosition.x, 0));
         player->getAuxiliaryCannons().push_back(cannon);
     } else if (player->getAuxiliaryCannons().size() < 2) {
         sf::Vector2f relativePosition(0, 0);

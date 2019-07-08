@@ -7,14 +7,13 @@
 #include "Player.h"
 #include "Spaceship.h"
 
-Raptor::Raptor() : Player(100, 8, 150, 100), shieldDuration(5), charging(false) {
+Raptor::Raptor() : Player(100.f, 8.f, 150.f, 2.f, 100.f), shieldDuration(5), charging(false) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    primaryCannon.setFireRate(2);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 600, sf::Vector2f(0, -1), strength, false);
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 600, sf::Vector2f(0, -1),
+                                   strength * primaryCannon.getStrengthMultiplier(), false);
     primaryCannon.setProjectilePrototype(projectilePrototype);
-    primaryCannon.setElapsedtime(0);
 
     shield.setRadius(sprite.getOrigin().y * sprite.getScale().y);
     shield.setOrigin(shield.getRadius(), shield.getRadius());

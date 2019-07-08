@@ -17,7 +17,7 @@ public:
 
     Projectile(const Projectile &original);
 
-    Projectile(sf::Vector2f size, float speed, sf::Vector2f movement, int damage, bool evil = true);
+    Projectile(sf::Vector2f size, float speed, sf::Vector2f movement, float damage, bool evil = true);
 
     void move(float time);
 
@@ -27,29 +27,27 @@ public:
 
     const sf::Vector2f &getMovement() const;
 
-    int getDamage() const;
+    float getDamage() const;
 
     sf::Sprite &getSprite();
 
     void setSize(const sf::Vector2f &size);
 
-    void setSpeed(float speed);
-
     void setMovement(const sf::Vector2f &movement);
-
-    void setDamage(int damage);
 
 private:
     sf::Vector2f size;
     float speed;
     sf::Sprite sprite;
     sf::Vector2f movement;
-    int damage;
+    float damage;
+public:
+    void setDamage(float damage);
+
+private:
     bool evil;
 public:
     bool isEvil() const;
-
-    void setEvil(bool evil);
 };
 
 

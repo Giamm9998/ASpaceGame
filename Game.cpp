@@ -20,6 +20,7 @@
 #include "Spaceship.h"
 #include "EnhanceSpecial.h"
 #include "AuxiliaryCannon.h"
+#include "Strength.h"
 #include <memory>
 #include <math.h>
 
@@ -194,7 +195,7 @@ void Game::updatePowerUp(float time) {
         powerUp->getAnimator()->update(time);
         powerUp->move(time);
         if (isOutOfSigth(powerUp->getSprite())) {
-            powerUp.reset();
+            powerUp.reset(new FireRate);
         } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
             powerUp->powerUp(player.get());
             powerUp.reset(new AuxiliaryCannon);
@@ -268,8 +269,8 @@ void Game::updateEnemies(float time) {
 
             } else if (typeid(*enemy) == typeid(Boss)) {
                 dynamic_cast<Boss &>(*(enemy)).move(time);
-                projectile = dynamic_cast<Boss &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
-                emplaceProj(std::move(projectile));
+                //projectile = dynamic_cast<Boss &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
+                //emplaceProj(std::move(projectile));
 
             } else if (typeid(*enemy) == typeid(Kamikaze)) {
                 dynamic_cast<Kamikaze &>(*(enemy)).move(time);
