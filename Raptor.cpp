@@ -16,6 +16,9 @@ Raptor::Raptor() : Player(100, 8, 150, 100), shieldDuration(5), charging(false) 
     primaryCannon.setProjectilePrototype(projectilePrototype);
     primaryCannon.setElapsedtime(0);
 
+
+    laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);
+
     shield.setRadius(sprite.getOrigin().y * sprite.getScale().y);
     shield.setOrigin(shield.getRadius(), shield.getRadius());
     shield.setPosition(sprite.getPosition());
