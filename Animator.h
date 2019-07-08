@@ -47,7 +47,7 @@ public:
     Animation &createAnimation(std::string const &name, std::string const &textureName,
                                sf::Time duration, bool loop = false);
 
-    void update(sf::Time const &dt);
+    void update(float const &dt);
 
     bool switchAnimation(std::string const &name);
 
@@ -59,7 +59,7 @@ private:
     void switchAnimation(Animation *animation);
 
     sf::Sprite &sprite;
-    sf::Time currentTime;
+    float currentTime;
     std::list<Animation> animations;
     Animation *currentAnimation;
 

@@ -2,6 +2,9 @@
 #include "Game.h"
 
 
+//TODO const tutto ciò che è const
+//TODO usa i riferimenti
+
 int main() {
     try {
         Game game;

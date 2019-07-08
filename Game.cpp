@@ -42,34 +42,25 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
         enemyManager.insert(enemyManager.begin(), boss);
     }*/
 
-    auto *boss = new Boss;
-    auto *fighter = new Fighter;
-    auto *kamikaze = new Kamikaze;
-    auto *minion = new Minion;
-    auto *assaulter = new Assaulter;
-
-    kamikaze->setPosition(20, 300);
-    fighter->setPosition(700, 200);
-    enemyManager.insert(enemyManager.begin(), fighter);
-    enemyManager.insert(enemyManager.begin(), kamikaze);
-    enemyManager.insert(enemyManager.begin(), assaulter);
-    enemyManager.insert(enemyManager.begin(), minion);
-    enemyManager.insert(enemyManager.begin(), boss);
+    enemyManager.emplace_back(new Fighter);
+    enemyManager.emplace_back(new Kamikaze);
+    enemyManager.emplace_back(new Minion);
+    enemyManager.emplace_back(new Assaulter);
+    enemyManager.emplace_back(new Boss);
 
 
-    player = new Bomber;
+    player = std::unique_ptr<Player>(new Bomber);
 
     powerUp = std::unique_ptr<PowerUp>(new FireRate);
 
     //Background creation
-    background = new Background;
+    background = std::unique_ptr<Background>(new Background);
 
     //Limitation of the framerate
     window.setFramerateLimit(60);
 
     for (int i = 0; i < 100; i++) {
-        std::unique_ptr<Asteroid> asteroid(new Asteroid);
-        asteroidManager.insert(asteroidManager.begin(), std::move(asteroid));
+        asteroidManager.emplace_back(new Asteroid);
     }
 }
 
@@ -116,11 +107,11 @@ void Game::update(sf::Time dt) {
 
     //Player movement
     float time = dt.asSeconds();
-    updateAsteroids(dt); //todo all take delta time
+    updateAsteroids(time);
     updateEnemies(time);
     updatePlayer(time);
     updateProjectiles(time);
-    updatePowerUp(dt);
+    updatePowerUp(time);
     background->scroll(time);
     //View updating
     view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
@@ -196,14 +187,14 @@ bool Game::isLegalMove(float x, float origin, short int direction) {
     return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
 }
 
-void Game::updatePowerUp(sf::Time dt) {
+void Game::updatePowerUp(float time) {
     if (powerUp != nullptr) {
-        powerUp->getAnimator()->update(dt);
-        powerUp->move(dt.asSeconds());
+        powerUp->getAnimator()->update(time);
+        powerUp->move(time);
         if (isOutOfSigth(powerUp->getSprite())) {
             powerUp.reset();
         } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
-            powerUp->powerUp(player);
+            powerUp->powerUp(player.get());
             powerUp.reset();
         }
     }
@@ -250,7 +241,7 @@ void Game::updatePlayer(float time) {
 
 void Game::updateEnemies(float time) {
     for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end();) {
-        auto enemy = *enemyIter;
+        auto enemy = (*enemyIter).get();
         if ((enemy)->getHp() <= 0) {
             if ((enemy)->die(time)) {
                 enemyManager.erase(enemyIter++);
@@ -298,10 +289,10 @@ void Game::updateEnemies(float time) {
     }
 }
 
-void Game::updateAsteroids(sf::Time dt) {
+void Game::updateAsteroids(float time) {
     for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end();) {
-        (*asteroidIter)->getAnimator()->update(dt);
-        (*asteroidIter)->move(dt.asSeconds());
+        (*asteroidIter)->getAnimator()->update(time);
+        (*asteroidIter)->move(time);
         checkForAsteroidsCollisions(asteroidIter++);
     }
 }
