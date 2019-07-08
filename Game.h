@@ -52,11 +52,15 @@ private:
     bool isMovingRight;
     bool isShooting;
     bool isUsingSpecial;
+    int score;
     sf::RectangleShape specialHud;
     sf::RectangleShape specialHudOutline;
     sf::RectangleShape hud;
     sf::RectangleShape hpHud;
     sf::RectangleShape hpHudOutline;
+    sf::Text scoreText;
+    sf::Text hpText;
+    sf::Text specialText;
 
     std::unique_ptr<Background> background;
     std::unique_ptr<Player> player;
@@ -101,6 +105,8 @@ private:
     void checkForLaserCollision(float time);
 
     void createHud();
+
+    void drawHud();
 };
 
 #endif //ASPACEGAME_GAME_H
