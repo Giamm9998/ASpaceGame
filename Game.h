@@ -100,7 +100,7 @@ private:
 
     void drawPowerUp();
 
-    float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
+    static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
     void checkForLaserCollision(float time);
 

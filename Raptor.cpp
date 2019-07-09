@@ -14,7 +14,7 @@ Raptor::Raptor() : Player(100.f, 8.f, 150.f, 2.f, 100.f), shieldDuration(5) {
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 600, sf::Vector2f(0, -1),
                                    strength * primaryCannon.getStrengthMultiplier(), false);
     primaryCannon.setProjectilePrototype(projectilePrototype);
-
+    primaryCannon.setElapsedtime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
 
     laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);
 

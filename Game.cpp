@@ -61,7 +61,7 @@ void Game::run() {
 }
 
 void Game::processEvents() {
-    sf::Event event;
+    sf::Event event{};
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
@@ -286,7 +286,7 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
     }
 
     if ((*projectileIter)->isEvil()) {
-        auto &playerType = *player; //todo
+        auto &playerType = *player;
         if (typeid(playerType) == typeid(Raptor))
             if (isUsingSpecial && !player->isCharging()) {
                 auto shield = dynamic_cast<Raptor &>(*player).getShield();
@@ -339,7 +339,7 @@ void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::ite
         return;
     }
 
-    auto &playerType = *player; //todo
+    auto &playerType = *player;
     if (typeid(playerType) == typeid(Raptor))
         if (isUsingSpecial && !player->isCharging()) {
             auto shield = dynamic_cast<Raptor &>(*player).getShield();

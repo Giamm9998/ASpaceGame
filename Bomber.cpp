@@ -11,6 +11,9 @@ Bomber::Bomber() : Player(150.f, 10.f, 120.f, 1.f, 150.f) {
     primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, -1),
                                    strength * primaryCannon.getStrengthMultiplier(), false);
+    primaryCannon.setElapsedtime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
+
+
     primaryCannon.setProjectilePrototype(projectilePrototype);
     laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);
     secondaryCannon.setSpaceshipPtr(this);
