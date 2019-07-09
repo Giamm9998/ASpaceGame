@@ -19,24 +19,15 @@ public:
 
     void useShield(float dt, sf::RectangleShape &specialHud);
 
-    void recharge(float dt, sf::RectangleShape &specialHud);
+    void recharge(float dt, sf::RectangleShape &specialHud) override;
 
-private:
-public:
     float getShieldDuration() const;
 
     void setShieldDuration(float shieldDuration);
 
 private:
     sf::CircleShape shield;
-
-private:
     float shieldDuration;
-public:
-    bool isCharging() const;
-
-private:
-    bool charging;
 
 };
 

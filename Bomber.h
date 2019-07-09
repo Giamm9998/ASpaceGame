@@ -16,7 +16,7 @@ public:
 
     Cannon &getSecondaryCannon();
 
-    void recharge(float dt, sf::RectangleShape &specialHud);
+    void recharge(float dt, sf::RectangleShape &specialHud) override;
 
 
 private:

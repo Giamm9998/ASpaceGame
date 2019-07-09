@@ -35,19 +35,17 @@ public:
 
     void setMovement(const sf::Vector2f &movement);
 
+    void setDamage(float damage);
+
+    bool isEvil() const;
+
 private:
     sf::Vector2f size;
     float speed;
     sf::Sprite sprite;
     sf::Vector2f movement;
     float damage;
-public:
-    void setDamage(float damage);
-
-private:
     bool evil;
-public:
-    bool isEvil() const;
 };
 
 

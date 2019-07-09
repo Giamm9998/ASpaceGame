@@ -9,7 +9,7 @@ void Fighter::move(float time) {
     Enemy::move(time);
 }
 
-Fighter::Fighter() : Enemy(50.f, 10.f, 30.f, 0.6f) {
+Fighter::Fighter() : Enemy(50.f, 10.f, 30.f, 0.6f, 50.f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Fighter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setSpaceshipPtr(this);

@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "Spaceship.h"
 
-Raptor::Raptor() : Player(100.f, 8.f, 150.f, 2.f, 100.f), shieldDuration(5), charging(false) {
+Raptor::Raptor() : Player(100.f, 8.f, 150.f, 2.f, 100.f), shieldDuration(5) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setSpaceshipPtr(this);
@@ -52,10 +52,6 @@ sf::CircleShape &Raptor::getShield() {
 void Raptor::move(float time, short int movement) {
     Player::move(time, movement);
     shield.setPosition(sprite.getPosition());
-}
-
-bool Raptor::isCharging() const {
-    return charging;
 }
 
 void Raptor::recharge(float dt, sf::RectangleShape &specialHud) {

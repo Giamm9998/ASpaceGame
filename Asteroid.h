@@ -24,18 +24,14 @@ public:
 
     sf::Sprite &getSprite();
 
-private:
-
-    float damage = 60.f;
-public:
     float getDamage() const;
 
-private:
-    float size;
-public:
     float getSize() const;
 
 private:
+
+    float damage = 60.f;
+    float size;
     float speed;
     sf::Sprite sprite;
     Animator *animator = new Animator(sprite);

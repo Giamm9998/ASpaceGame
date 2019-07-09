@@ -24,15 +24,12 @@ public:
 
     virtual ~PowerUp();
 
+    Animator *getAnimator();
 protected:
     bool special;
     sf::Sprite sprite;
     short int direction = 1;
     Animator *animator = new Animator(sprite);
-public:
-    Animator *getAnimator();
-
-protected:
     double angle;
 };
 

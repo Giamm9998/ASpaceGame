@@ -13,7 +13,8 @@ void Enemy::move(float time) {
 
 }
 
-Enemy::Enemy(float hp, float strength, float speed, float fireRate) : Spaceship(hp, strength, speed, fireRate) {
+Enemy::Enemy(float hp, float strength, float speed, float fireRate, float maxHp) : Spaceship(hp, strength, speed,
+                                                                                             fireRate, maxHp) {
     sprite.setRotation(180);
 }
 

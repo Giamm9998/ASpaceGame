@@ -249,6 +249,7 @@ void Game::updateEnemies(float time) {
         auto enemy = (*enemyIter).get();
         if ((enemy)->getHp() <= 0) {
             if ((enemy)->die(time)) {
+                score += static_cast<int>(enemy->getMaxHp());
                 enemyManager.erase(enemyIter++);
             } else
                 enemyIter++;

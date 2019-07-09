@@ -13,7 +13,7 @@
 class Enemy: public Spaceship{
 
 public:
-    Enemy(float hp, float strength, float speed, float fireRate);
+    Enemy(float hp, float strength, float speed, float fireRate, float maxHp);
 
     void setPosition(float x, float y);
 
@@ -21,10 +21,10 @@ public:
 
     void move(float time) override;
 
+    void blink(float time) override;
+
 protected:
     short int direction = right;
-public:
-    void blink(float time) override;
 };
 
 
