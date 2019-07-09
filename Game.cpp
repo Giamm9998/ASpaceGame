@@ -44,7 +44,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.emplace_back(new Boss);
 
 
-    player = std::unique_ptr<Player>(new Bomber);
+    player = std::unique_ptr<Player>(new Raptor);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
@@ -334,7 +334,7 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
                 player->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
                 player->receiveDamage((*projectileIter)->getDamage()); //todo handle death in one position
                 projectileManager.erase(projectileIter);
-                hpHud.setScale(1, std::max(0.f, (player->getHp() / player->getMaxHp())));
+                hpHud.setScale(1, std::max(0.f, (player->getHp() / player->getMaxHp()))); //todo for all damage
             }
         } else { //todo bounding box or circle collision if projectile is a circle
             for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
@@ -388,7 +388,7 @@ void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::ite
         }
         if (!iteratorDeleted &&
             player->getBoundingBox().getGlobalBounds().intersects((asteroidSprite.getGlobalBounds()))) {
-            player->receiveDamage(static_cast<int>((*asteroidIter)->getDamage()));
+            player->receiveDamage((*asteroidIter)->getDamage());
             asteroidManager.erase(asteroidIter);
         }
     }
@@ -403,7 +403,6 @@ void Game::checkForLaserCollision(float time) {
     for (auto &enemy : enemyManager) {
         if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
             enemy->receiveDamage(20.f * time);
-            break;
         }
     }
     for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
