@@ -27,7 +27,7 @@
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
-               view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
+               score(0), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
     createHud();
 
     enemyManager.emplace_back(new Fighter);
@@ -183,8 +183,10 @@ void Game::updatePowerUp(float time) {
 }
 
 void Game::updatePlayer(float time) {
-    if (player->isReceivingDamage())
+    if (player->isReceivingDamage()) {
         player->blink(time);
+        hpHud.setScale(1, std::max(0.f, (player->getHp() / player->getMaxHp())));
+    }
 
     if (isMovingRight)
         player->move(time, right);
@@ -208,15 +210,15 @@ void Game::updatePlayer(float time) {
             if (!player->isCharging())
                 dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
         }
-    } else {
-        if (typeid(playerType) == typeid(Bomber)) {
-            if (player->isCharging())
-                dynamic_cast<Bomber &>(*player).recharge(time, specialHud);
-        }
-        if (typeid(playerType) == typeid(Raptor)) {
-            if (player->isCharging())
-                dynamic_cast<Raptor &>(*player).recharge(time, specialHud);
-        }
+    }
+
+    if (typeid(playerType) == typeid(Bomber)) {
+        if (player->isCharging())
+            dynamic_cast<Bomber &>(*player).recharge(time, specialHud);
+    }
+    if (typeid(playerType) == typeid(Raptor)) {
+        if (player->isCharging())
+            dynamic_cast<Raptor &>(*player).recharge(time, specialHud);
     }
 
     if (player->isLaserActive())
@@ -277,46 +279,42 @@ void Game::updateProjectiles(float time) {
 }
 
 void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter) {
-    //todo simplify
     sf::Sprite &projSprite = (*projectileIter)->getSprite();
-    if (isOutOfSigth(projSprite))
+    if (isOutOfSigth(projSprite)) {
         projectileManager.erase(projectileIter);
-    else {
-        bool iteratorDeleted = false;
-        if ((*projectileIter)->isEvil()) {
-            if (typeid(*player) == typeid(Raptor)) {
-                if (isUsingSpecial && !dynamic_cast<Raptor &>(*player).isCharging()) {
-                    auto shield = dynamic_cast<Raptor &>(*player).getShield();
-                    if (dist(projSprite.getPosition(), shield.getPosition()) <=
-                        (shield.getRadius() + projSprite.getGlobalBounds().height / 2)) {
-                        projectileManager.erase(projectileIter);
-                        iteratorDeleted = true;
-                    }
-                }
-            }
-            if (!iteratorDeleted &&
-                player->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
-                player->receiveDamage((*projectileIter)->getDamage()); //todo handle death in one position
-                projectileManager.erase(projectileIter);
-                hpHud.setScale(1, std::max(0.f, (player->getHp() / player->getMaxHp()))); //todo for all damage
-            }
-        } else { //todo bounding box or circle collision if projectile is a circle
-            for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
-                if ((*asteroidIter)->getSprite().getGlobalBounds().intersects(projSprite.getGlobalBounds())) {
-                    asteroidManager.erase(asteroidIter);
+        return;
+    }
+
+    if ((*projectileIter)->isEvil()) {
+        auto &playerType = *player; //todo
+        if (typeid(playerType) == typeid(Raptor))
+            if (isUsingSpecial && !player->isCharging()) {
+                auto shield = dynamic_cast<Raptor &>(*player).getShield();
+                if (dist(projSprite.getPosition(), shield.getPosition()) <=
+                    (shield.getRadius() + projSprite.getGlobalBounds().height / 2)) {
                     projectileManager.erase(projectileIter);
-                    iteratorDeleted = true;
-                    break;
+                    return;
                 }
             }
-            if (!iteratorDeleted) {
-                for (auto &enemy : enemyManager) {
-                    if (enemy->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
-                        enemy->receiveDamage((*projectileIter)->getDamage());
-                        projectileManager.erase(projectileIter);
-                        break;
-                    }
-                }
+
+        if (player->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
+            player->receiveDamage((*projectileIter)->getDamage()); //todo handle death in one position
+            projectileManager.erase(projectileIter);
+            return;
+        }
+    } else { //todo bounding box, or circle collision if projectile is a circle
+        for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
+            if ((*asteroidIter)->getSprite().getGlobalBounds().intersects(projSprite.getGlobalBounds())) {
+                asteroidManager.erase(asteroidIter);
+                projectileManager.erase(projectileIter);
+                return;
+            }
+        }
+        for (auto &enemy : enemyManager) {
+            if (enemy->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
+                enemy->receiveDamage((*projectileIter)->getDamage());
+                projectileManager.erase(projectileIter);
+                return;
             }
         }
     }
@@ -335,29 +333,30 @@ void Game::emplaceProjectile(std::unique_ptr<Projectile> projectile) {
 }
 
 void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter) {
-    sf::Sprite &asteroidSprite = (*asteroidIter)->getSprite(); //todo simplify
-    if (isOutOfSigth(asteroidSprite))
+    sf::Sprite &asteroidSprite = (*asteroidIter)->getSprite();
+    if (isOutOfSigth(asteroidSprite)) {
         asteroidManager.erase(asteroidIter);
-    else {
-        bool iteratorDeleted = false;
-        if (typeid(*player) == typeid(Raptor)) {
-            if (isUsingSpecial && !dynamic_cast<Raptor &>(*player).isCharging()) {
-                auto shield = dynamic_cast<Raptor &>(*player).getShield();
-                if (dist(asteroidSprite.getPosition(), shield.getPosition()) <=
-                    (shield.getRadius() + localRadiusPixels * (*asteroidIter)->getSize())) {
-                    asteroidManager.erase(asteroidIter);
-                    iteratorDeleted = true;
-                }
-            }
-        }
-        if (!iteratorDeleted &&
-            player->getBoundingBox().getGlobalBounds().intersects((asteroidSprite.getGlobalBounds()))) {
-            player->receiveDamage((*asteroidIter)->getDamage());
-            asteroidManager.erase(asteroidIter);
-        }
+        return;
     }
 
+    auto &playerType = *player; //todo
+    if (typeid(playerType) == typeid(Raptor))
+        if (isUsingSpecial && !player->isCharging()) {
+            auto shield = dynamic_cast<Raptor &>(*player).getShield();
+            if (dist(asteroidSprite.getPosition(), shield.getPosition()) <=
+                (shield.getRadius() + localRadiusPixels * (*asteroidIter)->getSize())) {
+                asteroidManager.erase(asteroidIter);
+                return;
+            }
+        }
+
+    if (player->getBoundingBox().getGlobalBounds().intersects((asteroidSprite.getGlobalBounds()))) {
+        player->receiveDamage((*asteroidIter)->getDamage());
+        asteroidManager.erase(asteroidIter);
+        return;
+    }
 }
+
 
 float Game::dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB) {
     return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2));
@@ -369,9 +368,10 @@ void Game::checkForLaserCollision(float time) {
             enemy->receiveDamage(20.f * time);
         }
     }
+
     for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
         if ((*asteroidIter)->getSprite().getGlobalBounds().intersects(player->getLaser().getGlobalBounds())) {
-            asteroidManager.erase(asteroidIter);
+            asteroidManager.erase(asteroidIter); //damage to asteroids
             break;
         }
     }
@@ -382,40 +382,36 @@ void Game::createHud() {
     specialHud.setPosition(400, windowHeight - 5);
     specialHud.rotate(-90.f);
     specialHud.setFillColor(sf::Color::Red);
-    specialHudOutline.setSize(sf::Vector2f(10, 100));
-    specialHudOutline.setPosition(400, windowHeight - 5);
-    specialHudOutline.rotate(-90.f);
+    specialHudOutline = specialHud;
     specialHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
     specialHudOutline.setOutlineThickness(2);
     specialHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
+
     hud.setSize(sf::Vector2f(windowWidth, 20));
     hud.setFillColor(sf::Color::Black);
     hud.setPosition(0, windowHeight - hud.getSize().y);
     hud.setOutlineThickness(2);
     hud.setOutlineColor(sf::Color(173, 161, 161, 255));
+
     hpHud.setSize(sf::Vector2f(10, 100));
     hpHud.setPosition(100, windowHeight - 5);
     hpHud.rotate(-90.f);
     hpHud.setFillColor(sf::Color::Red);
-    hpHudOutline.setSize(sf::Vector2f(10, 100));
-    hpHudOutline.setPosition(100, windowHeight - 5);
-    hpHudOutline.rotate(-90.f);
+    hpHudOutline = hpHud;
     hpHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
     hpHudOutline.setOutlineThickness(2);
     hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
-    score = 0;
+
     sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../font/venus rising rg.ttf"));
+    text.setScale(0.7, 0.7);
     scoreText = text;
-    scoreText.setScale(0.7, 0.7);
     scoreText.setPosition(600, windowHeight - 25);
     text.setString("HP");
     hpText = text;
-    hpText.setScale(0.7, 0.7);
     hpText.setPosition(50, windowHeight - 25);
     text.setString("Special");
     specialText = text;
     specialText.setPosition(260, windowHeight - 25);
-    specialText.setScale(0.7, 0.7);
 }
 
 void Game::drawHud() {
