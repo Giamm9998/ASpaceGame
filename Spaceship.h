@@ -56,6 +56,7 @@ public:
 
     void setReceivingDamage(bool receivingDamage);
 
+
 protected:
     float hp;
     float strength;

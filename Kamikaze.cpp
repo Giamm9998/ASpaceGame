@@ -13,11 +13,11 @@ void Kamikaze::attract() {}
 
 void Kamikaze::explode() {}
 
-Kamikaze::Kamikaze() : Enemy(50.f, 30.f, 30.f, 0.8f, 50.f) {
+Kamikaze::Kamikaze() : Enemy(60.f, 30.f, 70.f, 0.8f, 60.f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, 1),
+    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 200, sf::Vector2f(0, 1),
                                    strength * primaryCannon.getStrengthMultiplier());
     primaryCannon.setProjectilePrototype(projectilePrototype);
     //TODO establish the right default values

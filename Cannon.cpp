@@ -72,3 +72,11 @@ void Cannon::setRelativePosition(const sf::Vector2f &relativePosition) {
 float Cannon::getStrengthMultiplier() const {
     return strengthMultiplier;
 }
+
+void Cannon::setFireRateMultiplier1(float fireRateMultiplier) {
+    Cannon::fireRateMultiplier = fireRateMultiplier;
+}
+
+void Cannon::setStrengthMultiplier(float strengthMultiplier) {
+    Cannon::strengthMultiplier = strengthMultiplier;
+}
