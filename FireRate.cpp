@@ -10,5 +10,5 @@
 FireRate::FireRate() : PowerUp(false) {}
 
 void FireRate::powerUp(Player *player) {
-    player->setFireRate(player->getFireRate() * 10);
+    player->setFireRate(player->getFireRate() * 10); //TODO when the value is changed, also the test must be changed
 }

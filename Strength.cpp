@@ -11,6 +11,6 @@
 Strength::Strength() : PowerUp(false) {}
 
 void Strength::powerUp(Player *player) {
-    player->setStrength(player->getStrength() * 100); //todo right value
+    player->setStrength(player->getStrength() * 100); //todo right value (here and in the test)
 }
 
