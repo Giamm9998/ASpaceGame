@@ -19,8 +19,6 @@ Player::Player(float hp, float strength, float speed, float fireRate, float maxH
     laser.setOrigin(laser.getGlobalBounds().width, laser.getGlobalBounds().height / 2);
     laser.rotate(90.f);
     laser.setFillColor(sf::Color::Red);
-
-
 }
 
 void Player::move(float time, short int direction) {

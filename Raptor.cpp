@@ -14,7 +14,7 @@ Raptor::Raptor() : Player(140.f, 10.f, 160.f, 1.8f, 140.f), shieldDuration(5) {
     Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, -1),
                                    strength * primaryCannon.getStrengthMultiplier(), false);
     primaryCannon.setProjectilePrototype(projectilePrototype);
-
+    primaryCannon.setElapsedtime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
 
     laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);
 
@@ -53,6 +53,7 @@ void Raptor::move(float time, short int movement) {
     Player::move(time, movement);
     shield.setPosition(sprite.getPosition());
 }
+
 
 void Raptor::recharge(float dt, sf::RectangleShape &specialHud) {
     elapsedTime += dt;

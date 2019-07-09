@@ -21,9 +21,9 @@ public:
 
     void setFireRateMultiplier(double multiplier);
 
-    void setProjectilePrototype(const Projectile &projectilePrototype);
+    void setProjectilePrototype(const Projectile &prototype);
 
-    void setTracker(bool tracker);
+    void setTracker(bool track);
 
     Spaceship *getSpaceshipPtr() const;
 

@@ -52,7 +52,7 @@ private:
     bool isMovingRight;
     bool isShooting;
     bool isUsingSpecial;
-    int score;
+    int score{};
     sf::RectangleShape specialHud;
     sf::RectangleShape specialHudOutline;
     sf::RectangleShape hud;
@@ -92,7 +92,7 @@ private:
 
     void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter);
 
-    void emplaceProj(std::unique_ptr<Projectile> uniquePtr);
+    void emplaceProjectile(std::unique_ptr<Projectile> projectile);
 
     bool isOutOfSigth(const sf::Sprite &sprite) const;
 
@@ -100,7 +100,7 @@ private:
 
     void drawPowerUp();
 
-    float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
+    static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
     void checkForLaserCollision(float time);
 

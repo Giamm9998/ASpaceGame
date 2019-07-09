@@ -16,12 +16,12 @@ void Cannon::setFireRateMultiplier(double multiplier) {
     Cannon::fireRateMultiplier = multiplier;
 }
 
-void Cannon::setProjectilePrototype(const Projectile &projectilePrototype) {
-    Cannon::projectilePrototype = projectilePrototype;
+void Cannon::setProjectilePrototype(const Projectile &prototype) {
+    Cannon::projectilePrototype = prototype;
 }
 
-void Cannon::setTracker(bool tracker) {
-    Cannon::tracker = tracker;
+void Cannon::setTracker(bool track) {
+    Cannon::tracker = track;
 }
 
 std::unique_ptr<Projectile> Cannon::shoot(sf::Vector2f position, float dt) {
