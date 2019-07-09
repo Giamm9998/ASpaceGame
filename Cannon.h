@@ -43,6 +43,10 @@ public:
 
     void setLocalRelativePosition(const sf::Vector2f &position);
 
+    void setFireRateMultiplier1(float fireRateMultiplier);
+
+    void setStrengthMultiplier(float strengthMultiplier);
+
 private:
     Spaceship *spaceshipPtr;//TODO make this a smartpointer
     float fireRateMultiplier = 1;

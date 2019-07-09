@@ -4,7 +4,7 @@
 #include "Bomber.h"
 #include "ResourceManager.h"
 
-Bomber::Bomber() : Player(150.f, 10.f, 120.f, 1.f, 150.f) {
+Bomber::Bomber() : Player(200.f, 15.f, 120.f, 1.2f, 200.f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setTracker(false);
@@ -18,6 +18,7 @@ Bomber::Bomber() : Player(150.f, 10.f, 120.f, 1.f, 150.f) {
     laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);
     secondaryCannon.setSpaceshipPtr(this);
     secondaryCannon.setFireRateMultiplier(0.5);
+    secondaryCannon.setStrengthMultiplier(3);
     Projectile secondaryProjectilePrototype(sf::Vector2f(0.9, 0.9), 200, sf::Vector2f(0, -1),
                                             strength * secondaryCannon.getStrengthMultiplier(), false);
     secondaryCannon.setProjectilePrototype(secondaryProjectilePrototype);
