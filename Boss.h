@@ -6,6 +6,8 @@
 #define ASPACEGAME_BOSS_H
 
 
+#define BOSS_SPAWN_DURATION 5
+
 #include "Enemy.h"
 
 class Boss: public Enemy {

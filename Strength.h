@@ -12,7 +12,7 @@ class Strength : public PowerUp {
 public:
     Strength();
 
-    void powerUp(Player *player) override;
+    void powerUp(Player &player) override;
 };
 
 

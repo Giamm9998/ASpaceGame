@@ -27,7 +27,8 @@ TEST(BomberTest, Constructor) {
     ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getDamage(),
               bomber.getStrength() * bomber.getPrimaryCannon().getStrengthMultiplier());
     ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().isEvil(), false);
-    ASSERT_EQ(bomber.getPrimaryCannon().getElapsedtime(), 0);
+    ASSERT_FLOAT_EQ(bomber.getPrimaryCannon().getElapsedtime(),
+                    (1.f / (bomber.getFireRate() * bomber.getPrimaryCannon().getFireRateMultiplier())));
     ASSERT_EQ(bomber.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(bomber.getSecondaryCannon().isTracker(), false);
     ASSERT_EQ(bomber.getSecondaryCannon().getSpaceshipPtr(), &bomber);
@@ -59,7 +60,8 @@ TEST(RaptorTest, Constructor) {
     ASSERT_EQ(raptor.getPrimaryCannon().getSpaceshipPtr(), &raptor);
     ASSERT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(raptor.getPrimaryCannon().getStrengthMultiplier(), 1);
-    ASSERT_EQ(raptor.getPrimaryCannon().getElapsedtime(), 0);
+    ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getElapsedtime(),
+                    (1.f / (raptor.getFireRate() * raptor.getPrimaryCannon().getFireRateMultiplier())));
     ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().isEvil(), false);
     ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getSpeed(), 400);
     ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));

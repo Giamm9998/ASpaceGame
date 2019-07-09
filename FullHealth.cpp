@@ -5,10 +5,8 @@
 #include "FullHealth.h"
 #include "ResourceManager.h"
 
-FullHealth::FullHealth() : PowerUp(false) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/FullHealthTexture")); //TODO add full health texture
-}
+FullHealth::FullHealth() : PowerUp(false) {}
 
-void FullHealth::powerUp(Player *player) {
-    player->setHp(player->getMaxHp());
+void FullHealth::powerUp(Player &player) {
+    player.setHp(player.getMaxHp());
 }

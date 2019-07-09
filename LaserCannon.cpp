@@ -9,6 +9,6 @@
 
 LaserCannon::LaserCannon() : PowerUp(true) {}
 
-void LaserCannon::powerUp(Player *player) {
-    player->setLaserActive(true);
+void LaserCannon::powerUp(Player &player) {
+    player.setLaserActive(true);
 }

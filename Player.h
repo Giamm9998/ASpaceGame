@@ -5,11 +5,13 @@
 #ifndef ASPACEGAME_PLAYER_H
 #define ASPACEGAME_PLAYER_H
 
+static const int PlayerSpawnHeight = 80;
+
 #include "Spaceship.h"
 
 class Player :public Spaceship{
 public:
-    Player(float hp, float strength, float speed, float fireRate, float maxHp);
+    Player(float hp, float strength, float speed, float fireRate);
 
     void move(float time) override {};
 
@@ -25,7 +27,7 @@ public:
 
     bool isLaserActive() const;
 
-    void setLaserActive(bool laserActive);
+    void setLaserActive(bool active);
 
     sf::RectangleShape &getLaser();
 

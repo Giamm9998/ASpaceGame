@@ -36,7 +36,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Raptor);
+    player = std::unique_ptr<Player>(new Bomber);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
@@ -172,7 +172,7 @@ void Game::updatePowerUp(float time) {
         if (isOutOfSigth(powerUp->getSprite())) {
             powerUp.reset(new FireRate);
         } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
-            powerUp->powerUp(player.get());
+            powerUp->powerUp(*player);
             powerUp.reset(new AuxiliaryCannon);
         }
     }
@@ -200,7 +200,7 @@ void Game::updatePlayer(float time) {
     if (isUsingSpecial) {
         if (typeid(playerType) == typeid(Bomber)) {
             if (!player->isCharging())
-                emplaceProjectile(dynamic_cast<Bomber &>(*player).useBomb(time, specialHud));
+                emplaceProjectile(dynamic_cast<Bomber &>(*player).useBomb(specialHud));
         }
         if (typeid(playerType) == typeid(Raptor)) {
             if (!player->isCharging())
@@ -413,7 +413,7 @@ bool Game::isOutOfSigth(const sf::Sprite &sprite) const {
            sprite.getPosition().x - sprite.getOrigin().x > windowWidth;
 }
 
-bool Game::isLegalMove(float x, float origin, short int direction) {
+bool Game::isLegalMove(float x, float origin, short int direction) { // &sprite instead pf x and origin
     return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
 }
 

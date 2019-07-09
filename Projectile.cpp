@@ -9,11 +9,14 @@ void Projectile::move(float time) {
     sprite.move(movement.x * speed * time, movement.y * speed * time);
 }
 
-Projectile::Projectile(sf::Vector2f size, float speed, sf::Vector2f movement, float damage, bool evil) : size(
-        size), speed(speed), movement(movement), damage(damage), evil(evil) {
+Projectile::Projectile() = default;
+
+Projectile::Projectile(float speed, float damage, bool evil, sf::Vector2f size) : size(
+        size), speed(speed), damage(damage), evil(evil) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BasicProjectile.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setScale(size);
+    movement = sf::Vector2f(0, evil ? 1 : -1);
 }
 
 const sf::Vector2f &Projectile::getSize() const {
@@ -36,24 +39,21 @@ sf::Sprite &Projectile::getSprite() {
     return sprite;
 }
 
-void Projectile::setSize(const sf::Vector2f &size) {
-    Projectile::size = size;
+void Projectile::setSize(const sf::Vector2f &newSize) {
+    Projectile::size = newSize;
 }
 
-void Projectile::setMovement(const sf::Vector2f &movement) {
-    Projectile::movement = movement;
+void Projectile::setMovement(const sf::Vector2f &newMovement) {
+    Projectile::movement = newMovement;
 }
 
-Projectile::Projectile(const Projectile &original) :
-        size(original.size), speed(original.speed), movement(original.movement),
-        damage(original.damage), sprite(original.sprite), evil(original.evil) {}
+Projectile::Projectile(const Projectile &original) = default;
 
 bool Projectile::isEvil() const {
     return evil;
 }
 
-void Projectile::setDamage(float damage) {
-    Projectile::damage = damage;
+void Projectile::setDamage(float newDamage) {
+    Projectile::damage = newDamage;
 }
 
-Projectile::Projectile() = default;

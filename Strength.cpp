@@ -10,7 +10,7 @@
 
 Strength::Strength() : PowerUp(false) {}
 
-void Strength::powerUp(Player *player) {
-    player->setStrength(player->getStrength() * 100); //todo right value
+void Strength::powerUp(Player &player) {
+    player.setStrength(player.getStrength() * 100); //todo right value
 }
 

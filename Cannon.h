@@ -17,7 +17,7 @@ public:
 
     std::unique_ptr<Projectile> shoot(sf::Vector2f position, float dt);
 
-    void setSpaceshipPtr(Spaceship *spaceshipPtr);
+    void setSpaceshipPtr(Spaceship *ptr);
 
     void setFireRateMultiplier(double multiplier);
 
@@ -43,9 +43,7 @@ public:
 
     void setLocalRelativePosition(const sf::Vector2f &position);
 
-    void setFireRateMultiplier1(float fireRateMultiplier);
-
-    void setStrengthMultiplier(float strengthMultiplier);
+    void setStrengthMultiplier(float multiplier);
 
 private:
     Spaceship *spaceshipPtr;//TODO make this a smartpointer

@@ -12,7 +12,7 @@ class FireRate : public PowerUp {
 public:
     FireRate();
 
-    void powerUp(Player *player) override;
+    void powerUp(Player &player) override;
 };
 
 

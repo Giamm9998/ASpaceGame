@@ -5,7 +5,8 @@
 #ifndef ASPACEGAME_SPACESHIP_H
 #define ASPACEGAME_SPACESHIP_H
 
-#define SECONDS_FOR_DYING 3
+#define DYING_DURATION 3
+#define PLAYER_BLINK_DURATION 0.3
 static const float maxScale = 0.35f;
 
 #include <SFML/Graphics.hpp>
@@ -14,7 +15,7 @@ static const float maxScale = 0.35f;
 
 class Spaceship {
 public:
-    Spaceship(float hp, float strength, float speed, float fireRate, float maxHp);
+    Spaceship(float hp, float strength, float speed, float fireRate);
 
     virtual ~Spaceship();
 
@@ -26,15 +27,15 @@ public:
 
     float getHp() const;
 
-    void setHp(float hp);
+    void setHp(float newHp);
 
     float getStrength() const;
 
-    virtual void setStrength(float strength);
+    virtual void setStrength(float newStrength);
 
     float getSpeed() const;
 
-    void setSpeed(float speed);
+    void setSpeed(float newSpeed);
 
     sf::Sprite &getSprite();
 
@@ -50,11 +51,11 @@ public:
 
     float getFireRate() const;
 
-    void setFireRate(float fireRate);
+    void setFireRate(float rate);
 
     bool isReceivingDamage() const;
 
-    void setReceivingDamage(bool receivingDamage);
+    void setReceivingDamage(bool receiveDamage);
 
 
 protected:

@@ -11,6 +11,8 @@
 #include "Animator.h"
 
 static const int powerUpSpeed = 200;
+static const double powerUpMinAngle = 0.4;
+static const double powerUpMaxAngle = 0.8;
 
 class PowerUp {
 public:
@@ -18,13 +20,14 @@ public:
 
     void move(float dt);
 
-    virtual void powerUp(Player *player) = 0;
+    virtual void powerUp(Player &player) = 0;
 
-    sf::Sprite getSprite();
+    sf::Sprite &getSprite();
+
+    Animator *getAnimator();
 
     virtual ~PowerUp();
 
-    Animator *getAnimator();
 protected:
     bool special;
     sf::Sprite sprite;

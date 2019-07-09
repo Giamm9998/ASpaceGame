@@ -9,13 +9,11 @@
 #include "Spaceship.h"
 
 
-Player::Player(float hp, float strength, float speed, float fireRate, float maxHp) : Spaceship(hp, strength, speed,
-                                                                                               fireRate, maxHp),
-                                                                                     charging(false),
-                                                                                     laserActive(false) {
-    sprite.setPosition(static_cast<float>(windowWidth) / 2,
-                       windowHeight - 80); //todo set position not based on constants
-    laser.setSize(sf::Vector2f(windowHeight - 100, 10));
+Player::Player(float hp, float strength, float speed, float fireRate) :
+        Spaceship(hp, strength, speed, fireRate), charging(false), laserActive(false) {
+    sprite.setPosition(static_cast<float>(windowWidth) / 2, windowHeight - PlayerSpawnHeight);
+
+    laser.setSize(sf::Vector2f(sprite.getPosition().y, 10));
     laser.setOrigin(laser.getGlobalBounds().width, laser.getGlobalBounds().height / 2);
     laser.rotate(90.f);
     laser.setFillColor(sf::Color::Red);
@@ -47,8 +45,8 @@ bool Player::isLaserActive() const {
     return laserActive;
 }
 
-void Player::setLaserActive(bool laserActive) {
-    Player::laserActive = laserActive;
+void Player::setLaserActive(bool active) {
+    Player::laserActive = active;
 }
 
 sf::RectangleShape &Player::getLaser() {

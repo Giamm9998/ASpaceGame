@@ -8,19 +8,17 @@
 
 void Boss::move(float time) {
     elapsedTime += time;
-    if (elapsedTime < 5) {
-        sprite.move(0, (finalPosition - startPosition) / 5 * time);
-        //Enemy::move(0);
+    if (elapsedTime < BOSS_SPAWN_DURATION) {
+        sprite.move(0, (finalPosition - startPosition) / BOSS_SPAWN_DURATION * time);
     } else
         Enemy::move(time);
-    //sprite.rotate(speed*time);
 }
 
 void Boss::chooseAttack() {
 
 }
 
-Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f, 1000.f) {
+Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Boss.png"));
     sprite.setScale(0.5, 0.4);
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);

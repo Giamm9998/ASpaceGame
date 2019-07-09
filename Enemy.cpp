@@ -13,9 +13,8 @@ void Enemy::move(float time) {
 
 }
 
-Enemy::Enemy(float hp, float strength, float speed, float fireRate, float maxHp) : Spaceship(hp, strength, speed,
-                                                                                             fireRate, maxHp) {
-    sprite.setRotation(180);
+Enemy::Enemy(float hp, float strength, float speed, float fireRate) : Spaceship(hp, strength, speed, fireRate) {
+    sprite.setRotation(180.f);
 }
 
 void Enemy::setPosition(float x, float y) {
@@ -28,9 +27,9 @@ void Enemy::setPosition(sf::Vector2f pos) {
 
 void Enemy::blink(float time) {
     blinkingTime += time;
-    if (blinkingTime <= 0.15)
+    if (blinkingTime <= ENEMY_BLINK_DURATION)
         sprite.setColor(sf::Color(230, 130, 130));
-    if (blinkingTime > 0.15) {
+    if (blinkingTime > ENEMY_BLINK_DURATION) {
         blinkingTime = 0;
         setReceivingDamage(false);
         sprite.setColor(sf::Color::White);

@@ -5,9 +5,15 @@
 #ifndef ASPACEGAME_ASTEROID_H
 #define ASPACEGAME_ASTEROID_H
 
-#define APPEARANCE_TIME 7.f
-#define FREEZE_TIME 4
+#define ASTEROID_APPEARANCE_DURATION 7.f
+#define ASTEROID_FREEZE_DURATION 4
+
 static const int localRadius = 50;
+static const float asteroidMinSpeed = 90.f;
+static const float asteroidMaxSpeed = 120.f;
+static const float asteroidMinSize = 0.3;
+static const float asteroidMaxSize = 0.6;
+static const int asteroidMaxSpawnHeight = 50;
 
 #include <SFML/Graphics.hpp>
 #include "Animator.h"

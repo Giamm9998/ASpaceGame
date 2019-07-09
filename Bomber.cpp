@@ -1,26 +1,25 @@
 //
 // Created by gianmarco on 30/06/19.
 //
+#include <math.h>
 #include "Bomber.h"
 #include "ResourceManager.h"
 
-Bomber::Bomber() : Player(200.f, 15.f, 120.f, 1.2f, 200.f) {
+Bomber::Bomber() : Player(200.f, 15.f, 120.f, 1.2f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    primaryCannon.setTracker(false);
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 400, sf::Vector2f(0, -1),
-                                   strength * primaryCannon.getStrengthMultiplier(), false);
+    Projectile projectilePrototype(400, strength * primaryCannon.getStrengthMultiplier(), false);
     primaryCannon.setElapsedtime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
-
-
     primaryCannon.setProjectilePrototype(projectilePrototype);
+
     laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);
+
     secondaryCannon.setSpaceshipPtr(this);
     secondaryCannon.setFireRateMultiplier(0.5);
     secondaryCannon.setStrengthMultiplier(3);
-    Projectile secondaryProjectilePrototype(sf::Vector2f(0.9, 0.9), 200, sf::Vector2f(0, -1),
-                                            strength * secondaryCannon.getStrengthMultiplier(), false);
+    Projectile secondaryProjectilePrototype(200, strength * secondaryCannon.getStrengthMultiplier(),
+                                            false, sf::Vector2f(0.9, 0.9));
     secondaryCannon.setProjectilePrototype(secondaryProjectilePrototype);
 
     boundingBox.setSize(sf::Vector2f(1.2 * sprite.getOrigin().x,
@@ -36,20 +35,17 @@ Cannon &Bomber::getSecondaryCannon() {
     return secondaryCannon;
 }
 
-std::unique_ptr<Projectile> Bomber::useBomb(float dt, sf::RectangleShape &specialHud) {
-    elapsedTime += dt;
-    std::unique_ptr<Projectile> shot = useCannon(dt, &secondaryCannon);
-    if (shot != nullptr) {
-        charging = true;
-        elapsedTime = 0;
-    } else specialHud.setScale(1, 1 - elapsedTime / (1.f / (fireRate * secondaryCannon.getFireRateMultiplier())));
-
-    return shot;
+std::unique_ptr<Projectile> Bomber::useBomb(sf::RectangleShape &specialHud) {
+    float dt = 1.f / (fireRate * secondaryCannon.getFireRateMultiplier());
+    charging = true;
+    elapsedTime = 0;
+    specialHud.setScale(1, 0);
+    return useCannon(dt, &secondaryCannon);
 }
 
 void Bomber::recharge(float dt, sf::RectangleShape &specialHud) {
     elapsedTime += dt;
-    specialHud.setScale(1, elapsedTime / (1.f / (fireRate * secondaryCannon.getFireRateMultiplier())));
+    specialHud.setScale(1, std::min(1., elapsedTime * fireRate * secondaryCannon.getFireRateMultiplier()));
     if (elapsedTime > 1.f / (fireRate * secondaryCannon.getFireRateMultiplier())) {
         elapsedTime = 0;
         charging = false;

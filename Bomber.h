@@ -12,7 +12,7 @@ class Bomber: public Player {
 public:
     Bomber();
 
-    std::unique_ptr<Projectile> useBomb(float dt, sf::RectangleShape &specialHud);
+    std::unique_ptr<Projectile> useBomb(sf::RectangleShape &specialHud);
 
     Cannon &getSecondaryCannon();
 

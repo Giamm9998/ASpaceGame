@@ -6,13 +6,14 @@
 #include "ResourceManager.h"
 #include "Randomizer.h"
 
-Minion::Minion() : Enemy(30.f, 10.f, 100.f, 0.4f, 30.f) { //todo adjust values
+Minion::Minion() : Enemy(30.f, 10.f, 100.f, 0.4f) { //todo adjust values
     sprite.setTexture(ResourceManager::getTexture("../Texture/Minion.png"));
-    sprite.setPosition(Randomizer::getRandomPosition(100, windowWidth - 100, 150, 150));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
+                                                     windowWidth - sprite.getOrigin().x * maxScale,
+                                                     minionSpawnHeight, minionSpawnHeight));
     primaryCannon.setSpaceshipPtr(this);
-    Projectile projectilePrototype(sf::Vector2f(0.5, 0.5), 200, sf::Vector2f(0, 1),
-                                   strength * primaryCannon.getStrengthMultiplier());
+    Projectile projectilePrototype(200, strength * primaryCannon.getStrengthMultiplier());
     primaryCannon.setProjectilePrototype(projectilePrototype);
 
     boundingBox.setSize(sf::Vector2f(1.5 * sprite.getOrigin().x,
@@ -24,9 +25,8 @@ Minion::Minion() : Enemy(30.f, 10.f, 100.f, 0.4f, 30.f) { //todo adjust values
 
 void Minion::move(float time) {
     elapsedTime += time;
-    if (elapsedTime < 1) {
+    if (elapsedTime <= MINION_FREEZE_DURATION) {
         Enemy::move(time);
-    }
-    else if (elapsedTime > 2)
+    } else if (elapsedTime > 2 * MINION_FREEZE_DURATION)
         elapsedTime = 0;
 }

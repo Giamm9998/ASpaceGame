@@ -6,6 +6,8 @@
 #define ASPACEGAME_ENEMY_H
 
 
+#define ENEMY_BLINK_DURATION 0.15
+
 #include "Spaceship.h"
 #include <list>
 #include "Game.h"
@@ -13,7 +15,7 @@
 class Enemy: public Spaceship{
 
 public:
-    Enemy(float hp, float strength, float speed, float fireRate, float maxHp);
+    Enemy(float hp, float strength, float speed, float fireRate);
 
     void setPosition(float x, float y);
 

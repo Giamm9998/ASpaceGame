@@ -9,6 +9,6 @@
 
 FireRate::FireRate() : PowerUp(false) {}
 
-void FireRate::powerUp(Player *player) {
-    player->setFireRate(player->getFireRate() * 10);
+void FireRate::powerUp(Player &player) {
+    player.setFireRate(player.getFireRate() * 10);
 }

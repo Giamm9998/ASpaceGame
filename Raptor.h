@@ -23,7 +23,7 @@ public:
 
     float getShieldDuration() const;
 
-    void setShieldDuration(float shieldDuration);
+    void setShieldDuration(float duration);
 
 private:
     sf::CircleShape shield;

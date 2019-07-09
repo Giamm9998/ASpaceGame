@@ -7,6 +7,6 @@
 
 Speed::Speed() : PowerUp(false) {}
 
-void Speed::powerUp(Player *player) {
-    player->setSpeed(player->getSpeed() * 1.2);
+void Speed::powerUp(Player &player) {
+    player.setSpeed(player.getSpeed() * 1.2);
 }
