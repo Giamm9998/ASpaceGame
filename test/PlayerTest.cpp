@@ -68,3 +68,38 @@ TEST(RaptorTest, Constructor) {
               raptor.getStrength() * raptor.getPrimaryCannon().getStrengthMultiplier());
     ASSERT_EQ(raptor.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
 }
+
+TEST(RaptorTest, shield) {
+    float time = 4;
+    Raptor raptor;
+    sf::RectangleShape r;
+    r.setScale(sf::Vector2f(1, 1));
+    raptor.useShield(time, r);
+    ASSERT_EQ(raptor.isCharging(), false);
+    raptor.useShield(time, r);
+    ASSERT_EQ(raptor.isCharging(), true);
+    ASSERT_EQ(raptor.getShield().getScale(), sf::Vector2f(0, 0));
+    raptor.recharge(rechargeTime / 1.5, r);
+    ASSERT_EQ(raptor.isCharging(), true);
+    ASSERT_EQ(raptor.getShield().getScale(), sf::Vector2f(0, 0));
+    raptor.recharge(rechargeTime / 1.5, r);
+    ASSERT_EQ(raptor.isCharging(), false);
+    ASSERT_EQ(raptor.getShield().getScale(), sf::Vector2f(1, 1));
+}
+
+TEST(BomberTest, bomb) {
+    Bomber bomber;
+    sf::RectangleShape r;
+    std::unique_ptr<Projectile> s = bomber.useBomb(1.f / (bomber.getSecondaryCannon().getSpaceshipPtr()->getFireRate() *
+                                                          bomber.getSecondaryCannon().getFireRateMultiplier()) - 1, r);
+    ASSERT_EQ(s, nullptr);
+    s = bomber.useBomb(2, r);
+    ASSERT_FALSE(s == nullptr);
+    ASSERT_EQ(bomber.isCharging(), true);
+    bomber.recharge(1.f / (bomber.getSecondaryCannon().getSpaceshipPtr()->getFireRate() *
+                           bomber.getSecondaryCannon().getFireRateMultiplier()) - 1, r);
+    ASSERT_EQ(bomber.isCharging(), true);
+    bomber.recharge(2, r);
+    ASSERT_EQ(bomber.isCharging(), false);
+
+}

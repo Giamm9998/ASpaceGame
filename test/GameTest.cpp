@@ -6,7 +6,8 @@
 #include "../Raptor.h"
 
 
-TEST(GameTest, Constructor) {
+/*
+TEST(Game, Constructor) {
     Game game;
     ASSERT_EQ(game.isUsingSpecial, false);
     ASSERT_EQ(game.isShooting, false);
@@ -21,6 +22,6 @@ TEST(GameTest, Constructor) {
     ASSERT_EQ(game.window.getSize().y, windowHeight);
 }
 
-TEST(GameTest, Functions) {
-    
-}
+TEST(Game, Functions) {
+
+}*/
