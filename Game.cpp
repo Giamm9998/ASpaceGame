@@ -109,6 +109,7 @@ void Game::update(sf::Time dt) {
     updatePowerUp(time);
     if (player->isLaserActive())
         checkForLaserCollision(time);
+    scoreText.setString("Score: " + std::to_string(score));
 
     background->scroll(time);
     //View updating
@@ -127,11 +128,7 @@ void Game::render() {
     drawPlayer();
     drawProjectiles();
     drawPowerUp();
-    window.draw(hud);
-    window.draw(specialHud);
-    window.draw(specialHudOutline);
-    window.draw(hpHud);
-    window.draw(hpHudOutline);
+    drawHud();
 
 
     window.display();
@@ -430,14 +427,37 @@ void Game::createHud() {
     hud.setOutlineThickness(2);
     hud.setOutlineColor(sf::Color(173, 161, 161, 255));
     hpHud.setSize(sf::Vector2f(10, 100));
-    hpHud.setPosition(200, windowHeight - 5);
+    hpHud.setPosition(100, windowHeight - 5);
     hpHud.rotate(-90.f);
     hpHud.setFillColor(sf::Color::Red);
     hpHudOutline.setSize(sf::Vector2f(10, 100));
-    hpHudOutline.setPosition(200, windowHeight - 5);
+    hpHudOutline.setPosition(100, windowHeight - 5);
     hpHudOutline.rotate(-90.f);
     hpHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
     hpHudOutline.setOutlineThickness(2);
     hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
+    score = 0;
+    sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../font/venus rising rg.ttf"));
+    scoreText = text;
+    scoreText.setScale(0.7, 0.7);
+    scoreText.setPosition(600, windowHeight - 25);
+    text.setString("HP");
+    hpText = text;
+    hpText.setScale(0.7, 0.7);
+    hpText.setPosition(50, windowHeight - 25);
+    text.setString("Special");
+    specialText = text;
+    specialText.setPosition(260, windowHeight - 25);
+    specialText.setScale(0.7, 0.7);
+}
 
+void Game::drawHud() {
+    window.draw(hud);
+    window.draw(specialHud);
+    window.draw(specialHudOutline);
+    window.draw(hpHud);
+    window.draw(hpHudOutline);
+    window.draw(scoreText);
+    window.draw(hpText);
+    window.draw(specialText);
 }
