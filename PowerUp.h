@@ -31,7 +31,7 @@ public:
 protected:
     bool special;
     sf::Sprite sprite;
-    short int direction = 1;
+    short int direction;
     Animator *animator = new Animator(sprite);
     double angle;
 };

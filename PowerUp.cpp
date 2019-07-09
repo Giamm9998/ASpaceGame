@@ -13,6 +13,7 @@ PowerUp::PowerUp(bool special) : special(special), angle(Randomizer::getRandomRe
     rotation.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames);
     sf::Vector2f distOrigin(sprite.getLocalBounds().width / (2 * frames),
                             sprite.getLocalBounds().height / 2);
+    direction = Randomizer::getRandomInt(0, 1) ? -1 : 1;
     sprite.setOrigin(distOrigin);
     sprite.setScale(0.3, 0.3);
     sprite.setPosition(Randomizer::getRandomPosition(

@@ -6,6 +6,7 @@
 #define ASPACEGAME_PLAYER_H
 
 static const int PlayerSpawnHeight = 80;
+static const float laserDPS = 20.f;
 
 #include "Spaceship.h"
 

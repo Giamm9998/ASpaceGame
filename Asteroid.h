@@ -13,6 +13,7 @@ static const float asteroidMinSpeed = 90.f;
 static const float asteroidMaxSpeed = 120.f;
 static const float asteroidMinSize = 0.3;
 static const float asteroidMaxSize = 0.6;
+static const float maxHp = 50.f;
 static const int asteroidMaxSpawnHeight = 50;
 
 #include <SFML/Graphics.hpp>
@@ -34,14 +35,35 @@ public:
 
     float getSize() const;
 
+    void receiveDamage(float damageReceived);
+
+    void blink(float time);
+
+    float getHp() const;
+
+    void setHp(float newHp);
+
+    float getStartingHp() const;
+
+    bool isReceivingDamage() const;
+
+    void setReceivingDamage(bool receiveDamage);
+
+    bool die(float time);
+
 private:
 
     float damage = 60.f;
+    float hp;
+    float startingHp;
     float size;
     float speed;
     sf::Sprite sprite;
     Animator *animator = new Animator(sprite);
     float elapsedTime = 0;
+    float blinkingTime = 0;
+    float dyingTime = 0;
+    bool receivingDamage = false;
     sf::Vector2f initialPosition;
 };
 

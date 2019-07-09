@@ -27,6 +27,8 @@ void Asteroid::move(float dt) {
 
 Asteroid::Asteroid() : speed(Randomizer::getRandomReal(asteroidMinSpeed, asteroidMaxSpeed)),
                        size(Randomizer::getRandomReal(asteroidMinSize, asteroidMaxSize)) {
+    hp = maxHp / asteroidMaxSize * size;
+    startingHp = hp;
     auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
     int frames = 8, rows = 4, animInFile = 2;
     int startAnim = Randomizer::getRandomInt(0, 1) ? 0 : 128 * (rows);
@@ -40,6 +42,28 @@ Asteroid::Asteroid() : speed(Randomizer::getRandomReal(asteroidMinSpeed, asteroi
             distOrigin.y * size + asteroidMaxSpawnHeight);
     sprite.setOrigin(distOrigin);
     sprite.setPosition(initialPosition);
+}
+
+void Asteroid::receiveDamage(float damageReceived) {
+    receivingDamage = true;
+    this->hp -= damageReceived;
+}
+
+void Asteroid::blink(float time) {
+    blinkingTime += time;
+    if (blinkingTime <= ENEMY_BLINK_DURATION)
+        sprite.setColor(sf::Color(230, 130, 130));
+    if (blinkingTime > ENEMY_BLINK_DURATION) {
+        blinkingTime = 0;
+        setReceivingDamage(false);
+        sprite.setColor(sf::Color::White);
+    }
+}
+
+bool Asteroid::die(float time) {
+    dyingTime += time;
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / DYING_DURATION)));
+    return dyingTime >= DYING_DURATION;
 }
 
 sf::Sprite &Asteroid::getSprite() {
@@ -56,4 +80,24 @@ float Asteroid::getDamage() const {
 
 float Asteroid::getSize() const {
     return size;
+}
+
+bool Asteroid::isReceivingDamage() const {
+    return receivingDamage;
+}
+
+void Asteroid::setReceivingDamage(bool receiveDamage) {
+    Asteroid::receivingDamage = receiveDamage;
+}
+
+float Asteroid::getHp() const {
+    return hp;
+}
+
+void Asteroid::setHp(float newHp) {
+    Asteroid::hp = newHp;
+}
+
+float Asteroid::getStartingHp() const {
+    return startingHp;
 };

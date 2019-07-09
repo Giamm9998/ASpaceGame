@@ -228,8 +228,7 @@ void Game::updateEnemies(float time) {
             if ((enemy)->die(time)) {
                 score += static_cast<int>(enemy->getMaxHp());
                 enemyManager.erase(enemyIter++);
-            }
-            else
+            } else
                 enemyIter++;
         } else {
             enemyIter++;
@@ -263,9 +262,20 @@ void Game::updateEnemies(float time) {
 
 void Game::updateAsteroids(float time) {
     for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end();) {
-        (*asteroidIter)->getAnimator()->update(time);
-        (*asteroidIter)->move(time);
-        checkForAsteroidsCollisions(asteroidIter++);
+        auto asteroid = (*asteroidIter).get();
+        if ((asteroid)->getHp() <= 0) {
+            if ((asteroid)->die(time)) {
+                score += static_cast<int>(asteroid->getStartingHp());
+                asteroidManager.erase(asteroidIter++);
+            } else
+                asteroidIter++;
+        } else {
+            if ((asteroid)->isReceivingDamage())
+                (asteroid)->blink(time);
+            (asteroid)->getAnimator()->update(time);
+            (asteroid)->move(time);
+            checkForAsteroidsCollisions(asteroidIter++);
+        }
     }
 }
 
@@ -349,9 +359,9 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
             return;
         }
     } else { //todo bounding box, or circle collision if projectile is a circle
-        for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
-            if ((*asteroidIter)->getSprite().getGlobalBounds().intersects(projSprite.getGlobalBounds())) {
-                asteroidManager.erase(asteroidIter);
+        for (auto &asteroid : asteroidManager) {
+            if (asteroid->getSprite().getGlobalBounds().intersects(projSprite.getGlobalBounds())) {
+                asteroid->receiveDamage((*projectileIter)->getDamage());
                 projectileManager.erase(projectileIter);
                 return;
             }
@@ -394,15 +404,13 @@ void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::ite
 void Game::checkForLaserCollision(float time) {
     for (auto &enemy : enemyManager) {
         if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
-            enemy->receiveDamage(20.f * time);
+            enemy->receiveDamage(laserDPS * time);
         }
     }
 
-    for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end(); asteroidIter++) {
-        if ((*asteroidIter)->getSprite().getGlobalBounds().intersects(player->getLaser().getGlobalBounds())) {
-            asteroidManager.erase(asteroidIter); //damage to asteroids
-            break;
-        }
+    for (auto &asteroid : asteroidManager) {
+        if (asteroid->getSprite().getGlobalBounds().intersects(player->getLaser().getGlobalBounds()))
+            asteroid->receiveDamage(laserDPS * time);
     }
 }
 
