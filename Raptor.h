@@ -32,12 +32,6 @@ private:
 
 private:
     float shieldDuration;
-public:
-    bool isCharging() const;
-
-private:
-    bool charging;
-
 };
 
 

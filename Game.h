@@ -92,7 +92,7 @@ private:
 
     void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter);
 
-    void emplaceProj(std::unique_ptr<Projectile> uniquePtr);
+    void emplaceProjectile(std::unique_ptr<Projectile> projectile);
 
     bool isOutOfSigth(const sf::Sprite &sprite) const;
 

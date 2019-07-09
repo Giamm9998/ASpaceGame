@@ -30,33 +30,22 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
                view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
     createHud();
 
-    //Player's spaceship creation
-    /*for (int i = 0; i < 5; i++) {
-        auto *boss = new Boss;
-        boss->setPosition(50 * i, 200);
-        enemyManager.insert(enemyManager.begin(), boss);
-    }*/
-
     enemyManager.emplace_back(new Fighter);
     enemyManager.emplace_back(new Kamikaze);
     enemyManager.emplace_back(new Minion);
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-
     player = std::unique_ptr<Player>(new Raptor);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
-    //Background creation
+    for (int i = 0; i < 100; i++)
+        asteroidManager.emplace_back(new Asteroid);
+
     background = std::unique_ptr<Background>(new Background);
 
-    //Limitation of the framerate
     window.setFramerateLimit(60);
-
-    for (int i = 0; i < 100; i++) {
-        asteroidManager.emplace_back(new Asteroid);
-    }
 }
 
 void Game::run() {
@@ -68,9 +57,7 @@ void Game::run() {
         if (!isPaused)
             update(deltaTime);
         render();
-
     }
-
 }
 
 void Game::processEvents() {
@@ -107,11 +94,10 @@ void Game::update(sf::Time dt) {
     updatePlayer(time);
     updateProjectiles(time);
     updatePowerUp(time);
-    if (player->isLaserActive())
-        checkForLaserCollision(time);
-    scoreText.setString("Score: " + std::to_string(score));
 
+    scoreText.setString("Score: " + std::to_string(score));
     background->scroll(time);
+
     //View updating
     view.setCenter(static_cast<float>(window.getSize().x) / 2, static_cast<float>(window.getSize().y) / 2);
     window.setView(view);
@@ -121,15 +107,12 @@ void Game::render() {
     window.clear(sf::Color::Black);
 
     drawBackground();
-    if (player->isLaserActive())
-        window.draw(player->getLaser());
     drawAsteroids();
-    drawEnemies();
     drawPlayer();
+    drawEnemies();
     drawProjectiles();
     drawPowerUp();
     drawHud();
-
 
     window.display();
 }
@@ -140,25 +123,25 @@ void Game::drawPowerUp() {
 }
 
 void Game::drawProjectiles() {
-    for (auto &i : projectileManager) {
+    for (auto &i : projectileManager)
         window.draw(i->getSprite());
-    }
 }
 
 void Game::drawPlayer() {
     window.draw(player->getSprite());
 
-    if (isUsingSpecial) {
-        if (typeid(*player) == typeid(Raptor)) {
+    auto &playerType = *player; //todo reduce scope
+    if (isUsingSpecial)
+        if (typeid(playerType) == typeid(Raptor))
             window.draw(dynamic_cast<Raptor &>(*player).getShield());
-        }
-    }
+
+    if (player->isLaserActive())
+        window.draw(player->getLaser());
 }
 
 void Game::drawEnemies() {
-    for (auto &i : enemyManager) {
+    for (auto &i : enemyManager)
         window.draw(i->getSprite());
-    }
 }
 
 void Game::drawBackground() {
@@ -167,9 +150,8 @@ void Game::drawBackground() {
 }
 
 void Game::drawAsteroids() {
-    for (auto &i : asteroidManager) {
+    for (auto &i : asteroidManager)
         window.draw(i->getSprite());
-    }
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
@@ -201,9 +183,9 @@ void Game::updatePowerUp(float time) {
 }
 
 void Game::updatePlayer(float time) {
-    if (player->isReceivingDamage()) {
+    if (player->isReceivingDamage())
         player->blink(time);
-    }
+
     if (isMovingRight)
         player->move(time, right);
 
@@ -211,85 +193,70 @@ void Game::updatePlayer(float time) {
         player->move(time, left);
 
     if (isShooting) {
-        std::unique_ptr<Projectile> projectile = player->useCannon(time, &(player->getPrimaryCannon()));
-        emplaceProj(std::move(projectile));
-        for (auto &j : player->getAuxiliaryCannons()) {
-            Cannon *cannon = &j;
-            projectile = player->useCannon(time, cannon);
-            emplaceProj(std::move(projectile));
-        }
+        emplaceProjectile(player->useCannon(time, &(player->getPrimaryCannon())));
+        for (auto &auxiliaryCannon : player->getAuxiliaryCannons())
+            emplaceProjectile(player->useCannon(time, &auxiliaryCannon));
     }
+
+    auto &playerType = *player;
     if (isUsingSpecial) {
-        if (typeid(*player) == typeid(Bomber)) {
-            if (!dynamic_cast<Bomber &>(*player).isCharging()) {
-                std::unique_ptr<Projectile> projectile;
-                projectile = dynamic_cast<Bomber &>(*player).useBomb(time, specialHud);
-                if (projectile != nullptr)
-                    projectileManager.emplace_back(new Projectile(*projectile));
-            }
+        if (typeid(playerType) == typeid(Bomber)) {
+            if (!player->isCharging())
+                emplaceProjectile(dynamic_cast<Bomber &>(*player).useBomb(time, specialHud));
         }
-        if (typeid(*player) == typeid(Raptor)) {
-            if (!dynamic_cast<Raptor &>(*player).isCharging())
+        if (typeid(playerType) == typeid(Raptor)) {
+            if (!player->isCharging())
                 dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
         }
     } else {
-        if (typeid(*player) == typeid(Bomber)) {
-            if (dynamic_cast<Bomber &>(*player).isCharging())
+        if (typeid(playerType) == typeid(Bomber)) {
+            if (player->isCharging())
                 dynamic_cast<Bomber &>(*player).recharge(time, specialHud);
         }
-        if (typeid(*player) == typeid(Raptor)) {
-            if (dynamic_cast<Raptor &>(*player).isCharging())
+        if (typeid(playerType) == typeid(Raptor)) {
+            if (player->isCharging())
                 dynamic_cast<Raptor &>(*player).recharge(time, specialHud);
         }
     }
+
+    if (player->isLaserActive())
+        checkForLaserCollision(time);
 }
 
 void Game::updateEnemies(float time) {
     for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end();) {
         auto enemy = (*enemyIter).get();
         if ((enemy)->getHp() <= 0) {
-            if ((enemy)->die(time)) {
+            if ((enemy)->die(time))
                 enemyManager.erase(enemyIter++);
-            } else
+            else
                 enemyIter++;
         } else {
             enemyIter++;
-            if ((enemy)->isReceivingDamage()) {
+            if ((enemy)->isReceivingDamage())
                 (enemy)->blink(time);
-            }
+
             std::unique_ptr<Projectile> projectile;
 
             if (typeid(*enemy) == typeid(Minion)) {
-                dynamic_cast<Minion &>(*(enemy)).move(time);
-                projectile = dynamic_cast<Minion &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
-                emplaceProj(std::move(projectile));
-
+                dynamic_cast<Minion &>(*enemy).move(time);
+                emplaceProjectile(dynamic_cast<Minion &>(*(enemy)).useCannon(time, &enemy->getPrimaryCannon()));
             } else if (typeid(*enemy) == typeid(Boss)) {
-                dynamic_cast<Boss &>(*(enemy)).move(time);
-                //projectile = dynamic_cast<Boss &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
-                //emplaceProj(std::move(projectile));
-
+                dynamic_cast<Boss &>(*enemy).move(time);
+                //emplaceProjectile(dynamic_cast<Boss &>(*enemy).useCannon(time, &enemy->getPrimaryCannon()));
             } else if (typeid(*enemy) == typeid(Kamikaze)) {
-                dynamic_cast<Kamikaze &>(*(enemy)).move(time);
-                projectile = dynamic_cast<Kamikaze &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
-                emplaceProj(std::move(projectile));
-
+                dynamic_cast<Kamikaze &>(*enemy).move(time);
+                emplaceProjectile(dynamic_cast<Kamikaze &>(*enemy).useCannon(time, &enemy->getPrimaryCannon()));
             } else if (typeid(*enemy) == typeid(Fighter)) {
-                dynamic_cast<Fighter &>(*(enemy)).move(time);
-                projectile = dynamic_cast<Fighter &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()));
-                emplaceProj(std::move(projectile));
-                for (auto &j : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons()) {
-                    Cannon *cannon = &j;
-                    projectile = dynamic_cast<Fighter &>(*(enemy)).useCannon(time, cannon);
-                    emplaceProj(std::move(projectile));
-                }
+                dynamic_cast<Fighter &>(*enemy).move(time);
+                emplaceProjectile(dynamic_cast<Fighter &>(*enemy).useCannon(time, &enemy->getPrimaryCannon()));
+                for (auto &externalCannon : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons())
+                    emplaceProjectile(dynamic_cast<Fighter &>(*enemy).useCannon(time, &externalCannon));
             } else if (typeid(*enemy) == typeid(Assaulter)) {
-                dynamic_cast<Assaulter &>(*(enemy)).move(time);
-                projectile = dynamic_cast<Assaulter &>(*(enemy)).useCannon(time, &((enemy)->getPrimaryCannon()),
-                                                                           player->getSprite().getPosition());
-                emplaceProj(std::move(projectile));
+                dynamic_cast<Assaulter &>(*enemy).move(time);
+                emplaceProjectile(dynamic_cast<Assaulter &>(*enemy).useCannon(
+                        time, &enemy->getPrimaryCannon(), player->getSprite().getPosition()));
             }
-
         }
     }
 }
@@ -362,7 +329,7 @@ bool Game::isOutOfSigth(const sf::Sprite &sprite) const {
            sprite.getPosition().x - sprite.getOrigin().x > windowWidth;
 }
 
-void Game::emplaceProj(std::unique_ptr<Projectile> projectile) {
+void Game::emplaceProjectile(std::unique_ptr<Projectile> projectile) {
     if (projectile != nullptr)
         projectileManager.emplace_back(new Projectile(*projectile));
 }
