@@ -35,13 +35,13 @@ public:
 
     float getElapsedtime() const;
 
-    void setElapsedtime(float elapsedtime);
+    void setElapsedtime(float time);
 
     float getStrengthMultiplier() const;
 
     const sf::Vector2f &getRelativePosition() const;
 
-    void setRelativePosition(const sf::Vector2f &relativePosition);
+    void setLocalRelativePosition(const sf::Vector2f &position);
 
 private:
     Spaceship *spaceshipPtr;//TODO make this a smartpointer

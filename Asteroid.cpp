@@ -26,13 +26,12 @@ void Asteroid::move(float dt) {
 
 Asteroid::Asteroid() : speed(Randomizer::getRandomReal(90, 120)), size(Randomizer::getRandomReal(0.3, 0.6)) {
     auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
-    int frames = 8;
-    int rows = 4;
-    int animInFile = 2;
+    int frames = 8, rows = 4, animInFile = 2;
     int startAnim = 0;
     if (Randomizer::getRandomInt(0, 1))
         startAnim = 128 * 4;
     rotation.addFrames(sf::Vector2i(0, startAnim), sf::Vector2i(128, 128), frames, rows);
+
     sprite.setScale(0, 0);
     sf::Vector2f distOrigin(sprite.getLocalBounds().width / (2 * frames),
                             sprite.getLocalBounds().height / (2 * rows * animInFile));

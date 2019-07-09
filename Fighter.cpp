@@ -20,11 +20,11 @@ Fighter::Fighter() : Enemy(50.f, 10.f, 30.f, 0.6f, 50.f) {
 
     externalCannons.resize(2);
     externalCannons[0].setSpaceshipPtr(this);
-    externalCannons[0].setRelativePosition(sf::Vector2f(-114, 0));
+    externalCannons[0].setLocalRelativePosition(sf::Vector2f(-114, 0));
     externalCannons[0].setProjectilePrototype(projectilePrototype);
 
     externalCannons[1].setSpaceshipPtr(this);
-    externalCannons[1].setRelativePosition(sf::Vector2f(114, 0));
+    externalCannons[1].setLocalRelativePosition(sf::Vector2f(114, 0));
     externalCannons[1].setProjectilePrototype(projectilePrototype);
 
     boundingBox.setSize(sf::Vector2f(1.5 * sprite.getOrigin().x,

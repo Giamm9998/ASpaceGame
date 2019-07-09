@@ -48,6 +48,43 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     window.setFramerateLimit(60);
 }
 
+void Game::createHud() {
+    specialHud.setSize(sf::Vector2f(10, 100));
+    specialHud.setPosition(400, windowHeight - 5);
+    specialHud.rotate(-90.f);
+    specialHud.setFillColor(sf::Color::Red);
+    specialHudOutline = specialHud;
+    specialHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
+    specialHudOutline.setOutlineThickness(2);
+    specialHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
+
+    hud.setSize(sf::Vector2f(windowWidth, 20));
+    hud.setFillColor(sf::Color::Black);
+    hud.setPosition(0, windowHeight - hud.getSize().y);
+    hud.setOutlineThickness(2);
+    hud.setOutlineColor(sf::Color(173, 161, 161, 255));
+
+    hpHud.setSize(sf::Vector2f(10, 100));
+    hpHud.setPosition(100, windowHeight - 5);
+    hpHud.rotate(-90.f);
+    hpHud.setFillColor(sf::Color::Red);
+    hpHudOutline = hpHud;
+    hpHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
+    hpHudOutline.setOutlineThickness(2);
+    hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
+
+    sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../font/venus rising rg.ttf"));
+    text.setScale(0.7, 0.7);
+    scoreText = text;
+    scoreText.setPosition(600, windowHeight - 25);
+    text.setString("HP");
+    hpText = text;
+    hpText.setPosition(50, windowHeight - 25);
+    text.setString("Special");
+    specialText = text;
+    specialText.setPosition(260, windowHeight - 25);
+}
+
 void Game::run() {
     sf::Clock clock;
     sf::Time deltaTime;
@@ -117,43 +154,6 @@ void Game::render() {
     window.display();
 }
 
-void Game::drawPowerUp() {
-    if (powerUp != nullptr)
-        window.draw(powerUp->getSprite());
-}
-
-void Game::drawProjectiles() {
-    for (auto &i : projectileManager)
-        window.draw(i->getSprite());
-}
-
-void Game::drawPlayer() {
-    window.draw(player->getSprite());
-
-    auto &playerType = *player; //todo reduce scope
-    if (isUsingSpecial)
-        if (typeid(playerType) == typeid(Raptor))
-            window.draw(dynamic_cast<Raptor &>(*player).getShield());
-
-    if (player->isLaserActive())
-        window.draw(player->getLaser());
-}
-
-void Game::drawEnemies() {
-    for (auto &i : enemyManager)
-        window.draw(i->getSprite());
-}
-
-void Game::drawBackground() {
-    window.draw(background->getSprite1());
-    window.draw(background->getSprite2());
-}
-
-void Game::drawAsteroids() {
-    for (auto &i : asteroidManager)
-        window.draw(i->getSprite());
-}
-
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
     if (key == sf::Keyboard::Left)
         isMovingLeft = isPressed;
@@ -163,10 +163,6 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
         isShooting = isPressed;
     else if (key == sf::Keyboard::Q)
         isUsingSpecial = isPressed;
-}
-
-bool Game::isLegalMove(float x, float origin, short int direction) {
-    return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
 }
 
 void Game::updatePowerUp(float time) {
@@ -280,6 +276,54 @@ void Game::updateProjectiles(float time) {
     }
 }
 
+void Game::drawPowerUp() {
+    if (powerUp != nullptr)
+        window.draw(powerUp->getSprite());
+}
+
+void Game::drawProjectiles() {
+    for (auto &i : projectileManager)
+        window.draw(i->getSprite());
+}
+
+void Game::drawPlayer() {
+    window.draw(player->getSprite());
+
+    auto &playerType = *player; //todo reduce scope
+    if (isUsingSpecial)
+        if (typeid(playerType) == typeid(Raptor))
+            window.draw(dynamic_cast<Raptor &>(*player).getShield());
+
+    if (player->isLaserActive())
+        window.draw(player->getLaser());
+}
+
+void Game::drawEnemies() {
+    for (auto &i : enemyManager)
+        window.draw(i->getSprite());
+}
+
+void Game::drawBackground() {
+    window.draw(background->getSprite1());
+    window.draw(background->getSprite2());
+}
+
+void Game::drawAsteroids() {
+    for (auto &i : asteroidManager)
+        window.draw(i->getSprite());
+}
+
+void Game::drawHud() {
+    window.draw(hud);
+    window.draw(specialHud);
+    window.draw(specialHudOutline);
+    window.draw(hpHud);
+    window.draw(hpHudOutline);
+    window.draw(scoreText);
+    window.draw(hpText);
+    window.draw(specialText);
+}
+
 void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter) {
     sf::Sprite &projSprite = (*projectileIter)->getSprite();
     if (isOutOfSigth(projSprite)) {
@@ -322,18 +366,6 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
     }
 }
 
-bool Game::isOutOfSigth(const sf::Sprite &sprite) const {
-    return sprite.getPosition().y + sprite.getOrigin().y < 0 ||
-           sprite.getPosition().y - sprite.getOrigin().y > windowHeight ||
-           sprite.getPosition().x + sprite.getOrigin().x < 0 ||
-           sprite.getPosition().x - sprite.getOrigin().x > windowWidth;
-}
-
-void Game::emplaceProjectile(std::unique_ptr<Projectile> projectile) {
-    if (projectile != nullptr)
-        projectileManager.emplace_back(new Projectile(*projectile));
-}
-
 void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter) {
     sf::Sprite &asteroidSprite = (*asteroidIter)->getSprite();
     if (isOutOfSigth(asteroidSprite)) {
@@ -346,7 +378,7 @@ void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::ite
         if (isUsingSpecial && !player->isCharging()) {
             auto shield = dynamic_cast<Raptor &>(*player).getShield();
             if (dist(asteroidSprite.getPosition(), shield.getPosition()) <=
-                (shield.getRadius() + localRadiusPixels * (*asteroidIter)->getSize())) {
+                (shield.getRadius() + localRadius * (*asteroidIter)->getSize())) {
                 asteroidManager.erase(asteroidIter);
                 return;
             }
@@ -357,11 +389,6 @@ void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::ite
         asteroidManager.erase(asteroidIter);
         return;
     }
-}
-
-
-float Game::dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB) {
-    return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2));
 }
 
 void Game::checkForLaserCollision(float time) {
@@ -379,50 +406,22 @@ void Game::checkForLaserCollision(float time) {
     }
 }
 
-void Game::createHud() {
-    specialHud.setSize(sf::Vector2f(10, 100));
-    specialHud.setPosition(400, windowHeight - 5);
-    specialHud.rotate(-90.f);
-    specialHud.setFillColor(sf::Color::Red);
-    specialHudOutline = specialHud;
-    specialHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
-    specialHudOutline.setOutlineThickness(2);
-    specialHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
-
-    hud.setSize(sf::Vector2f(windowWidth, 20));
-    hud.setFillColor(sf::Color::Black);
-    hud.setPosition(0, windowHeight - hud.getSize().y);
-    hud.setOutlineThickness(2);
-    hud.setOutlineColor(sf::Color(173, 161, 161, 255));
-
-    hpHud.setSize(sf::Vector2f(10, 100));
-    hpHud.setPosition(100, windowHeight - 5);
-    hpHud.rotate(-90.f);
-    hpHud.setFillColor(sf::Color::Red);
-    hpHudOutline = hpHud;
-    hpHudOutline.setFillColor(sf::Color(255, 255, 255, 0));
-    hpHudOutline.setOutlineThickness(2);
-    hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
-
-    sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../font/venus rising rg.ttf"));
-    text.setScale(0.7, 0.7);
-    scoreText = text;
-    scoreText.setPosition(600, windowHeight - 25);
-    text.setString("HP");
-    hpText = text;
-    hpText.setPosition(50, windowHeight - 25);
-    text.setString("Special");
-    specialText = text;
-    specialText.setPosition(260, windowHeight - 25);
+bool Game::isOutOfSigth(const sf::Sprite &sprite) const {
+    return sprite.getPosition().y + sprite.getOrigin().y < 0 ||
+           sprite.getPosition().y - sprite.getOrigin().y > windowHeight ||
+           sprite.getPosition().x + sprite.getOrigin().x < 0 ||
+           sprite.getPosition().x - sprite.getOrigin().x > windowWidth;
 }
 
-void Game::drawHud() {
-    window.draw(hud);
-    window.draw(specialHud);
-    window.draw(specialHudOutline);
-    window.draw(hpHud);
-    window.draw(hpHudOutline);
-    window.draw(scoreText);
-    window.draw(hpText);
-    window.draw(specialText);
+bool Game::isLegalMove(float x, float origin, short int direction) {
+    return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
+}
+
+float Game::dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB) {
+    return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2));
+}
+
+void Game::emplaceProjectile(std::unique_ptr<Projectile> projectile) {
+    if (projectile != nullptr)
+        projectileManager.emplace_back(new Projectile(*projectile));
 }

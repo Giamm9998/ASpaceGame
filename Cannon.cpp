@@ -53,8 +53,8 @@ float Cannon::getElapsedtime() const {
     return elapsedtime;
 }
 
-void Cannon::setElapsedtime(float elapsedtime) {
-    Cannon::elapsedtime = elapsedtime;
+void Cannon::setElapsedtime(float time) {
+    Cannon::elapsedtime = time;
 }
 
 Spaceship *Cannon::getSpaceshipPtr() const {
@@ -65,8 +65,8 @@ const sf::Vector2f &Cannon::getRelativePosition() const {
     return relativePosition;
 }
 
-void Cannon::setRelativePosition(const sf::Vector2f &relativePosition) {
-    Cannon::relativePosition = relativePosition;
+void Cannon::setLocalRelativePosition(const sf::Vector2f &position) {
+    Cannon::relativePosition = position;
 }
 
 float Cannon::getStrengthMultiplier() const {

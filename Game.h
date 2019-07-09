@@ -13,11 +13,9 @@ namespace {
 static const int windowWidth = 900;
 static const int windowHeight = 675;
 
-#include <exception>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <list>
-#include "ResourceManager.h"
 #include "Spaceship.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -52,7 +50,7 @@ private:
     bool isMovingRight;
     bool isShooting;
     bool isUsingSpecial;
-    int score{};
+    int score;
     sf::RectangleShape specialHud;
     sf::RectangleShape specialHudOutline;
     sf::RectangleShape hud;
@@ -68,7 +66,6 @@ private:
     std::list<std::unique_ptr<Projectile>> projectileManager;
     std::list<std::unique_ptr<Asteroid>> asteroidManager;
     std::unique_ptr<PowerUp> powerUp;
-    ResourceManager resourceManager;
 
     void drawAsteroids();
 
@@ -86,9 +83,9 @@ private:
 
     void updateProjectiles(float time);
 
-    void updatePowerUp(float dt);
+    void updatePowerUp(float time);
 
-    void updateAsteroids(float dt);
+    void updateAsteroids(float time);
 
     void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter);
 
