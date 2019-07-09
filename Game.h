@@ -104,6 +104,10 @@ private:
     void createHud();
 
     void drawHud();
+
+    //FRIEND_TEST(Game, Functions);
+
+    //FRIEND_TEST(Game, Constructor);
 };
 
 #endif //ASPACEGAME_GAME_H
