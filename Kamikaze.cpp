@@ -13,7 +13,7 @@ void Kamikaze::attract() {}
 
 void Kamikaze::explode() {}
 
-Kamikaze::Kamikaze() : Enemy(50.f, 30.f, 30.f, 0.8f) {
+Kamikaze::Kamikaze() : Enemy(50.f, 30.f, 30.f, 0.8f, 50.f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setSpaceshipPtr(this);

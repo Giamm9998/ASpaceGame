@@ -10,7 +10,7 @@
 
 
 Player::Player(float hp, float strength, float speed, float fireRate, float maxHp) : Spaceship(hp, strength, speed,
-                                                                                               fireRate), maxHp(maxHp),
+                                                                                               fireRate, maxHp),
                                                                                      charging(false),
                                                                                      laserActive(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2,
@@ -27,10 +27,6 @@ void Player::move(float time, short int direction) {
         boundingBox.move(speed * time * direction, 0);
         laser.move(speed * time * direction, 0);
     }
-}
-
-float Player::getMaxHp() const {
-    return maxHp;
 }
 
 

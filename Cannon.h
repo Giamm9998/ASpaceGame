@@ -37,21 +37,19 @@ public:
 
     void setElapsedtime(float elapsedtime);
 
+    float getStrengthMultiplier() const;
+
+    const sf::Vector2f &getRelativePosition() const;
+
+    void setRelativePosition(const sf::Vector2f &relativePosition);
+
 private:
     Spaceship *spaceshipPtr;//TODO make this a smartpointer
     float fireRateMultiplier = 1;
     float strengthMultiplier = 1;
-public:
-    float getStrengthMultiplier() const;
-
-private:
     Projectile projectilePrototype;
     bool tracker = false;
     float elapsedtime = 0;
     sf::Vector2f relativePosition = sf::Vector2f(0, 0);
-public:
-    const sf::Vector2f &getRelativePosition() const;
-
-    void setRelativePosition(const sf::Vector2f &relativePosition);
 };
 #endif //ASPACEGAME_CANNON_H

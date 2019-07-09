@@ -16,10 +16,10 @@ public:
 
     std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon) override;
 
+    std::vector<Cannon> &getExternalCannons();
+
 private:
     std::vector<Cannon> externalCannons;
-public:
-    std::vector<Cannon> &getExternalCannons();
 };
 
 

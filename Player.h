@@ -15,8 +15,6 @@ public:
 
     virtual void move(float time, short int movement);
 
-    float getMaxHp() const;
-
     bool isCharging() const;
 
     void receiveDamage(float damage) override;
@@ -31,8 +29,9 @@ public:
 
     sf::RectangleShape &getLaser();
 
+    virtual void recharge(float time, sf::RectangleShape &specialHud) = 0;
+
 protected:
-    float maxHp;
     bool charging;
     std::vector<Cannon> auxiliaryCannons;
     bool laserActive;

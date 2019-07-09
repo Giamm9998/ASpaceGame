@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 #include "Randomizer.h"
 
-Minion::Minion() : Enemy(50.f, 10.f, 100.f, 0.4f) { //todo adjust values
+Minion::Minion() : Enemy(50.f, 10.f, 100.f, 0.4f, 50.f) { //todo adjust values
     sprite.setTexture(ResourceManager::getTexture("../Texture/Minion.png"));
     sprite.setPosition(Randomizer::getRandomPosition(100, windowWidth - 100, 150, 150));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);

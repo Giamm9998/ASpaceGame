@@ -14,7 +14,7 @@ static const float maxScale = 0.35f;
 
 class Spaceship {
 public:
-    Spaceship(float hp, float strength, float speed, float fireRate);
+    Spaceship(float hp, float strength, float speed, float fireRate, float maxHp);
 
     virtual ~Spaceship();
 
@@ -46,29 +46,28 @@ public:
 
     bool die(float time);
 
+    float getMaxHp() const;
+
+    float getFireRate() const;
+
+    void setFireRate(float fireRate);
+
+    bool isReceivingDamage() const;
+
+    void setReceivingDamage(bool receivingDamage);
+
 protected:
     float hp;
     float strength;
     float speed;
     float fireRate;
-public:
-    float getFireRate() const;
-
-    void setFireRate(float fireRate);
-
-protected:
+    float maxHp;
     sf::Sprite sprite;
     Cannon primaryCannon;
     float elapsedTime = 0;
     float blinkingTime = 0;
     float dyingTime = 0;
     bool receivingDamage = false;
-public:
-    bool isReceivingDamage() const;
-
-    void setReceivingDamage(bool receivingDamage);
-
-protected:
     sf::RectangleShape boundingBox;
 };
 

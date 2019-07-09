@@ -10,8 +10,10 @@
 
 #define PI 3.14
 
-Spaceship::Spaceship(float hp, float strength, float speed, float fireRate) : hp(hp), strength(strength), speed(speed),
-                                                                              fireRate(fireRate) {
+Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, float maxHp) : hp(hp), strength(strength),
+                                                                                           speed(speed),
+                                                                                           fireRate(fireRate),
+                                                                                           maxHp(maxHp) {
     sprite.setScale(maxScale, maxScale);
 }
 
@@ -103,6 +105,10 @@ float Spaceship::getFireRate() const {
 
 void Spaceship::setFireRate(float fireRate) {
     Spaceship::fireRate = fireRate;
+}
+
+float Spaceship::getMaxHp() const {
+    return maxHp;
 }
 
 
