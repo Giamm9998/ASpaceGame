@@ -14,6 +14,8 @@ class Player :public Spaceship{
 public:
     Player(float hp, float strength, float speed, float fireRate);
 
+    ~Player() override;
+
     void move(float time) override {};
 
     virtual void move(float time, short int movement);
@@ -34,6 +36,9 @@ public:
 
     virtual void recharge(float time, sf::RectangleShape &specialHud) = 0;
 
+    void blink(float time) final;
+
+    bool die(float time) override;
 protected:
     bool charging;
     std::vector<Cannon> auxiliaryCannons;

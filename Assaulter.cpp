@@ -44,7 +44,6 @@ Assaulter::Assaulter() : Enemy(60.f, 20.f, 0.f, 0.5f) {
                                                      windowWidth - sprite.getOrigin().x * maxScale,
                                                      assaulterSpawnHeight, assaulterSpawnHeight));
     primaryCannon.setTracker(true);
-    primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(100, strength * primaryCannon.getStrengthMultiplier());
     primaryCannon.setProjectilePrototype(projectilePrototype);
 

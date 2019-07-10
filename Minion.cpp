@@ -12,7 +12,6 @@ Minion::Minion() : Enemy(30.f, 10.f, 100.f, 0.4f) { //todo adjust values
     sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
                                                      windowWidth - sprite.getOrigin().x * maxScale,
                                                      minionSpawnHeight, minionSpawnHeight));
-    primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(200, strength * primaryCannon.getStrengthMultiplier());
     primaryCannon.setProjectilePrototype(projectilePrototype);
 

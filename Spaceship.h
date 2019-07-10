@@ -43,9 +43,9 @@ public:
 
     const sf::RectangleShape &getBoundingBox() const;
 
-    virtual void blink(float time);
+    virtual void blink(float time) = 0;
 
-    bool die(float time);
+    virtual bool die(float time) = 0;
 
     float getMaxHp() const;
 

@@ -171,10 +171,10 @@ void Game::drawPlayer() {
         auto &playerType = *(player.get());
         if (typeid(playerType) == typeid(Raptor))
             window.draw(dynamic_cast<Raptor &>(playerType).getShield());
-
-        if (player->isLaserActive())
-            window.draw(player->getLaser());
     }
+
+    if (player->isLaserActive())
+        window.draw(player->getLaser());
 }
 
 void Game::drawEnemies() {

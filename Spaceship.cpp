@@ -50,7 +50,7 @@ std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon &cannon) {
                           sprite.getPosition().y -
                           (sprite.getGlobalBounds().width / 2) * cos(sprite.getRotation() * M_PI / 180) +
                           cannon.getRelativePosition().y * sprite.getScale().y);
-    return cannon.shoot(position, dt);
+    return cannon.shoot(position, dt, fireRate);
 }
 
 void Spaceship::receiveDamage(float damage) {
@@ -68,31 +68,6 @@ bool Spaceship::isReceivingDamage() const {
 
 void Spaceship::setReceivingDamage(bool receiveDamage) {
     Spaceship::receivingDamage = receiveDamage;
-}
-
-void Spaceship::blink(float time) {
-    blinkingTime += time;
-    if (blinkingTime <= playerBlinkDuration)
-        sprite.setColor(sf::Color(255, 255, 255, 100));
-    if (blinkingTime > playerBlinkDuration && blinkingTime <= 2 * playerBlinkDuration)
-        sprite.setColor(sf::Color::White);
-    if (blinkingTime > 2 * playerBlinkDuration && blinkingTime <= 3 * playerBlinkDuration)
-        sprite.setColor(sf::Color(255, 255, 255, 100));
-    if (blinkingTime > 3 * playerBlinkDuration && blinkingTime <= 4 * playerBlinkDuration)
-        sprite.setColor(sf::Color::White);
-    if (blinkingTime > 4 * playerBlinkDuration) {
-        blinkingTime = 0;
-        setReceivingDamage(false);
-        sprite.setColor(sf::Color::White);
-    }
-}
-
-bool Spaceship::die(float time) {
-    if (dyingTime == 0)
-        boundingBox.setSize(sf::Vector2f(0, 0));
-    dyingTime += time;
-    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
-    return dyingTime >= dyingDuration;
 }
 
 float Spaceship::getFireRate() const {

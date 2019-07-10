@@ -10,7 +10,6 @@
 Raptor::Raptor() : Player(140.f, 10.f, 160.f, 1.8f), shieldDuration(5) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(400, strength * primaryCannon.getStrengthMultiplier(), false);
     primaryCannon.setProjectilePrototype(projectilePrototype);
     primaryCannon.setElapsedtime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));

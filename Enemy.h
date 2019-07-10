@@ -17,6 +17,8 @@ class Enemy: public Spaceship{
 public:
     Enemy(float hp, float strength, float speed, float fireRate);
 
+    ~Enemy() override;
+
     void setPosition(float x, float y);
 
     void setPosition(const sf::Vector2f &pos);
@@ -24,6 +26,8 @@ public:
     void move(float time) override;
 
     void blink(float time) final;
+
+    bool die(float time) override;
 
 protected:
     short int direction = right;

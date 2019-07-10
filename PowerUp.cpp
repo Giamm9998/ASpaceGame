@@ -35,4 +35,6 @@ Animator *PowerUp::getAnimator() const { //todo smart pointer/reference
     return animator;
 }
 
-PowerUp::~PowerUp() = default;
+PowerUp::~PowerUp() {
+    delete animator;
+}

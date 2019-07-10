@@ -35,3 +35,14 @@ void Enemy::blink(float time) {
         sprite.setColor(sf::Color::White);
     }
 }
+
+bool Enemy::die(float time) {
+
+    if (dyingTime == 0)
+        boundingBox.setSize(sf::Vector2f(0, 0));
+    dyingTime += time;
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
+    return dyingTime >= dyingDuration;
+}
+
+Enemy::~Enemy() = default;

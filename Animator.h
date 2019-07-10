@@ -48,6 +48,8 @@ public:
 
     explicit Animator(sf::Sprite &sprite);
 
+    virtual ~Animator();
+
     Animation &createAnimation(std::string const &name, std::string const &textureName,
                                sf::Time duration, bool loop = false);
 
