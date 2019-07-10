@@ -3,7 +3,6 @@
 //
 
 #include "FullHealth.h"
-#include "ResourceManager.h"
 
 FullHealth::FullHealth() : PowerUp(false) {}
 

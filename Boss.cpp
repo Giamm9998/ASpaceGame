@@ -4,7 +4,6 @@
 
 #include "Boss.h"
 #include "ResourceManager.h"
-#include "Randomizer.h"
 
 void Boss::move(float time) {
     elapsedTime += time;
@@ -28,8 +27,8 @@ Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f) {
 
     sprite.setPosition(static_cast<float>(windowWidth) / 2, startPosition);
 
-    boundingBox.setSize(sf::Vector2f(1.6 * sprite.getOrigin().x,
-                                     1.4 * sprite.getOrigin().y));
+    boundingBox.setSize(sf::Vector2f(1.6f * sprite.getOrigin().x,
+                                     1.4f * sprite.getOrigin().y));
     boundingBox.setScale(sprite.getScale());
     boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);

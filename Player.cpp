@@ -4,9 +4,7 @@
 
 #include "ResourceManager.h"
 #include "Raptor.h"
-#include "Player.h"
 #include "Game.h"
-#include "Spaceship.h"
 
 
 Player::Player(float hp, float strength, float speed, float fireRate) :
@@ -79,7 +77,7 @@ void Player::blink(float time) {
 }
 
 bool Player::die(float time) {
-    return false; //Todo Implement
+    return false; //todo implement
 }
 
 Player::~Player() = default;

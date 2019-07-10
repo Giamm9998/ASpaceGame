@@ -16,6 +16,9 @@
 #include "Bomber.h"
 
 EntityManager::EntityManager() {
+
+    //todo add spawn function
+
     enemyManager.emplace_back(new Fighter);
     enemyManager.emplace_back(new Kamikaze);
     enemyManager.emplace_back(new Minion);

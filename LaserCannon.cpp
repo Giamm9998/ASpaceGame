@@ -3,9 +3,6 @@
 //
 
 #include "LaserCannon.h"
-#include "ResourceManager.h"
-#include "Randomizer.h"
-#include "Game.h"
 
 LaserCannon::LaserCannon() : PowerUp(true) {
     sprite.setColor(sf::Color::Red);

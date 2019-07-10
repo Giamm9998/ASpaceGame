@@ -82,9 +82,9 @@ TEST(LaserCannonTest, powerUp) {
     Raptor raptor;
     LaserCannon laserCannon;
 
-    ASSERT_EQ(raptor.isLaserActive(), false);
+    ASSERT_FALSE(raptor.isLaserActive());
     laserCannon.powerUp(raptor);
-    ASSERT_EQ(raptor.isLaserActive(), true);
+    ASSERT_TRUE(raptor.isLaserActive());
 }
 
 TEST(SpeedTest, powerUp) {
@@ -93,7 +93,7 @@ TEST(SpeedTest, powerUp) {
 
     float i = raptor.getSpeed();
     speed.powerUp(raptor);
-    ASSERT_FLOAT_EQ(raptor.getSpeed(), i * 1.2);
+    ASSERT_FLOAT_EQ(raptor.getSpeed(), i * 1.2f);
 }
 
 TEST(StrengthTest, powerUp) {
@@ -102,5 +102,5 @@ TEST(StrengthTest, powerUp) {
 
     float i = raptor.getStrength();
     strength.powerUp(raptor);
-    ASSERT_FLOAT_EQ(raptor.getStrength(), i * 100);
+    ASSERT_FLOAT_EQ(raptor.getStrength(), i * 1.2f);
 }

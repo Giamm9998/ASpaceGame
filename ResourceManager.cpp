@@ -3,17 +3,16 @@
 //
 
 #include "ResourceManager.h"
-#include <cassert>
 
-ResourceManager *ResourceManager::sIstance = nullptr;
+ResourceManager *ResourceManager::sInstance = nullptr;
 
 ResourceManager::ResourceManager() {
-    assert(sIstance == nullptr); //ResourceManager is a Singleton
-    sIstance = this;
+    assert(sInstance == nullptr); //ResourceManager is a Singleton
+    sInstance = this;
 }
 
 sf::Texture &ResourceManager::getTexture(std::string const &filename) {
-    auto &texMap = sIstance->textures;
+    auto &texMap = sInstance->textures;
 
     auto pairFound = texMap.find(filename);
 
@@ -21,13 +20,13 @@ sf::Texture &ResourceManager::getTexture(std::string const &filename) {
         return pairFound->second;
     } else {
         auto &texture = texMap[filename];
-        texture.loadFromFile(filename);
+        texture.loadFromFile(filename); //todo handle exception
         return texture;
     }
 }
 
 sf::SoundBuffer &ResourceManager::getSoundBuffer(std::string const &filename) {
-    auto &soundMap = sIstance->soundBuffers;
+    auto &soundMap = sInstance->soundBuffers;
 
     auto pairFound = soundMap.find(filename);
 
@@ -41,7 +40,7 @@ sf::SoundBuffer &ResourceManager::getSoundBuffer(std::string const &filename) {
 }
 
 sf::Font &ResourceManager::getFont(std::string const &filename) {
-    auto &fontMap = sIstance->fonts;
+    auto &fontMap = sInstance->fonts;
 
     auto pairFound = fontMap.find(filename);
 

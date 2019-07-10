@@ -5,21 +5,20 @@
 #include "ResourceManager.h"
 #include "Asteroid.h"
 #include "Randomizer.h"
-#include "Animator.h"
 #include "Game.h"
 
 
 void Asteroid::move(float dt) {
     elapsedTime += dt;
-    if (elapsedTime <= asteroidAppearenceDuration) {
-        sf::Vector2f deltaScale(size / asteroidAppearenceDuration * dt,
-                                size / asteroidAppearenceDuration * dt);
+    if (elapsedTime <= asteroidAppearanceDuration) {
+        sf::Vector2f deltaScale(size / asteroidAppearanceDuration * dt,
+                                size / asteroidAppearanceDuration * dt);
         sprite.setScale(sprite.getScale() + deltaScale);
         if (elapsedTime >= asteroidFreezeDuration) {
             float t = elapsedTime - asteroidFreezeDuration;
-            float deltaT = asteroidAppearenceDuration - asteroidFreezeDuration;
+            float deltaT = asteroidAppearanceDuration - asteroidFreezeDuration;
             sprite.setPosition(sprite.getPosition().x,
-                               initialPosition.y + 0.5 * (speed / (deltaT)) * pow(t, 2));
+                               initialPosition.y + 0.5f * (speed / (deltaT)) * pow(t, 2));
         }
     } else
         sprite.move(0, speed * dt);

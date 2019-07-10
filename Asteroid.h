@@ -5,7 +5,7 @@
 #ifndef ASPACEGAME_ASTEROID_H
 #define ASPACEGAME_ASTEROID_H
 
-static const float asteroidAppearenceDuration = 7;
+static const float asteroidAppearanceDuration = 7;
 static const float asteroidFreezeDuration = 4;
 static const int asteroidLocalRadius = 50;
 static const float asteroidMinSpeed = 90.f;

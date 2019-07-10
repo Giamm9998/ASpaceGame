@@ -5,24 +5,7 @@
 #include <iostream>
 #include "Game.h"
 #include "ResourceManager.h"
-#include "Bomber.h"
-#include "Kamikaze.h"
-#include "Fighter.h"
-#include "Boss.h"
-#include "Minion.h"
-#include "Assaulter.h"
 #include "Raptor.h"
-#include "Background.h"
-#include "FireRate.h"
-#include "Speed.h"
-#include "Asteroid.h"
-#include "Player.h"
-#include "Spaceship.h"
-#include "EnhanceSpecial.h"
-#include "AuxiliaryCannon.h"
-#include "Strength.h"
-#include "LaserCannon.h"
-#include <memory>
 #include <cmath>
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
@@ -159,8 +142,8 @@ void Game::drawPowerUp() {
 }
 
 void Game::drawProjectiles() {
-    for (auto &i : entityManager.getProjectileManager())
-        window.draw(i->getSprite());
+    for (auto &projectile : entityManager.getProjectileManager())
+        window.draw(projectile->getSprite());
 }
 
 void Game::drawPlayer() {

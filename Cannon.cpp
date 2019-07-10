@@ -20,11 +20,11 @@ void Cannon::setTracker(bool track) {
 }
 
 std::unique_ptr<Projectile> Cannon::shoot(const sf::Vector2f &position, float dt, float fireRate) {
-    elapsedtime += dt;
-    if (elapsedtime >= (1.f / (fireRate * fireRateMultiplier))) {
+    elapsedTime += dt;
+    if (elapsedTime >= (1.f / (fireRate * fireRateMultiplier))) {
         std::unique_ptr<Projectile> projectile(new Projectile(projectilePrototype));
         projectile->getSprite().setPosition(position);
-        elapsedtime = 0;
+        elapsedTime = 0;
         return projectile;
     }
     return nullptr;
@@ -32,7 +32,7 @@ std::unique_ptr<Projectile> Cannon::shoot(const sf::Vector2f &position, float dt
 }
 
 
-double Cannon::getFireRateMultiplier() const {
+float Cannon::getFireRateMultiplier() const {
     return fireRateMultiplier;
 }
 
@@ -44,12 +44,12 @@ bool Cannon::isTracker() const {
     return tracker;
 }
 
-float Cannon::getElapsedtime() const {
-    return elapsedtime;
+float Cannon::getElapsedTime() const {
+    return elapsedTime;
 }
 
-void Cannon::setElapsedtime(float time) {
-    Cannon::elapsedtime = time;
+void Cannon::setElapsedTime(float time) {
+    Cannon::elapsedTime = time;
 }
 
 const sf::Vector2f &Cannon::getRelativePosition() const {

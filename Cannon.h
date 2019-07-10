@@ -23,15 +23,15 @@ public:
 
     void setTracker(bool track);
 
-    double getFireRateMultiplier() const;
+    float getFireRateMultiplier() const;
 
     Projectile &getProjectilePrototype();
 
     bool isTracker() const;
 
-    float getElapsedtime() const;
+    float getElapsedTime() const;
 
-    void setElapsedtime(float time);
+    void setElapsedTime(float time);
 
     float getStrengthMultiplier() const;
 
@@ -46,7 +46,7 @@ private:
     float strengthMultiplier = 1;
     Projectile projectilePrototype;
     bool tracker = false;
-    float elapsedtime = 0;
+    float elapsedTime = 0;
     sf::Vector2f relativePosition = sf::Vector2f(0, 0);
 };
 #endif //ASPACEGAME_CANNON_H

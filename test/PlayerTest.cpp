@@ -26,7 +26,7 @@ TEST(BomberTest, Constructor) {
     ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getDamage(),
               bomber.getStrength() * bomber.getPrimaryCannon().getStrengthMultiplier());
     ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().isEvil(), false);
-    ASSERT_FLOAT_EQ(bomber.getPrimaryCannon().getElapsedtime(),
+    ASSERT_FLOAT_EQ(bomber.getPrimaryCannon().getElapsedTime(),
                     (1.f / (bomber.getFireRate() * bomber.getPrimaryCannon().getFireRateMultiplier())));
     ASSERT_EQ(bomber.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(bomber.getSecondaryCannon().isTracker(), false);
@@ -38,7 +38,7 @@ TEST(BomberTest, Constructor) {
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, -1));
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getDamage(),
               bomber.getStrength() * bomber.getSecondaryCannon().getStrengthMultiplier());
-    ASSERT_EQ(bomber.getSecondaryCannon().getElapsedtime(), 0);
+    ASSERT_EQ(bomber.getSecondaryCannon().getElapsedTime(), 0);
     ASSERT_EQ(bomber.getSecondaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
 }
 
@@ -57,7 +57,7 @@ TEST(RaptorTest, Constructor) {
     ASSERT_EQ(raptor.getPrimaryCannon().isTracker(), false);
     ASSERT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(raptor.getPrimaryCannon().getStrengthMultiplier(), 1);
-    ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getElapsedtime(),
+    ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getElapsedTime(),
                     (1.f / (raptor.getFireRate() * raptor.getPrimaryCannon().getFireRateMultiplier())));
     ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().isEvil(), false);
     ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getSpeed(), 400);
@@ -78,10 +78,10 @@ TEST(RaptorTest, shield) {
     raptor.useShield(time, r);
     ASSERT_EQ(raptor.isCharging(), true);
     ASSERT_EQ(raptor.getShield().getScale(), sf::Vector2f(0, 0));
-    raptor.recharge(rechargeTime / 1.5, r);
+    raptor.recharge(rechargeTime / 1.5f, r);
     ASSERT_EQ(raptor.isCharging(), true);
     ASSERT_EQ(raptor.getShield().getScale(), sf::Vector2f(0, 0));
-    raptor.recharge(rechargeTime / 1.5, r);
+    raptor.recharge(rechargeTime / 1.5f, r);
     ASSERT_EQ(raptor.isCharging(), false);
     ASSERT_EQ(raptor.getShield().getScale(), sf::Vector2f(1, 1));
 }

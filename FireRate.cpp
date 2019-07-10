@@ -3,14 +3,11 @@
 //
 
 #include "FireRate.h"
-#include "ResourceManager.h"
-#include "Game.h"
-#include "Randomizer.h"
 
 FireRate::FireRate() : PowerUp(false) {
     sprite.setColor(sf::Color::Magenta);
 }
 
 void FireRate::powerUp(Player &player) const {
-    player.setFireRate(player.getFireRate() * 10);
+    player.setFireRate(player.getFireRate() * 10); //todo right value
 }

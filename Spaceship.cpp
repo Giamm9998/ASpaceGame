@@ -2,11 +2,8 @@
 // Created by gianmarco on 30/06/19.
 //
 #include "Game.h"
-#include "Player.h"
-#include "Raptor.h"
 #include <cmath>
 #include "ResourceManager.h"
-#include "Spaceship.h"
 
 Spaceship::Spaceship(float hp, float strength, float speed, float fireRate) :
         hp(hp), strength(strength), speed(speed), fireRate(fireRate), maxHp(hp) {

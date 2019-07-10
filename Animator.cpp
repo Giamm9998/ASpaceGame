@@ -62,7 +62,7 @@ void Animator::update(float const &time) {
     currentTime += time;
 
     float scaledTime = (currentTime / currentAnimation->animDuration.asSeconds());
-    int numFrames = currentAnimation->animFrames.size();
+    unsigned long numFrames = currentAnimation->animFrames.size();
     int currentFrame = static_cast<int>(scaledTime * numFrames);
 
     if (currentAnimation->animLooping)

@@ -33,7 +33,6 @@ public:
 
     static bool isLegalMove(float x, float origin, short int direction);
 
-
 private:
     void processEvents();
 
@@ -78,7 +77,6 @@ private:
     void drawPowerUp();
 
     void drawHud();
-
 
     //FRIEND_TEST(Game, Functions);
 
