@@ -21,7 +21,7 @@ void Enemy::setPosition(float x, float y) {
     sprite.setPosition(sf::Vector2f(x, y));
 }
 
-void Enemy::setPosition(sf::Vector2f pos) {
+void Enemy::setPosition(const sf::Vector2f &pos) {
     sprite.setPosition(pos);
 }
 

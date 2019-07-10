@@ -24,7 +24,7 @@ public:
         sf::Time animDuration;
         bool animLooping;
 
-        Animation(std::string name, std::string textureName, sf::Time const &duration, bool looping) :
+        Animation(const std::string &name, const std::string &textureName, sf::Time const &duration, bool looping) :
                 animName(std::move(name)), animTextureName(std::move(textureName)), animDuration(duration),
                 animLooping(looping) {}
 

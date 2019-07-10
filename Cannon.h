@@ -15,7 +15,7 @@ class Cannon {
 public:
     Cannon();
 
-    std::unique_ptr<Projectile> shoot(sf::Vector2f position, float dt);
+    std::unique_ptr<Projectile> shoot(const sf::Vector2f &position, float dt);
 
     void setSpaceshipPtr(Spaceship *ptr);
 

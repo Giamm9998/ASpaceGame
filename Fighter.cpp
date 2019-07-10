@@ -35,11 +35,6 @@ Fighter::Fighter() : Enemy(60.f, 10.f, 70.f, 0.3f) {
     //TODO establish the right default values
 }
 
-
-std::unique_ptr<Projectile> Fighter::useCannon(float dt, Cannon *cannon) {
-    return Spaceship::useCannon(dt, cannon);
-}
-
 std::vector<Cannon> &Fighter::getExternalCannons() {
     return externalCannons;
 }

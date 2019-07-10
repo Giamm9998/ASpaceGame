@@ -57,11 +57,11 @@ Assaulter::Assaulter() : Enemy(60.f, 20.f, 0.f, 0.5f) {
     //TODO establish the right default values
 }
 
-std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon *cannon) {
+std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon) {
     return Spaceship::useCannon(dt, cannon);
 }
 
-std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon *cannon, sf::Vector2f playerPos) {
+std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon, sf::Vector2f playerPos) {
     if (elapsedTime <= ASSAULTER_FREEZE_DURATION) {
         sf::Vector2f vector(playerPos - sprite.getPosition());
         float module = hypot(vector.x, vector.y);

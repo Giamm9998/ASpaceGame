@@ -14,8 +14,6 @@ public:
 
     void move(float time) override;
 
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon *cannon) override;
-
     std::vector<Cannon> &getExternalCannons();
 
 private:

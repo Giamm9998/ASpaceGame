@@ -17,7 +17,7 @@ public:
 
     Projectile(const Projectile &original);
 
-    Projectile(float speed, float damage, bool evil = true, sf::Vector2f size = sf::Vector2f(0.5, 0.5));
+    Projectile(float speed, float damage, bool evil = true, const sf::Vector2f &size = sf::Vector2f(0.5, 0.5));
 
     void move(float time);
 

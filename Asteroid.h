@@ -41,8 +41,6 @@ public:
 
     float getHp() const;
 
-    void setHp(float newHp);
-
     float getStartingHp() const;
 
     bool isReceivingDamage() const;
