@@ -18,7 +18,6 @@ TEST(BomberTest, Constructor) {
     ASSERT_EQ(bomber.isLaserActive(), false);
     ASSERT_EQ(bomber.getAuxiliaryCannons().empty(), true);
     ASSERT_EQ(bomber.getPrimaryCannon().isTracker(), false);
-    ASSERT_EQ(bomber.getPrimaryCannon().getSpaceshipPtr(), &bomber);
     ASSERT_EQ(bomber.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(bomber.getPrimaryCannon().getStrengthMultiplier(), 1);
     ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getSpeed(), 400);
@@ -31,7 +30,6 @@ TEST(BomberTest, Constructor) {
                     (1.f / (bomber.getFireRate() * bomber.getPrimaryCannon().getFireRateMultiplier())));
     ASSERT_EQ(bomber.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(bomber.getSecondaryCannon().isTracker(), false);
-    ASSERT_EQ(bomber.getSecondaryCannon().getSpaceshipPtr(), &bomber);
     ASSERT_EQ(bomber.getSecondaryCannon().getFireRateMultiplier(), 0.5);
     ASSERT_EQ(bomber.getSecondaryCannon().getStrengthMultiplier(), 3);
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().isEvil(), false);
@@ -57,7 +55,6 @@ TEST(RaptorTest, Constructor) {
     ASSERT_EQ(raptor.getShieldDuration(), 5);
     ASSERT_EQ(raptor.getAuxiliaryCannons().empty(), true);
     ASSERT_EQ(raptor.getPrimaryCannon().isTracker(), false);
-    ASSERT_EQ(raptor.getPrimaryCannon().getSpaceshipPtr(), &raptor);
     ASSERT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(raptor.getPrimaryCannon().getStrengthMultiplier(), 1);
     ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getElapsedtime(),
@@ -94,7 +91,7 @@ TEST(BomberTest, bomb) {
     sf::RectangleShape r;
     bomber.useBomb(r);
     ASSERT_EQ(bomber.isCharging(), true);
-    bomber.recharge(1.f / (bomber.getSecondaryCannon().getSpaceshipPtr()->getFireRate() *
+    bomber.recharge(1.f / (bomber.getFireRate() *
                            bomber.getSecondaryCannon().getFireRateMultiplier()) - 1, r);
     ASSERT_EQ(bomber.isCharging(), true);
     bomber.recharge(2, r);

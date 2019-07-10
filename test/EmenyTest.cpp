@@ -21,7 +21,6 @@ TEST(MinionTest, Constructor) {
     ASSERT_EQ(minion.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(minion.getPrimaryCannon().getProjectilePrototype().isEvil(), true);
     ASSERT_EQ(minion.getPrimaryCannon().isTracker(), false);
-    ASSERT_EQ(minion.getPrimaryCannon().getSpaceshipPtr(), &minion);
     ASSERT_EQ(minion.getPrimaryCannon().getProjectilePrototype().getSpeed(), 200);
     ASSERT_EQ(minion.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
     ASSERT_EQ(minion.getPrimaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, 1));
@@ -44,7 +43,6 @@ TEST(AssaulterTest, Constructor) {
     ASSERT_EQ(assaulter.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(assaulter.getPrimaryCannon().getProjectilePrototype().isEvil(), true);
     ASSERT_EQ(assaulter.getPrimaryCannon().isTracker(), true);
-    ASSERT_EQ(assaulter.getPrimaryCannon().getSpaceshipPtr(), &assaulter);
     ASSERT_EQ(assaulter.getPrimaryCannon().getProjectilePrototype().getSpeed(), 100);
     ASSERT_EQ(assaulter.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
     ASSERT_EQ(assaulter.getPrimaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, 1));
@@ -66,7 +64,6 @@ TEST(KamikazeTest, Constructor) {
     ASSERT_EQ(kamikaze.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(kamikaze.getPrimaryCannon().getProjectilePrototype().isEvil(), true);
     ASSERT_EQ(kamikaze.getPrimaryCannon().isTracker(), false);
-    ASSERT_EQ(kamikaze.getPrimaryCannon().getSpaceshipPtr(), &kamikaze);
     ASSERT_EQ(kamikaze.getPrimaryCannon().getProjectilePrototype().getSpeed(), 200);
     ASSERT_EQ(kamikaze.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
     ASSERT_EQ(kamikaze.getPrimaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, 1));
@@ -88,7 +85,6 @@ TEST(FighterTest, Constructor) {
     ASSERT_EQ(fighter.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(fighter.getPrimaryCannon().getProjectilePrototype().isEvil(), true);
     ASSERT_EQ(fighter.getPrimaryCannon().isTracker(), false);
-    ASSERT_EQ(fighter.getPrimaryCannon().getSpaceshipPtr(), &fighter);
     ASSERT_EQ(fighter.getPrimaryCannon().getProjectilePrototype().getSpeed(), 200);
     ASSERT_EQ(fighter.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
     ASSERT_EQ(fighter.getPrimaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, 1));

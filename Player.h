@@ -14,6 +14,8 @@ class Player :public Spaceship{
 public:
     Player(float hp, float strength, float speed, float fireRate);
 
+    ~Player() override;
+
     void move(float time) override {};
 
     virtual void move(float time, short int movement);

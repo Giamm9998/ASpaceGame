@@ -24,6 +24,8 @@ public:
 
     Asteroid();
 
+    virtual ~Asteroid();
+
     void move(float dt);
 
     Animator *getAnimator() const;

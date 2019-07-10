@@ -50,7 +50,7 @@ std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon &cannon) {
                           sprite.getPosition().y -
                           (sprite.getGlobalBounds().width / 2) * cos(sprite.getRotation() * M_PI / 180) +
                           cannon.getRelativePosition().y * sprite.getScale().y);
-    return cannon.shoot(position, dt);
+    return cannon.shoot(position, dt, fireRate);
 }
 
 void Spaceship::receiveDamage(float damage) {

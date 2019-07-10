@@ -16,7 +16,6 @@ void Kamikaze::explode() {}
 Kamikaze::Kamikaze() : Enemy(60.f, 30.f, 70.f, 0.8f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(200, strength * primaryCannon.getStrengthMultiplier());
     primaryCannon.setProjectilePrototype(projectilePrototype);
     //TODO establish the right default values

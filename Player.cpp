@@ -60,3 +60,6 @@ void Player::setStrength(float strength) {
         cannon.getProjectilePrototype().setDamage(strength * cannon.getStrengthMultiplier());
     }
 }
+
+Player::~Player() = default;
+

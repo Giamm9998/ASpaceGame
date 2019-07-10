@@ -7,11 +7,6 @@
 
 Cannon::Cannon() = default;
 
-
-void Cannon::setSpaceshipPtr(Spaceship *ptr) {
-    Cannon::spaceshipPtr = ptr;
-}
-
 void Cannon::setFireRateMultiplier(double multiplier) {
     Cannon::fireRateMultiplier = multiplier;
 }
@@ -24,9 +19,9 @@ void Cannon::setTracker(bool track) {
     Cannon::tracker = track;
 }
 
-std::unique_ptr<Projectile> Cannon::shoot(const sf::Vector2f &position, float dt) {
+std::unique_ptr<Projectile> Cannon::shoot(const sf::Vector2f &position, float dt, float fireRate) {
     elapsedtime += dt;
-    if (elapsedtime >= (1.f / (spaceshipPtr->getFireRate() * fireRateMultiplier))) {
+    if (elapsedtime >= (1.f / (fireRate * fireRateMultiplier))) {
         std::unique_ptr<Projectile> projectile(new Projectile(projectilePrototype));
         projectile->getSprite().setPosition(position);
         elapsedtime = 0;
@@ -55,10 +50,6 @@ float Cannon::getElapsedtime() const {
 
 void Cannon::setElapsedtime(float time) {
     Cannon::elapsedtime = time;
-}
-
-Spaceship *Cannon::getSpaceshipPtr() const {
-    return spaceshipPtr;
 }
 
 const sf::Vector2f &Cannon::getRelativePosition() const {

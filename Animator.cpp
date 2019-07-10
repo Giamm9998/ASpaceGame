@@ -72,3 +72,5 @@ void Animator::update(float const &time) {
 
     sprite.setTextureRect(currentAnimation->animFrames[currentFrame]);
 }
+
+Animator::~Animator() = default;

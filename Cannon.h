@@ -15,17 +15,13 @@ class Cannon {
 public:
     Cannon();
 
-    std::unique_ptr<Projectile> shoot(const sf::Vector2f &position, float dt);
-
-    void setSpaceshipPtr(Spaceship *ptr);
+    std::unique_ptr<Projectile> shoot(const sf::Vector2f &position, float dt, float fireRate);
 
     void setFireRateMultiplier(double multiplier);
 
     void setProjectilePrototype(const Projectile &prototype);
 
     void setTracker(bool track);
-
-    Spaceship *getSpaceshipPtr() const;
 
     double getFireRateMultiplier() const;
 
@@ -46,7 +42,6 @@ public:
     void setStrengthMultiplier(float multiplier);
 
 private:
-    Spaceship *spaceshipPtr;//TODO make this a smartpointer
     float fireRateMultiplier = 1;
     float strengthMultiplier = 1;
     Projectile projectilePrototype;

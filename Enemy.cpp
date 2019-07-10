@@ -35,3 +35,5 @@ void Enemy::blink(float time) {
         sprite.setColor(sf::Color::White);
     }
 }
+
+Enemy::~Enemy() = default;

@@ -8,14 +8,12 @@
 Bomber::Bomber() : Player(200.f, 15.f, 120.f, 1.2f) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    primaryCannon.setSpaceshipPtr(this);
     Projectile projectilePrototype(400, strength * primaryCannon.getStrengthMultiplier(), false);
     primaryCannon.setElapsedtime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
     primaryCannon.setProjectilePrototype(projectilePrototype);
 
     laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);
 
-    secondaryCannon.setSpaceshipPtr(this);
     secondaryCannon.setFireRateMultiplier(0.5);
     secondaryCannon.setStrengthMultiplier(3);
     Projectile secondaryProjectilePrototype(200, strength * secondaryCannon.getStrengthMultiplier(),

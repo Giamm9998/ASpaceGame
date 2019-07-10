@@ -96,4 +96,8 @@ float Asteroid::getHp() const {
 
 float Asteroid::getStartingHp() const {
     return startingHp;
-};
+}
+
+Asteroid::~Asteroid() {
+    delete animator;
+}
