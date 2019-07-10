@@ -40,7 +40,7 @@ std::unique_ptr<Projectile> Bomber::useBomb(sf::RectangleShape &specialHud) {
     charging = true;
     elapsedTime = 0;
     specialHud.setScale(1, 0);
-    return useCannon(dt, &secondaryCannon);
+    return useCannon(dt, secondaryCannon);
 }
 
 void Bomber::recharge(float dt, sf::RectangleShape &specialHud) {

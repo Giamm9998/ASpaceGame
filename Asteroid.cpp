@@ -94,10 +94,6 @@ float Asteroid::getHp() const {
     return hp;
 }
 
-void Asteroid::setHp(float newHp) {
-    Asteroid::hp = newHp;
-}
-
 float Asteroid::getStartingHp() const {
     return startingHp;
 };

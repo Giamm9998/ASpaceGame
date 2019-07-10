@@ -24,7 +24,7 @@ void Cannon::setTracker(bool track) {
     Cannon::tracker = track;
 }
 
-std::unique_ptr<Projectile> Cannon::shoot(sf::Vector2f position, float dt) {
+std::unique_ptr<Projectile> Cannon::shoot(const sf::Vector2f &position, float dt) {
     elapsedtime += dt;
     if (elapsedtime >= (1.f / (spaceshipPtr->getFireRate() * fireRateMultiplier))) {
         std::unique_ptr<Projectile> projectile(new Projectile(projectilePrototype));
