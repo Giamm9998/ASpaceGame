@@ -20,11 +20,11 @@ public:
 
     void move(float dt);
 
-    virtual void powerUp(Player &player) = 0;
+    virtual void powerUp(Player &player) const = 0;
 
     sf::Sprite &getSprite();
 
-    Animator *getAnimator();
+    Animator *getAnimator() const;
 
     virtual ~PowerUp();
 

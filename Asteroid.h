@@ -5,10 +5,9 @@
 #ifndef ASPACEGAME_ASTEROID_H
 #define ASPACEGAME_ASTEROID_H
 
-#define ASTEROID_APPEARANCE_DURATION 7.f
-#define ASTEROID_FREEZE_DURATION 4
-
-static const int localRadius = 50;
+static const float asteroidAppearenceDuration = 7;
+static const float asteroidFreezeDuration = 4;
+static const int asteroidLocalRadius = 50;
 static const float asteroidMinSpeed = 90.f;
 static const float asteroidMaxSpeed = 120.f;
 static const float asteroidMinSize = 0.3;
@@ -27,7 +26,7 @@ public:
 
     void move(float dt);
 
-    Animator *getAnimator();
+    Animator *getAnimator() const;
 
     sf::Sprite &getSprite();
 

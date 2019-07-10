@@ -8,9 +8,11 @@
 #include "Randomizer.h"
 #include "Raptor.h"
 
-AuxiliaryCannon::AuxiliaryCannon() : PowerUp(true) {}
+AuxiliaryCannon::AuxiliaryCannon() : PowerUp(true) {
+    sprite.setColor(sf::Color::Green);
+}
 
-void AuxiliaryCannon::powerUp(Player &player) {
+void AuxiliaryCannon::powerUp(Player &player) const {
     Cannon cannon(player.getPrimaryCannon());
     if (player.getAuxiliaryCannons().empty()) {
         sf::Vector2f relativePosition;

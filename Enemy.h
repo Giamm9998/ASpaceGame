@@ -6,7 +6,7 @@
 #define ASPACEGAME_ENEMY_H
 
 
-#define ENEMY_BLINK_DURATION 0.15
+static const float enemyBlinkDuration = 0.15;
 
 #include "Spaceship.h"
 #include <list>

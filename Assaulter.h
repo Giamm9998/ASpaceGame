@@ -5,9 +5,8 @@
 #ifndef ASPACEGAME_ASSAULTER_H
 #define ASPACEGAME_ASSAULTER_H
 
-#define ASSAULTER_FREEZE_DURATION 5.f
-#define ASSAULTER_APPEARING_DURATION 0.4
-
+static const float assaulterFreezeDuration = 5;
+static const float assaulterAppearingDuration = 0.4;
 static const int assaulterSpawnHeight = 50;
 
 #include "Enemy.h"
@@ -20,7 +19,7 @@ public:
 
     std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon) override;
 
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon, sf::Vector2f playerPos);
+    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos);
 
 private:
     bool moved = false;

@@ -5,8 +5,8 @@
 #ifndef ASPACEGAME_SPACESHIP_H
 #define ASPACEGAME_SPACESHIP_H
 
-#define DYING_DURATION 3
-#define PLAYER_BLINK_DURATION 0.3
+static const float dyingDuration = 3;
+static const float playerBlinkDuration = 0.3;
 static const float maxScale = 0.35f;
 
 #include <SFML/Graphics.hpp>

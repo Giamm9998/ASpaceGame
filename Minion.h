@@ -6,7 +6,7 @@
 #define ASPACEGAME_MINION_H
 
 
-#define MINION_FREEZE_DURATION 1
+static const float minionFreezeDuration = 1;
 static const int minionSpawnHeight = 150;
 
 #include "Enemy.h"
