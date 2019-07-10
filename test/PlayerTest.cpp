@@ -98,3 +98,27 @@ TEST(BomberTest, bomb) {
     ASSERT_EQ(bomber.isCharging(), false);
 
 }
+
+TEST(PlayerTest, blink) {
+    Raptor raptor;
+    raptor.blink(playerBlinkDuration - 0.1);
+    ASSERT_EQ(raptor.getSprite().getColor(), sf::Color(255, 255, 255, 100));
+    raptor.blink(0.2);
+    ASSERT_EQ(raptor.getSprite().getColor(), sf::Color::White);
+    raptor.blink(playerBlinkDuration);
+    ASSERT_EQ(raptor.getSprite().getColor(), sf::Color(255, 255, 255, 100));
+    raptor.blink(playerBlinkDuration);
+    ASSERT_EQ(raptor.getSprite().getColor(), sf::Color::White);
+    raptor.blink(playerBlinkDuration);
+    ASSERT_FALSE(raptor.isReceivingDamage());
+}
+
+TEST(PlayerTest, move) {
+    Bomber bomber;
+    sf::Vector2f initialPosition = bomber.getSprite().getPosition();
+    bomber.move(0.5, 1);
+    sf::Vector2f movement(0.5 * bomber.getSpeed() * 1, 0);
+    ASSERT_EQ(bomber.getSprite().getPosition(), initialPosition + movement);
+    ASSERT_EQ(bomber.getSprite().getPosition(), bomber.getLaser().getPosition());
+    ASSERT_EQ(bomber.getSprite().getPosition(), bomber.getBoundingBox().getPosition());
+}

@@ -31,7 +31,7 @@ public:
 
     void run();
 
-    static bool isLegalMove(float x, float origin, short int direction);
+    static bool isLegalMove(float x, float origin, short int direction);//Todo with sprite
 
 
 private:

@@ -23,7 +23,7 @@ public:
 
     void setPosition(const sf::Vector2f &pos);
 
-    void move(float time) override;
+    void move(float time) override; //Todo make abstract
 
     void blink(float time) final;
 

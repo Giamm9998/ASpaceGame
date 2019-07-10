@@ -13,3 +13,11 @@ TEST(BackgroundTest, Constructor) {
     ASSERT_EQ(background.getSprite2().getPosition(), sf::Vector2f(0, -windowHeight));
     ASSERT_FALSE(background.getSprite1().getPosition().y > windowHeight);
 }
+
+TEST(BackgroundTest, scroll) {
+    Background background;
+    background.scroll(windowHeight / (background.getScrollSpeed()));
+    ASSERT_EQ(background.getSprite1().getPosition(), sf::Vector2f(0, -windowHeight));
+    background.scroll(windowHeight / (background.getScrollSpeed()));
+    ASSERT_EQ(background.getSprite2().getPosition(), sf::Vector2f(0, -windowHeight));
+}

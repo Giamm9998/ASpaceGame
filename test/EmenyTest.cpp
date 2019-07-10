@@ -94,3 +94,11 @@ TEST(FighterTest, Constructor) {
     ASSERT_EQ(fighter.getExternalCannons()[1].getRelativePosition(), sf::Vector2f(114, 0));
     ASSERT_EQ(fighter.getExternalCannons().size(), 2);
 }
+
+TEST(EnemyTest, Die) {
+    Minion minion;
+    bool a = minion.die(dyingDuration - 1);
+    ASSERT_FALSE(a);
+    a = minion.die(2);
+    ASSERT_TRUE(a);
+}

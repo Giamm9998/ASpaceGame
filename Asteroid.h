@@ -44,6 +44,8 @@ public:
 
     float getStartingHp() const;
 
+    float getSpeed() const;
+
     bool isReceivingDamage() const;
 
     void setReceivingDamage(bool receiveDamage);

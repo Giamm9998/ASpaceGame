@@ -3,6 +3,7 @@
 //
 #include "gtest/gtest.h"
 #include "../ResourceManager.h"
+//Todo when the tests are removed, check all the getter
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

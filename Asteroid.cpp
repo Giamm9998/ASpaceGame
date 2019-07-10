@@ -101,3 +101,7 @@ float Asteroid::getStartingHp() const {
 Asteroid::~Asteroid() {
     delete animator;
 }
+
+float Asteroid::getSpeed() const {
+    return speed;
+}
