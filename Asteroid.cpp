@@ -30,7 +30,7 @@ Asteroid::Asteroid() : speed(Randomizer::getRandomReal(asteroidMinSpeed, asteroi
     hp = maxHp / asteroidMaxSize * size;
     startingHp = hp;
     auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
-    int frames = 8, rows = 4, animInFile = 2;
+    unsigned int frames = 8, rows = 4, animInFile = 2;
     int startAnim = Randomizer::getRandomInt(0, 1) ? 0 : 128 * (rows);
     rotation.addFrames(sf::Vector2i(0, startAnim), sf::Vector2i(128, 128), frames, rows);
 

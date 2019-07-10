@@ -8,7 +8,7 @@
 #define ASTEROID_APPEARANCE_DURATION 7.f
 #define ASTEROID_FREEZE_DURATION 4
 
-static const int localRadius = 50;
+static const int asteroidLocalRadius = 50;
 static const float asteroidMinSpeed = 90.f;
 static const float asteroidMaxSpeed = 120.f;
 static const float asteroidMinSize = 0.3;

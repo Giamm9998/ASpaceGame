@@ -1,7 +1,7 @@
 //
 // Created by gianmarco on 30/06/19.
 //
-#include <math.h>
+#include <cmath>
 #include "Bomber.h"
 #include "ResourceManager.h"
 

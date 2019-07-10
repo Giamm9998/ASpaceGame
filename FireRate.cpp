@@ -7,7 +7,9 @@
 #include "Game.h"
 #include "Randomizer.h"
 
-FireRate::FireRate() : PowerUp(false) {}
+FireRate::FireRate() : PowerUp(false) {
+    sprite.setColor(sf::Color::Magenta);
+}
 
 void FireRate::powerUp(Player &player) {
     player.setFireRate(player.getFireRate() * 10);

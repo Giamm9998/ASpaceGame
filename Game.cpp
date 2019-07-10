@@ -23,7 +23,7 @@
 #include "Strength.h"
 #include "LaserCannon.h"
 #include <memory>
-#include <math.h>
+#include <cmath>
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
@@ -36,11 +36,11 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Bomber);
+    player = std::unique_ptr<Player>(new Raptor);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10; i++)
         asteroidManager.emplace_back(new Asteroid);
 
     background = std::unique_ptr<Background>(new Background);
@@ -354,13 +354,14 @@ void Game::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::
             }
 
         if (player->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
-            player->receiveDamage((*projectileIter)->getDamage()); //todo handle death in one position
+            player->receiveDamage((*projectileIter)->getDamage());
             projectileManager.erase(projectileIter);
             return;
         }
-    } else { //todo bounding box, or circle collision if projectile is a circle
+    } else {
         for (auto &asteroid : asteroidManager) {
-            if (asteroid->getSprite().getGlobalBounds().intersects(projSprite.getGlobalBounds())) {
+            if (dist(asteroid->getSprite().getPosition(), projSprite.getPosition()) <=
+                (asteroidLocalRadius * asteroid->getSprite().getScale().x + projSprite.getGlobalBounds().height / 2)) {
                 asteroid->receiveDamage((*projectileIter)->getDamage());
                 projectileManager.erase(projectileIter);
                 return;
@@ -388,7 +389,7 @@ void Game::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::ite
         if (isUsingSpecial && !player->isCharging()) {
             auto shield = dynamic_cast<Raptor &>(*player).getShield();
             if (dist(asteroidSprite.getPosition(), shield.getPosition()) <=
-                (shield.getRadius() + localRadius * (*asteroidIter)->getSize())) {
+                (shield.getRadius() + asteroidLocalRadius * (*asteroidIter)->getSize())) {
                 asteroidManager.erase(asteroidIter);
                 return;
             }

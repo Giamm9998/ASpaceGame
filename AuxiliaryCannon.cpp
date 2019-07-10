@@ -8,7 +8,9 @@
 #include "Randomizer.h"
 #include "Raptor.h"
 
-AuxiliaryCannon::AuxiliaryCannon() : PowerUp(true) {}
+AuxiliaryCannon::AuxiliaryCannon() : PowerUp(true) {
+    sprite.setColor(sf::Color::Green);
+}
 
 void AuxiliaryCannon::powerUp(Player &player) {
     Cannon cannon(player.getPrimaryCannon());
