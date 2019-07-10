@@ -2,6 +2,10 @@
 
 #include <utility>
 
+#include <utility>
+
+#include <utility>
+
 //
 // Created by Fabio Luccioletti on 2019-07-03.
 //
@@ -24,7 +28,7 @@ public:
         sf::Time animDuration;
         bool animLooping;
 
-        Animation(const std::string &name, const std::string &textureName, sf::Time const &duration, bool looping) :
+        Animation(std::string name, std::string textureName, sf::Time const &duration, bool looping) :
                 animName(std::move(name)), animTextureName(std::move(textureName)), animDuration(duration),
                 animLooping(looping) {}
 

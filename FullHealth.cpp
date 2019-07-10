@@ -7,6 +7,6 @@
 
 FullHealth::FullHealth() : PowerUp(false) {}
 
-void FullHealth::powerUp(Player &player) {
+void FullHealth::powerUp(Player &player) const {
     player.setHp(player.getMaxHp());
 }

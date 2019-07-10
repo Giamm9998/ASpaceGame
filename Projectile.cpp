@@ -13,7 +13,10 @@ Projectile::Projectile() = default;
 
 Projectile::Projectile(float speed, float damage, bool evil, const sf::Vector2f &size) : size(
         size), speed(speed), damage(damage), evil(evil) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/BasicProjectile.png"));
+    if (evil)
+        sprite.setTexture(ResourceManager::getTexture("../Texture/EvilProjectile.png"));
+    else
+        sprite.setTexture(ResourceManager::getTexture("../Texture/BasicProjectile.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setScale(size);
     movement = sf::Vector2f(0, evil ? 1 : -1);

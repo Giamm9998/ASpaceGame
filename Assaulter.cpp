@@ -12,14 +12,14 @@
 void Assaulter::move(float time) {
     elapsedTime += time;
     boundingBox.setScale(sprite.getScale());
-    if (elapsedTime >= ASSAULTER_FREEZE_DURATION &&
-        elapsedTime - ASSAULTER_FREEZE_DURATION < ASSAULTER_APPEARING_DURATION) {
+    if (elapsedTime >= assaulterFreezeDuration &&
+        elapsedTime - assaulterFreezeDuration < assaulterAppearingDuration) {
         sprite.setScale(
-                maxScale - (maxScale * (elapsedTime - ASSAULTER_FREEZE_DURATION) / ASSAULTER_APPEARING_DURATION),
-                maxScale - (maxScale * (elapsedTime - ASSAULTER_FREEZE_DURATION) / ASSAULTER_APPEARING_DURATION));
+                maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration),
+                maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration));
 
-    } else if (elapsedTime >= ASSAULTER_FREEZE_DURATION + ASSAULTER_APPEARING_DURATION &&
-               elapsedTime - ASSAULTER_FREEZE_DURATION < 2 * ASSAULTER_APPEARING_DURATION) {
+    } else if (elapsedTime >= assaulterFreezeDuration + assaulterAppearingDuration &&
+               elapsedTime - assaulterFreezeDuration < 2 * assaulterAppearingDuration) {
         if (!moved) {
             setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
                                                       windowWidth - sprite.getOrigin().x * maxScale,
@@ -27,9 +27,9 @@ void Assaulter::move(float time) {
                                                       assaulterSpawnHeight)); //todo not based on constants
             moved = true;
         }
-        sprite.setScale(maxScale * ((elapsedTime - ASSAULTER_FREEZE_DURATION) / ASSAULTER_APPEARING_DURATION - 1),
-                        maxScale * ((elapsedTime - ASSAULTER_FREEZE_DURATION) / ASSAULTER_APPEARING_DURATION - 1));
-    } else if (elapsedTime >= ASSAULTER_FREEZE_DURATION + 2 * ASSAULTER_APPEARING_DURATION) {
+        sprite.setScale(maxScale * ((elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration - 1),
+                        maxScale * ((elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration - 1));
+    } else if (elapsedTime >= assaulterFreezeDuration + 2 * assaulterAppearingDuration) {
         elapsedTime = 0;
         moved = false;
     }
@@ -61,8 +61,8 @@ std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon) {
     return Spaceship::useCannon(dt, cannon);
 }
 
-std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon, sf::Vector2f playerPos) {
-    if (elapsedTime <= ASSAULTER_FREEZE_DURATION) {
+std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
+    if (elapsedTime <= assaulterFreezeDuration) {
         sf::Vector2f vector(playerPos - sprite.getPosition());
         float module = hypot(vector.x, vector.y);
         primaryCannon.getProjectilePrototype().setMovement(sf::Vector2f(vector.x / module, vector.y / module));

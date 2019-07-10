@@ -31,7 +31,7 @@ void PowerUp::move(float dt) {
     sprite.move(cos(angle) * powerUpSpeed * dt * direction, sin(angle) * powerUpSpeed * dt);
 }
 
-Animator *PowerUp::getAnimator() { //todo smart pointer/reference
+Animator *PowerUp::getAnimator() const { //todo smart pointer/reference
     return animator;
 }
 

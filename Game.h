@@ -77,6 +77,10 @@ private:
 
     void drawProjectiles();
 
+    void drawPowerUp();
+
+    void drawHud();
+
     void updateEnemies(float time);
 
     void updatePlayer(float time);
@@ -89,21 +93,17 @@ private:
 
     void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter);
 
+    void checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter);
+
+    void checkForLaserCollision(float time);
+
     void emplaceProjectile(std::unique_ptr<Projectile> projectile);
 
     bool isOutOfSigth(const sf::Sprite &sprite) const;
 
-    void checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter);
-
-    void drawPowerUp();
-
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
-    void checkForLaserCollision(float time);
-
     void createHud();
-
-    void drawHud();
 
     //FRIEND_TEST(Game, Functions);
 

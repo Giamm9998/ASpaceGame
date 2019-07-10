@@ -27,9 +27,9 @@ void Enemy::setPosition(const sf::Vector2f &pos) {
 
 void Enemy::blink(float time) {
     blinkingTime += time;
-    if (blinkingTime <= ENEMY_BLINK_DURATION)
+    if (blinkingTime <= enemyBlinkDuration)
         sprite.setColor(sf::Color(230, 130, 130));
-    if (blinkingTime > ENEMY_BLINK_DURATION) {
+    if (blinkingTime > enemyBlinkDuration) {
         blinkingTime = 0;
         setReceivingDamage(false);
         sprite.setColor(sf::Color::White);

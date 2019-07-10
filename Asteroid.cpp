@@ -11,13 +11,13 @@
 
 void Asteroid::move(float dt) {
     elapsedTime += dt;
-    if (elapsedTime <= ASTEROID_APPEARANCE_DURATION) {
-        sf::Vector2f deltaScale(size / ASTEROID_APPEARANCE_DURATION * dt,
-                                size / ASTEROID_APPEARANCE_DURATION * dt);
+    if (elapsedTime <= asteroidAppearenceDuration) {
+        sf::Vector2f deltaScale(size / asteroidAppearenceDuration * dt,
+                                size / asteroidAppearenceDuration * dt);
         sprite.setScale(sprite.getScale() + deltaScale);
-        if (elapsedTime >= ASTEROID_FREEZE_DURATION) {
-            float t = elapsedTime - ASTEROID_FREEZE_DURATION;
-            float deltaT = ASTEROID_APPEARANCE_DURATION - ASTEROID_FREEZE_DURATION;
+        if (elapsedTime >= asteroidFreezeDuration) {
+            float t = elapsedTime - asteroidFreezeDuration;
+            float deltaT = asteroidAppearenceDuration - asteroidFreezeDuration;
             sprite.setPosition(sprite.getPosition().x,
                                initialPosition.y + 0.5 * (speed / (deltaT)) * pow(t, 2));
         }
@@ -46,14 +46,14 @@ Asteroid::Asteroid() : speed(Randomizer::getRandomReal(asteroidMinSpeed, asteroi
 
 void Asteroid::receiveDamage(float damageReceived) {
     receivingDamage = true;
-    this->hp -= damageReceived;
+    hp -= damageReceived;
 }
 
 void Asteroid::blink(float time) {
     blinkingTime += time;
-    if (blinkingTime <= ENEMY_BLINK_DURATION)
+    if (blinkingTime <= enemyBlinkDuration)
         sprite.setColor(sf::Color(230, 130, 130));
-    if (blinkingTime > ENEMY_BLINK_DURATION) {
+    if (blinkingTime > enemyBlinkDuration) {
         blinkingTime = 0;
         setReceivingDamage(false);
         sprite.setColor(sf::Color::White);
@@ -62,15 +62,15 @@ void Asteroid::blink(float time) {
 
 bool Asteroid::die(float time) {
     dyingTime += time;
-    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / DYING_DURATION)));
-    return dyingTime >= DYING_DURATION;
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
+    return dyingTime >= dyingDuration;
 }
 
 sf::Sprite &Asteroid::getSprite() {
     return sprite;
 }
 
-Animator *Asteroid::getAnimator() {
+Animator *Asteroid::getAnimator() const {
     return animator;
 }
 

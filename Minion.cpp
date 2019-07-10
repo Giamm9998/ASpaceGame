@@ -25,8 +25,8 @@ Minion::Minion() : Enemy(30.f, 10.f, 100.f, 0.4f) { //todo adjust values
 
 void Minion::move(float time) {
     elapsedTime += time;
-    if (elapsedTime <= MINION_FREEZE_DURATION) {
+    if (elapsedTime <= minionFreezeDuration) {
         Enemy::move(time);
-    } else if (elapsedTime > 2 * MINION_FREEZE_DURATION)
+    } else if (elapsedTime > 2 * minionFreezeDuration)
         elapsedTime = 0;
 }

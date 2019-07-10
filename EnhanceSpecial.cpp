@@ -11,7 +11,7 @@
 
 EnhanceSpecial::EnhanceSpecial() : PowerUp(true) {}
 
-void EnhanceSpecial::powerUp(Player &player) {
+void EnhanceSpecial::powerUp(Player &player) const {
     if (typeid(player) == typeid(Raptor))
         dynamic_cast<Raptor &>(player).setShieldDuration(
                 dynamic_cast<Raptor &>(player).getShieldDuration() * 1.5);

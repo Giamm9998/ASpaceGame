@@ -12,7 +12,7 @@ class EnhanceSpecial : public PowerUp {
 public:
     EnhanceSpecial();
 
-    void powerUp(Player &player) override;
+    void powerUp(Player &player) const override;
 };
 
 

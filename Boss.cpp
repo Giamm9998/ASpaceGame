@@ -8,8 +8,8 @@
 
 void Boss::move(float time) {
     elapsedTime += time;
-    if (elapsedTime < BOSS_SPAWN_DURATION) {
-        sprite.move(0, (finalPosition - startPosition) / BOSS_SPAWN_DURATION * time);
+    if (elapsedTime < bossSpawnDuration) {
+        sprite.move(0, (finalPosition - startPosition) / bossSpawnDuration * time);
         //boundingBox.setScale(0,0); //todo invincible during spawn
     } else
         Enemy::move(time);

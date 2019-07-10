@@ -72,15 +72,15 @@ void Spaceship::setReceivingDamage(bool receiveDamage) {
 
 void Spaceship::blink(float time) {
     blinkingTime += time;
-    if (blinkingTime <= PLAYER_BLINK_DURATION)
+    if (blinkingTime <= playerBlinkDuration)
         sprite.setColor(sf::Color(255, 255, 255, 100));
-    if (blinkingTime > PLAYER_BLINK_DURATION && blinkingTime <= 2 * PLAYER_BLINK_DURATION)
+    if (blinkingTime > playerBlinkDuration && blinkingTime <= 2 * playerBlinkDuration)
         sprite.setColor(sf::Color::White);
-    if (blinkingTime > 2 * PLAYER_BLINK_DURATION && blinkingTime <= 3 * PLAYER_BLINK_DURATION)
+    if (blinkingTime > 2 * playerBlinkDuration && blinkingTime <= 3 * playerBlinkDuration)
         sprite.setColor(sf::Color(255, 255, 255, 100));
-    if (blinkingTime > 3 * PLAYER_BLINK_DURATION && blinkingTime <= 4 * PLAYER_BLINK_DURATION)
+    if (blinkingTime > 3 * playerBlinkDuration && blinkingTime <= 4 * playerBlinkDuration)
         sprite.setColor(sf::Color::White);
-    if (blinkingTime > 4 * PLAYER_BLINK_DURATION) {
+    if (blinkingTime > 4 * playerBlinkDuration) {
         blinkingTime = 0;
         setReceivingDamage(false);
         sprite.setColor(sf::Color::White);
@@ -91,8 +91,8 @@ bool Spaceship::die(float time) {
     if (dyingTime == 0)
         boundingBox.setSize(sf::Vector2f(0, 0));
     dyingTime += time;
-    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / DYING_DURATION)));
-    return dyingTime >= DYING_DURATION;
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
+    return dyingTime >= dyingDuration;
 }
 
 float Spaceship::getFireRate() const {

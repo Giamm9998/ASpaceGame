@@ -6,8 +6,7 @@
 #define ASPACEGAME_BOSS_H
 
 
-#define BOSS_SPAWN_DURATION 5.f
-
+static const float bossSpawnDuration = 5;
 static const int bossSpawnHeight = 5;
 
 #include "Enemy.h"

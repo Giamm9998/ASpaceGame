@@ -12,7 +12,7 @@ class Speed : public PowerUp {
 public:
     Speed();
 
-    void powerUp(Player &player) override;
+    void powerUp(Player &player) const override;
 };
 
 
