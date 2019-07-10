@@ -207,7 +207,7 @@ void Game::updatePlayer(float time) {
                 dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
         }
     }
-    if (player->isCharging()) //explooit late binding
+    if (player->isCharging()) //exploit late binding
         player->recharge(time, specialHud);
 
     if (player->isLaserActive())
@@ -228,8 +228,6 @@ void Game::updateEnemies(float time) {
             if ((enemy)->isReceivingDamage())
                 (enemy)->blink(time);
 
-            std::unique_ptr<Projectile> projectile;
-
             enemy->move(time);
             if (typeid(*enemy) == typeid(Assaulter)) {
                 emplaceProjectile(dynamic_cast<Assaulter &>(*enemy).useCannon(
@@ -238,8 +236,7 @@ void Game::updateEnemies(float time) {
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
                 for (auto &externalCannon : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons())
                     emplaceProjectile(enemy->useCannon(time, externalCannon));
-            } else if (typeid(*enemy) == typeid(Boss)) {
-            } else
+            } else if (typeid(*enemy) != typeid(Boss))
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
         }
     }
