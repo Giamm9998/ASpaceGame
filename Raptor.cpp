@@ -4,15 +4,13 @@
 
 #include "Raptor.h"
 #include "ResourceManager.h"
-#include "Player.h"
-#include "Spaceship.h"
 
 Raptor::Raptor() : Player(140.f, 10.f, 160.f, 1.8f), shieldDuration(5) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     Projectile projectilePrototype(400, strength * primaryCannon.getStrengthMultiplier(), false);
     primaryCannon.setProjectilePrototype(projectilePrototype);
-    primaryCannon.setElapsedtime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
+    primaryCannon.setElapsedTime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
 
     laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);
 
@@ -23,13 +21,11 @@ Raptor::Raptor() : Player(140.f, 10.f, 160.f, 1.8f), shieldDuration(5) {
     shield.setOutlineThickness(5);
     shield.setFillColor(sf::Color(255, 255, 255, 0));
 
-    boundingBox.setSize(sf::Vector2f(1.2 * sprite.getOrigin().x,
-                                     1.4 * sprite.getOrigin().y));
+    boundingBox.setSize(sf::Vector2f(1.2f * sprite.getOrigin().x,
+                                     1.4f * sprite.getOrigin().y));
     boundingBox.setScale(sprite.getScale());
     boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y + sprite.getGlobalBounds().height / 8);
-
-    //TODO establish the right default values
 }
 
 void Raptor::useShield(float dt, sf::RectangleShape &specialHud) {

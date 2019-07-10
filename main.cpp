@@ -2,10 +2,6 @@
 #include "Game.h"
 #include "ResourceManager.h"
 
-
-//TODO const tutto ciò che è const
-//TODO usa i riferimenti
-
 int main() {
     ResourceManager resourceManager;
 

@@ -3,7 +3,6 @@
 //
 
 #include "Enemy.h"
-#include "Game.h"
 
 void Enemy::move(float time) {
     if (!(Game::isLegalMove(sprite.getPosition().x, sprite.getScale().x * sprite.getOrigin().x, direction)))

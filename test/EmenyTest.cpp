@@ -17,7 +17,7 @@ TEST(MinionTest, Constructor) {
     ASSERT_EQ(minion.getFireRate(), 0.4f);
     ASSERT_EQ(minion.isReceivingDamage(), false);
     ASSERT_EQ(minion.getPrimaryCannon().getStrengthMultiplier(), 1);
-    ASSERT_EQ(minion.getPrimaryCannon().getElapsedtime(), 0);
+    ASSERT_EQ(minion.getPrimaryCannon().getElapsedTime(), 0);
     ASSERT_EQ(minion.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(minion.getPrimaryCannon().getProjectilePrototype().isEvil(), true);
     ASSERT_EQ(minion.getPrimaryCannon().isTracker(), false);
@@ -39,7 +39,7 @@ TEST(AssaulterTest, Constructor) {
     ASSERT_EQ(assaulter.isReceivingDamage(), false);
     ASSERT_EQ(assaulter.getPrimaryCannon().getStrengthMultiplier(), 1);
     ASSERT_EQ(assaulter.getPrimaryCannon().getFireRateMultiplier(), 1);
-    ASSERT_EQ(assaulter.getPrimaryCannon().getElapsedtime(), 0);
+    ASSERT_EQ(assaulter.getPrimaryCannon().getElapsedTime(), 0);
     ASSERT_EQ(assaulter.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(assaulter.getPrimaryCannon().getProjectilePrototype().isEvil(), true);
     ASSERT_EQ(assaulter.getPrimaryCannon().isTracker(), true);
@@ -60,7 +60,7 @@ TEST(KamikazeTest, Constructor) {
     ASSERT_EQ(kamikaze.isReceivingDamage(), false);
     ASSERT_EQ(kamikaze.getPrimaryCannon().getStrengthMultiplier(), 1);
     ASSERT_EQ(kamikaze.getPrimaryCannon().getFireRateMultiplier(), 1);
-    ASSERT_EQ(kamikaze.getPrimaryCannon().getElapsedtime(), 0);
+    ASSERT_EQ(kamikaze.getPrimaryCannon().getElapsedTime(), 0);
     ASSERT_EQ(kamikaze.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(kamikaze.getPrimaryCannon().getProjectilePrototype().isEvil(), true);
     ASSERT_EQ(kamikaze.getPrimaryCannon().isTracker(), false);
@@ -80,7 +80,7 @@ TEST(FighterTest, Constructor) {
     ASSERT_EQ(fighter.isReceivingDamage(), false);
     ASSERT_EQ(fighter.getFireRate(), 0.3f);
     ASSERT_EQ(fighter.getPrimaryCannon().getStrengthMultiplier(), 1);
-    ASSERT_EQ(fighter.getPrimaryCannon().getElapsedtime(), 0);
+    ASSERT_EQ(fighter.getPrimaryCannon().getElapsedTime(), 0);
     ASSERT_EQ(fighter.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(fighter.getPrimaryCannon().getRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(fighter.getPrimaryCannon().getProjectilePrototype().isEvil(), true);

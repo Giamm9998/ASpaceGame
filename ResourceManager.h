@@ -28,7 +28,7 @@ private:
     std::map<std::string, sf::Font> fonts;
 
 
-    static ResourceManager *sIstance;
+    static ResourceManager *sInstance;
 
 };
 

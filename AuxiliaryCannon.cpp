@@ -4,8 +4,6 @@
 
 #include "AuxiliaryCannon.h"
 #include "ResourceManager.h"
-#include "Game.h"
-#include "Randomizer.h"
 #include "Raptor.h"
 
 AuxiliaryCannon::AuxiliaryCannon() : PowerUp(true) {

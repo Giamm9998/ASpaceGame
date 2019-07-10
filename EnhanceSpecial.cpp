@@ -6,15 +6,13 @@
 #include "ResourceManager.h"
 #include "Raptor.h"
 #include "Bomber.h"
-#include "Randomizer.h"
-#include "Game.h"
 
 EnhanceSpecial::EnhanceSpecial() : PowerUp(true) {}
 
 void EnhanceSpecial::powerUp(Player &player) const {
     if (typeid(player) == typeid(Raptor))
         dynamic_cast<Raptor &>(player).setShieldDuration(
-                dynamic_cast<Raptor &>(player).getShieldDuration() * 1.5);
+                dynamic_cast<Raptor &>(player).getShieldDuration() * 1.5f);
     if (typeid(player) == typeid(Bomber))
         dynamic_cast<Bomber &>(player).getSecondaryCannon().setFireRateMultiplier(
                 dynamic_cast<Bomber &>(player).getSecondaryCannon().getFireRateMultiplier() * 2);
