@@ -27,6 +27,8 @@ public:
 
     void blink(float time) final;
 
+    bool die(float time) override;
+
 protected:
     short int direction = right;
 };

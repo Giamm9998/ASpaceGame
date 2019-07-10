@@ -36,6 +36,9 @@ public:
 
     virtual void recharge(float time, sf::RectangleShape &specialHud) = 0;
 
+    void blink(float time) final;
+
+    bool die(float time) override;
 protected:
     bool charging;
     std::vector<Cannon> auxiliaryCannons;

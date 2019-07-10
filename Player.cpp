@@ -61,5 +61,26 @@ void Player::setStrength(float strength) {
     }
 }
 
+void Player::blink(float time) {
+    blinkingTime += time;
+    if (blinkingTime <= playerBlinkDuration)
+        sprite.setColor(sf::Color(255, 255, 255, 100));
+    if (blinkingTime > playerBlinkDuration && blinkingTime <= 2 * playerBlinkDuration)
+        sprite.setColor(sf::Color::White);
+    if (blinkingTime > 2 * playerBlinkDuration && blinkingTime <= 3 * playerBlinkDuration)
+        sprite.setColor(sf::Color(255, 255, 255, 100));
+    if (blinkingTime > 3 * playerBlinkDuration && blinkingTime <= 4 * playerBlinkDuration)
+        sprite.setColor(sf::Color::White);
+    if (blinkingTime > 4 * playerBlinkDuration) {
+        blinkingTime = 0;
+        setReceivingDamage(false);
+        sprite.setColor(sf::Color::White);
+    }
+}
+
+bool Player::die(float time) {
+    return false; //Todo Implement
+}
+
 Player::~Player() = default;
 

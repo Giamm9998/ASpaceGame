@@ -36,7 +36,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Raptor);
+    player = std::unique_ptr<Player>(new Bomber);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
