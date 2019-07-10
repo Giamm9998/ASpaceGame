@@ -23,7 +23,7 @@ static const int windowHeight = 675;
 #include "Background.h"
 #include "Animator.h"
 #include "PowerUp.h"
-
+#include "EntityManager.h"
 
 class Game {
 public:
@@ -59,13 +59,11 @@ private:
     sf::Text scoreText;
     sf::Text hpText;
     sf::Text specialText;
-
     std::unique_ptr<Background> background;
-    std::unique_ptr<Player> player;
-    std::list<std::unique_ptr<Spaceship>> enemyManager;
-    std::list<std::unique_ptr<Projectile>> projectileManager;
-    std::list<std::unique_ptr<Asteroid>> asteroidManager;
-    std::unique_ptr<PowerUp> powerUp;
+
+    EntityManager entityManager;
+
+    void createHud();
 
     void drawAsteroids();
 
@@ -81,29 +79,6 @@ private:
 
     void drawHud();
 
-    void updateEnemies(float time);
-
-    void updatePlayer(float time);
-
-    void updateProjectiles(float time);
-
-    void updatePowerUp(float time);
-
-    void updateAsteroids(float time);
-
-    void checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter);
-
-    void checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter);
-
-    void checkForLaserCollision(float time);
-
-    void emplaceProjectile(std::unique_ptr<Projectile> projectile);
-
-    bool isOutOfSigth(const sf::Sprite &sprite) const;
-
-    static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
-
-    void createHud();
 
     //FRIEND_TEST(Game, Functions);
 
