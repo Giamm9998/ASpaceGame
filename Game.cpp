@@ -36,7 +36,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Bomber);
+    player = std::unique_ptr<Player>(new Raptor);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
@@ -207,15 +207,8 @@ void Game::updatePlayer(float time) {
                 dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
         }
     }
-
-    if (typeid(playerType) == typeid(Bomber)) {
-        if (player->isCharging())
-            dynamic_cast<Bomber &>(*player).recharge(time, specialHud);
-    }
-    if (typeid(playerType) == typeid(Raptor)) {
-        if (player->isCharging())
-            dynamic_cast<Raptor &>(*player).recharge(time, specialHud);
-    }
+    if (player->isCharging()) //explooit late binding
+        player->recharge(time, specialHud);
 
     if (player->isLaserActive())
         checkForLaserCollision(time);
@@ -237,25 +230,17 @@ void Game::updateEnemies(float time) {
 
             std::unique_ptr<Projectile> projectile;
 
-            if (typeid(*enemy) == typeid(Minion)) {
-                dynamic_cast<Minion &>(*enemy).move(time);
-                emplaceProjectile(dynamic_cast<Minion &>(*(enemy)).useCannon(time, enemy->getPrimaryCannon()));
-            } else if (typeid(*enemy) == typeid(Boss)) {
-                dynamic_cast<Boss &>(*enemy).move(time);
-                //emplaceProjectile(dynamic_cast<Boss &>(*enemy).useCannon(time, &enemy->getPrimaryCannon()));
-            } else if (typeid(*enemy) == typeid(Kamikaze)) {
-                dynamic_cast<Kamikaze &>(*enemy).move(time);
-                emplaceProjectile(dynamic_cast<Kamikaze &>(*enemy).useCannon(time, enemy->getPrimaryCannon()));
-            } else if (typeid(*enemy) == typeid(Fighter)) {
-                dynamic_cast<Fighter &>(*enemy).move(time);
-                emplaceProjectile(dynamic_cast<Fighter &>(*enemy).useCannon(time, enemy->getPrimaryCannon()));
-                for (auto &externalCannon : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons())
-                    emplaceProjectile(dynamic_cast<Fighter &>(*enemy).useCannon(time, externalCannon));
-            } else if (typeid(*enemy) == typeid(Assaulter)) {
-                dynamic_cast<Assaulter &>(*enemy).move(time);
+            enemy->move(time);
+            if (typeid(*enemy) == typeid(Assaulter)) {
                 emplaceProjectile(dynamic_cast<Assaulter &>(*enemy).useCannon(
                         time, enemy->getPrimaryCannon(), player->getSprite().getPosition()));
-            }
+            } else if (typeid(*enemy) == typeid(Fighter)) {
+                emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
+                for (auto &externalCannon : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons())
+                    emplaceProjectile(enemy->useCannon(time, externalCannon));
+            } else if (typeid(*enemy) == typeid(Boss)) {
+            } else
+                emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
         }
     }
 }

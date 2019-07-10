@@ -20,9 +20,9 @@ public:
 
     bool isCharging() const;
 
-    void receiveDamage(float damage) override;
+    void receiveDamage(float damage) final;
 
-    void setStrength(float strength) override;
+    void setStrength(float strength) final;
 
     std::vector<Cannon> &getAuxiliaryCannons();
 

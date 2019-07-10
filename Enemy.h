@@ -23,7 +23,7 @@ public:
 
     void move(float time) override;
 
-    void blink(float time) override;
+    void blink(float time) final;
 
 protected:
     short int direction = right;
