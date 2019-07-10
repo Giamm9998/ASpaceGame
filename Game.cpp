@@ -131,10 +131,10 @@ void Game::render() {
     window.clear(sf::Color::Black);
 
     drawBackground();
-    drawAsteroids();
+    draw<Asteroid>(entityManager.getAsteroidManager());
+    draw<Spaceship>(entityManager.getEnemyManager());
+    draw<Projectile>(entityManager.getProjectileManager());
     drawPlayer();
-    drawEnemies();
-    drawProjectiles();
     drawPowerUp();
     drawHud();
 
@@ -158,11 +158,6 @@ void Game::drawPowerUp() {
         window.draw(powerUp->getSprite());
 }
 
-void Game::drawProjectiles() {
-    for (auto &i : entityManager.getProjectileManager())
-        window.draw(i->getSprite());
-}
-
 void Game::drawPlayer() {
     auto &player = entityManager.getPlayer();
     window.draw(player->getSprite());
@@ -177,19 +172,15 @@ void Game::drawPlayer() {
         window.draw(player->getLaser());
 }
 
-void Game::drawEnemies() {
-    for (auto &i : entityManager.getEnemyManager())
-        window.draw(i->getSprite());
-}
-
 void Game::drawBackground() {
     window.draw(background->getSprite1());
     window.draw(background->getSprite2());
 }
 
-void Game::drawAsteroids() {
-    for (auto &i : entityManager.getAsteroidManager())
-        window.draw(i->getSprite());
+template<typename T>
+void Game::draw(const std::list<std::unique_ptr<T>> &list) {
+    for (auto &entity: list)
+        window.draw(entity->getSprite());
 }
 
 void Game::drawHud() {

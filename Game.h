@@ -65,19 +65,16 @@ private:
 
     void createHud();
 
-    void drawAsteroids();
-
     void drawBackground();
 
-    void drawEnemies();
-
     void drawPlayer();
-
-    void drawProjectiles();
 
     void drawPowerUp();
 
     void drawHud();
+
+    template<typename T>
+    void draw(const std::list<std::unique_ptr<T>> &list);
 
 
     //FRIEND_TEST(Game, Functions);
