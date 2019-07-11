@@ -8,7 +8,7 @@
 void Boss::move(float time) {
     elapsedTime += time;
     if (elapsedTime < bossSpawnDuration) {
-        sprite.move(0, (finalPosition - startPosition) / bossSpawnDuration * time);
+        sprite.move(0, (bossFinalPosition - bossStartPosition) / bossSpawnDuration * time);
         //boundingBox.setScale(0,0); //todo invincible during spawn
     } else
         Enemy::move(time);
@@ -18,14 +18,14 @@ void Boss::chooseAttack() {
 
 }
 
-Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f) {
+Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f, Cannon()) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Boss.png"));
     sprite.setScale(0.5, 0.4);
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    startPosition = -sprite.getScale().y * sprite.getOrigin().y;
-    finalPosition = sprite.getScale().y * sprite.getOrigin().y + bossSpawnHeight;
+    bossStartPosition = -sprite.getScale().y * sprite.getOrigin().y;
+    bossFinalPosition = sprite.getScale().y * sprite.getOrigin().y + bossSpawnHeight;
 
-    sprite.setPosition(static_cast<float>(windowWidth) / 2, startPosition);
+    sprite.setPosition(static_cast<float>(windowWidth) / 2, bossStartPosition);
 
     boundingBox.setSize(sf::Vector2f(1.6f * sprite.getOrigin().x,
                                      1.4f * sprite.getOrigin().y));

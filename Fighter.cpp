@@ -9,18 +9,12 @@ void Fighter::move(float time) {
     Enemy::move(time);
 }
 
-Fighter::Fighter() : Enemy(60.f, 10.f, 70.f, 0.3f) {
+Fighter::Fighter() : Enemy(60.f, 10.f, 70.f, 0.3f, Cannon(Projectile(200, 10.f * 1))) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Fighter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    Projectile projectilePrototype(200, strength * primaryCannon.getStrengthMultiplier());
-    primaryCannon.setProjectilePrototype(projectilePrototype);
 
-    externalCannons.resize(2);
-    externalCannons[0].setLocalRelativePosition(sf::Vector2f(-114, 0));
-    externalCannons[0].setProjectilePrototype(projectilePrototype);
-
-    externalCannons[1].setLocalRelativePosition(sf::Vector2f(114, 0));
-    externalCannons[1].setProjectilePrototype(projectilePrototype);
+    externalCannons.emplace_back(Cannon(primaryCannon.getProjectilePrototype(), 1, 1, false, sf::Vector2f(-114, 0)));
+    externalCannons.emplace_back(Cannon(primaryCannon.getProjectilePrototype(), 1, 1, false, sf::Vector2f(114, 0)));
 
     boundingBox.setSize(sf::Vector2f(1.5f * sprite.getOrigin().x,
                                      1.5f * sprite.getOrigin().y));

@@ -9,8 +9,6 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-class Cannon;
-
 class Projectile {
 public:
     Projectile();

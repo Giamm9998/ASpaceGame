@@ -8,6 +8,8 @@
 
 static const float bossSpawnDuration = 5;
 static const int bossSpawnHeight = 5;
+static float bossStartPosition = 0;
+static float bossFinalPosition = 0;
 
 #include "Enemy.h"
 
@@ -19,8 +21,6 @@ public:
     void chooseAttack();
 private:
     std::vector<Cannon> cannons;
-    float startPosition;
-    float finalPosition;
 };
 
 

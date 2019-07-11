@@ -13,11 +13,9 @@ void Kamikaze::attract() {}
 
 void Kamikaze::explode() {}
 
-Kamikaze::Kamikaze() : Enemy(60.f, 30.f, 70.f, 0.8f) {
+Kamikaze::Kamikaze() : Enemy(60.f, 30.f, 70.f, 0.8f, Cannon(Projectile(200, 30.f * 1))) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    Projectile projectilePrototype(200, strength * primaryCannon.getStrengthMultiplier());
-    primaryCannon.setProjectilePrototype(projectilePrototype);
 
     boundingBox.setSize(sf::Vector2f(1.5f * sprite.getOrigin().x,
                                      1.5f * sprite.getOrigin().y));

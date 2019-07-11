@@ -15,7 +15,7 @@ static const float enemyBlinkDuration = 0.15;
 class Enemy: public Spaceship{
 
 public:
-    Enemy(float hp, float strength, float speed, float fireRate);
+    Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon);
 
     ~Enemy() override;
 

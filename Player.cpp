@@ -7,8 +7,8 @@
 #include "Game.h"
 
 
-Player::Player(float hp, float strength, float speed, float fireRate) :
-        Spaceship(hp, strength, speed, fireRate), charging(false), laserActive(false) {
+Player::Player(float hp, float strength, float speed, float fireRate, const Cannon &cannon) :
+        Spaceship(hp, strength, speed, fireRate, cannon), charging(false), laserActive(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2, windowHeight - PlayerSpawnHeight);
 
     laser.setSize(sf::Vector2f(sprite.getPosition().y, 10));

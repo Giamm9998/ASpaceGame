@@ -15,7 +15,7 @@ static const float maxScale = 0.35f;
 
 class Spaceship {
 public:
-    Spaceship(float hp, float strength, float speed, float fireRate);
+    Spaceship(float hp, float strength, float speed, float fireRate, const Cannon &cannon);
 
     virtual ~Spaceship();
 

@@ -12,7 +12,7 @@ static const float laserDPS = 20.f;
 
 class Player :public Spaceship{
 public:
-    Player(float hp, float strength, float speed, float fireRate);
+    Player(float hp, float strength, float speed, float fireRate, const Cannon &cannon);
 
     ~Player() override;
 

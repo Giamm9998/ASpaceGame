@@ -5,8 +5,8 @@
 #include <cmath>
 #include "ResourceManager.h"
 
-Spaceship::Spaceship(float hp, float strength, float speed, float fireRate) :
-        hp(hp), strength(strength), speed(speed), fireRate(fireRate), maxHp(hp) {
+Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, const Cannon &cannon) :
+        hp(hp), strength(strength), speed(speed), fireRate(fireRate), maxHp(hp), primaryCannon(cannon) {
     sprite.setScale(maxScale, maxScale);
 }
 

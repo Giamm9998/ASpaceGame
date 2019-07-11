@@ -13,3 +13,6 @@ add_executable(ASpaceGame main.cpp)
 add_library(core ${SOURCE_FILES})
 target_link_libraries(core sfml-graphics sfml-window sfml-audio)
 target_link_libraries(ASpaceGame core)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g -O0")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined -mno-omit-leaf-frame-pointer")

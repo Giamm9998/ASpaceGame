@@ -6,14 +6,12 @@
 #include "ResourceManager.h"
 #include "Randomizer.h"
 
-Minion::Minion() : Enemy(30.f, 10.f, 100.f, 0.4f) {
+Minion::Minion() : Enemy(30.f, 10.f, 100.f, 0.4f, Cannon(Projectile(200, 10.f * 1))) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Minion.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
                                                      windowWidth - sprite.getOrigin().x * maxScale,
                                                      minionSpawnHeight, minionSpawnHeight));
-    Projectile projectilePrototype(200, strength * primaryCannon.getStrengthMultiplier());
-    primaryCannon.setProjectilePrototype(projectilePrototype);
 
     boundingBox.setSize(sf::Vector2f(1.5f * sprite.getOrigin().x,
                                      1.5f * sprite.getOrigin().y));

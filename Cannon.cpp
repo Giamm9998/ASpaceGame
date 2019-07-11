@@ -5,7 +5,10 @@
 #include "Cannon.h"
 #include "Game.h"
 
-Cannon::Cannon() = default;
+Cannon::Cannon(const Projectile &projectilePrototype, float fireRateMultiplier, float strengthMultiplier,
+               bool tracker, const sf::Vector2f &relativePosition) :
+        fireRateMultiplier(fireRateMultiplier), strengthMultiplier(strengthMultiplier),
+        tracker(tracker), relativePosition(relativePosition), projectilePrototype(projectilePrototype) {}
 
 void Cannon::setFireRateMultiplier(double multiplier) {
     Cannon::fireRateMultiplier = multiplier;

@@ -9,11 +9,11 @@
 #include "Projectile.h"
 #include <memory>
 
-class Spaceship;
-
 class Cannon {
 public:
-    Cannon();
+    explicit Cannon(const Projectile &projectilePrototype = Projectile(), float fireRateMultiplier = 1,
+                    float strengthMultiplier = 1, bool tracker = false,
+                    const sf::Vector2f &relativePosition = sf::Vector2f(0, 0));
 
     std::unique_ptr<Projectile> shoot(const sf::Vector2f &position, float dt, float fireRate);
 
