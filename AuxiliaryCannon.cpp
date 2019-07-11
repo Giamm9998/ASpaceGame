@@ -14,14 +14,19 @@ void AuxiliaryCannon::powerUp(Player &player) const {
     Cannon cannon(player.getPrimaryCannon());
     if (player.getAuxiliaryCannons().empty()) {
         sf::Vector2f relativePosition;
+        std::string textureName = "../Texture/";
         if (typeid(player) == typeid(Raptor)) {
-            player.getSprite().setTexture(ResourceManager::getTexture("../Texture/RaptorCannon.png"));
+            textureName += "Raptor";
             relativePosition = sf::Vector2f(76, 0);
         } else {
-            player.getSprite().setTexture(ResourceManager::getTexture("../Texture/BomberCannon.png"));
+            textureName += "Bomber";
             relativePosition = sf::Vector2f(106, 0);
         }
+        textureName += "Cannon";
+        if (player.isLaserActive())
+            textureName += "Laser";
 
+        player.getSprite().setTexture(ResourceManager::getTexture(textureName + ".png"));
         cannon.setLocalRelativePosition(relativePosition);
         player.getPrimaryCannon().setLocalRelativePosition(-relativePosition);
         player.getAuxiliaryCannons().push_back(cannon);

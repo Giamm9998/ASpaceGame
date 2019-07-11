@@ -35,7 +35,9 @@ void Assaulter::move(float time) {
 
 }
 
-Assaulter::Assaulter() : Enemy(60.f, 20.f, 0.f, 0.5f, Cannon(Projectile(100, 20.f * 1), 1, 1, true)) {
+Assaulter::Assaulter() : Enemy(60.f, assaulterStrength, 0.f, 0.5f,
+                               Cannon(Projectile(100, assaulterStrength * assaulterStrengthMult), 1,
+                                      assaulterStrengthMult, true)) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,

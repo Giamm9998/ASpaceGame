@@ -6,6 +6,9 @@
 #define ASPACEGAME_BOMBER_H
 
 
+static const float bomberStrength = 15;
+static const float bomberSecondaryStrengthMult = 3;
+
 #include "Player.h"
 
 class Bomber: public Player {
