@@ -9,5 +9,5 @@ FireRate::FireRate() : PowerUp(false) {
 }
 
 void FireRate::powerUp(Player &player) const {
-    player.setFireRate(player.getFireRate() * 10); //todo right value
+    player.setFireRate(player.getFireRate() * 5); //todo right value
 }

@@ -31,7 +31,7 @@ public:
 
     void run();
 
-    static bool isLegalMove(float x, float origin, short int direction);//Todo with sprite
+    static bool isLegalMove(float x, float origin, short int direction);
 
 
 private:
@@ -76,10 +76,6 @@ private:
     template<typename T>
     void draw(const std::list<std::unique_ptr<T>> &list);
 
-
-    //FRIEND_TEST(Game, Functions);
-
-    //FRIEND_TEST(Game, Constructor);
 };
 
 #endif //ASPACEGAME_GAME_H

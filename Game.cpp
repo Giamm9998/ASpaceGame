@@ -131,7 +131,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
         isMovingRight = isPressed;
     else if (key == sf::Keyboard::Z)
         isShooting = isPressed;
-    else if (key == sf::Keyboard::Q)
+    else if (key == sf::Keyboard::X)
         isUsingSpecial = isPressed;
 }
 
@@ -177,6 +177,6 @@ void Game::drawHud() {
     window.draw(specialText);
 }
 
-bool Game::isLegalMove(float x, float origin, short int direction) { // &sprite instead pf x and origin
+bool Game::isLegalMove(float x, float origin, short int direction) { // todo &sprite instead of x and origin
     return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
 }

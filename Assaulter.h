@@ -10,6 +10,13 @@ static const float assaulterAppearingDuration = 0.4;
 static const int assaulterSpawnHeight = 50;
 static const float assaulterStrength = 20;
 static const float assaulterStrengthMult = 1;
+static const float assaulterHp = 60;
+static const float assaulterSpeed = 0;
+static const float assaulterFireRate = 0.5;
+static const float assaulterProjectileSpeed = 100;
+static const float assaulterFireRateMult = 1;
+static const float assaulterBoxSizeX = 1.5f;
+static const float assaulterBoxSizeY = 1.5f;
 
 #include "Enemy.h"
 
