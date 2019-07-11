@@ -12,17 +12,14 @@ void Assaulter::move(float time) {
     boundingBox.setScale(sprite.getScale());
     if (elapsedTime >= assaulterFreezeDuration &&
         elapsedTime - assaulterFreezeDuration < assaulterAppearingDuration) {
-        sprite.setScale(
-                maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration),
-                maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration));
-
+        sprite.setScale(maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration),
+                        maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration));
     } else if (elapsedTime >= assaulterFreezeDuration + assaulterAppearingDuration &&
                elapsedTime - assaulterFreezeDuration < 2 * assaulterAppearingDuration) {
         if (!moved) {
             setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
                                                       windowWidth - sprite.getOrigin().x * maxScale,
-                                                      assaulterSpawnHeight,
-                                                      assaulterSpawnHeight));
+                                                      assaulterSpawnHeight, assaulterSpawnHeight));
             moved = true;
         }
         sprite.setScale(maxScale * ((elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration - 1),
@@ -32,20 +29,19 @@ void Assaulter::move(float time) {
         moved = false;
     }
     Enemy::move(0);
-
 }
 
-Assaulter::Assaulter() : Enemy(60.f, assaulterStrength, 0.f, 0.5f,
-                               Cannon(Projectile(100, assaulterStrength * assaulterStrengthMult), 1,
-                                      assaulterStrengthMult, true)) {
+Assaulter::Assaulter() : Enemy(assaulterHp, assaulterStrength, assaulterSpeed, assaulterFireRate,
+                               Cannon(Projectile(assaulterProjectileSpeed, assaulterStrength * assaulterStrengthMult),
+                                      assaulterFireRateMult, assaulterStrengthMult, true)) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
                                                      windowWidth - sprite.getOrigin().x * maxScale,
                                                      assaulterSpawnHeight, assaulterSpawnHeight));
 
-    boundingBox.setSize(sf::Vector2f(1.5f * sprite.getOrigin().x,
-                                     1.5f * sprite.getOrigin().y));
+    boundingBox.setSize(sf::Vector2f(assaulterBoxSizeX * sprite.getOrigin().x,
+                                     assaulterBoxSizeY * sprite.getOrigin().y));
     boundingBox.setScale(sprite.getScale());
     boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
