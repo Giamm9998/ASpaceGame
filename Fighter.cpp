@@ -4,6 +4,7 @@
 
 #include "Fighter.h"
 #include "ResourceManager.h"
+#include "Functions.h"
 
 void Fighter::move(float time) {
     Enemy::move(time);
@@ -12,6 +13,9 @@ void Fighter::move(float time) {
 Fighter::Fighter() : Enemy(60.f, 10.f, 70.f, 0.3f, Cannon(Projectile(200, 10.f * 1))) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Fighter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(getRandomPosition(sprite.getOrigin().x * maxScale,
+                                         windowWidth - sprite.getOrigin().x * maxScale,
+                                         fighterSpawnHeight, fighterSpawnHeight));
 
     externalCannons.emplace_back(Cannon(primaryCannon.getProjectilePrototype(), 1, 1, false, sf::Vector2f(-114, 0)));
     externalCannons.emplace_back(Cannon(primaryCannon.getProjectilePrototype(), 1, 1, false, sf::Vector2f(114, 0)));

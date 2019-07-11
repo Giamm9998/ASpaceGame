@@ -5,6 +5,7 @@
 #ifndef ASPACEGAME_FIGHTER_H
 #define ASPACEGAME_FIGHTER_H
 
+static const float fighterSpawnHeight = 60;
 
 #include "Enemy.h"
 

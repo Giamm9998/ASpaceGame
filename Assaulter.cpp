@@ -5,7 +5,7 @@
 #include <cmath>
 #include "Assaulter.h"
 #include "ResourceManager.h"
-#include "Randomizer.h"
+#include "Functions.h"
 
 void Assaulter::move(float time) {
     elapsedTime += time;
@@ -17,9 +17,9 @@ void Assaulter::move(float time) {
     } else if (elapsedTime >= assaulterFreezeDuration + assaulterAppearingDuration &&
                elapsedTime - assaulterFreezeDuration < 2 * assaulterAppearingDuration) {
         if (!moved) {
-            setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
+            setPosition(getRandomPosition(sprite.getOrigin().x * maxScale,
                                                       windowWidth - sprite.getOrigin().x * maxScale,
-                                                      assaulterSpawnHeight, assaulterSpawnHeight));
+                                          assaulterSpawnHeight, assaulterSpawnHeight));
             moved = true;
         }
         sprite.setScale(maxScale * ((elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration - 1),
@@ -36,9 +36,9 @@ Assaulter::Assaulter() : Enemy(assaulterHp, assaulterStrength, assaulterSpeed, a
                                       assaulterFireRateMult, assaulterStrengthMult, true)) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Assaulter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    sprite.setPosition(Randomizer::getRandomPosition(sprite.getOrigin().x * maxScale,
+    sprite.setPosition(getRandomPosition(sprite.getOrigin().x * maxScale,
                                                      windowWidth - sprite.getOrigin().x * maxScale,
-                                                     assaulterSpawnHeight, assaulterSpawnHeight));
+                                         assaulterSpawnHeight, assaulterSpawnHeight));
 
     boundingBox.setSize(sf::Vector2f(assaulterBoxSizeX * sprite.getOrigin().x,
                                      assaulterBoxSizeY * sprite.getOrigin().y));
