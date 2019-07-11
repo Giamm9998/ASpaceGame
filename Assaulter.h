@@ -8,6 +8,8 @@
 static const float assaulterFreezeDuration = 5;
 static const float assaulterAppearingDuration = 0.4;
 static const int assaulterSpawnHeight = 50;
+static const float assaulterStrength = 20;
+static const float assaulterStrengthMult = 1;
 
 #include "Enemy.h"
 

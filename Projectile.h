@@ -29,8 +29,6 @@ public:
 
     sf::Sprite &getSprite();
 
-    void setSize(const sf::Vector2f &newSize);
-
     void setMovement(const sf::Vector2f &newMovement);
 
     void setDamage(float newDamage);
@@ -39,11 +37,11 @@ public:
 
 private:
     sf::Vector2f size;
-    float speed;
+    float speed{};
     sf::Sprite sprite;
     sf::Vector2f movement;
-    float damage;
-    bool evil;
+    float damage{};
+    bool evil{};
 };
 
 

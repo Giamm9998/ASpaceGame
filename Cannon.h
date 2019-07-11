@@ -19,10 +19,6 @@ public:
 
     void setFireRateMultiplier(double multiplier);
 
-    void setProjectilePrototype(const Projectile &prototype);
-
-    void setTracker(bool track);
-
     float getFireRateMultiplier() const;
 
     Projectile &getProjectilePrototype();
@@ -38,8 +34,6 @@ public:
     const sf::Vector2f &getRelativePosition() const;
 
     void setLocalRelativePosition(const sf::Vector2f &position);
-
-    void setStrengthMultiplier(float multiplier);
 
 private:
     float fireRateMultiplier = 1;

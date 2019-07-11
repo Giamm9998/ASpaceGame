@@ -42,10 +42,6 @@ sf::Sprite &Projectile::getSprite() {
     return sprite;
 }
 
-void Projectile::setSize(const sf::Vector2f &newSize) {
-    Projectile::size = newSize;
-}
-
 void Projectile::setMovement(const sf::Vector2f &newMovement) {
     Projectile::movement = newMovement;
 }
