@@ -56,7 +56,7 @@ std::string Animator::getCurrentAnimationName() const {
 
 void Animator::update(float const &time) {
 
-    if (currentAnimation == nullptr)
+    if (currentAnimation == nullptr || time < 0)
         return;
 
     currentTime += time;

@@ -44,7 +44,7 @@ void Game::createHud() {
     hpHudOutline.setOutlineThickness(2);
     hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
 
-    sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../font/venus rising rg.ttf"));
+    sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../Font/venus rising rg.ttf"));
     text.setScale(0.7, 0.7);
     scoreText = text;
     scoreText.setPosition(600, windowHeight - 25);
@@ -115,8 +115,8 @@ void Game::render() {
 
     drawBackground();
     draw<Asteroid>(entityManager.getAsteroidManager());
-    draw<Spaceship>(entityManager.getEnemyManager());
     draw<Projectile>(entityManager.getProjectileManager());
+    drawEnemy();
     drawPlayer();
     drawPowerUp();
     drawHud();
@@ -153,6 +153,15 @@ void Game::drawPlayer() {
 
     if (player->isLaserActive())
         window.draw(player->getLaser());
+}
+
+void Game::drawEnemy() {
+    for (auto &enemy: entityManager.getEnemyManager()) {
+        window.draw(enemy->getSprite());
+        if (enemy->getHp() <= 0)
+            for (auto &explosion : dynamic_cast<Enemy &>(*enemy).getExplosions())
+                window.draw(explosion);
+    }
 }
 
 void Game::drawBackground() {

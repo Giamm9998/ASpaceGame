@@ -30,10 +30,12 @@ public:
 
     bool die(float time) override;
 
+    const std::list<sf::Sprite> &getExplosions() const;
+
 protected:
     short int direction = right;
-    sf::Sprite explosion;
-    Animator *animator = new Animator(explosion);
+    std::list<sf::Sprite> explosions;
+    std::list<Animator *> animators;
 };
 
 

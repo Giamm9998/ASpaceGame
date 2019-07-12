@@ -3,6 +3,7 @@
 //
 
 #include "Enemy.h"
+#include "Functions.h"
 
 void Enemy::move(float time) {
     if (!(Game::isLegalMove(sprite.getPosition().x, sprite.getScale().x * sprite.getOrigin().x, direction)))
@@ -15,12 +16,19 @@ void Enemy::move(float time) {
 Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon)
         : Spaceship(hp, strength, speed, fireRate, cannon) {
     sprite.setRotation(180.f);
-    auto &explosionAnim = animator->createAnimation("Explosion", "../Texture/Explosion.png", sf::seconds(2), false);
+
     unsigned int frames = 8;
     unsigned int rows = 5;
-    explosionAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames, rows);
-    explosion.setOrigin(sprite.getLocalBounds().width / (2 * frames), sprite.getLocalBounds().height / (2 * rows));
-    explosion.setPosition(sprite.getPosition());
+    for (int i = 0; i < 2; i++) {
+        explosions.emplace_back();
+        animators.emplace_back(new Animator(explosions.back()));
+        auto &explosionAnim = animators.back()->createAnimation("Explosion", "../Texture/Explosion.png", sf::seconds(2),
+                                                                false);
+        explosionAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames, rows);
+        explosions.back().setOrigin(explosions.back().getLocalBounds().width / (2 * frames),
+                                    explosions.back().getLocalBounds().height / (2 * rows));
+        animators.back()->update(0);
+    }
 }
 
 void Enemy::setPosition(float x, float y) {
@@ -43,12 +51,24 @@ void Enemy::blink(float time) {
 }
 
 bool Enemy::die(float time) {
-
-    if (dyingTime == 0)
+    if (dyingTime == 0) {
+        for (auto &explosion : explosions)
+            explosion.setPosition(getRandomPosition(sprite.getGlobalBounds().left,
+                                                    sprite.getGlobalBounds().left + sprite.getGlobalBounds().width,
+                                                    sprite.getGlobalBounds().top,
+                                                    sprite.getGlobalBounds().top + sprite.getGlobalBounds().height));
         boundingBox.setSize(sf::Vector2f(0, 0));
+    }
+    for (auto &animator : animators) {
+        animator->update(time);
+    }
     dyingTime += time;
     sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
     return dyingTime >= dyingDuration;
+}
+
+const std::list<sf::Sprite> &Enemy::getExplosions() const {
+    return explosions;
 }
 
 Enemy::~Enemy() = default;

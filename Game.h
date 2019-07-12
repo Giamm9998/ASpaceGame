@@ -69,6 +69,8 @@ private:
 
     void drawPlayer();
 
+    void drawEnemy();
+
     void drawPowerUp();
 
     void drawHud();

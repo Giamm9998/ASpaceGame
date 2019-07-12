@@ -5,9 +5,11 @@
 #include "Bomber.h"
 #include "ResourceManager.h"
 
-Bomber::Bomber() : Player(200.f, bomberStrength, 120.f, 1.2f, Cannon(Projectile(400, bomberStrength * 1, false))),
-                   secondaryCannon(Projectile(200, bomberStrength * bomberSecondaryStrengthMult,
-                                              false, sf::Vector2f(0.9, 0.9)), 0.5, bomberSecondaryStrengthMult, false) {
+Bomber::Bomber() : Player(bomberHp, bomberStrength, bomberSpeed, bomberFireRate,
+                          Cannon(Projectile(bomberProjectileSpeed, bomberStrength * 1, false))),
+                   secondaryCannon(Projectile(bombSpeed, bomberStrength * bomberSecondaryStrengthMult,
+                                              false, sf::Vector2f(bombSize, bombSize)), bomberSecondaryFireRateMult,
+                                   bomberSecondaryStrengthMult, false) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setElapsedTime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
