@@ -5,18 +5,18 @@
 #include <cmath>
 #include "PowerUp.h"
 #include "Game.h"
-#include "Randomizer.h"
+#include "Functions.h"
 
-PowerUp::PowerUp(bool special) : special(special), angle(Randomizer::getRandomReal(powerUpMinAngle, powerUpMaxAngle)) {
+PowerUp::PowerUp(bool special) : special(special), angle(getRandomReal(powerUpMinAngle, powerUpMaxAngle)) {
     auto &rotation = animator->createAnimation("Rotation", "../Texture/BasicPowerUp.png", sf::seconds(0.33), true);
     unsigned int frames = 16;
     rotation.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames);
     sf::Vector2f distOrigin(sprite.getLocalBounds().width / (2 * frames),
                             sprite.getLocalBounds().height / 2);
-    direction = Randomizer::getRandomInt(0, 1) ? -1 : 1;
+    direction = getRandomInt(0, 1) ? -1 : 1;
     sprite.setOrigin(distOrigin);
     sprite.setScale(0.3, 0.3);
-    sprite.setPosition(Randomizer::getRandomPosition(
+    sprite.setPosition(getRandomPosition(
             distOrigin.x * sprite.getScale().x, windowWidth - distOrigin.x * sprite.getScale().x,
             -distOrigin.y * sprite.getScale().y, -distOrigin.y * sprite.getScale().y));
 }

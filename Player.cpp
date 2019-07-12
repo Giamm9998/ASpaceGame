@@ -11,10 +11,10 @@ Player::Player(float hp, float strength, float speed, float fireRate, const Cann
         Spaceship(hp, strength, speed, fireRate, cannon), charging(false), laserActive(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2, windowHeight - PlayerSpawnHeight);
 
-    laser.setSize(sf::Vector2f(sprite.getPosition().y, 10));
-    laser.setOrigin(laser.getGlobalBounds().width, laser.getGlobalBounds().height / 2);
-    laser.rotate(90.f);
-    laser.setFillColor(sf::Color::Red);
+    auto &laserAnim = animator->createAnimation("Laser", "../Texture/Laser4.png", sf::seconds(1), true);
+    unsigned int frames = 12;
+    laserAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(29, 700), frames);
+    laser.setOrigin(laser.getGlobalBounds().width / (2 * frames), laser.getGlobalBounds().height);
 }
 
 void Player::move(float time, short int direction) {
@@ -45,9 +45,10 @@ bool Player::isLaserActive() const {
 
 void Player::setLaserActive(bool active) {
     Player::laserActive = active;
+    animator->update(0);
 }
 
-sf::RectangleShape &Player::getLaser() {
+sf::Sprite &Player::getLaser() {
     return laser;
 }
 
@@ -78,6 +79,10 @@ void Player::blink(float time) {
 
 bool Player::die(float time) {
     return false; //todo implement
+}
+
+Animator *Player::getAnimator() const {
+    return animator;
 }
 
 Player::~Player() = default;

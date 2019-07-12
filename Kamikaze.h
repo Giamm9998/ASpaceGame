@@ -7,8 +7,13 @@
 
 static const float kamikazeFreezeDuration = 2;
 static const float kamikazeMoveDuration = 0.2;
-static const float kamikazeMaxSpawnHeight = 120;
-static const float kamikazeSpawnWidth = 150;
+static const float kamikazeMaxHeight = 120;
+static const float kamikazeSpanWidth = 150;
+static const float kamikazeHp = 60;
+static const float kamikazeStregth = 30;
+static const float kamikazeSpeed = 70;
+static const float kamikazeFireRate = 0.8;
+static const float kamikazeProjectileSpeed = 200;
 
 #include "Enemy.h"
 

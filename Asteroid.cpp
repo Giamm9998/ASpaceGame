@@ -4,7 +4,7 @@
 #include <cmath>
 #include "ResourceManager.h"
 #include "Asteroid.h"
-#include "Randomizer.h"
+#include "Functions.h"
 #include "Game.h"
 
 
@@ -24,19 +24,19 @@ void Asteroid::move(float dt) {
         sprite.move(0, speed * dt);
 }
 
-Asteroid::Asteroid() : speed(Randomizer::getRandomReal(asteroidMinSpeed, asteroidMaxSpeed)),
-                       size(Randomizer::getRandomReal(asteroidMinSize, asteroidMaxSize)) {
+Asteroid::Asteroid() : speed(getRandomReal(asteroidMinSpeed, asteroidMaxSpeed)),
+                       size(getRandomReal(asteroidMinSize, asteroidMaxSize)) {
     hp = maxHp / asteroidMaxSize * size;
     startingHp = hp;
     auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
     unsigned int frames = 8, rows = 4, animInFile = 2;
-    int startAnim = Randomizer::getRandomInt(0, 1) ? 0 : 128 * (rows);
+    int startAnim = getRandomInt(0, 1) ? 0 : 128 * (rows);
     rotation.addFrames(sf::Vector2i(0, startAnim), sf::Vector2i(128, 128), frames, rows);
 
     sprite.setScale(0, 0);
     sf::Vector2f distOrigin(sprite.getLocalBounds().width / (2 * frames),
                             sprite.getLocalBounds().height / (2 * rows * animInFile));
-    initialPosition = Randomizer::getRandomPosition(
+    initialPosition = getRandomPosition(
             distOrigin.x * size, windowWidth - distOrigin.x * size, distOrigin.y * size,
             distOrigin.y * size + asteroidMaxSpawnHeight);
     sprite.setOrigin(distOrigin);

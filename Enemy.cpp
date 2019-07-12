@@ -19,6 +19,12 @@ Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon
     explosionSound.setBuffer(ResourceManager::getSoundBuffer("../sound/explosion.wav"));
     explosionSound.setVolume(75);
     sprite.setRotation(180.f);
+    auto &explosionAnim = animator->createAnimation("Explosion", "../Texture/Explosion.png", sf::seconds(2), false);
+    unsigned int frames = 8;
+    unsigned int rows = 5;
+    explosionAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames, rows);
+    explosion.setOrigin(sprite.getLocalBounds().width / (2 * frames), sprite.getLocalBounds().height / (2 * rows));
+    explosion.setPosition(sprite.getPosition());
 }
 
 void Enemy::setPosition(float x, float y) {
