@@ -10,6 +10,7 @@ static const float laserDPS = 20.f;
 
 #include "Spaceship.h"
 #include "Animator.h"
+#include "SFML/Audio.hpp"
 
 class Player :public Spaceship{
 public:
@@ -43,13 +44,18 @@ public:
 
     Animator *getAnimator() const;
 
+    sf::Sound &getLaserSound();
+
+    sf::Sound &getPowerUpSound();
+
 protected:
     bool charging;
     std::vector<Cannon> auxiliaryCannons;
     bool laserActive;
     sf::Sprite laser;
     Animator *animator = new Animator(laser);
-
+    sf::Sound laserSound;
+    sf::Sound powerUpSound;
 
 };
 

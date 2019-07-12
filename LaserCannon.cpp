@@ -12,6 +12,7 @@ LaserCannon::LaserCannon() : PowerUp(true) {
 
 void LaserCannon::powerUp(Player &player) const {
     player.setLaserActive(true);
+    player.getLaserSound().play();
     std::string textureName = "../Texture/"; //fixme duplicate code
     if (typeid(player) == typeid(Raptor)) {
         textureName += "Raptor";
@@ -22,4 +23,5 @@ void LaserCannon::powerUp(Player &player) const {
         textureName += "Cannon";
     textureName += "Laser";
     player.getSprite().setTexture(ResourceManager::getTexture(textureName + ".png"));
+    player.getPowerUpSound().play();
 }

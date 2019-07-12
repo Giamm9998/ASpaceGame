@@ -15,6 +15,10 @@ Player::Player(float hp, float strength, float speed, float fireRate, const Cann
     unsigned int frames = 12;
     laserAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(29, 700), frames);
     laser.setOrigin(laser.getGlobalBounds().width / (2 * frames), laser.getGlobalBounds().height);
+    laserSound.setBuffer(ResourceManager::getSoundBuffer("../sound/laser.wav"));
+    laserSound.setLoop(true);
+    laserSound.setVolume(50);
+    powerUpSound.setBuffer(ResourceManager::getSoundBuffer("../sound/powerUp.wav"));
 }
 
 void Player::move(float time, short int direction) {
@@ -83,6 +87,14 @@ bool Player::die(float time) {
 
 Animator *Player::getAnimator() const {
     return animator;
+}
+
+sf::Sound &Player::getLaserSound() {
+    return laserSound;
+}
+
+sf::Sound &Player::getPowerUpSound() {
+    return powerUpSound;
 }
 
 Player::~Player() = default;
