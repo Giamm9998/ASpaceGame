@@ -20,7 +20,9 @@ EntityManager::EntityManager() {
 
     //todo add spawn function
     createSounds();
-    mainTheme.play();
+    killedBosses = 0;
+    killedSpaceships = 0;
+    destroyedAsteroids = 0;
 
     enemyManager.emplace_back(new Fighter);
     enemyManager.emplace_back(new Kamikaze);
@@ -118,7 +120,12 @@ void EntityManager::updateEnemies(float time, int &score) {
         auto enemy = (*enemyIter).get();
         if ((enemy)->getHp() <= 0) {
             if ((enemy)->die(time)) {
+                killedSpaceships++;
+                if (typeid(enemy) == typeid(Boss))
+                    killedBosses++;
                 score += static_cast<int>(enemy->getMaxHp());
+                scoredPoints = score;
+                notify();
                 enemyManager.erase(enemyIter++);
             } else
                 enemyIter++;
@@ -146,7 +153,10 @@ void EntityManager::updateAsteroids(float time, int &score, bool isUsingSpecial)
         auto asteroid = (*asteroidIter).get();
         if ((asteroid)->getHp() <= 0) {
             if ((asteroid)->die(time)) {
+                destroyedAsteroids++;
                 score += static_cast<int>(asteroid->getStartingHp());
+                scoredPoints = score;
+                notify();
                 asteroidManager.erase(asteroidIter++);
             } else
                 asteroidIter++;
@@ -279,4 +289,34 @@ void EntityManager::createSounds() {
     mainTheme.setBuffer(ResourceManager::getSoundBuffer("../sound/Music.wav"));
     mainTheme.setLoop(true);
     shieldSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shield.wav"));
+    mainTheme.play();
+}
+
+void EntityManager::subscribe(Observer *o) {
+    observers.push_back(o);
+}
+
+void EntityManager::unsubscribe(Observer *o) {
+    observers.remove(o);
+}
+
+void EntityManager::notify() {
+    for (auto &i: observers)
+        i->update();
+}
+
+unsigned int EntityManager::getDestroyedAsteroids() const {
+    return destroyedAsteroids;
+}
+
+unsigned int EntityManager::getKilledSpaceships() const {
+    return killedSpaceships;
+}
+
+unsigned int EntityManager::getKilledBosses() const {
+    return killedBosses;
+}
+
+unsigned int EntityManager::getScoredPoints() const {
+    return scoredPoints;
 }

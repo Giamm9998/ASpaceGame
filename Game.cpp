@@ -10,9 +10,12 @@
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
-               score(0), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
+               score(0), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))),
+               achievement(&entityManager) {
 
     createHud();
+
+    achievement.attach();
 
     background = std::unique_ptr<Background>(new Background);
 
