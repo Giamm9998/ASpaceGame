@@ -11,6 +11,7 @@ static const float enemyBlinkDuration = 0.15;
 #include "Spaceship.h"
 #include <list>
 #include "Game.h"
+#include "Animator.h"
 
 class Enemy: public Spaceship{
 
@@ -31,6 +32,8 @@ public:
 
 protected:
     short int direction = right;
+    sf::Sprite explosion;
+    Animator *animator = new Animator(explosion);
 };
 
 

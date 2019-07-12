@@ -99,8 +99,10 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
     if (player->isCharging()) //exploit late binding
         player->recharge(time, specialHud);
 
-    if (player->isLaserActive())
+    if (player->isLaserActive()) {
+        player->getAnimator()->update(time);
         checkForLaserCollision(time);
+    }
 }
 
 void EntityManager::updateEnemies(float time, int &score) {

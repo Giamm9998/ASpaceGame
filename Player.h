@@ -9,6 +9,7 @@ static const int PlayerSpawnHeight = 80;
 static const float laserDPS = 20.f;
 
 #include "Spaceship.h"
+#include "Animator.h"
 
 class Player :public Spaceship{
 public:
@@ -32,18 +33,23 @@ public:
 
     void setLaserActive(bool active);
 
-    sf::RectangleShape &getLaser();
+    sf::Sprite &getLaser();
 
     virtual void recharge(float time, sf::RectangleShape &specialHud) = 0;
 
     void blink(float time) final;
 
     bool die(float time) override;
+
+    Animator *getAnimator() const;
+
 protected:
     bool charging;
     std::vector<Cannon> auxiliaryCannons;
     bool laserActive;
-    sf::RectangleShape laser;
+    sf::Sprite laser;
+    Animator *animator = new Animator(laser);
+
 
 };
 
