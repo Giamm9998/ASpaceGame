@@ -28,7 +28,7 @@ void AuxiliaryCannon::powerUp(Player &player) const {
 
         player.getSprite().setTexture(ResourceManager::getTexture(textureName + ".png"));
         cannon.setLocalRelativePosition(relativePosition);
-        player.getPrimaryCannon().setLocalRelativePosition(sf::Vector2f(-relativePosition.x, 0));
+        player.getPrimaryCannon().setLocalRelativePosition(-relativePosition);
         player.getAuxiliaryCannons().push_back(cannon);
     } else if (player.getAuxiliaryCannons().size() < 2) {
         cannon.setLocalRelativePosition(sf::Vector2f(0, 0));

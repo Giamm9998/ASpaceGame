@@ -14,10 +14,13 @@
 #include "FireRate.h"
 #include "AuxiliaryCannon.h"
 #include "Bomber.h"
+#include "ResourceManager.h"
 
 EntityManager::EntityManager() {
 
     //todo add spawn function
+    createSounds();
+    mainTheme.play();
 
     enemyManager.emplace_back(new Fighter);
     enemyManager.emplace_back(new Kamikaze);
@@ -243,8 +246,13 @@ void EntityManager::checkForLaserCollision(float time) {
 }
 
 void EntityManager::emplaceProjectile(std::unique_ptr<Projectile> projectile) {
-    if (projectile != nullptr)
+    if (projectile != nullptr) {
         projectileManager.emplace_back(new Projectile(*projectile));
+        if (!projectile->isEvil() && projectile->getSize().x < 0.6)
+            shotSound.play();
+        else if (!projectile->isEvil() && projectile->getSize().x < 0.9)
+            bombSound.play();
+    }
 }
 
 float EntityManager::dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB) {
@@ -256,4 +264,14 @@ bool EntityManager::isOutOfSigth(const sf::Sprite &sprite) {
            sprite.getPosition().y - sprite.getOrigin().y > windowHeight ||
            sprite.getPosition().x + sprite.getOrigin().x < 0 ||
            sprite.getPosition().x - sprite.getOrigin().x > windowWidth;
+}
+
+void EntityManager::createSounds() {
+    sf::Sound sound(ResourceManager::getSoundBuffer("../sound/shot.wav"));
+    shotSound = sound;
+    sound.setBuffer(ResourceManager::getSoundBuffer("../sound/bomb.wav"));
+    bombSound = sound;
+    sound.setBuffer(ResourceManager::getSoundBuffer("../sound/Music.wav"));
+    mainTheme = sound;
+    mainTheme.setLoop(true);
 }

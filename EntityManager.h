@@ -7,6 +7,7 @@
 
 
 #include <list>
+#include <SFML/Audio.hpp>
 #include "Player.h"
 #include "Asteroid.h"
 #include "PowerUp.h"
@@ -45,6 +46,9 @@ private:
     std::list<std::unique_ptr<Projectile>> projectileManager;
     std::list<std::unique_ptr<Asteroid>> asteroidManager;
     std::unique_ptr<PowerUp> powerUp;
+    sf::Sound shotSound;
+    sf::Sound bombSound;
+    sf::Sound mainTheme;
 
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
@@ -56,6 +60,8 @@ private:
     void checkForLaserCollision(float time);
 
     void emplaceProjectile(std::unique_ptr<Projectile> projectile);
+
+    void createSounds();
 
 };
 
