@@ -42,8 +42,8 @@ public:
 
     virtual ~Animator();
 
-    Animation &createAnimation(std::string const &name, std::string const &textureName,
-                               sf::Time duration, bool loop = false);
+    Animator::Animation &createAnimation(std::string const &name, std::string const &textureName,
+                                         sf::Time duration, bool loop = false);
 
     void update(float const &dt);
 
@@ -52,14 +52,14 @@ public:
     std::string getCurrentAnimationName() const;
 
 private:
-    Animation *findAnimation(std::string const &name);
+    Animator::Animation *findAnimation(std::string const &name);
 
-    void switchAnimation(Animation *animation);
+    void switchAnimation(Animator::Animation *animation);
 
     sf::Sprite &sprite;
     float currentTime;
-    std::list<Animation> animations;
-    Animation *currentAnimation;
+    std::list<Animator::Animation> animations;
+    Animator::Animation *currentAnimation;
 
 };
 

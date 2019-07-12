@@ -30,7 +30,7 @@ EntityManager::EntityManager() {
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Raptor);
+    player = std::unique_ptr<Player>(new Bomber);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
@@ -263,10 +263,12 @@ void EntityManager::checkForLaserCollision(float time) {
 void EntityManager::emplaceProjectile(std::unique_ptr<Projectile> projectile) {
     if (projectile != nullptr) {
         projectileManager.emplace_back(new Projectile(*projectile));
-        if (!projectile->isEvil() && projectile->getSize().x < 0.6)
-            shotSound.play();
-        else if (!projectile->isEvil() && projectile->getSize().x < 0.9)
-            bombSound.play();
+        if (!projectile->isEvil()) {
+            if (projectile->getSize().x != bombSize)
+                shotSound.play();
+            else
+                bombSound.play();
+        }
     }
 }
 

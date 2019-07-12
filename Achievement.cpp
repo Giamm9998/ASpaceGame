@@ -21,6 +21,8 @@ void Achievement::update() {
         checkForBosses();
     if (spaceshipsBadges < 3)
         checkForSpaceships();
+    if (scoreBadges + bossesBadges + spaceshipsBadges + asteroidsBadges == 12)
+        detach();
 }
 
 void Achievement::checkForScore() {
