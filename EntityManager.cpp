@@ -28,7 +28,7 @@ EntityManager::EntityManager() {
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Bomber);
+    player = std::unique_ptr<Player>(new Raptor);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
@@ -95,10 +95,15 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
                 emplaceProjectile(dynamic_cast<Bomber &>(*player).useBomb(specialHud));
         }
         if (typeid(playerType) == typeid(Raptor)) {
-            if (!player->isCharging())
+            if (!player->isCharging()) {
+                if (!shieldActive) {
+                    shieldSound.play();
+                    shieldActive = true;
+                }
                 dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
+            }
         }
-    }
+    } else shieldActive = false;
     if (player->isCharging()) //exploit late binding
         player->recharge(time, specialHud);
 
@@ -265,11 +270,11 @@ bool EntityManager::isOutOfSigth(const sf::Sprite &sprite) {
 }
 
 void EntityManager::createSounds() {
-    sf::Sound sound(ResourceManager::getSoundBuffer("../sound/shot.wav"));
-    shotSound = sound;
-    sound.setBuffer(ResourceManager::getSoundBuffer("../sound/bomb.wav"));
-    bombSound = sound;
-    sound.setBuffer(ResourceManager::getSoundBuffer("../sound/Music.wav"));
-    mainTheme = sound;
+    shotSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shot.wav"));
+    shotSound.setVolume(30);
+    bombSound.setBuffer(ResourceManager::getSoundBuffer("../sound/bomb.wav"));
+    bombSound.setVolume(30);
+    mainTheme.setBuffer(ResourceManager::getSoundBuffer("../sound/Music.wav"));
     mainTheme.setLoop(true);
+    shieldSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shield.wav"));
 }

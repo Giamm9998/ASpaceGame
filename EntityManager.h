@@ -49,6 +49,8 @@ private:
     sf::Sound shotSound;
     sf::Sound bombSound;
     sf::Sound mainTheme;
+    sf::Sound shieldSound;
+    bool shieldActive = false;
 
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 

@@ -10,6 +10,7 @@ static const float enemyBlinkDuration = 0.15;
 
 #include "Spaceship.h"
 #include <list>
+#include <SFML/Audio/Sound.hpp>
 #include "Game.h"
 
 class Enemy: public Spaceship{
@@ -31,6 +32,7 @@ public:
 
 protected:
     short int direction = right;
+    sf::Sound explosionSound;
 };
 
 

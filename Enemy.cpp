@@ -3,6 +3,7 @@
 //
 
 #include "Enemy.h"
+#include "ResourceManager.h"
 
 void Enemy::move(float time) {
     if (!(Game::isLegalMove(sprite.getPosition().x, sprite.getScale().x * sprite.getOrigin().x, direction)))
@@ -15,6 +16,8 @@ void Enemy::move(float time) {
 Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon) : Spaceship(hp, strength,
                                                                                                       speed, fireRate,
                                                                                                       cannon) {
+    explosionSound.setBuffer(ResourceManager::getSoundBuffer("../sound/explosion.wav"));
+    explosionSound.setVolume(75);
     sprite.setRotation(180.f);
 }
 
@@ -39,8 +42,10 @@ void Enemy::blink(float time) {
 
 bool Enemy::die(float time) {
 
-    if (dyingTime == 0)
+    if (dyingTime == 0) {
         boundingBox.setSize(sf::Vector2f(0, 0));
+        explosionSound.play();
+    }
     dyingTime += time;
     sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
     return dyingTime >= dyingDuration;
