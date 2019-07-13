@@ -164,7 +164,7 @@ void Game::drawPlayer() {
 
 void Game::drawEnemy() {
     for (auto &enemy: entityManager.getEnemyManager()) {
-        if (typeid(*enemy) == typeid(Kamikaze)) {
+        if (typeid(*enemy) == typeid(Kamikaze)) { //fixme
             window.draw(dynamic_cast<Kamikaze &>(*enemy).getRect());
             window.draw(dynamic_cast<Kamikaze &>(*enemy).getRect2());
             window.draw(dynamic_cast<Kamikaze &>(*enemy).getConvex());

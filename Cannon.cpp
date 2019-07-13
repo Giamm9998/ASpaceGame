@@ -8,7 +8,7 @@
 Cannon::Cannon(const Projectile &projectilePrototype, float fireRateMultiplier, float strengthMultiplier,
                bool tracker, const sf::Vector2f &relativePosition) :
         fireRateMultiplier(fireRateMultiplier), strengthMultiplier(strengthMultiplier),
-        tracker(tracker), relativePosition(relativePosition), projectilePrototype(projectilePrototype) {}
+        tracker(tracker), localRelativePosition(relativePosition), projectilePrototype(projectilePrototype) {}
 
 void Cannon::setFireRateMultiplier(double multiplier) {
     Cannon::fireRateMultiplier = multiplier;
@@ -47,12 +47,12 @@ void Cannon::setElapsedTime(float time) {
     Cannon::elapsedTime = time;
 }
 
-const sf::Vector2f &Cannon::getRelativePosition() const {
-    return relativePosition;
+const sf::Vector2f &Cannon::getLocalRelativePosition() const {
+    return localRelativePosition;
 }
 
 void Cannon::setLocalRelativePosition(const sf::Vector2f &position) {
-    Cannon::relativePosition = position;
+    Cannon::localRelativePosition = position;
 }
 
 float Cannon::getStrengthMultiplier() const {

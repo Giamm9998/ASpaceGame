@@ -31,7 +31,7 @@ public:
 
     float getStrengthMultiplier() const;
 
-    const sf::Vector2f &getRelativePosition() const;
+    const sf::Vector2f &getLocalRelativePosition() const;
 
     void setLocalRelativePosition(const sf::Vector2f &position);
 
@@ -43,6 +43,6 @@ private:
     Projectile projectilePrototype;
     bool tracker = false;
     float elapsedTime = 0;
-    sf::Vector2f relativePosition = sf::Vector2f(0, 0);
+    sf::Vector2f localRelativePosition = sf::Vector2f(0, 0);
 };
 #endif //ASPACEGAME_CANNON_H

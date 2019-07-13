@@ -19,25 +19,25 @@ TEST(AuxiliaryCannonTest, powerUp) {
 
     auxiliaryCannon.powerUp(raptor);
     ASSERT_EQ(raptor.getAuxiliaryCannons().size(), 1);
-    ASSERT_EQ(raptor.getAuxiliaryCannons()[0].getRelativePosition(), sf::Vector2f(76, 0));
-    ASSERT_EQ(raptor.getPrimaryCannon().getRelativePosition(), sf::Vector2f(-76, 0));
+    ASSERT_EQ(raptor.getAuxiliaryCannons()[0].getLocalRelativePosition(), sf::Vector2f(76, 0));
+    ASSERT_EQ(raptor.getPrimaryCannon().getLocalRelativePosition(), sf::Vector2f(-76, 0));
 
     auxiliaryCannon.powerUp(bomber);
     ASSERT_EQ(bomber.getAuxiliaryCannons().size(), 1);
-    ASSERT_EQ(bomber.getAuxiliaryCannons()[0].getRelativePosition(), sf::Vector2f(106, 0));
-    ASSERT_EQ(bomber.getPrimaryCannon().getRelativePosition(), sf::Vector2f(-106, 0));
+    ASSERT_EQ(bomber.getAuxiliaryCannons()[0].getLocalRelativePosition(), sf::Vector2f(106, 0));
+    ASSERT_EQ(bomber.getPrimaryCannon().getLocalRelativePosition(), sf::Vector2f(-106, 0));
 
     auxiliaryCannon.powerUp(raptor);
     ASSERT_EQ(raptor.getAuxiliaryCannons().size(), 2);
-    ASSERT_EQ(raptor.getAuxiliaryCannons()[0].getRelativePosition(), sf::Vector2f(76, 0));
-    ASSERT_EQ(raptor.getPrimaryCannon().getRelativePosition(), sf::Vector2f(-76, 0));
-    ASSERT_EQ(raptor.getAuxiliaryCannons()[1].getRelativePosition(), sf::Vector2f(0, 0));
+    ASSERT_EQ(raptor.getAuxiliaryCannons()[0].getLocalRelativePosition(), sf::Vector2f(76, 0));
+    ASSERT_EQ(raptor.getPrimaryCannon().getLocalRelativePosition(), sf::Vector2f(-76, 0));
+    ASSERT_EQ(raptor.getAuxiliaryCannons()[1].getLocalRelativePosition(), sf::Vector2f(0, 0));
 
     auxiliaryCannon.powerUp(bomber);
     ASSERT_EQ(bomber.getAuxiliaryCannons().size(), 2);
-    ASSERT_EQ(bomber.getAuxiliaryCannons()[0].getRelativePosition(), sf::Vector2f(106, 0));
-    ASSERT_EQ(bomber.getPrimaryCannon().getRelativePosition(), sf::Vector2f(-106, 0));
-    ASSERT_EQ(bomber.getAuxiliaryCannons()[1].getRelativePosition(), sf::Vector2f(0, 0));
+    ASSERT_EQ(bomber.getAuxiliaryCannons()[0].getLocalRelativePosition(), sf::Vector2f(106, 0));
+    ASSERT_EQ(bomber.getPrimaryCannon().getLocalRelativePosition(), sf::Vector2f(-106, 0));
+    ASSERT_EQ(bomber.getAuxiliaryCannons()[1].getLocalRelativePosition(), sf::Vector2f(0, 0));
 
     auxiliaryCannon.powerUp(raptor);
     ASSERT_EQ(raptor.getAuxiliaryCannons().size(), 2);
