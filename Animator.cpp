@@ -5,7 +5,7 @@
 #include "Animator.h"
 #include "ResourceManager.h"
 
-Animator::Animator(sf::Sprite &sprite) : sprite(sprite), currentTime(), currentAnimation(nullptr) {}
+Animator::Animator(sf::Sprite &sprite) : sprite(sprite), currentTime(0), currentAnimation(nullptr) {}
 
 Animator::Animation &Animator::createAnimation(std::string const &name, std::string const &textureName,
                                                sf::Time const duration, bool loop) {
@@ -59,7 +59,7 @@ void Animator::update(float time, float delay) {
     unsigned long numFrames = currentAnimation->animFrames.size();
 
     if (time == 0) {
-        sprite.setTextureRect(currentAnimation->animFrames[numFrames]);
+        sprite.setTextureRect(currentAnimation->animFrames[numFrames - 1]);
         return;
     }
 
