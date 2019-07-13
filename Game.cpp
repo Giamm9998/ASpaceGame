@@ -16,6 +16,7 @@ Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"),
     createHud();
 
     achievement.attach();
+    achievementDuration = 0;
 
     background = std::unique_ptr<Background>(new Background);
 
@@ -106,6 +107,7 @@ void Game::update(const sf::Time &dt) {
     entityManager.updatePowerUp(time);
 
     scoreText.setString("Score: " + std::to_string(score));
+    updateAchievement(time);
     background->scroll(time);
 
     //View updating
@@ -123,7 +125,8 @@ void Game::render() {
     drawPlayer();
     drawPowerUp();
     drawHud();
-
+    if (achievement.isAppearing())
+        window.draw(achievement.getSprite());
     window.display();
 }
 
@@ -191,4 +194,14 @@ void Game::drawHud() {
 
 bool Game::isLegalMove(float x, float origin, short int direction) { // todo &sprite instead of x and origin
     return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
+}
+
+void Game::updateAchievement(float time) {
+    if (achievement.isAppearing()) {
+        achievementDuration += time;
+        if (achievementDuration > 2) {
+            achievementDuration = 0;
+            achievement.setAppearing(false);
+        }
+    }
 }

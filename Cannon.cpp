@@ -58,3 +58,7 @@ void Cannon::setLocalRelativePosition(const sf::Vector2f &position) {
 float Cannon::getStrengthMultiplier() const {
     return strengthMultiplier;
 }
+
+void Cannon::setTracker(bool tracker) {
+    Cannon::tracker = tracker;
+}

@@ -142,8 +142,12 @@ void EntityManager::updateEnemies(float time, int &score) {
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
                 for (auto &externalCannon : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons())
                     emplaceProjectile(enemy->useCannon(time, externalCannon));
-            } else if (typeid(*enemy) != typeid(Boss))
-                emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
+            } else if (typeid(*enemy) == typeid(Boss)) {
+                emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useCannon(time,
+                                                                           dynamic_cast<Boss &>(*(enemy)).getMobileCannon()));
+                for (auto &simpleCannon:dynamic_cast<Boss &>(*(enemy)).getBombcannon())
+                    emplaceProjectile(enemy->useCannon(time, simpleCannon));
+            } else emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
         }
     }
 }
@@ -321,4 +325,9 @@ unsigned int EntityManager::getKilledBosses() const {
 
 unsigned int EntityManager::getScoredPoints() const {
     return scoredPoints;
+}
+
+void
+EntityManager::testAsteroidCollision(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter, bool isUsingSpecial) {
+    checkForAsteroidsCollisions(asteroidIter, isUsingSpecial);
 }

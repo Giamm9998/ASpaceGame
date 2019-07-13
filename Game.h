@@ -62,6 +62,7 @@ private:
     sf::Text specialText;
     std::unique_ptr<Background> background;
     Achievement achievement;
+    float achievementDuration;
 
     EntityManager entityManager;
 
@@ -76,6 +77,8 @@ private:
     void drawPowerUp();
 
     void drawHud();
+
+    void updateAchievement(float time);
 
     template<typename T>
     void draw(const std::list<std::unique_ptr<T>> &list);

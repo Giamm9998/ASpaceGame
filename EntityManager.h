@@ -56,6 +56,8 @@ public:
 
     unsigned int getScoredPoints() const;
 
+    void testAsteroidCollision(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter, bool isUsingSpecial);
+
 private:
     std::unique_ptr<Player> player;
     std::list<std::unique_ptr<Spaceship>> enemyManager;

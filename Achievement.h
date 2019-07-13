@@ -21,12 +21,17 @@ public:
 
     explicit Achievement(EntityManager *subject);
 
+    bool isAppearing() const;
+
+    void setAppearing(bool appearing);
+
 private:
     EntityManager *subject;
     unsigned int asteroidsBadges;
     unsigned int scoreBadges;
     unsigned int spaceshipsBadges;
     unsigned int bossesBadges;
+    bool appearing;
 
     void checkForAsteroids();
 
