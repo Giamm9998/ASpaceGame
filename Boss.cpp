@@ -18,7 +18,7 @@ void Boss::chooseAttack() {
 
 }
 
-Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f, Cannon(Projectile(400, strength * 1)), 15) {
+Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f, Cannon(Projectile(400, 10.f * 1)), 15) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Boss.png"));
     sprite.setScale(0.5, 0.4);
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);

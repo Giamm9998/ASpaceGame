@@ -38,6 +38,10 @@ private:
     sf::RectangleShape rect2;
     sf::ConvexShape convex;
     bool attacking;
+
+    void createBeamOutline();
+
+    void createBeam();
 };
 
 
