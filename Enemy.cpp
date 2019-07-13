@@ -3,6 +3,7 @@
 //
 
 #include "Enemy.h"
+#include "ResourceManager.h"
 #include "Functions.h"
 
 void Enemy::move(float time) {
@@ -16,7 +17,8 @@ void Enemy::move(float time) {
 Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum)
         : Spaceship(hp, strength, speed, fireRate, cannon), explosionNum(explosionNum) {
     sprite.setRotation(180.f);
-
+    explosionSound.setBuffer(ResourceManager::getSoundBuffer("../sound/explosion.wav"));
+    explosionSound.setVolume(75);
     unsigned int frames = 8;
     unsigned int rows = 5;
     for (int i = 0; i < this->explosionNum; i++) {
@@ -54,6 +56,7 @@ void Enemy::blink(float time) {
 
 bool Enemy::die(float time) {
     if (dyingTime == 0) {
+        explosionSound.play(); //todo play with every explosion
         for (auto &explosion : explosions)
             explosion.setPosition(getRandomPosition(sprite.getGlobalBounds().left,
                                                     sprite.getGlobalBounds().left + sprite.getGlobalBounds().width,

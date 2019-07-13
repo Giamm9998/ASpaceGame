@@ -10,9 +10,12 @@
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
                isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
-               score(0), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))) {
+               score(0), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))),
+               achievement(&entityManager) {
 
     createHud();
+
+    achievement.attach();
 
     background = std::unique_ptr<Background>(new Background);
 
@@ -44,7 +47,7 @@ void Game::createHud() {
     hpHudOutline.setOutlineThickness(2);
     hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
 
-    sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../Font/venus rising rg.ttf"));
+    sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../font/font.ttf"));
     text.setScale(0.7, 0.7);
     scoreText = text;
     scoreText.setPosition(600, windowHeight - 25);

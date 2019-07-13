@@ -10,10 +10,14 @@
 EnhanceSpecial::EnhanceSpecial() : PowerUp(true) {}
 
 void EnhanceSpecial::powerUp(Player &player) const {
-    if (typeid(player) == typeid(Raptor))
+    if (typeid(player) == typeid(Raptor)) {
         dynamic_cast<Raptor &>(player).setShieldDuration(
                 dynamic_cast<Raptor &>(player).getShieldDuration() * 1.5f);
-    if (typeid(player) == typeid(Bomber))
+        player.getPowerUpSound().play();
+    }
+    if (typeid(player) == typeid(Bomber)) {
         dynamic_cast<Bomber &>(player).getSecondaryCannon().setFireRateMultiplier(
                 dynamic_cast<Bomber &>(player).getSecondaryCannon().getFireRateMultiplier() * 2);
+        player.getPowerUpSound().play();
+    }
 }

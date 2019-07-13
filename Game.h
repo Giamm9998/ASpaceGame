@@ -24,6 +24,7 @@ static const int windowHeight = 675;
 #include "Animator.h"
 #include "PowerUp.h"
 #include "EntityManager.h"
+#include "Achievement.h"
 
 class Game {
 public:
@@ -60,6 +61,7 @@ private:
     sf::Text hpText;
     sf::Text specialText;
     std::unique_ptr<Background> background;
+    Achievement achievement;
 
     EntityManager entityManager;
 

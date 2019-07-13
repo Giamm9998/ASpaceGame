@@ -11,6 +11,7 @@ static const float explosionDuration = 1;
 
 #include "Spaceship.h"
 #include <list>
+#include <SFML/Audio/Sound.hpp>
 #include "Game.h"
 #include "Animator.h"
 
@@ -38,6 +39,7 @@ protected:
     short int direction = right;
     std::list<sf::Sprite> explosions;
     std::list<std::unique_ptr<Animator>> animators;
+    sf::Sound explosionSound;
 };
 
 

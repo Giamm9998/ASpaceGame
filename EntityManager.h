@@ -11,8 +11,10 @@
 #include "Player.h"
 #include "Asteroid.h"
 #include "PowerUp.h"
+#include "Subject.h"
+#include "Observer.h"
 
-class EntityManager {
+class EntityManager : public Subject {
 
 public:
     EntityManager();
@@ -40,6 +42,20 @@ public:
 
     static bool isOutOfSigth(const sf::Sprite &sprite);
 
+    void subscribe(Observer *o) override;
+
+    void unsubscribe(Observer *o) override;
+
+    void notify() override;
+
+    unsigned int getDestroyedAsteroids() const;
+
+    unsigned int getKilledSpaceships() const;
+
+    unsigned int getKilledBosses() const;
+
+    unsigned int getScoredPoints() const;
+
 private:
     std::unique_ptr<Player> player;
     std::list<std::unique_ptr<Spaceship>> enemyManager;
@@ -49,7 +65,13 @@ private:
     sf::Sound shotSound;
     sf::Sound bombSound;
     sf::Sound mainTheme;
-
+    sf::Sound shieldSound;
+    bool shieldActive = false;
+    std::list<Observer *> observers;
+    unsigned int destroyedAsteroids;
+    unsigned int killedSpaceships;
+    unsigned int killedBosses;
+    unsigned int scoredPoints;
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
     void
@@ -62,6 +84,7 @@ private:
     void emplaceProjectile(std::unique_ptr<Projectile> projectile);
 
     void createSounds();
+
 
 };
 

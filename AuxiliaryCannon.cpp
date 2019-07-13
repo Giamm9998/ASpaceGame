@@ -30,8 +30,10 @@ void AuxiliaryCannon::powerUp(Player &player) const {
         cannon.setLocalRelativePosition(relativePosition);
         player.getPrimaryCannon().setLocalRelativePosition(-relativePosition);
         player.getAuxiliaryCannons().push_back(cannon);
+        player.getPowerUpSound().play();
     } else if (player.getAuxiliaryCannons().size() < 2) {
         cannon.setLocalRelativePosition(sf::Vector2f(0, 0));
         player.getAuxiliaryCannons().push_back(cannon);
+        player.getPowerUpSound().play();
     }
 }
