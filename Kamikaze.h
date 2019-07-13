@@ -22,11 +22,22 @@ public:
     Kamikaze();
 
     void move(float time) override;
-    void attract();
+
+    void attract(float time);
     void explode();
+
+    const sf::RectangleShape &getRect() const;
+
+    const sf::RectangleShape &getRect2() const;
+
+    const sf::ConvexShape &getConvex() const;
 
 private:
     sf::Vector2f movement;
+    sf::RectangleShape rect;
+    sf::RectangleShape rect2;
+    sf::ConvexShape convex;
+    bool attacking;
 };
 
 

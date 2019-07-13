@@ -10,8 +10,8 @@ namespace {
     short int const left = -1;
 }
 
-static const int windowWidth = 900;
-static const int windowHeight = 675;
+static const float windowWidth = 900;
+static const float windowHeight = 675;
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>

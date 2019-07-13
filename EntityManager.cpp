@@ -30,7 +30,7 @@ EntityManager::EntityManager() {
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Bomber);
+    player = std::unique_ptr<Player>(new Raptor);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
@@ -142,7 +142,7 @@ void EntityManager::updateEnemies(float time, int &score) {
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
                 for (auto &externalCannon : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons())
                     emplaceProjectile(enemy->useCannon(time, externalCannon));
-            } else if (typeid(*enemy) != typeid(Boss))
+            } else if (typeid(*enemy) != typeid(Boss) && typeid(*enemy) != typeid(Kamikaze))
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
         }
     }

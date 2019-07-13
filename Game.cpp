@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "ResourceManager.h"
 #include "Raptor.h"
+#include "Kamikaze.h"
 #include <cmath>
 
 Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
@@ -160,6 +161,11 @@ void Game::drawPlayer() {
 
 void Game::drawEnemy() {
     for (auto &enemy: entityManager.getEnemyManager()) {
+        if (typeid(*enemy) == typeid(Kamikaze)) {
+            window.draw(dynamic_cast<Kamikaze &>(*enemy).getRect());
+            window.draw(dynamic_cast<Kamikaze &>(*enemy).getRect2());
+            window.draw(dynamic_cast<Kamikaze &>(*enemy).getConvex());
+        }
         window.draw(enemy->getSprite());
         if (enemy->getHp() <= 0)
             for (auto &explosion : dynamic_cast<Enemy &>(*enemy).getExplosions())

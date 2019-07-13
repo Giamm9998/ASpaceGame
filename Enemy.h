@@ -18,7 +18,7 @@ static const float explosionDuration = 1;
 class Enemy: public Spaceship{
 
 public:
-    Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum = 3);
+    Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon = Cannon(), int explosionNum = 3);
 
     ~Enemy() override;
 
