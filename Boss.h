@@ -39,6 +39,7 @@ private:
     Cannon mobileCannon;
     Cannon trackerCannon;
     std::list<Cannon> bombcannon;
+    float mobileTime = 0;
     double angle = M_PI / 4;
 };
 
