@@ -45,7 +45,7 @@ public:
     Animator::Animation &createAnimation(std::string const &name, std::string const &textureName,
                                          sf::Time duration, bool loop = false);
 
-    void update(float const &dt);
+    void update(float dt, float delay = 0);
 
     bool switchAnimation(std::string const &name);
 

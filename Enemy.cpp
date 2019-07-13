@@ -13,17 +13,19 @@ void Enemy::move(float time) {
 
 }
 
-Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon)
-        : Spaceship(hp, strength, speed, fireRate, cannon) {
+Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum)
+        : Spaceship(hp, strength, speed, fireRate, cannon), explosionNum(explosionNum) {
     sprite.setRotation(180.f);
 
     unsigned int frames = 8;
     unsigned int rows = 5;
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < this->explosionNum; i++) {
         explosions.emplace_back();
+        explosions.back().setScale(sf::Vector2f(1, 1) * getRandomReal(0.5, 1.2));
         animators.emplace_back(new Animator(explosions.back()));
-        auto &explosionAnim = animators.back()->createAnimation("Explosion", "../Texture/Explosion.png", sf::seconds(2),
-                                                                false);
+        std::string textureName = getRandomInt(0, 1) ? "../Texture/Explosion.png" : "../Texture/Explosion1.png";
+        auto &explosionAnim = animators.back()->createAnimation("Explosion", textureName, sf::seconds(
+                explosionDuration), false);
         explosionAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames, rows);
         explosions.back().setOrigin(explosions.back().getLocalBounds().width / (2 * frames),
                                     explosions.back().getLocalBounds().height / (2 * rows));
@@ -59,8 +61,9 @@ bool Enemy::die(float time) {
                                                     sprite.getGlobalBounds().top + sprite.getGlobalBounds().height));
         boundingBox.setSize(sf::Vector2f(0, 0));
     }
+    int i = 0;
     for (auto &animator : animators) {
-        animator->update(time);
+        animator->update(time, ((dyingDuration - explosionDuration) / explosionNum) * i++);
     }
     dyingTime += time;
     sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));

@@ -7,6 +7,7 @@
 
 
 static const float enemyBlinkDuration = 0.15;
+static const float explosionDuration = 1;
 
 #include "Spaceship.h"
 #include <list>
@@ -16,7 +17,7 @@ static const float enemyBlinkDuration = 0.15;
 class Enemy: public Spaceship{
 
 public:
-    Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon);
+    Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum = 3);
 
     ~Enemy() override;
 
@@ -33,9 +34,10 @@ public:
     const std::list<sf::Sprite> &getExplosions() const;
 
 protected:
+    int explosionNum;
     short int direction = right;
     std::list<sf::Sprite> explosions;
-    std::list<Animator *> animators;
+    std::list<std::unique_ptr<Animator>> animators;
 };
 
 
