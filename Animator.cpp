@@ -54,15 +54,24 @@ std::string Animator::getCurrentAnimationName() const {
     return "";
 }
 
-void Animator::update(float const &time) {
+void Animator::update(float time, float delay) {
 
-    if (currentAnimation == nullptr || time < 0)
+    unsigned long numFrames = currentAnimation->animFrames.size();
+
+    if (time == 0) {
+        sprite.setTextureRect(currentAnimation->animFrames[numFrames]);
+        return;
+    }
+
+    if (currentAnimation == nullptr)
         return;
 
     currentTime += time;
 
-    float scaledTime = (currentTime / currentAnimation->animDuration.asSeconds());
-    unsigned long numFrames = currentAnimation->animFrames.size();
+    if (currentTime < delay)
+        return;
+
+    float scaledTime = ((currentTime - delay) / currentAnimation->animDuration.asSeconds());
     int currentFrame = static_cast<int>(scaledTime * numFrames);
 
     if (currentAnimation->animLooping)

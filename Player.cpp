@@ -11,7 +11,7 @@ Player::Player(float hp, float strength, float speed, float fireRate, const Cann
         Spaceship(hp, strength, speed, fireRate, cannon), charging(false), laserActive(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2, windowHeight - PlayerSpawnHeight);
 
-    auto &laserAnim = animator->createAnimation("Laser", "../Texture/Laser4.png", sf::seconds(1), true);
+    auto &laserAnim = animator->createAnimation("Laser", "../Texture/Laser.png", sf::seconds(1), true);
     unsigned int frames = 12;
     laserAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(29, 700), frames);
     laser.setOrigin(laser.getGlobalBounds().width / (2 * frames), laser.getGlobalBounds().height);
