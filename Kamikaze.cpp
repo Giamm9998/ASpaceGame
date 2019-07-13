@@ -37,37 +37,67 @@ void Kamikaze::move(float time) {
         }
     } else {
         if (elapsedTime == 0) {
-            rect.setSize(sf::Vector2f(3, 0));
-            rect.setOrigin(rect.getSize().x / 2, 0);
-            rect.setPosition(sprite.getPosition() + sf::Vector2f(0, sprite.getOrigin().y * sprite.getScale().y));
-            rect.setFillColor(sf::Color::White);
-            rect2 = rect;
+            createBeamOutline();
         }
         attract(time);
     }
 }
 
+void Kamikaze::createBeamOutline() {
+    rect.setSize(sf::Vector2f(3, 0));
+    rect.setOrigin(rect.getSize().x / 2, 0);
+    rect.setPosition(sprite.getPosition() + sf::Vector2f(0, sprite.getOrigin().y * sprite.getScale().y));
+    rect.setFillColor(sf::Color(179, 230, 177));
+    rect2 = rect;
+}
+
 void Kamikaze::attract(float time) {
     elapsedTime += time;
-    if (elapsedTime > 0.5 && elapsedTime <= 2.5) {
-        rect.setSize(sf::Vector2f(3, 200 * (elapsedTime - 0.5)));
-        rect2.setSize(sf::Vector2f(3, 200 * (elapsedTime - 0.5)));
+    if (elapsedTime > 1.5 && elapsedTime <= 2.5) {
+        rect.setSize(sf::Vector2f(3, 400 * (elapsedTime - 1.5)));
+        rect2.setSize(sf::Vector2f(3, 400 * (elapsedTime - 1.5)));
     } else if (elapsedTime > 3 && elapsedTime <= 4) {
         rect.rotate(10. / (4 - 3) * time);
         rect2.rotate(-10. / (4 - 3) * time);
-    } else if (elapsedTime >= 5) {
+    } else if (elapsedTime >= 5 && elapsedTime < 10) {
         if (convex.getPointCount() == 0) {
-            convex.setPointCount(3);
-            convex.setPoint(0, sf::Vector2f(rect2.getGlobalBounds().left, rect2.getGlobalBounds().top));
-            convex.setPoint(1, sf::Vector2f(rect.getGlobalBounds().left,
-                                            rect.getGlobalBounds().top + rect.getGlobalBounds().height));
-            convex.setPoint(2, sf::Vector2f(rect2.getGlobalBounds().left + rect2.getGlobalBounds().width,
-                                            rect2.getGlobalBounds().top + rect2.getGlobalBounds().height));
-            convex.setFillColor(sf::Color(255, 255, 255, 40));
+            createBeam();
         }
-        convex.setFillColor(sf::Color(255, 255, 255, 40 + static_cast<int>(255. / 10 * (elapsedTime - 5))));
+        if (static_cast<int>((elapsedTime - 5) * 2) % (1 * 2) < 1)
+            convex.setFillColor(
+                    sf::Color(255, 255, 255, convex.getFillColor().a + static_cast<int>(100. / 0.5 * time)));
+        else
+            convex.setFillColor(sf::Color(255, 255, 255,
+                                          std::max(0, convex.getFillColor().a - static_cast<int>(100. / 0.5 * time))));
+    } else if (elapsedTime > 10 && elapsedTime <= 11) {
+        convex.setPointCount(0);
+        rect.rotate(-10. / (11 - 10) * time);
+        rect2.rotate(10. / (11 - 10) * time);
+    } else if (elapsedTime > 11 && elapsedTime <= 12) {
+        rect.setSize(sf::Vector2f(3, 400 * (12 - elapsedTime)));
+        rect2.setSize(sf::Vector2f(3, 400 * (12 - elapsedTime)));
+    } else if (elapsedTime > 12) {
+        rect.setSize(sf::Vector2f(0, 0));
+        rect2.setSize(sf::Vector2f(0, 0));
+        attacking = false;
+        elapsedTime = 0;
+        auto nextPosition = sf::Vector2f(sprite.getPosition().x,
+                                         (kamikazeMaxHeight + sprite.getOrigin().y * sprite.getScale().y) / 2);
+        sf::Vector2f movementVector(nextPosition - sprite.getPosition());
+        float module = hypot(movementVector.x, movementVector.y);
+        speed = module / kamikazeMoveDuration;
+        movement = sf::Vector2f(movementVector.x / module, movementVector.y / module);
     }
+}
 
+void Kamikaze::createBeam() {
+    convex.setPointCount(3);
+    convex.setPoint(0, sf::Vector2f(rect2.getGlobalBounds().left, rect2.getGlobalBounds().top));
+    convex.setPoint(1, sf::Vector2f(rect.getGlobalBounds().left,
+                                    rect.getGlobalBounds().top + rect.getGlobalBounds().height));
+    convex.setPoint(2, sf::Vector2f(rect2.getGlobalBounds().left + rect2.getGlobalBounds().width,
+                                    rect2.getGlobalBounds().top + rect2.getGlobalBounds().height));
+    convex.setFillColor(sf::Color(255, 255, 255, 0));
 }
 
 void Kamikaze::explode() {}
