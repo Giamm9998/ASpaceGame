@@ -19,20 +19,14 @@ public:
     Boss();
 
     void move(float time) override;
-    void chooseAttack();
 
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon) override;
+    std::list<Cannon> &chooseAttack();
+
+    std::unique_ptr<Projectile> useMobileCannon(float dt, Cannon &cannon);
 
     std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos);
 
-
-    std::list<Cannon> &getSimpleCannons();
-
-    Cannon &getMobileCannon();
-
-    Cannon &getTrackerCannon();
-
-    std::list<Cannon> &getBombcannon();
+    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon) override;
 
 private:
     std::list<Cannon> simpleCannons;
@@ -41,6 +35,7 @@ private:
     std::list<Cannon> bombcannon;
     float mobileTime = 0;
     double angle = M_PI / 4;
+    std::list<Cannon> currentAttack = {};
 };
 
 
