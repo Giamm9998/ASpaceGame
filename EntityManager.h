@@ -73,7 +73,7 @@ private:
     unsigned int killedBosses;
     unsigned int scoredPoints;
     float bossAttacktime = 10;
-    std::list<Cannon> bossCurrentAttack = {};
+    std::list<Cannon *> bossCurrentAttack = {};
 
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
