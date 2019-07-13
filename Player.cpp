@@ -97,5 +97,7 @@ sf::Sound &Player::getPowerUpSound() {
     return powerUpSound;
 }
 
-Player::~Player() = default;
+Player::~Player() {
+    delete animator;
+}
 

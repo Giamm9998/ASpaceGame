@@ -143,10 +143,19 @@ void EntityManager::updateEnemies(float time, int &score) {
                 for (auto &externalCannon : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons())
                     emplaceProjectile(enemy->useCannon(time, externalCannon));
             } else if (typeid(*enemy) == typeid(Boss)) {
-                emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useCannon(time,
-                                                                           dynamic_cast<Boss &>(*(enemy)).getMobileCannon()));
-                for (auto &simpleCannon:dynamic_cast<Boss &>(*(enemy)).getBombcannon())
-                    emplaceProjectile(enemy->useCannon(time, simpleCannon));
+                bossAttacktime += time;
+                if (bossAttacktime >= 10) {
+                    bossAttacktime = 0;
+                    bossCurrentAttack = dynamic_cast<Boss &>(*(enemy)).chooseAttack();
+                }
+                for (auto &cannon: bossCurrentAttack) {
+                    if (cannon->isTracker()) {
+                        emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useCannon(time, *cannon,
+                                                                                   player->getSprite().getPosition()));
+                    } else if (cannon->getFireRateMultiplier() == 5) {
+                        emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useMobileCannon(time, *cannon));
+                    } else emplaceProjectile(enemy->useCannon(time, *cannon));
+                }
             } else if (typeid(*enemy) != typeid(Kamikaze))
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
         }

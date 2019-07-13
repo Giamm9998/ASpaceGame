@@ -56,8 +56,6 @@ public:
 
     unsigned int getScoredPoints() const;
 
-    void testAsteroidCollision(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter, bool isUsingSpecial);
-
 private:
     std::unique_ptr<Player> player;
     std::list<std::unique_ptr<Spaceship>> enemyManager;
@@ -74,6 +72,9 @@ private:
     unsigned int killedSpaceships;
     unsigned int killedBosses;
     unsigned int scoredPoints;
+    float bossAttacktime = 10;
+    std::list<Cannon *> bossCurrentAttack = {};
+
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
     void
