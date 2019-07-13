@@ -37,3 +37,7 @@ TEST(EntityManagerTest, isOutOfSigth) {
     raptor.getSprite().move(0, -4000);
     ASSERT_TRUE(EntityManager::isOutOfSigth(raptor.getSprite()));
 }
+
+TEST(EntityManagerTest, asteroidCollision) {
+    //non mi riesce
+}

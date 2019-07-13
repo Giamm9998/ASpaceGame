@@ -3,6 +3,7 @@
 //
 
 #include "Achievement.h"
+#include "ResourceManager.h"
 
 void Achievement::attach() {
     subject->subscribe(this);
@@ -26,11 +27,15 @@ void Achievement::update() {
 }
 
 void Achievement::checkForScore() {
-    if (subject->getScoredPoints() > 1000 && scoreBadges == 0) {
+    if (subject->getScoredPoints() > 1 && scoreBadges == 0) {
         scoreBadges++;
+        sprite.setTextureRect(sf::IntRect(0, 0, 60, 60));
+        appearing = true;
         //implement
-    } else if (subject->getScoredPoints() > 10000 && scoreBadges == 1) {
+    } else if (subject->getScoredPoints() > 1000 && scoreBadges == 1) {
         scoreBadges++;
+        sprite.setTextureRect(sf::IntRect(60, 0, 60, 60));
+        appearing = true;
         //implement
     } else if (subject->getScoredPoints() > 50000 && scoreBadges == 2) {
         scoreBadges++;
@@ -53,27 +58,27 @@ void Achievement::checkForAsteroids() {
 }
 
 void Achievement::checkForSpaceships() {
-    if (subject->getKilledSpaceships() > 10 && asteroidsBadges == 0) {
-        asteroidsBadges++;
+    if (subject->getKilledSpaceships() > 10 && spaceshipsBadges == 0) {
+        spaceshipsBadges++;
         //implement
-    } else if (subject->getKilledSpaceships() > 30 && asteroidsBadges == 1) {
-        asteroidsBadges++;
+    } else if (subject->getKilledSpaceships() > 30 && spaceshipsBadges == 1) {
+        spaceshipsBadges++;
         //implement
-    } else if (subject->getKilledSpaceships() > 50 && asteroidsBadges == 2) {
-        asteroidsBadges++;
+    } else if (subject->getKilledSpaceships() > 50 && spaceshipsBadges == 2) {
+        spaceshipsBadges++;
         //implement
     }
 }
 
 void Achievement::checkForBosses() {
-    if (subject->getKilledBosses() > 10 && asteroidsBadges == 0) {
-        asteroidsBadges++;
+    if (subject->getKilledBosses() > 1 && bossesBadges == 0) {
+        bossesBadges++;
         //implement
-    } else if (subject->getKilledBosses() > 30 && asteroidsBadges == 1) {
-        asteroidsBadges++;
+    } else if (subject->getKilledBosses() > 2 && bossesBadges == 1) {
+        bossesBadges++;
         //implement
-    } else if (subject->getKilledBosses() > 50 && asteroidsBadges == 2) {
-        asteroidsBadges++;
+    } else if (subject->getKilledBosses() > 3 && bossesBadges == 2) {
+        bossesBadges++;
         //implement
     }
 }
@@ -86,4 +91,15 @@ Achievement::Achievement(EntityManager *subject) : subject(subject),
                                                    asteroidsBadges(0),
                                                    scoreBadges(0),
                                                    spaceshipsBadges(0),
-                                                   bossesBadges(0) {}
+                                                   bossesBadges(0) {
+    sprite.setTexture(ResourceManager::getTexture("../Texture/badges.png"));
+    appearing = false;
+}
+
+bool Achievement::isAppearing() const {
+    return appearing;
+}
+
+void Achievement::setAppearing(bool appearing) {
+    Achievement::appearing = appearing;
+}
