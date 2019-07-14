@@ -48,8 +48,13 @@ public:
 
     sf::Sound &getPowerUpSound();
 
+    bool isMovable() const;
+
+    void setMovable(bool movable);
+
 protected:
     bool charging;
+    bool movable = true;
     std::vector<Cannon> auxiliaryCannons;
     bool laserActive;
     sf::Sprite laser;

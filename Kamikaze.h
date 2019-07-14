@@ -35,7 +35,7 @@ public:
 
     void attract(float time);
 
-    void explode();
+    void explode(float time);
 
     const sf::RectangleShape &getBeamBorderLeft() const;
 
@@ -45,12 +45,17 @@ public:
 
     bool isAttacking() const;
 
+    void setTargetAcquired(bool targetAcquired);
+
 private:
     sf::Vector2f movement;
     sf::RectangleShape beamBorderLeft;
     sf::RectangleShape beamBorderRight;
     sf::ConvexShape beam;
     bool attacking;
+    bool targetAcquired = false;
+    bool targetAttracted = false;
+    float acquiringTime = 0;
 
     void createBeamOutline();
 

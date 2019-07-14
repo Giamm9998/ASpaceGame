@@ -28,7 +28,7 @@ EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyed
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Raptor);
+    player = std::unique_ptr<Player>(new Bomber);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 
@@ -76,40 +76,45 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
         hpHud.setScale(1, std::max(0.f, (player->getHp() / player->getMaxHp())));
     }
 
-    if (isMovingRight)
-        player->move(time, right);
+    if (player->isMovable()) {
+        if (isMovingRight)
+            player->move(time, right);
 
-    if (isMovingLeft)
-        player->move(time, left);
+        if (isMovingLeft)
+            player->move(time, left);
 
-    if (isShooting) {
-        emplaceProjectile(player->useCannon(time, (player->getPrimaryCannon())));
-        for (auto &auxiliaryCannon : player->getAuxiliaryCannons())
-            emplaceProjectile(player->useCannon(time, auxiliaryCannon));
-    }
-
-    if (isUsingSpecial) {
-        auto &playerType = *(player.get());
-        if (typeid(playerType) == typeid(Bomber)) {
-            if (!player->isCharging())
-                emplaceProjectile(dynamic_cast<Bomber &>(*player).useBomb(specialHud));
+        if (isShooting) {
+            emplaceProjectile(player->useCannon(time, (player->getPrimaryCannon())));
+            for (auto &auxiliaryCannon : player->getAuxiliaryCannons())
+                emplaceProjectile(player->useCannon(time, auxiliaryCannon));
         }
-        if (typeid(playerType) == typeid(Raptor)) {
-            if (!player->isCharging()) {
-                if (!shieldActive) {
-                    shieldSound.play();
-                    shieldActive = true;
-                }
-                dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
+
+        if (isUsingSpecial) {
+            auto &playerType = *(player.get());
+            if (typeid(playerType) == typeid(Bomber)) {
+                if (!player->isCharging())
+                    emplaceProjectile(dynamic_cast<Bomber &>(*player).useBomb(specialHud));
             }
-        }
-    } else shieldActive = false;
-    if (player->isCharging()) //exploit late binding
-        player->recharge(time, specialHud);
+            if (typeid(playerType) == typeid(Raptor)) {
+                if (!player->isCharging()) {
+                    if (!shieldActive) {
+                        shieldSound.play();
+                        shieldActive = true;
+                    }
+                    dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
+                }
+            }
+        } else shieldActive = false;
+        if (player->isCharging()) //exploit late binding
+            player->recharge(time, specialHud);
 
-    if (player->isLaserActive()) {
-        player->getAnimator()->update(time);
-        checkForLaserCollision(time);
+        if (player->isLaserActive()) {
+            player->getAnimator()->update(time);
+            checkForLaserCollision(time);
+        }
+    } else if (finalMovementTime <= finalMovementDuration) {
+        finalMovementTime += time;
+        player->getSprite().move(finalMovement * (time / finalMovementDuration));
     }
 }
 
@@ -139,9 +144,9 @@ void EntityManager::updateEnemies(float time) {
                 for (auto &externalCannon : dynamic_cast<Fighter &>(*(enemy)).getExternalCannons())
                     emplaceProjectile(enemy->useCannon(time, externalCannon));
             } else if (typeid(*enemy) == typeid(Boss)) {
-                bossAttacktime += time;
-                if (bossAttacktime >= 10 + bossSpawnDuration) {
-                    bossAttacktime = bossSpawnDuration;
+                bossAttackTime += time;
+                if (bossAttackTime >= 10 + bossSpawnDuration) {
+                    bossAttackTime = bossSpawnDuration;
                     bossCurrentAttack = dynamic_cast<Boss &>(*(enemy)).chooseAttack();
                 }
                 for (auto &cannon: bossCurrentAttack) {
@@ -153,7 +158,7 @@ void EntityManager::updateEnemies(float time) {
                     } else emplaceProjectile(enemy->useCannon(time, *cannon));
                 }
             } else if (typeid(*enemy) == typeid(Kamikaze)) {
-                if (dynamic_cast<Kamikaze &>(*(enemy)).isAttacking())
+                if (dynamic_cast<Kamikaze &>(*(enemy)).isAttacking() && player->isMovable())
                     checkForAttractingBeamCollision(enemyIter);
             } else
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
@@ -264,8 +269,15 @@ void EntityManager::checkForAttractingBeamCollision(std::list<std::unique_ptr<Sp
     auto kamikaze = (*enemyIter).get();
 
     if (dynamic_cast<Kamikaze &>(*kamikaze).getBeam().getGlobalBounds().intersects(
-            player->getBoundingBox().getGlobalBounds()))
-        std::cout << "YOOOOO";
+            player->getBoundingBox().getGlobalBounds())) {
+        player->getBoundingBox().setSize(sf::Vector2f(0, 0));
+        player->setMovable(false);
+        dynamic_cast<Kamikaze &>(*kamikaze).setTargetAcquired(true);
+        player->setLaserActive(false);
+        auto finalPosition = kamikaze->getSprite().getPosition() +
+                             sf::Vector2f(0, kamikaze->getSprite().getOrigin().y * kamikaze->getSprite().getScale().y);
+        finalMovement = finalPosition - player->getSprite().getPosition();
+    }
 }
 
 void EntityManager::checkForLaserCollision(float time) {

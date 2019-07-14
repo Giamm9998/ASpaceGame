@@ -6,6 +6,8 @@
 #define ASPACEGAME_ENTITYMANAGER_H
 
 
+static const float finalMovementDuration = 3.f;
+
 #include <list>
 #include <SFML/Audio.hpp>
 #include "Player.h"
@@ -72,8 +74,10 @@ private:
     unsigned int killedSpaceships;
     unsigned int killedBosses;
     unsigned int score;
-    float bossAttacktime = 10;
+    float bossAttackTime = 10;
+    float finalMovementTime = 0;
     std::list<Cannon *> bossCurrentAttack = {};
+    sf::Vector2f finalMovement;
 
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
