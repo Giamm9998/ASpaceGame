@@ -51,6 +51,7 @@ private:
     bool isMovingRight;
     bool isShooting;
     bool isUsingSpecial;
+    bool isChoosingPlayer;
     sf::RectangleShape specialHud;
     sf::RectangleShape specialHudOutline;
     sf::RectangleShape hud;
@@ -59,6 +60,9 @@ private:
     sf::Text scoreText;
     sf::Text hpText;
     sf::Text specialText;
+    sf::Text playerSelection;
+    sf::Sprite bomberSprite;
+    sf::Sprite raptorSprite;
     std::unique_ptr<Background> background;
     Achievement achievement;
     float achievementDuration;
