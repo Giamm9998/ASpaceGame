@@ -179,7 +179,7 @@ void Game::drawPlayer() {
     auto &player = entityManager.getPlayer();
     window.draw(player->getSprite());
 
-    if (isUsingSpecial) {
+    if (isUsingSpecial && player->isMovable()) {
         auto &playerType = *(player.get());
         if (typeid(playerType) == typeid(Raptor))
             window.draw(dynamic_cast<Raptor &>(playerType).getShield());
