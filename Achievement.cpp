@@ -29,16 +29,19 @@ void Achievement::update() {
 void Achievement::checkForScore() {
     if (subject->getScore() > 1 && scoreBadges == 0) {
         scoreBadges++;
+        achievementSound.play();
         sprite.setTextureRect(sf::IntRect(0, 0, 60, 60));
         appearing = true;
         //implement
     } else if (subject->getScore() > 1000 && scoreBadges == 1) {
         scoreBadges++;
+        achievementSound.play();
         sprite.setTextureRect(sf::IntRect(60, 0, 60, 60));
         appearing = true;
         //implement
     } else if (subject->getScore() > 50000 && scoreBadges == 2) {
         scoreBadges++;
+        achievementSound.play();
         //implement
     }
 
@@ -47,25 +50,32 @@ void Achievement::checkForScore() {
 void Achievement::checkForAsteroids() {
     if (subject->getDestroyedAsteroids() > 10 && asteroidsBadges == 0) {
         asteroidsBadges++;
+        achievementSound.play();
         //implement
     } else if (subject->getDestroyedAsteroids() > 30 && asteroidsBadges == 1) {
         asteroidsBadges++;
+        achievementSound.play();
         //implement
     } else if (subject->getDestroyedAsteroids() > 50 && asteroidsBadges == 2) {
         asteroidsBadges++;
+        achievementSound.play();
         //implement
     }
 }
 
+
 void Achievement::checkForSpaceships() {
     if (subject->getKilledSpaceships() > 10 && spaceshipsBadges == 0) {
         spaceshipsBadges++;
+        achievementSound.play();
         //implement
     } else if (subject->getKilledSpaceships() > 30 && spaceshipsBadges == 1) {
         spaceshipsBadges++;
+        achievementSound.play();
         //implement
     } else if (subject->getKilledSpaceships() > 50 && spaceshipsBadges == 2) {
         spaceshipsBadges++;
+        achievementSound.play();
         //implement
     }
 }
@@ -73,12 +83,15 @@ void Achievement::checkForSpaceships() {
 void Achievement::checkForBosses() {
     if (subject->getKilledBosses() > 1 && bossesBadges == 0) {
         bossesBadges++;
+        achievementSound.play();
         //implement
     } else if (subject->getKilledBosses() > 2 && bossesBadges == 1) {
         bossesBadges++;
+        achievementSound.play();
         //implement
     } else if (subject->getKilledBosses() > 3 && bossesBadges == 2) {
         bossesBadges++;
+        achievementSound.play();
         //implement
     }
 }
@@ -94,6 +107,7 @@ Achievement::Achievement(EntityManager *subject) : subject(subject),
                                                    bossesBadges(0) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/badges.png"));
     appearing = false;
+    achievementSound.setBuffer(ResourceManager::getSoundBuffer("../sound/achievement.wav"));
 }
 
 bool Achievement::isAppearing() const {
