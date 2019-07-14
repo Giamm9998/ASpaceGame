@@ -32,6 +32,7 @@ private:
     unsigned int spaceshipsBadges;
     unsigned int bossesBadges;
     bool appearing;
+    sf::Sound achievementSound;
 
     void checkForAsteroids();
 
