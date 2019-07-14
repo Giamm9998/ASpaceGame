@@ -28,7 +28,7 @@ EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyed
     enemyManager.emplace_back(new Assaulter);
     enemyManager.emplace_back(new Boss);
 
-    player = std::unique_ptr<Player>(new Raptor);
+    //player = std::unique_ptr<Player>(new Raptor);
 
     powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
 

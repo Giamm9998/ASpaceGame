@@ -56,6 +56,12 @@ public:
 
     unsigned int getScore() const;
 
+    template<typename T>
+    void selectPlayer() {
+        player = std::unique_ptr<Player>(new T);
+    }
+
+
 private:
     std::unique_ptr<Player> player;
     std::list<std::unique_ptr<Spaceship>> enemyManager;

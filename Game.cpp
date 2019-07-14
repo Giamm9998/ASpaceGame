@@ -7,10 +7,12 @@
 #include "ResourceManager.h"
 #include "Raptor.h"
 #include "Kamikaze.h"
+#include "Bomber.h"
 #include <cmath>
 
 Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), static_cast<unsigned int>(windowHeight)),
                       "A Space Game"), isPaused(false), isMovingLeft(false), isMovingRight(false), isShooting(false),
+               isChoosingPlayer(true),
                isUsingSpecial(false), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))),
                achievement(&entityManager) {
 
@@ -59,6 +61,17 @@ void Game::createHud() {
     text.setString("Special");
     specialText = text;
     specialText.setPosition(260, windowHeight - 25);
+    text.setString("Selezionare il tipo del personaggio:\n\nA: Bomber                              S:Raptor");
+    playerSelection = text;
+    playerSelection.setPosition(150, 200);
+    playerSelection.setFillColor(sf::Color::Red);
+
+    bomberSprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
+    bomberSprite.setScale(0.35, 0.35);
+    bomberSprite.setPosition(180, 280);
+    raptorSprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
+    raptorSprite.setScale(0.35, 0.35);
+    raptorSprite.setPosition(600, 280);
 }
 
 void Game::run() {
@@ -67,7 +80,7 @@ void Game::run() {
     while (window.isOpen()) {
         deltaTime = clock.restart();
         processEvents();
-        if (!isPaused)
+        if (!isPaused && !isChoosingPlayer)
             update(deltaTime);
         render();
     }
@@ -120,12 +133,18 @@ void Game::render() {
     window.clear(sf::Color::Black);
 
     drawBackground();
-    draw<Asteroid>(entityManager.getAsteroidManager());
-    draw<Projectile>(entityManager.getProjectileManager());
-    drawEnemy();
-    drawPlayer();
-    drawPowerUp();
-    drawHud();
+    if (!isChoosingPlayer) {
+        draw<Asteroid>(entityManager.getAsteroidManager());
+        draw<Projectile>(entityManager.getProjectileManager());
+        drawEnemy();
+        drawPlayer();
+        drawPowerUp();
+        drawHud();
+    } else {
+        window.draw(playerSelection);
+        window.draw(bomberSprite);
+        window.draw(raptorSprite);
+    }
     if (achievement.isAppearing())
         window.draw(achievement.getSprite());
     window.display();
@@ -140,6 +159,14 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
         isShooting = isPressed;
     else if (key == sf::Keyboard::X)
         isUsingSpecial = isPressed;
+    else if (key == sf::Keyboard::A && isChoosingPlayer) {
+        entityManager.selectPlayer<Bomber>();
+        isChoosingPlayer = false;
+    } else if (key == sf::Keyboard::S && isChoosingPlayer) {
+        entityManager.selectPlayer<Raptor>();
+        isChoosingPlayer = false;
+    }
+
 }
 
 void Game::drawPowerUp() {
