@@ -29,7 +29,7 @@ public:
 
     const std::unique_ptr<PowerUp> &getPowerUp() const;
 
-    void updateEnemies(float time, int &score);
+    void updateEnemies(float time);
 
     void updatePlayer(float time, bool isMovingRight, bool isMovingLeft, bool isShooting, bool isUsingSpecial,
                       sf::RectangleShape &specialHud, sf::RectangleShape &hpHud);
@@ -38,7 +38,7 @@ public:
 
     void updatePowerUp(float time);
 
-    void updateAsteroids(float time, int &score, bool isUsingSpecial);
+    void updateAsteroids(float time, bool isUsingSpecial);
 
     static bool isOutOfSigth(const sf::Sprite &sprite);
 
@@ -54,7 +54,7 @@ public:
 
     unsigned int getKilledBosses() const;
 
-    unsigned int getScoredPoints() const;
+    unsigned int getScore() const;
 
 private:
     std::unique_ptr<Player> player;
@@ -71,7 +71,7 @@ private:
     unsigned int destroyedAsteroids;
     unsigned int killedSpaceships;
     unsigned int killedBosses;
-    unsigned int scoredPoints;
+    unsigned int score;
     float bossAttacktime = 10;
     std::list<Cannon *> bossCurrentAttack = {};
 
@@ -82,13 +82,13 @@ private:
 
     void checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter, bool isUsingSpecial);
 
+    void checkForAttractingBeamCollision(std::list<std::unique_ptr<Spaceship>>::iterator enemyIter);
+
     void checkForLaserCollision(float time);
 
     void emplaceProjectile(std::unique_ptr<Projectile> projectile);
 
     void createSounds();
-
-
 };
 
 

@@ -36,49 +36,53 @@ void Kamikaze::move(float time) {
             movement = sf::Vector2f(movementVector.x / module, movementVector.y / module);
         }
     } else {
-        if (elapsedTime == 0) {
+        if (elapsedTime == 0)
             createBeamOutline();
-        }
         attract(time);
     }
 }
 
 void Kamikaze::createBeamOutline() {
-    rect.setSize(sf::Vector2f(3, 0));
-    rect.setOrigin(rect.getSize().x / 2, 0);
-    rect.setPosition(sprite.getPosition() + sf::Vector2f(0, sprite.getOrigin().y * sprite.getScale().y));
-    rect.setFillColor(sf::Color(179, 230, 177));
-    rect2 = rect;
+    beamBorderLeft.setSize(sf::Vector2f(3, 0));
+    beamBorderLeft.setOrigin(beamBorderLeft.getSize().x / 2, 0);
+    beamBorderLeft.setPosition(sprite.getPosition() + sf::Vector2f(0, sprite.getOrigin().y * sprite.getScale().y));
+    beamBorderLeft.setFillColor(sf::Color(179, 230, 177));
+    beamBorderRight = beamBorderLeft;
 }
 
 void Kamikaze::attract(float time) {
     elapsedTime += time;
-    if (elapsedTime > 1.5 && elapsedTime <= 2.5) {
-        rect.setSize(sf::Vector2f(3, 400 * (elapsedTime - 1.5)));
-        rect2.setSize(sf::Vector2f(3, 400 * (elapsedTime - 1.5)));
-    } else if (elapsedTime > 3 && elapsedTime <= 4) {
-        rect.rotate(10. / (4 - 3) * time);
-        rect2.rotate(-10. / (4 - 3) * time);
-    } else if (elapsedTime >= 5 && elapsedTime < 10) {
-        if (convex.getPointCount() == 0) {
+    if (elapsedTime > attractFreezeT && elapsedTime <= beamAppearingT) {
+        beamBorderLeft.setSize(sf::Vector2f(3,
+                                            400 / (beamAppearingT - attractFreezeT) * (elapsedTime - attractFreezeT)));
+        beamBorderRight.setSize(beamBorderLeft.getSize());
+    } else if (elapsedTime > attractFreezeT2 && elapsedTime <= beamRotatingT) {
+        beamBorderLeft.rotate(10. / (beamRotatingT - attractFreezeT2) * time);
+        beamBorderRight.rotate(-10. / (beamRotatingT - attractFreezeT2) * time);
+    } else if (elapsedTime >= attractFreezeT3 && elapsedTime < beamAttractingT) {
+        if (beam.getPointCount() == 0)
             createBeam();
-        }
-        if (static_cast<int>((elapsedTime - 5) * 2) % (1 * 2) < 1)
-            convex.setFillColor(
-                    sf::Color(255, 255, 255, convex.getFillColor().a + static_cast<int>(100. / 0.5 * time)));
+        if (static_cast<int>((elapsedTime - attractFreezeT3) * 2) % (1 * 2) < 1)
+            beam.setFillColor(
+                    sf::Color(255, 255, 255, beam.getFillColor().a + static_cast<int>(100. / 0.5 * time)));
         else
-            convex.setFillColor(sf::Color(255, 255, 255,
-                                          std::max(0, convex.getFillColor().a - static_cast<int>(100. / 0.5 * time))));
-    } else if (elapsedTime > 10 && elapsedTime <= 11) {
-        convex.setPointCount(0);
-        rect.rotate(-10. / (11 - 10) * time);
-        rect2.rotate(10. / (11 - 10) * time);
-    } else if (elapsedTime > 11 && elapsedTime <= 12) {
-        rect.setSize(sf::Vector2f(3, 400 * (12 - elapsedTime)));
-        rect2.setSize(sf::Vector2f(3, 400 * (12 - elapsedTime)));
-    } else if (elapsedTime > 12) {
-        rect.setSize(sf::Vector2f(0, 0));
-        rect2.setSize(sf::Vector2f(0, 0));
+            beam.setFillColor(sf::Color(255, 255, 255,
+                                        std::max(0, beam.getFillColor().a - static_cast<int>(100. / 0.5 * time))));
+    } else if (elapsedTime > beamAttractingT && elapsedTime <= beamRotatingT2) {
+        if (beam.getPointCount() != 0) {
+            beam.setPointCount(0);
+            beam.setScale(0, 0);
+        }
+        beamBorderLeft.rotate(-10. / (beamRotatingT2 - beamAttractingT) * time);
+        beamBorderRight.rotate(10. / (beamRotatingT2 - beamAttractingT) * time);
+    } else if (elapsedTime > beamRotatingT2 && elapsedTime <= beamDisappearingT) {
+        beamBorderLeft.setSize(sf::Vector2f(3,
+                                            400 / (beamDisappearingT - beamRotatingT2) *
+                                            (beamDisappearingT - elapsedTime)));
+        beamBorderRight.setSize(beamBorderLeft.getSize());
+    } else if (elapsedTime > beamDisappearingT) {
+        beamBorderLeft.setSize(sf::Vector2f(0, 0));
+        beamBorderRight.setSize(sf::Vector2f(0, 0));
         attacking = false;
         elapsedTime = 0;
         auto nextPosition = sf::Vector2f(sprite.getPosition().x,
@@ -91,13 +95,14 @@ void Kamikaze::attract(float time) {
 }
 
 void Kamikaze::createBeam() {
-    convex.setPointCount(3);
-    convex.setPoint(0, sf::Vector2f(rect2.getGlobalBounds().left, rect2.getGlobalBounds().top));
-    convex.setPoint(1, sf::Vector2f(rect.getGlobalBounds().left,
-                                    rect.getGlobalBounds().top + rect.getGlobalBounds().height));
-    convex.setPoint(2, sf::Vector2f(rect2.getGlobalBounds().left + rect2.getGlobalBounds().width,
-                                    rect2.getGlobalBounds().top + rect2.getGlobalBounds().height));
-    convex.setFillColor(sf::Color(255, 255, 255, 0));
+    beam.setPointCount(3);
+    beam.setScale(1, 1);
+    beam.setPoint(0, sf::Vector2f(beamBorderRight.getGlobalBounds().left, beamBorderRight.getGlobalBounds().top));
+    beam.setPoint(1, sf::Vector2f(beamBorderLeft.getGlobalBounds().left,
+                                  beamBorderLeft.getGlobalBounds().top + beamBorderLeft.getGlobalBounds().height));
+    beam.setPoint(2, sf::Vector2f(beamBorderRight.getGlobalBounds().left + beamBorderRight.getGlobalBounds().width,
+                                  beamBorderRight.getGlobalBounds().top + beamBorderRight.getGlobalBounds().height));
+    beam.setFillColor(sf::Color(255, 255, 255, 0));
 }
 
 void Kamikaze::explode() {}
@@ -118,14 +123,18 @@ Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStregth, kamikazeSpeed, kamikaz
     attacking = false;
 }
 
-const sf::RectangleShape &Kamikaze::getRect() const {
-    return rect;
+const sf::RectangleShape &Kamikaze::getBeamBorderLeft() const {
+    return beamBorderLeft;
 }
 
-const sf::RectangleShape &Kamikaze::getRect2() const {
-    return rect2;
+const sf::RectangleShape &Kamikaze::getBeamBorderRight() const {
+    return beamBorderRight;
 }
 
-const sf::ConvexShape &Kamikaze::getConvex() const {
-    return convex;
+const sf::ConvexShape &Kamikaze::getBeam() const {
+    return beam;
+}
+
+bool Kamikaze::isAttacking() const {
+    return attacking;
 }

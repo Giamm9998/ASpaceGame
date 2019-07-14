@@ -15,6 +15,16 @@ static const float kamikazeSpeed = 70;
 static const float kamikazeFireRate = 0.8;
 static const float kamikazeProjectileSpeed = 200;
 
+static const float attractFreezeT = 1.5;
+static const float beamAppearingT = attractFreezeT + 1;
+static const float attractFreezeT2 = beamAppearingT + 0.5;
+static const float beamRotatingT = attractFreezeT2 + 1;
+static const float attractFreezeT3 = beamRotatingT + 1;
+static const float beamAttractingT = attractFreezeT3 + 5;
+static const float beamRotatingT2 = beamAttractingT + 1;
+
+static const int beamDisappearingT = 12;
+
 #include "Enemy.h"
 
 class Kamikaze: public Enemy {
@@ -24,19 +34,22 @@ public:
     void move(float time) override;
 
     void attract(float time);
+
     void explode();
 
-    const sf::RectangleShape &getRect() const;
+    const sf::RectangleShape &getBeamBorderLeft() const;
 
-    const sf::RectangleShape &getRect2() const;
+    const sf::RectangleShape &getBeamBorderRight() const;
 
-    const sf::ConvexShape &getConvex() const;
+    const sf::ConvexShape &getBeam() const;
+
+    bool isAttacking() const;
 
 private:
     sf::Vector2f movement;
-    sf::RectangleShape rect;
-    sf::RectangleShape rect2;
-    sf::ConvexShape convex;
+    sf::RectangleShape beamBorderLeft;
+    sf::RectangleShape beamBorderRight;
+    sf::ConvexShape beam;
     bool attacking;
 
     void createBeamOutline();

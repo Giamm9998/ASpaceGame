@@ -11,7 +11,6 @@ TEST(Game, Constructor) {
     ASSERT_EQ(game.isMovingRight, false);
     ASSERT_EQ(game.isMovingLeft, false);
     ASSERT_EQ(game.isPaused, false);
-    ASSERT_EQ(game.score, 0);
     //ASSERT_EQ(game.enemyManager.empty(), true);
     //ASSERT_EQ(game.asteroidManager.empty(), true);
     ASSERT_EQ(game.projectileManager, true);

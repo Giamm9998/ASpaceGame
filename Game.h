@@ -51,7 +51,6 @@ private:
     bool isMovingRight;
     bool isShooting;
     bool isUsingSpecial;
-    int score;
     sf::RectangleShape specialHud;
     sf::RectangleShape specialHudOutline;
     sf::RectangleShape hud;

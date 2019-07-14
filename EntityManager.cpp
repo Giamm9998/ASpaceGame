@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <iostream>
 #include "EntityManager.h"
 #include "Fighter.h"
 #include "Kamikaze.h"
@@ -16,13 +17,10 @@
 #include "Bomber.h"
 #include "ResourceManager.h"
 
-EntityManager::EntityManager() {
+EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(0) {
 
     //todo add spawn function
     createSounds();
-    killedBosses = 0;
-    killedSpaceships = 0;
-    destroyedAsteroids = 0;
 
     enemyManager.emplace_back(new Fighter);
     enemyManager.emplace_back(new Kamikaze);
@@ -115,7 +113,7 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
     }
 }
 
-void EntityManager::updateEnemies(float time, int &score) {
+void EntityManager::updateEnemies(float time) {
     for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end();) {
         auto enemy = (*enemyIter).get();
         if ((enemy)->getHp() <= 0) {
@@ -124,13 +122,11 @@ void EntityManager::updateEnemies(float time, int &score) {
                 if (typeid(enemy) == typeid(Boss))
                     killedBosses++;
                 score += static_cast<int>(enemy->getMaxHp());
-                scoredPoints = score;
                 notify();
                 enemyManager.erase(enemyIter++);
             } else
                 enemyIter++;
         } else {
-            enemyIter++;
             if ((enemy)->isReceivingDamage())
                 (enemy)->blink(time);
 
@@ -144,8 +140,8 @@ void EntityManager::updateEnemies(float time, int &score) {
                     emplaceProjectile(enemy->useCannon(time, externalCannon));
             } else if (typeid(*enemy) == typeid(Boss)) {
                 bossAttacktime += time;
-                if (bossAttacktime >= 10) {
-                    bossAttacktime = 0;
+                if (bossAttacktime >= 10 + bossSpawnDuration) {
+                    bossAttacktime = bossSpawnDuration;
                     bossCurrentAttack = dynamic_cast<Boss &>(*(enemy)).chooseAttack();
                 }
                 for (auto &cannon: bossCurrentAttack) {
@@ -156,20 +152,23 @@ void EntityManager::updateEnemies(float time, int &score) {
                         emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useMobileCannon(time, *cannon));
                     } else emplaceProjectile(enemy->useCannon(time, *cannon));
                 }
-            } else if (typeid(*enemy) != typeid(Kamikaze))
+            } else if (typeid(*enemy) == typeid(Kamikaze)) {
+                if (dynamic_cast<Kamikaze &>(*(enemy)).isAttacking())
+                    checkForAttractingBeamCollision(enemyIter);
+            } else
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
+            enemyIter++;
         }
     }
 }
 
-void EntityManager::updateAsteroids(float time, int &score, bool isUsingSpecial) {
+void EntityManager::updateAsteroids(float time, bool isUsingSpecial) {
     for (auto asteroidIter = asteroidManager.begin(); asteroidIter != asteroidManager.end();) {
         auto asteroid = (*asteroidIter).get();
         if ((asteroid)->getHp() <= 0) {
             if ((asteroid)->die(time)) {
                 destroyedAsteroids++;
                 score += static_cast<int>(asteroid->getStartingHp());
-                scoredPoints = score;
                 notify();
                 asteroidManager.erase(asteroidIter++);
             } else
@@ -261,6 +260,14 @@ void EntityManager::checkForAsteroidsCollisions(std::list<std::unique_ptr<Astero
     }
 }
 
+void EntityManager::checkForAttractingBeamCollision(std::list<std::unique_ptr<Spaceship>>::iterator enemyIter) {
+    auto kamikaze = (*enemyIter).get();
+
+    if (dynamic_cast<Kamikaze &>(*kamikaze).getBeam().getGlobalBounds().intersects(
+            player->getBoundingBox().getGlobalBounds()))
+        std::cout << "YOOOOO";
+}
+
 void EntityManager::checkForLaserCollision(float time) {
     for (auto &enemy : enemyManager) {
         if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
@@ -333,6 +340,6 @@ unsigned int EntityManager::getKilledBosses() const {
     return killedBosses;
 }
 
-unsigned int EntityManager::getScoredPoints() const {
-    return scoredPoints;
+unsigned int EntityManager::getScore() const {
+    return score;
 }

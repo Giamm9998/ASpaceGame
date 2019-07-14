@@ -9,9 +9,9 @@
 #include "Kamikaze.h"
 #include <cmath>
 
-Game::Game() : window(sf::VideoMode(windowWidth, windowHeight), "A Space Game"), isPaused(false),
-               isMovingLeft(false), isMovingRight(false), isShooting(false), isUsingSpecial(false),
-               score(0), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))),
+Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), static_cast<unsigned int>(windowHeight)),
+                      "A Space Game"), isPaused(false), isMovingLeft(false), isMovingRight(false), isShooting(false),
+               isUsingSpecial(false), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))),
                achievement(&entityManager) {
 
     createHud();
@@ -49,7 +49,7 @@ void Game::createHud() {
     hpHudOutline.setOutlineThickness(2);
     hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
 
-    sf::Text text("Score: " + std::to_string(score), ResourceManager::getFont("../font/font.ttf"));
+    sf::Text text("Score: " + std::to_string(entityManager.getScore()), ResourceManager::getFont("../font/font.ttf"));
     text.setScale(0.7, 0.7);
     scoreText = text;
     scoreText.setPosition(600, windowHeight - 25);
@@ -101,13 +101,13 @@ void Game::processEvents() {
 void Game::update(const sf::Time &dt) {
 
     float time = dt.asSeconds();
-    entityManager.updateAsteroids(time, score, isUsingSpecial);
-    entityManager.updateEnemies(time, score);
+    entityManager.updateAsteroids(time, isUsingSpecial);
+    entityManager.updateEnemies(time);
     entityManager.updatePlayer(time, isMovingRight, isMovingLeft, isShooting, isUsingSpecial, specialHud, hpHud);
     entityManager.updateProjectiles(time, isUsingSpecial);
     entityManager.updatePowerUp(time);
 
-    scoreText.setString("Score: " + std::to_string(score));
+    scoreText.setString("Score: " + std::to_string(entityManager.getScore()));
     updateAchievement(time);
     background->scroll(time);
 
@@ -164,15 +164,21 @@ void Game::drawPlayer() {
 
 void Game::drawEnemy() {
     for (auto &enemy: entityManager.getEnemyManager()) {
-        if (typeid(*enemy) == typeid(Kamikaze)) { //fixme
-            window.draw(dynamic_cast<Kamikaze &>(*enemy).getRect());
-            window.draw(dynamic_cast<Kamikaze &>(*enemy).getRect2());
-            window.draw(dynamic_cast<Kamikaze &>(*enemy).getConvex());
-        }
+
+        auto &enemyType = *(enemy.get());
         window.draw(enemy->getSprite());
         if (enemy->getHp() <= 0)
             for (auto &explosion : dynamic_cast<Enemy &>(*enemy).getExplosions())
                 window.draw(explosion);
+        else {
+            if (typeid(enemyType) == typeid(Kamikaze)) {
+                if (dynamic_cast<Kamikaze &>(*enemy).isAttacking()) {
+                    window.draw(dynamic_cast<Kamikaze &>(*enemy).getBeamBorderLeft());
+                    window.draw(dynamic_cast<Kamikaze &>(*enemy).getBeamBorderRight());
+                    window.draw(dynamic_cast<Kamikaze &>(*enemy).getBeam());
+                }
+            }
+        }
     }
 }
 

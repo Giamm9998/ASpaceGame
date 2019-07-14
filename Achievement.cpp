@@ -27,17 +27,17 @@ void Achievement::update() {
 }
 
 void Achievement::checkForScore() {
-    if (subject->getScoredPoints() > 1 && scoreBadges == 0) {
+    if (subject->getScore() > 1 && scoreBadges == 0) {
         scoreBadges++;
         sprite.setTextureRect(sf::IntRect(0, 0, 60, 60));
         appearing = true;
         //implement
-    } else if (subject->getScoredPoints() > 1000 && scoreBadges == 1) {
+    } else if (subject->getScore() > 1000 && scoreBadges == 1) {
         scoreBadges++;
         sprite.setTextureRect(sf::IntRect(60, 0, 60, 60));
         appearing = true;
         //implement
-    } else if (subject->getScoredPoints() > 50000 && scoreBadges == 2) {
+    } else if (subject->getScore() > 50000 && scoreBadges == 2) {
         scoreBadges++;
         //implement
     }
