@@ -82,6 +82,7 @@ void Player::blink(float time) {
 }
 
 bool Player::die(float time) {
+
     return false; //todo implement
 }
 

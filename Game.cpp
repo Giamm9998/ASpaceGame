@@ -26,6 +26,7 @@ Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), stat
     window.setFramerateLimit(60);
 }
 
+
 void Game::createHud() {
     specialHud.setSize(sf::Vector2f(10, 100));
     specialHud.setPosition(400, windowHeight - 5);
@@ -64,7 +65,16 @@ void Game::createHud() {
     text.setString("Selezionare il tipo del personaggio:\n\nA: Bomber                              S:Raptor");
     playerSelection = text;
     playerSelection.setPosition(150, 200);
-    playerSelection.setFillColor(sf::Color::Red);
+    playerSelection.setFillColor(sf::Color::White);
+    playerSelection.setOutlineThickness(1);
+    playerSelection.setOutlineColor(sf::Color::Blue);
+    text.setString("Game Over");
+    gameOver = text;
+    gameOver.setFillColor(sf::Color::White);
+    gameOver.setCharacterSize(90);
+    gameOver.setPosition(175, 250);
+    gameOver.setOutlineThickness(2);
+    gameOver.setOutlineColor(sf::Color::Blue);
 
     bomberSprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     bomberSprite.setScale(0.35, 0.35);
@@ -80,7 +90,7 @@ void Game::run() {
     while (window.isOpen()) {
         deltaTime = clock.restart();
         processEvents();
-        if (!isPaused && !isChoosingPlayer)
+        if (!isPaused && !isChoosingPlayer && !entityManager.isGameEnded())
             update(deltaTime);
         render();
     }
@@ -133,20 +143,23 @@ void Game::render() {
     window.clear(sf::Color::Black);
 
     drawBackground();
-    if (!isChoosingPlayer) {
+    if (!isChoosingPlayer && !entityManager.isGameEnded()) {
         draw<Asteroid>(entityManager.getAsteroidManager());
         draw<Projectile>(entityManager.getProjectileManager());
         drawEnemy();
         drawPlayer();
         drawPowerUp();
         drawHud();
-    } else {
+    } else if (isChoosingPlayer) {
         window.draw(playerSelection);
         window.draw(bomberSprite);
         window.draw(raptorSprite);
-    }
+    } else if (entityManager.isGameEnded())
+        window.draw(gameOver);
     if (achievement.isAppearing())
         window.draw(achievement.getSprite());
+    if (entityManager.getGameOver().getStatus() == sf::Sound::Stopped && entityManager.isGameEnded())
+        window.close();
     window.display();
 }
 

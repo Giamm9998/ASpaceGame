@@ -63,6 +63,9 @@ public:
         player = std::unique_ptr<Player>(new T);
     }
 
+    sf::Sound &getGameOver();
+
+    bool isGameEnded() const;
 
 private:
     std::unique_ptr<Player> player;
@@ -74,7 +77,9 @@ private:
     sf::Sound bombSound;
     sf::Sound mainTheme;
     sf::Sound shieldSound;
+    sf::Sound gameOver;
     bool shieldActive = false;
+    bool gameEnded = false;
     std::list<Observer *> observers;
     unsigned int destroyedAsteroids;
     unsigned int killedSpaceships;

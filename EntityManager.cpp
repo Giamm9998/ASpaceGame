@@ -72,8 +72,15 @@ void EntityManager::updatePowerUp(float time) {
 void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLeft, bool isShooting,
                                  bool isUsingSpecial, sf::RectangleShape &specialHud, sf::RectangleShape &hpHud) {
     if (player->isReceivingDamage()) {
-        player->blink(time);
         hpHud.setScale(1, std::max(0.f, (player->getHp() / player->getMaxHp())));
+        player->blink(time);
+    }
+    if (player->getHp() <= 0) {
+        //player->die
+        mainTheme.stop();
+        gameOver.play();
+        gameEnded = true;
+        player->getBoundingBox().setScale(0, 0);
     }
 
     if (player->isMovable()) {
@@ -325,6 +332,7 @@ void EntityManager::createSounds() {
     mainTheme.setLoop(true);
     shieldSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shield.wav"));
     mainTheme.play();
+    gameOver.setBuffer(ResourceManager::getSoundBuffer("../sound/gameOver.wav"));
 }
 
 void EntityManager::subscribe(Observer *o) {
@@ -354,4 +362,12 @@ unsigned int EntityManager::getKilledBosses() const {
 
 unsigned int EntityManager::getScore() const {
     return score;
+}
+
+sf::Sound &EntityManager::getGameOver() {
+    return gameOver;
+}
+
+bool EntityManager::isGameEnded() const {
+    return gameEnded;
 }

@@ -61,6 +61,7 @@ private:
     sf::Text hpText;
     sf::Text specialText;
     sf::Text playerSelection;
+    sf::Text gameOver;
     sf::Sprite bomberSprite;
     sf::Sprite raptorSprite;
     std::unique_ptr<Background> background;
