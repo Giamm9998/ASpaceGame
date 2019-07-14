@@ -101,3 +101,11 @@ Player::~Player() {
     delete animator;
 }
 
+bool Player::isMovable() const {
+    return movable;
+}
+
+void Player::setMovable(bool movable) {
+    Player::movable = movable;
+}
+

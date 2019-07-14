@@ -55,7 +55,7 @@ void Spaceship::receiveDamage(float damage) {
     this->hp -= damage;
 }
 
-const sf::RectangleShape &Spaceship::getBoundingBox() const {
+sf::RectangleShape &Spaceship::getBoundingBox() {
     return boundingBox;
 }
 

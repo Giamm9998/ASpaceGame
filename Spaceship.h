@@ -41,7 +41,7 @@ public:
 
     Cannon &getPrimaryCannon();
 
-    const sf::RectangleShape &getBoundingBox() const;
+    sf::RectangleShape &getBoundingBox();
 
     virtual void blink(float time) = 0;
 
