@@ -129,6 +129,18 @@ void EntityManager::updateEnemies(float time) {
     for (auto enemyIter = enemyManager.begin(); enemyIter != enemyManager.end();) {
         auto enemy = (*enemyIter).get();
         if ((enemy)->getHp() <= 0) {
+            if (typeid(*enemy) == typeid(Kamikaze) && enemy->getDyingTime() == 0) {
+                if (enemy->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds())) {
+                    player->receiveDamage(1000);
+                }
+                for (auto otherEnemyIter = enemyManager.begin(); otherEnemyIter != enemyManager.end(); otherEnemyIter++)
+                    if (otherEnemyIter != enemyIter) {
+                        if (enemy->getSprite().getGlobalBounds().intersects(
+                                (*otherEnemyIter)->getSprite().getGlobalBounds())) {
+                            (*otherEnemyIter)->receiveDamage(1000);
+                        }
+                    }
+            }
             if ((enemy)->die(time)) {
                 killedSpaceships++;
                 if (typeid(enemy) == typeid(Boss))
@@ -172,6 +184,7 @@ void EntityManager::updateEnemies(float time) {
             enemyIter++;
         }
     }
+
 }
 
 void EntityManager::updateAsteroids(float time, bool isUsingSpecial) {

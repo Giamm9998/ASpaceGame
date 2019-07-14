@@ -35,8 +35,6 @@ public:
 
     void attract(float time);
 
-    void explode(float time);
-
     const sf::RectangleShape &getBeamBorderLeft() const;
 
     const sf::RectangleShape &getBeamBorderRight() const;

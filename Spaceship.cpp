@@ -79,6 +79,10 @@ float Spaceship::getMaxHp() const {
     return maxHp;
 }
 
+float Spaceship::getDyingTime() const {
+    return dyingTime;
+}
+
 
 Spaceship::~Spaceship() = default;
 

@@ -57,6 +57,7 @@ public:
 
     void setReceivingDamage(bool receiveDamage);
 
+    float getDyingTime() const;
 
 protected:
     float hp;

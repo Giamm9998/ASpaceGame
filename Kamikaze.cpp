@@ -96,7 +96,7 @@ void Kamikaze::attract(float time) {
                 speed = module / kamikazeMoveDuration;
                 movement = sf::Vector2f(movementVector.x / module, movementVector.y / module);
             } else
-                explode(time);
+                hp = 0;
         }
     } else {
         if (elapsedTime - acquiringTime <= finalMovementDuration) {
@@ -126,9 +126,7 @@ void Kamikaze::createBeam() {
     beam.setFillColor(sf::Color(255, 255, 255, 0));
 }
 
-void Kamikaze::explode(float time) {}
-
-Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStregth, kamikazeSpeed, kamikazeFireRate) {
+Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStregth, kamikazeSpeed, kamikazeFireRate, Cannon(), 10) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(static_cast<float>(windowWidth) / 2,
