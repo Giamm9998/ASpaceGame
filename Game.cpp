@@ -180,6 +180,8 @@ void Game::render() {
         drawPlayer();
         drawPowerUp();
         drawHud();
+        if (!achievementSprites.empty())
+            window.draw(*achievementSprites.front());
     } else if (isChoosingPlayer) {
         window.draw(playerSelection);
         window.draw(playerNames);
@@ -188,8 +190,6 @@ void Game::render() {
         window.draw(leadboard);
     } else if (entityManager.isGameEnded())
         window.draw(gameOver);
-    if (!achievementSprites.empty())
-        window.draw(*achievementSprites.front());
     if (entityManager.getGameOver().getStatus() == sf::Sound::Stopped && entityManager.isGameEnded()) {
         insertScoreName();
         window.close();
@@ -290,6 +290,9 @@ void Game::updateAchievement(float time) {
         achievement.getSprites().clear();
     }
     if (!achievementSprites.empty()) {
+        if (achievementDuration == 0) {
+            achievementSound.play();
+        }
         achievementDuration += time;
         if (achievementDuration > 5) {
             achievementSprites.pop_front();
