@@ -116,9 +116,11 @@ TEST(PlayerTest, blink) {
 TEST(PlayerTest, move) {
     Bomber bomber;
     sf::Vector2f initialPosition = bomber.getSprite().getPosition();
+    sf::Vector2f laserPos = bomber.getLaser().getPosition();
+    sf::Vector2f boundPos = bomber.getBoundingBox().getPosition();
     bomber.move(0.5, 1);
     sf::Vector2f movement(0.5 * bomber.getSpeed() * 1, 0);
     ASSERT_EQ(bomber.getSprite().getPosition(), initialPosition + movement);
-    ASSERT_EQ(bomber.getSprite().getPosition(), bomber.getLaser().getPosition());
-    ASSERT_EQ(bomber.getSprite().getPosition(), bomber.getBoundingBox().getPosition());
+    ASSERT_EQ(bomber.getLaser().getPosition(), laserPos + movement);
+    ASSERT_EQ(bomber.getBoundingBox().getPosition(), boundPos + movement);
 }
