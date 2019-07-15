@@ -27,8 +27,6 @@ public:
 
     const std::list<std::unique_ptr<Projectile>> &getProjectileManager() const;
 
-    std::list<std::unique_ptr<Projectile>> &getProjectileManagerTest();
-
     const std::list<std::unique_ptr<Asteroid>> &getAsteroidManager() const;
 
     const std::unique_ptr<PowerUp> &getPowerUp() const;
@@ -69,17 +67,9 @@ public:
 
     bool isGameEnded() const;
 
-    void emplaceProjectileTest(std::unique_ptr<Projectile> projectile) {
-        emplaceProjectile(std::move(projectile));
-    }
-
-    void checkForProjectileCollisionsTest(std::list<std::unique_ptr<Projectile>>::iterator projectileIter,
-                                          bool isUsingSpecial) {
-        checkForProjectileCollisions(projectileIter, isUsingSpecial);
-    }
-
-
 private:
+
+
     std::unique_ptr<Player> player;
     std::list<std::unique_ptr<Spaceship>> enemyManager;
     std::list<std::unique_ptr<Projectile>> projectileManager;
@@ -101,7 +91,6 @@ private:
     float finalMovementTime = 0;
     std::list<Cannon *> bossCurrentAttack = {};
     sf::Vector2f finalMovement;
-
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
     void
@@ -116,6 +105,31 @@ private:
     void emplaceProjectile(std::unique_ptr<Projectile> projectile);
 
     void createSounds();
+
+
+    ///TEST METHODS
+public:
+    std::list<std::unique_ptr<Projectile>> &getProjectileManagerTest() {
+        return projectileManager;
+    }
+
+    std::list<std::unique_ptr<Spaceship>> &getEnemyManagerTest() {
+        return enemyManager;
+    }
+
+    std::list<std::unique_ptr<Asteroid>> &getAsteroidManagerTest() {
+        return asteroidManager;
+    }
+
+
+    void emplaceProjectileTest(std::unique_ptr<Projectile> projectile) {
+        emplaceProjectile(std::move(projectile));
+    }
+
+    void checkForProjectileCollisionsTest(std::list<std::unique_ptr<Projectile>>::iterator projectileIter,
+                                          bool isUsingSpecial) {
+        checkForProjectileCollisions(projectileIter, isUsingSpecial);
+    }
 };
 
 

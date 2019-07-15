@@ -26,7 +26,7 @@ void Asteroid::move(float dt) {
 
 Asteroid::Asteroid() : speed(getRandomReal(asteroidMinSpeed, asteroidMaxSpeed)),
                        size(getRandomReal(asteroidMinSize, asteroidMaxSize)) {
-    hp = maxHp / asteroidMaxSize * size;
+    hp = asteroidMaxHp / asteroidMaxSize * size;
     startingHp = hp;
     auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
     unsigned int frames = 8, rows = 4, animInFile = 2;

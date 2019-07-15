@@ -12,7 +12,7 @@ static const float asteroidMinSpeed = 90.f;
 static const float asteroidMaxSpeed = 120.f;
 static const float asteroidMinSize = 0.3;
 static const float asteroidMaxSize = 0.6;
-static const float maxHp = 50.f;
+static const float asteroidMaxHp = 50.f;
 static const int asteroidMaxSpawnHeight = 50;
 
 #include <SFML/Graphics.hpp>

@@ -53,6 +53,7 @@ public:
     void setMovable(bool movable);
 
 protected:
+
     bool charging;
     bool movable = true;
     std::vector<Cannon> auxiliaryCannons;
@@ -61,6 +62,13 @@ protected:
     Animator *animator = new Animator(laser);
     sf::Sound laserSound;
     sf::Sound powerUpSound;
+
+
+    /// TEST METHODS
+public:
+    void setChargingTest(bool charge) {
+        Player::charging = charge;
+    }
 
 };
 
