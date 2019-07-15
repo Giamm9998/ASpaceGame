@@ -27,6 +27,8 @@ public:
 
     const std::list<std::unique_ptr<Projectile>> &getProjectileManager() const;
 
+    std::list<std::unique_ptr<Projectile>> &getProjectileManagerTest();
+
     const std::list<std::unique_ptr<Asteroid>> &getAsteroidManager() const;
 
     const std::unique_ptr<PowerUp> &getPowerUp() const;
@@ -66,6 +68,16 @@ public:
     sf::Sound &getGameOver();
 
     bool isGameEnded() const;
+
+    void emplaceProjectileTest(std::unique_ptr<Projectile> projectile) {
+        emplaceProjectile(std::move(projectile));
+    }
+
+    void checkForProjectileCollisionsTest(std::list<std::unique_ptr<Projectile>>::iterator projectileIter,
+                                          bool isUsingSpecial) {
+        checkForProjectileCollisions(projectileIter, isUsingSpecial);
+    }
+
 
 private:
     std::unique_ptr<Player> player;

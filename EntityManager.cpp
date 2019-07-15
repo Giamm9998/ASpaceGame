@@ -50,6 +50,10 @@ const std::list<std::unique_ptr<Projectile>> &EntityManager::getProjectileManage
     return projectileManager;
 }
 
+std::list<std::unique_ptr<Projectile>> &EntityManager::getProjectileManagerTest() {
+    return projectileManager;
+}
+
 const std::list<std::unique_ptr<Asteroid>> &EntityManager::getAsteroidManager() const {
     return asteroidManager;
 }

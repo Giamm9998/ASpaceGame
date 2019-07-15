@@ -10,15 +10,14 @@ TEST(EntityManagerTest, Constructor) {
     ASSERT_TRUE(entityManager.getProjectileManager().empty());
     //ASSERT_TRUE(entityManager.getEnemyManager().empty());
     //ASSERT_TRUE(entityManager.getAsteroidManager().empty());
-    ASSERT_TRUE(entityManager.getPlayer() != nullptr);
+    ASSERT_TRUE(entityManager.getPlayer() == nullptr);
 }
 
 TEST(EntityManagerTest, shots) {
     EntityManager entityManager;
-    int x = 0;
-    entityManager.updateEnemies(10, x);
+    entityManager.selectPlayer<Raptor>();
+    entityManager.updateEnemies(10);
     ASSERT_FALSE(entityManager.getProjectileManager().empty());
-    EntityManager entityManager1;
     sf::RectangleShape a;
     sf::RectangleShape b;
     entityManager.updatePlayer(10, false, false, true, false, a, b);
@@ -38,6 +37,18 @@ TEST(EntityManagerTest, isOutOfSigth) {
     ASSERT_TRUE(EntityManager::isOutOfSigth(raptor.getSprite()));
 }
 
-TEST(EntityManagerTest, asteroidCollision) {
-    //non mi riesce
+TEST(EntityManagerTest, projectileCollision) {
+    EntityManager entityManager;
+    entityManager.selectPlayer<Raptor>();
+    entityManager.updateEnemies(0);
+    entityManager.emplaceProjectileTest(std::unique_ptr<Projectile>(new Projectile(0, 0, false)));
+    entityManager.getProjectileManager().front()->getSprite().setPosition(
+            entityManager.getPlayer()->getSprite().getPosition());
+    auto projectileIter = entityManager.getProjectileManagerTest().begin();
+    entityManager.checkForProjectileCollisionsTest(projectileIter, false);
+    ASSERT_FALSE(entityManager.getProjectileManager().empty());
+    entityManager.getProjectileManager().front()->getSprite().setPosition(
+            entityManager.getEnemyManager().front()->getSprite().getPosition());
+    entityManager.checkForProjectileCollisionsTest(projectileIter, false);
+    ASSERT_TRUE(entityManager.getProjectileManager().empty());
 }
