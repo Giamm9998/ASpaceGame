@@ -63,6 +63,7 @@ private:
     sf::Text playerSelection;
     sf::Text playerNames;
     sf::Text gameOver;
+    sf::Text leadboard;
     sf::Sprite bomberSprite;
     sf::Sprite raptorSprite;
     std::unique_ptr<Background> background;
@@ -89,6 +90,8 @@ private:
 
     template<typename T>
     void draw(const std::list<std::unique_ptr<T>> &list);
+
+    void insertScoreName();
 
 };
 
