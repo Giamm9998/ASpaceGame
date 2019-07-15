@@ -62,12 +62,20 @@ void Game::createHud() {
     text.setString("Special");
     specialText = text;
     specialText.setPosition(260, windowHeight - 25);
-    text.setString("Selezionare il tipo del personaggio:\n\nA: Bomber                              S:Raptor");
+    text.setString("Choose your player");
     playerSelection = text;
-    playerSelection.setPosition(150, 200);
+    playerSelection.setOrigin(playerSelection.getLocalBounds().width / 2, playerSelection.getLocalBounds().height / 2);
+    playerSelection.setPosition(windowWidth / 2, windowHeight / 3);
     playerSelection.setFillColor(sf::Color::White);
     playerSelection.setOutlineThickness(1);
     playerSelection.setOutlineColor(sf::Color::Blue);
+    text.setString("A: Bomber                         S: Raptor");
+    playerNames = text;
+    playerNames.setOrigin(playerNames.getLocalBounds().width / 2, playerNames.getLocalBounds().height / 2);
+    playerNames.setPosition(windowWidth / 2, playerSelection.getPosition().y + 50);
+    playerNames.setFillColor(sf::Color::White);
+    playerNames.setOutlineThickness(1);
+    playerNames.setOutlineColor(sf::Color::Blue);
     text.setString("Game Over");
     gameOver = text;
     gameOver.setFillColor(sf::Color::White);
@@ -77,11 +85,13 @@ void Game::createHud() {
     gameOver.setOutlineColor(sf::Color::Blue);
 
     bomberSprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
-    bomberSprite.setScale(0.35, 0.35);
-    bomberSprite.setPosition(180, 280);
+    bomberSprite.setScale(maxScale, maxScale);
+    bomberSprite.setOrigin(bomberSprite.getLocalBounds().width / 2, 0);
+    bomberSprite.setPosition(playerSelection.getGlobalBounds().left, 300);
     raptorSprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
-    raptorSprite.setScale(0.35, 0.35);
-    raptorSprite.setPosition(600, 280);
+    raptorSprite.setScale(maxScale, maxScale);
+    raptorSprite.setOrigin(raptorSprite.getLocalBounds().width / 2, 0);
+    raptorSprite.setPosition(playerSelection.getGlobalBounds().left + playerSelection.getGlobalBounds().width, 300);
 }
 
 void Game::run() {
@@ -152,6 +162,7 @@ void Game::render() {
         drawHud();
     } else if (isChoosingPlayer) {
         window.draw(playerSelection);
+        window.draw(playerNames);
         window.draw(bomberSprite);
         window.draw(raptorSprite);
     } else if (entityManager.isGameEnded())

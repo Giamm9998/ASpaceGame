@@ -30,18 +30,20 @@ void Achievement::checkForScore() {
     if (subject->getScore() > 1 && scoreBadges == 0) {
         scoreBadges++;
         achievementSound.play();
-        sprite.setTextureRect(sf::IntRect(0, 0, 60, 60));
+        sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement1.png"));
         appearing = true;
         //implement
     } else if (subject->getScore() > 1000 && scoreBadges == 1) {
         scoreBadges++;
         achievementSound.play();
-        sprite.setTextureRect(sf::IntRect(60, 0, 60, 60));
+        sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement2.png"));
         appearing = true;
         //implement
     } else if (subject->getScore() > 50000 && scoreBadges == 2) {
         scoreBadges++;
         achievementSound.play();
+        sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement3.png"));
+        appearing = true;
         //implement
     }
 
@@ -105,9 +107,9 @@ Achievement::Achievement(EntityManager *subject) : subject(subject),
                                                    scoreBadges(0),
                                                    spaceshipsBadges(0),
                                                    bossesBadges(0) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/badges.png"));
     appearing = false;
     achievementSound.setBuffer(ResourceManager::getSoundBuffer("../sound/achievement.wav"));
+    //sprite.setScale(1.2f, 1.2f);
 }
 
 bool Achievement::isAppearing() const {
