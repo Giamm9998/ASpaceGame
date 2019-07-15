@@ -61,12 +61,15 @@ private:
     sf::Text hpText;
     sf::Text specialText;
     sf::Text playerSelection;
+    sf::Text playerNames;
     sf::Text gameOver;
     sf::Sprite bomberSprite;
     sf::Sprite raptorSprite;
     std::unique_ptr<Background> background;
+    std::list<std::unique_ptr<sf::Sprite>> achievementSprites;
     Achievement achievement;
     float achievementDuration;
+    sf::Sound achievementSound;
 
     EntityManager entityManager;
 

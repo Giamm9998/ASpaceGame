@@ -27,77 +27,81 @@ void Achievement::update() {
 }
 
 void Achievement::checkForScore() {
-    if (subject->getScore() > 1 && scoreBadges == 0) {
+    if (subject->getScore() >= 1 && scoreBadges == 0) {
         scoreBadges++;
-        achievementSound.play();
-        sprite.setTextureRect(sf::IntRect(0, 0, 60, 60));
-        appearing = true;
-        //implement
-    } else if (subject->getScore() > 1000 && scoreBadges == 1) {
+        sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement1.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getScore() >= 1000 && scoreBadges == 1) {
         scoreBadges++;
-        achievementSound.play();
-        sprite.setTextureRect(sf::IntRect(60, 0, 60, 60));
-        appearing = true;
-        //implement
-    } else if (subject->getScore() > 50000 && scoreBadges == 2) {
+        sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement2.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getScore() >= 50000 && scoreBadges == 2) {
         scoreBadges++;
-        achievementSound.play();
-        //implement
+        sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement3.png"));
+        sprites.emplace_back(sprite);
     }
 
 }
 
 void Achievement::checkForAsteroids() {
-    if (subject->getDestroyedAsteroids() > 10 && asteroidsBadges == 0) {
+    if (subject->getDestroyedAsteroids() >= 1 && asteroidsBadges == 0) {
         asteroidsBadges++;
-        achievementSound.play();
-        //implement
-    } else if (subject->getDestroyedAsteroids() > 30 && asteroidsBadges == 1) {
+        sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement1.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getDestroyedAsteroids() >= 3 && asteroidsBadges == 1) {
         asteroidsBadges++;
-        achievementSound.play();
-        //implement
-    } else if (subject->getDestroyedAsteroids() > 50 && asteroidsBadges == 2) {
+        sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement2.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getDestroyedAsteroids() >= 5 && asteroidsBadges == 2) {
         asteroidsBadges++;
-        achievementSound.play();
-        //implement
+        sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement3.png"));
+        sprites.emplace_back(sprite);
     }
 }
 
 
 void Achievement::checkForSpaceships() {
-    if (subject->getKilledSpaceships() > 10 && spaceshipsBadges == 0) {
+    if (subject->getKilledSpaceships() >= 2 && spaceshipsBadges == 0) {
         spaceshipsBadges++;
-        achievementSound.play();
-        //implement
-    } else if (subject->getKilledSpaceships() > 30 && spaceshipsBadges == 1) {
+        sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement1.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getKilledSpaceships() >= 5 && spaceshipsBadges == 1) {
         spaceshipsBadges++;
-        achievementSound.play();
-        //implement
-    } else if (subject->getKilledSpaceships() > 50 && spaceshipsBadges == 2) {
+        sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement2.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getKilledSpaceships() >= 10 && spaceshipsBadges == 2) {
         spaceshipsBadges++;
-        achievementSound.play();
-        //implement
+        sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement3.png"));
+        sprites.emplace_back(sprite);
     }
 }
 
 void Achievement::checkForBosses() {
-    if (subject->getKilledBosses() > 1 && bossesBadges == 0) {
+    if (subject->getKilledBosses() >= 1 && bossesBadges == 0) {
         bossesBadges++;
-        achievementSound.play();
-        //implement
-    } else if (subject->getKilledBosses() > 2 && bossesBadges == 1) {
+        sprite.setTexture(ResourceManager::getTexture("../Texture/BossAchievement1.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getKilledBosses() >= 2 && bossesBadges == 1) {
         bossesBadges++;
-        achievementSound.play();
-        //implement
-    } else if (subject->getKilledBosses() > 3 && bossesBadges == 2) {
+        sprite.setTexture(ResourceManager::getTexture("../Texture/BossAchievement2.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getKilledBosses() >= 3 && bossesBadges == 2) {
         bossesBadges++;
-        achievementSound.play();
-        //implement
+        sprite.setTexture(ResourceManager::getTexture("../Texture/BossAchievement3.png"));
+        sprites.emplace_back(sprite);
     }
 }
 
-sf::Sprite &Achievement::getSprite() {
-    return sprite;
+std::list<sf::Sprite> &Achievement::getSprites() {
+    return sprites;
 }
 
 Achievement::Achievement(EntityManager *subject) : subject(subject),
@@ -105,15 +109,5 @@ Achievement::Achievement(EntityManager *subject) : subject(subject),
                                                    scoreBadges(0),
                                                    spaceshipsBadges(0),
                                                    bossesBadges(0) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/badges.png"));
-    appearing = false;
-    achievementSound.setBuffer(ResourceManager::getSoundBuffer("../sound/achievement.wav"));
-}
-
-bool Achievement::isAppearing() const {
-    return appearing;
-}
-
-void Achievement::setAppearing(bool appearing) {
-    Achievement::appearing = appearing;
+    //sprite.setScale(1.2f, 1.2f);
 }

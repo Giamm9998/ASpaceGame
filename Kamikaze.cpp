@@ -139,6 +139,10 @@ Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStregth, kamikazeSpeed, kamikaz
     boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
 
+    for (auto &explosion : explosions) {
+        explosion.setScale(explosion.getScale() * 1.5f);
+    }
+
     attacking = false;
 }
 

@@ -35,6 +35,7 @@ EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyed
 
     for (int i = 0; i < 10; i++)
         asteroidManager.emplace_back(new Asteroid);
+
 }
 
 const std::unique_ptr<Player> &EntityManager::getPlayer() const {
@@ -146,7 +147,7 @@ void EntityManager::updateEnemies(float time) {
             }
             if ((enemy)->die(time)) {
                 killedSpaceships++;
-                if (typeid(enemy) == typeid(Boss))
+                if (typeid(*enemy) == typeid(Boss))
                     killedBosses++;
                 score += static_cast<int>(enemy->getMaxHp());
                 notify();

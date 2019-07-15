@@ -68,7 +68,7 @@ Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f, Cannon(Projectile(400, 10.f * 1)),
 }
 
 std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
-    sf::Vector2f vector(playerPos - sprite.getPosition());
+    sf::Vector2f vector(playerPos - (sprite.getPosition() + sf::Vector2f(0, sprite.getGlobalBounds().height / 2)));
     float module = hypot(vector.x, vector.y);
     cannon.getProjectilePrototype().setMovement(sf::Vector2f(vector.x / module, vector.y / module));
     return Spaceship::useCannon(dt, cannon);

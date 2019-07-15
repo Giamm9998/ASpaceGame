@@ -53,7 +53,7 @@ std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon) {
 
 std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
     if (elapsedTime <= assaulterFreezeDuration) {
-        sf::Vector2f vector(playerPos - sprite.getPosition());
+        sf::Vector2f vector(playerPos - (sprite.getPosition() + sf::Vector2f(0, sprite.getGlobalBounds().height / 2)));
         float module = hypot(vector.x, vector.y);
         primaryCannon.getProjectilePrototype().setMovement(sf::Vector2f(vector.x / module, vector.y / module));
         return Spaceship::useCannon(dt, cannon);
