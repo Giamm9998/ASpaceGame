@@ -1,0 +1,10 @@
+Current: 
+1250
+Current: 
+199
+e:
+5
+d:
+4
+c:
+3

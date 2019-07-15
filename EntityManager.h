@@ -58,7 +58,7 @@ public:
 
     unsigned int getKilledBosses() const;
 
-    unsigned int getScore() const;
+    int getScore() const;
 
     template<typename T>
     void selectPlayer() {
@@ -96,7 +96,7 @@ private:
     unsigned int destroyedAsteroids;
     unsigned int killedSpaceships;
     unsigned int killedBosses;
-    unsigned int score;
+    int score;
     float bossAttackTime = 10;
     float finalMovementTime = 0;
     std::list<Cannon *> bossCurrentAttack = {};

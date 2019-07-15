@@ -381,7 +381,7 @@ unsigned int EntityManager::getKilledBosses() const {
     return killedBosses;
 }
 
-unsigned int EntityManager::getScore() const {
+int EntityManager::getScore() const {
     return score;
 }
 

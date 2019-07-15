@@ -3,12 +3,14 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include "Game.h"
 #include "ResourceManager.h"
 #include "Raptor.h"
 #include "Kamikaze.h"
 #include "Bomber.h"
 #include <cmath>
+#include <fstream>
 
 Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), static_cast<unsigned int>(windowHeight)),
                       "A Space Game"), isPaused(false), isMovingLeft(false), isMovingRight(false), isShooting(false),
@@ -85,6 +87,22 @@ void Game::createHud() {
     gameOver.setPosition(175, 250);
     gameOver.setOutlineThickness(2);
     gameOver.setOutlineColor(sf::Color::Blue);
+    std::ifstream openFile("../leadboard.txt");
+    char fileText[100];
+    std::string fileComplete("Leadboard:\n");
+    int i = 0;
+    while (i++ < 10 && !openFile.eof()) {
+        openFile.getline(fileText, 100);
+        if (i % 2 != 0)
+            fileComplete += "\n";
+        fileComplete += (fileText);
+    }
+    leadboard.setFont(ResourceManager::getFont("../font/font.ttf"));
+    leadboard.setString(fileComplete);
+    leadboard.setOrigin(leadboard.getGlobalBounds().width / 2, 0);
+    leadboard.setCharacterSize(20);
+    leadboard.setPosition(windowWidth / 2, 460);
+    openFile.close();
 
     bomberSprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     bomberSprite.setScale(maxScale, maxScale);
@@ -162,17 +180,20 @@ void Game::render() {
         drawPlayer();
         drawPowerUp();
         drawHud();
-        if (!achievementSprites.empty())
-            window.draw(*achievementSprites.front());
     } else if (isChoosingPlayer) {
         window.draw(playerSelection);
         window.draw(playerNames);
         window.draw(bomberSprite);
         window.draw(raptorSprite);
+        window.draw(leadboard);
     } else if (entityManager.isGameEnded())
         window.draw(gameOver);
-    if (entityManager.getGameOver().getStatus() == sf::Sound::Stopped && entityManager.isGameEnded())
+    if (!achievementSprites.empty())
+        window.draw(*achievementSprites.front());
+    if (entityManager.getGameOver().getStatus() == sf::Sound::Stopped && entityManager.isGameEnded()) {
+        insertScoreName();
         window.close();
+    }
     window.display();
 }
 
@@ -269,13 +290,44 @@ void Game::updateAchievement(float time) {
         achievement.getSprites().clear();
     }
     if (!achievementSprites.empty()) {
-        if (achievementDuration == 0) {
-            achievementSound.play();
-        }
         achievementDuration += time;
         if (achievementDuration > 5) {
             achievementSprites.pop_front();
             achievementDuration = 0;
         }
     }
+}
+
+void Game::insertScoreName() {
+    std::ifstream iFile("../leadboard.txt");
+    char fileText[50];//todo set with maxScore&&maxNameLetters
+    std::vector<std::pair<int, std::string>> scoresVect;
+    int i = 0;
+    int score = 0;
+    std::string name;
+    while (i < 10 && !iFile.eof()) {
+        iFile.getline(fileText, 50);
+        if (i % 2 != 0) {
+            score = std::stoi(fileText);
+            scoresVect.emplace_back(score, name);
+        }
+        if (i % 2 == 0) {
+            name = fileText;
+        }
+        i++;
+    }
+    iFile.close();
+    scoresVect.emplace_back(entityManager.getScore(), "Current: ");
+    std::sort(scoresVect.begin(), scoresVect.end());
+    std::ofstream oFile;
+    oFile.open("../leadboard.txt", std::ofstream::out | std::ofstream::trunc);
+    i = 5;
+    while (i > 0 && !oFile.eof()) {
+        oFile.write(scoresVect[i].second.data(), scoresVect[i].second.length());
+        oFile.write("\n", 1);
+        oFile.write(std::to_string(scoresVect[i].first).data(), std::to_string(scoresVect[i].first).length());
+        oFile.write("\n", 1);
+        i--;
+    }
+    oFile.close();
 }
