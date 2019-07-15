@@ -17,13 +17,9 @@ public:
 
     void update() override;
 
-    sf::Sprite &getSprite();
+    std::list<sf::Sprite> &getSprites();
 
     explicit Achievement(EntityManager *subject);
-
-    bool isAppearing() const;
-
-    void setAppearing(bool appearing);
 
 private:
     EntityManager *subject;
@@ -31,8 +27,6 @@ private:
     unsigned int scoreBadges;
     unsigned int spaceshipsBadges;
     unsigned int bossesBadges;
-    bool appearing;
-    sf::Sound achievementSound;
 
     void checkForAsteroids();
 
@@ -42,7 +36,9 @@ private:
 
     void checkForScore();
 
+    std::list<sf::Sprite> sprites;
     sf::Sprite sprite;
+
 };
 
 

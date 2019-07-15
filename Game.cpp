@@ -20,6 +20,8 @@ Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), stat
 
     achievement.attach();
     achievementDuration = 0;
+    achievementSound.setBuffer(ResourceManager::getSoundBuffer("../sound/achievement.wav"));
+
 
     background = std::unique_ptr<Background>(new Background);
 
@@ -167,8 +169,8 @@ void Game::render() {
         window.draw(raptorSprite);
     } else if (entityManager.isGameEnded())
         window.draw(gameOver);
-    if (achievement.isAppearing())
-        window.draw(achievement.getSprite());
+    if (!achievementSprites.empty())
+        window.draw(*achievementSprites.front());
     if (entityManager.getGameOver().getStatus() == sf::Sound::Stopped && entityManager.isGameEnded())
         window.close();
     window.display();
@@ -260,11 +262,17 @@ bool Game::isLegalMove(float x, float origin, short int direction) { // todo &sp
 }
 
 void Game::updateAchievement(float time) {
-    if (achievement.isAppearing()) {
+    if (!achievement.getSprites().empty()) {
+        for (auto &sprite : achievement.getSprites()) {
+            achievementSprites.emplace_back(new sf::Sprite(sprite));
+        }
+        achievement.getSprites().clear();
+    }
+    if (!achievementSprites.empty()) {
         achievementDuration += time;
-        if (achievementDuration > 2) {
+        if (achievementDuration > 5) {
+            achievementSprites.pop_front();
             achievementDuration = 0;
-            achievement.setAppearing(false);
         }
     }
 }
