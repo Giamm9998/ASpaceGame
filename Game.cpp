@@ -69,7 +69,7 @@ void Game::createHud() {
     text.setString("Choose your player");
     playerSelection = text;
     playerSelection.setOrigin(playerSelection.getLocalBounds().width / 2, playerSelection.getLocalBounds().height / 2);
-    playerSelection.setPosition(windowWidth / 2, windowHeight / 3);
+    playerSelection.setPosition(windowWidth / 2, windowHeight / achievementDisappearT);
     playerSelection.setFillColor(sf::Color::White);
     playerSelection.setOutlineThickness(1);
     playerSelection.setOutlineColor(sf::Color::Blue);
@@ -294,9 +294,23 @@ void Game::updateAchievement(float time) {
             achievementSound.play();
         }
         achievementDuration += time;
-        if (achievementDuration > 5) {
+        if (achievementDuration <= achievementFadeDuration)
+            achievementSprites.front()->setColor(sf::Color(255, 255, 255, std::min(static_cast<int>(255. /
+                                                                                                    achievementFadeDuration *
+                                                                                                    achievementDuration),
+                                                                                   255)));
+        else if (achievementDuration >= achievementDisappearT - achievementFadeDuration && achievementDuration <
+                                                                                           achievementDisappearT)
+            achievementSprites.front()->setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(255. /
+                                                                                                       achievementFadeDuration *
+                                                                                                       (
+                                                                                                               achievementDisappearT -
+                                                                                                               achievementDuration)))));
+        else if (achievementDuration > achievementAnimationT) {
             achievementSprites.pop_front();
             achievementDuration = 0;
+            if (!achievementSprites.empty())
+                achievementSprites.front()->setColor(sf::Color(255, 255, 255, 0));
         }
     }
 }

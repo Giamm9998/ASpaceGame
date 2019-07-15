@@ -41,6 +41,7 @@ Asteroid::Asteroid() : speed(getRandomReal(asteroidMinSpeed, asteroidMaxSpeed)),
             distOrigin.y * size + asteroidMaxSpawnHeight);
     sprite.setOrigin(distOrigin);
     sprite.setPosition(initialPosition);
+    animator->update(0);
 }
 
 void Asteroid::receiveDamage(float damageReceived) {

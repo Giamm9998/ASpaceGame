@@ -207,7 +207,7 @@ void EntityManager::updateAsteroids(float time, bool isUsingSpecial) {
                 (asteroid)->blink(time);
             (asteroid)->getAnimator()->update(time);
             (asteroid)->move(time);
-            checkForAsteroidsCollisions(asteroidIter++, isUsingSpecial);
+            checkForAsteroidCollisions(asteroidIter++, isUsingSpecial);
         }
     }
 }
@@ -263,8 +263,8 @@ void EntityManager::checkForProjectileCollisions(std::list<std::unique_ptr<Proje
     }
 }
 
-void EntityManager::checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter,
-                                                bool isUsingSpecial) {
+void EntityManager::checkForAsteroidCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter,
+                                               bool isUsingSpecial) {
     sf::Sprite &asteroidSprite = (*asteroidIter)->getSprite();
     if (isOutOfSigth(asteroidSprite)) {
         asteroidManager.erase(asteroidIter);
@@ -289,6 +289,19 @@ void EntityManager::checkForAsteroidsCollisions(std::list<std::unique_ptr<Astero
     }
 }
 
+void EntityManager::checkForLaserCollision(float time) {
+    for (auto &enemy : enemyManager) {
+        if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
+            enemy->receiveDamage(laserDPS * time);
+        }
+    }
+
+    for (auto &asteroid : asteroidManager) {
+        if (asteroid->getSprite().getGlobalBounds().intersects(player->getLaser().getGlobalBounds()))
+            asteroid->receiveDamage(laserDPS * time);
+    }
+}
+
 void EntityManager::checkForAttractingBeamCollision(std::list<std::unique_ptr<Spaceship>>::iterator enemyIter) {
     auto kamikaze = (*enemyIter).get();
 
@@ -301,19 +314,6 @@ void EntityManager::checkForAttractingBeamCollision(std::list<std::unique_ptr<Sp
         auto finalPosition = kamikaze->getSprite().getPosition() +
                              sf::Vector2f(0, kamikaze->getSprite().getOrigin().y * kamikaze->getSprite().getScale().y);
         finalMovement = finalPosition - player->getSprite().getPosition();
-    }
-}
-
-void EntityManager::checkForLaserCollision(float time) {
-    for (auto &enemy : enemyManager) {
-        if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
-            enemy->receiveDamage(laserDPS * time);
-        }
-    }
-
-    for (auto &asteroid : asteroidManager) {
-        if (asteroid->getSprite().getGlobalBounds().intersects(player->getLaser().getGlobalBounds()))
-            asteroid->receiveDamage(laserDPS * time);
     }
 }
 

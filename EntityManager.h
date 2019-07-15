@@ -96,7 +96,7 @@ private:
     void
     checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter, bool isUsingSpecial);
 
-    void checkForAsteroidsCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter, bool isUsingSpecial);
+    void checkForAsteroidCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter, bool isUsingSpecial);
 
     void checkForAttractingBeamCollision(std::list<std::unique_ptr<Spaceship>>::iterator enemyIter);
 
@@ -129,6 +129,15 @@ public:
     void checkForProjectileCollisionsTest(std::list<std::unique_ptr<Projectile>>::iterator projectileIter,
                                           bool isUsingSpecial) {
         checkForProjectileCollisions(projectileIter, isUsingSpecial);
+    }
+
+    void checkForAsteroidCollisionsTest(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter,
+                                        bool isUsingSpecial) {
+        checkForAsteroidCollisions(asteroidIter, isUsingSpecial);
+    }
+
+    void checkForLaserCollisionTest(float time) {
+        checkForLaserCollision(time);
     }
 };
 

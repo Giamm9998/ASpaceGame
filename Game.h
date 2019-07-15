@@ -13,6 +13,10 @@ namespace {
 static const float windowWidth = 900;
 static const float windowHeight = 675;
 
+static const float achievementFadeDuration = 0.5;
+static const float achievementDisappearT = 3;
+static const float achievementAnimationT = achievementDisappearT + 0.5;
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <list>
