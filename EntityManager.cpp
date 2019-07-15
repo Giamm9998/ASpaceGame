@@ -16,17 +16,18 @@
 #include "AuxiliaryCannon.h"
 #include "Bomber.h"
 #include "ResourceManager.h"
+#include "EnemyFactory.h"
 
 EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(0) {
 
     //todo add spawn function
     createSounds();
 
-    enemyManager.emplace_back(new Fighter);
-    enemyManager.emplace_back(new Kamikaze);
-    enemyManager.emplace_back(new Minion);
-    enemyManager.emplace_back(new Assaulter);
-    enemyManager.emplace_back(new Boss);
+    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Fighter));
+    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Kamikaze));
+    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Minion));
+    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Assaulter));
+    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Boss));
 
     //player = std::unique_ptr<Player>(new Raptor);
 
@@ -78,6 +79,8 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
     if (player->getHp() <= 0) {
         //player->die
         mainTheme.stop();
+        if (player->isLaserActive())
+            player->getLaserSound().stop();
         gameOver.play();
         gameEnded = true;
         player->getBoundingBox().setScale(0, 0);
