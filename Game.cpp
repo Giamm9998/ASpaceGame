@@ -69,7 +69,7 @@ void Game::createHud() {
     text.setString("Choose your player");
     playerSelection = text;
     playerSelection.setOrigin(playerSelection.getLocalBounds().width / 2, playerSelection.getLocalBounds().height / 2);
-    playerSelection.setPosition(windowWidth / 2, windowHeight / achievementDisappearT);
+    playerSelection.setPosition(windowWidth / 2, windowHeight / 6);
     playerSelection.setFillColor(sf::Color::White);
     playerSelection.setOutlineThickness(1);
     playerSelection.setOutlineColor(sf::Color::Blue);
@@ -87,31 +87,31 @@ void Game::createHud() {
     gameOver.setPosition(175, 250);
     gameOver.setOutlineThickness(2);
     gameOver.setOutlineColor(sf::Color::Blue);
-    std::ifstream openFile("../leadboard.txt");
-    char fileText[100];
-    std::string fileComplete("Leadboard:\n");
-    int i = 0;
-    while (i++ < 10 && !openFile.eof()) {
-        openFile.getline(fileText, 100);
-        if (i % 2 != 0)
-            fileComplete += "\n";
-        fileComplete += (fileText);
-    }
+
+    readFile();
+
     leadboard.setFont(ResourceManager::getFont("../font/font.ttf"));
-    leadboard.setString(fileComplete);
     leadboard.setOrigin(leadboard.getGlobalBounds().width / 2, 0);
-    leadboard.setCharacterSize(20);
-    leadboard.setPosition(windowWidth / 2, 460);
-    openFile.close();
+    leadboard.setCharacterSize(22);
+    leadboard.setFillColor(sf::Color::White);
+    leadboard.setOutlineThickness(0.5);
+    leadboard.setOutlineColor(sf::Color::Yellow);
+    leadboard.setPosition(windowWidth / 2 + 75, 375);
+
+    insertSCore.setFont(ResourceManager::getFont("../font/font.ttf"));
+    insertSCore.setFillColor(sf::Color::White);
+    insertSCore.setOutlineThickness(1);
+    insertSCore.setOutlineColor(sf::Color::Blue);
+    insertSCore.setPosition(200, 100);
 
     bomberSprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
     bomberSprite.setScale(maxScale, maxScale);
     bomberSprite.setOrigin(bomberSprite.getLocalBounds().width / 2, 0);
-    bomberSprite.setPosition(playerSelection.getGlobalBounds().left, 300);
+    bomberSprite.setPosition(playerSelection.getGlobalBounds().left, 200);
     raptorSprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     raptorSprite.setScale(maxScale, maxScale);
     raptorSprite.setOrigin(raptorSprite.getLocalBounds().width / 2, 0);
-    raptorSprite.setPosition(playerSelection.getGlobalBounds().left + playerSelection.getGlobalBounds().width, 300);
+    raptorSprite.setPosition(playerSelection.getGlobalBounds().left + playerSelection.getGlobalBounds().width, 200);
 }
 
 void Game::run() {
@@ -189,10 +189,18 @@ void Game::render() {
         window.draw(bomberSprite);
         window.draw(raptorSprite);
         window.draw(leadboard);
-    } else if (entityManager.isGameEnded())
+    } else if (entityManager.isGameEnded() && sf::Sound::Playing == entityManager.getGameOver().getStatus()) {
         window.draw(gameOver);
+    }
     if (entityManager.getGameOver().getStatus() == sf::Sound::Stopped && entityManager.isGameEnded()) {
-        insertScoreName();
+        insertSCore.setString(std::string("Your Score:  ") + std::to_string(entityManager.getScore()) +
+                              std::string("\n\nInsert name:    "));
+        window.draw(insertSCore);
+        window.display();
+        std::string name = writeName();
+        if (name == std::string(""))
+            name = std::string("anonymous");
+        insertScoreName(name);
         window.close();
     }
     window.display();
@@ -318,7 +326,7 @@ void Game::updateAchievement(float time) {
     }
 }
 
-void Game::insertScoreName() {
+void Game::insertScoreName(const std::string &currentName) {
     std::ifstream iFile("../leadboard.txt");
     char fileText[50];//todo set with maxScore&&maxNameLetters
     std::vector<std::pair<int, std::string>> scoresVect;
@@ -337,17 +345,102 @@ void Game::insertScoreName() {
         i++;
     }
     iFile.close();
-    scoresVect.emplace_back(entityManager.getScore(), "Current: ");
+    scoresVect.emplace_back(entityManager.getScore(), currentName + std::string(": "));
     std::sort(scoresVect.begin(), scoresVect.end());
     std::ofstream oFile;
     oFile.open("../leadboard.txt", std::ofstream::out | std::ofstream::trunc);
     i = 5;
+    leadboard.setString("leadboard:\n\n");
+    leadboard.setPosition(insertSCore.getPosition().x + 210, insertSCore.getPosition().y + 200);
     while (i > 0 && !oFile.eof()) {
         oFile.write(scoresVect[i].second.data(), scoresVect[i].second.length());
+        if (scoresVect[i].second != std::string("defaultvalue:"))
+            leadboard.setString(leadboard.getString() + scoresVect[i].second + std::string(" "));
         oFile.write("\n", 1);
         oFile.write(std::to_string(scoresVect[i].first).data(), std::to_string(scoresVect[i].first).length());
+        if (scoresVect[i].second == currentName + std::string(": "))
+            leadboard.setString(
+                    leadboard.getString() + std::to_string(scoresVect[i].first) + std::string("        <---") +
+                    std::string("\n"));
+        else if (scoresVect[i].second != std::string("defaultvalue:"))
+            leadboard.setString(leadboard.getString() + std::to_string(scoresVect[i].first) + std::string("\n"));
         oFile.write("\n", 1);
         i--;
     }
     oFile.close();
+    sf::Clock clock1;
+    float leadboardDuration = 0;
+    while (leadboardDuration < 5) {
+        leadboardDuration += clock1.restart().asSeconds();
+        window.draw(leadboard);
+        window.display();
+    }
+
+}
+
+std::string Game::writeName() {
+    sf::Event event{};
+    std::string name;
+    bool out = false;
+    sf::Text nameText;
+    nameText.setPosition(insertSCore.getPosition().x + 340, insertSCore.getPosition().y + 72);
+    nameText.setFillColor(sf::Color::White);
+    nameText.setOutlineThickness(1);
+    nameText.setOutlineColor(sf::Color::Blue);
+    nameText.setFont(ResourceManager::getFont("../font/font.ttf"));
+    int i = 0;
+    while (!out) {
+        window.pollEvent(event);
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Enter)
+                out = true;
+            /*if(event.key.code==sf::Keyboard::BackSpace) {
+                name.pop_back();
+                nameText.setString(name);
+                window.draw(nameText);
+                window.display();
+                event={};
+            }*/
+        }
+        if (event.type == sf::Event::TextEntered && i < 10) {
+            if (sf::String(event.text.unicode) != "") {
+                name += sf::String(event.text.unicode);
+                i++;
+                event = {};
+                nameText.setString(name);
+                window.draw(nameText);
+                window.display();
+            }
+        }
+    }
+    return name;
+}
+
+void Game::readFile() {
+    std::ifstream openFile("../leadboard.txt");
+    char fileText[100];
+    std::string fileComplete("Leadboard:\n\n");
+    int i = 0;
+    bool zero = false;
+    while (i < 10 && !openFile.eof()) {
+        openFile.getline(fileText, 100);
+        if (i % 2 == 0) {
+            if (fileText == std::string("defaultvalue:")) {
+                zero = true;
+            } else {
+                fileComplete += (fileText + std::string(" "));
+            }
+        }
+        if (i % 2 != 0) {
+            if (zero) {
+                zero = false;
+            } else {
+                fileComplete += (fileText);
+                fileComplete += "\n";
+            }
+        }
+        i++;
+    }
+    leadboard.setString(fileComplete);
+    openFile.close();
 }
