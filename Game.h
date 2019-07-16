@@ -68,7 +68,8 @@ private:
     sf::Text playerNames;
     sf::Text gameOver;
     sf::Text leadboard;
-    sf::Text insertSCore;
+    sf::Text insertScore;
+    sf::Text nameText;
     sf::Sprite bomberSprite;
     sf::Sprite raptorSprite;
     std::unique_ptr<Background> background;
@@ -76,6 +77,8 @@ private:
     Achievement achievement;
     float achievementDuration;
     sf::Sound achievementSound;
+
+    bool nameEntered = false;
 
     EntityManager entityManager;
 
@@ -96,11 +99,11 @@ private:
     template<typename T>
     void draw(const std::list<std::unique_ptr<T>> &list);
 
-    void insertScoreName(const std::string &currentName);
-
-    std::string writeName();
+    void insertScoreName();
 
     void readFile();
+
+    void drawAchievement();
 };
 
 #endif //ASPACEGAME_GAME_H
