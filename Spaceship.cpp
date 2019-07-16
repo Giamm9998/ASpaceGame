@@ -4,10 +4,29 @@
 #include "Game.h"
 #include <cmath>
 #include "ResourceManager.h"
+#include "Functions.h"
 
-Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, const Cannon &cannon) :
-        hp(hp), strength(strength), speed(speed), fireRate(fireRate), maxHp(hp), primaryCannon(cannon) {
+Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosion) :
+        hp(hp), strength(strength), speed(speed), fireRate(fireRate), maxHp(hp), primaryCannon(cannon),
+        explosionNum(explosion) {
     sprite.setScale(maxScale, maxScale);
+
+    explosionSound.setBuffer(ResourceManager::getSoundBuffer("../sound/explosion.wav"));
+    explosionSound.setVolume(75);
+    unsigned int frames = 8;
+    unsigned int rows = 5;
+    for (int i = 0; i < this->explosionNum; i++) {
+        explosions.emplace_back();
+        explosions.back().setScale(sf::Vector2f(1, 1) * getRandomReal(0.5, 1.2));
+        animators.emplace_back(new Animator(explosions.back()));
+        std::string textureName = getRandomInt(0, 1) ? "../Texture/Explosion.png" : "../Texture/Explosion1.png";
+        auto &explosionAnim = animators.back()->createAnimation("Explosion", textureName, sf::seconds(
+                explosionDuration), false);
+        explosionAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames, rows);
+        explosions.back().setOrigin(explosions.back().getLocalBounds().width / (2 * frames),
+                                    explosions.back().getLocalBounds().height / (2 * rows));
+        animators.back()->update(0);
+    }
 }
 
 float Spaceship::getHp() const {
@@ -81,6 +100,10 @@ float Spaceship::getMaxHp() const {
 
 float Spaceship::getDyingTime() const {
     return dyingTime;
+}
+
+const std::list<sf::Sprite> &Spaceship::getExplosions() const {
+    return explosions;
 }
 
 

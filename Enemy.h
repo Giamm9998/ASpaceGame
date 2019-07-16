@@ -32,14 +32,8 @@ public:
 
     bool die(float time) override;
 
-    const std::list<sf::Sprite> &getExplosions() const;
-
 protected:
-    int explosionNum;
     short int direction = right;
-    std::list<sf::Sprite> explosions;
-    std::list<std::unique_ptr<Animator>> animators;
-    sf::Sound explosionSound;
 };
 
 

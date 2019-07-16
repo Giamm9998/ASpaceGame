@@ -42,7 +42,7 @@ public:
 
     bool die(float time) override;
 
-    Animator *getAnimator() const;
+    Animator *getLaserAnimator() const;
 
     sf::Sound &getLaserSound();
 
@@ -50,7 +50,7 @@ public:
 
     bool isMovable() const;
 
-    void setMovable(bool movable);
+    void setMovable(bool move);
 
 protected:
 
@@ -59,7 +59,7 @@ protected:
     std::vector<Cannon> auxiliaryCannons;
     bool laserActive;
     sf::Sprite laser;
-    Animator *animator = new Animator(laser);
+    Animator *laserAnimator = new Animator(laser);
     sf::Sound laserSound;
     sf::Sound powerUpSound;
 

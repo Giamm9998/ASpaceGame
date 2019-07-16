@@ -15,24 +15,8 @@ void Enemy::move(float time) {
 }
 
 Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum)
-        : Spaceship(hp, strength, speed, fireRate, cannon), explosionNum(explosionNum) {
+        : Spaceship(hp, strength, speed, fireRate, cannon, explosionNum) {
     sprite.setRotation(180.f);
-    explosionSound.setBuffer(ResourceManager::getSoundBuffer("../sound/explosion.wav"));
-    explosionSound.setVolume(75);
-    unsigned int frames = 8;
-    unsigned int rows = 5;
-    for (int i = 0; i < this->explosionNum; i++) {
-        explosions.emplace_back();
-        explosions.back().setScale(sf::Vector2f(1, 1) * getRandomReal(0.5, 1.2));
-        animators.emplace_back(new Animator(explosions.back()));
-        std::string textureName = getRandomInt(0, 1) ? "../Texture/Explosion.png" : "../Texture/Explosion1.png";
-        auto &explosionAnim = animators.back()->createAnimation("Explosion", textureName, sf::seconds(
-                explosionDuration), false);
-        explosionAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames, rows);
-        explosions.back().setOrigin(explosions.back().getLocalBounds().width / (2 * frames),
-                                    explosions.back().getLocalBounds().height / (2 * rows));
-        animators.back()->update(0);
-    }
 }
 
 void Enemy::setPosition(float x, float y) {
@@ -71,10 +55,6 @@ bool Enemy::die(float time) {
     dyingTime += time;
     sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
     return dyingTime >= dyingDuration;
-}
-
-const std::list<sf::Sprite> &Enemy::getExplosions() const {
-    return explosions;
 }
 
 Enemy::~Enemy() = default;

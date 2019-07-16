@@ -226,14 +226,19 @@ void Game::drawPlayer() {
     auto &player = entityManager.getPlayer();
     window.draw(player->getSprite());
 
-    if (isUsingSpecial && player->isMovable()) {
-        auto &playerType = *(player.get());
-        if (typeid(playerType) == typeid(Raptor))
-            window.draw(dynamic_cast<Raptor &>(playerType).getShield());
-    }
+    if (player->getHp() <= 0)
+        for (auto &explosion : player->getExplosions())
+            window.draw(explosion);
+    else {
+        if (isUsingSpecial && player->isMovable()) {
+            auto &playerType = *(player.get());
+            if (typeid(playerType) == typeid(Raptor))
+                window.draw(dynamic_cast<Raptor &>(playerType).getShield());
+        }
 
-    if (player->isLaserActive())
-        window.draw(player->getLaser());
+        if (player->isLaserActive())
+            window.draw(player->getLaser());
+    }
 }
 
 void Game::drawEnemy() {
@@ -242,7 +247,7 @@ void Game::drawEnemy() {
         auto &enemyType = *(enemy.get());
         window.draw(enemy->getSprite());
         if (enemy->getHp() <= 0)
-            for (auto &explosion : dynamic_cast<Enemy &>(*enemy).getExplosions())
+            for (auto &explosion : enemy->getExplosions())
                 window.draw(explosion);
         else {
             if (typeid(enemyType) == typeid(Kamikaze)) {
@@ -295,17 +300,14 @@ void Game::updateAchievement(float time) {
         }
         achievementDuration += time;
         if (achievementDuration <= achievementFadeDuration)
-            achievementSprites.front()->setColor(sf::Color(255, 255, 255, std::min(static_cast<int>(255. /
-                                                                                                    achievementFadeDuration *
-                                                                                                    achievementDuration),
-                                                                                   255)));
-        else if (achievementDuration >= achievementDisappearT - achievementFadeDuration && achievementDuration <
-                                                                                           achievementDisappearT)
-            achievementSprites.front()->setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(255. /
-                                                                                                       achievementFadeDuration *
-                                                                                                       (
-                                                                                                               achievementDisappearT -
-                                                                                                               achievementDuration)))));
+            achievementSprites.front()->setColor(sf::Color(255, 255, 255, std::min(static_cast<int>(
+                                                                                           255. /
+                                                                                           achievementFadeDuration *
+                                                                                           achievementDuration), 255)));
+        else if (achievementDuration >= achievementDisappearT - achievementFadeDuration &&
+                 achievementDuration < achievementDisappearT)
+            achievementSprites.front()->setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(
+                    255. / achievementFadeDuration * (achievementDisappearT - achievementDuration)))));
         else if (achievementDuration > achievementAnimationT) {
             achievementSprites.pop_front();
             achievementDuration = 0;

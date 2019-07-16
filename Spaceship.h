@@ -11,11 +11,13 @@ static const float maxScale = 0.35f;
 
 #include <SFML/Graphics.hpp>
 #include "Cannon.h"
+#include "Animator.h"
 #include <memory>
+#include <SFML/Audio/Sound.hpp>
 
 class Spaceship {
 public:
-    Spaceship(float hp, float strength, float speed, float fireRate, const Cannon &cannon);
+    Spaceship(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum);
 
     virtual ~Spaceship();
 
@@ -59,6 +61,8 @@ public:
 
     float getDyingTime() const;
 
+    const std::list<sf::Sprite> &getExplosions() const;
+
 protected:
     float hp;
     float strength;
@@ -72,6 +76,10 @@ protected:
     float dyingTime = 0;
     bool receivingDamage = false;
     sf::RectangleShape boundingBox;
+    int explosionNum;
+    std::list<sf::Sprite> explosions;
+    std::list<std::unique_ptr<Animator>> animators;
+    sf::Sound explosionSound;
 };
 
 

@@ -5,13 +5,14 @@
 #include "ResourceManager.h"
 #include "Raptor.h"
 #include "Game.h"
+#include "Functions.h"
 
 
 Player::Player(float hp, float strength, float speed, float fireRate, const Cannon &cannon) :
-        Spaceship(hp, strength, speed, fireRate, cannon), charging(false), laserActive(false) {
+        Spaceship(hp, strength, speed, fireRate, cannon, 5), charging(false), laserActive(false) {
     sprite.setPosition(static_cast<float>(windowWidth) / 2, windowHeight - PlayerSpawnHeight);
 
-    auto &laserAnim = animator->createAnimation("Laser", "../Texture/Laser.png", sf::seconds(1), true);
+    auto &laserAnim = laserAnimator->createAnimation("Laser", "../Texture/Laser.png", sf::seconds(1), true);
     unsigned int frames = 12;
     laserAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(29, 700), frames);
     laser.setOrigin(laser.getGlobalBounds().width / (2 * frames), laser.getGlobalBounds().height);
@@ -49,7 +50,7 @@ bool Player::isLaserActive() const {
 
 void Player::setLaserActive(bool active) {
     Player::laserActive = active;
-    animator->update(0);
+    laserAnimator->update(0);
 }
 
 sf::Sprite &Player::getLaser() {
@@ -82,12 +83,26 @@ void Player::blink(float time) {
 }
 
 bool Player::die(float time) {
-
-    return false; //todo implement
+    if (dyingTime == 0) {
+        movable = false;
+        explosionSound.play(); //todo play with every explosion
+        for (auto &explosion : explosions)
+            explosion.setPosition(getRandomPosition(sprite.getGlobalBounds().left,
+                                                    sprite.getGlobalBounds().left + sprite.getGlobalBounds().width,
+                                                    sprite.getGlobalBounds().top,
+                                                    sprite.getGlobalBounds().top + sprite.getGlobalBounds().height));
+    }
+    int i = 0;
+    for (auto &animator : animators) {
+        animator->update(time, ((dyingDuration - explosionDuration) / explosionNum) * i++);
+    }
+    dyingTime += time;
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
+    return dyingTime >= dyingDuration;
 }
 
-Animator *Player::getAnimator() const {
-    return animator;
+Animator *Player::getLaserAnimator() const {
+    return laserAnimator;
 }
 
 sf::Sound &Player::getLaserSound() {
@@ -99,14 +114,14 @@ sf::Sound &Player::getPowerUpSound() {
 }
 
 Player::~Player() {
-    delete animator;
+    delete laserAnimator;
 }
 
 bool Player::isMovable() const {
     return movable;
 }
 
-void Player::setMovable(bool movable) {
-    Player::movable = movable;
+void Player::setMovable(bool move) {
+    Player::movable = move;
 }
 

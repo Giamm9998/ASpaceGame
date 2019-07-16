@@ -78,13 +78,14 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
         player->blink(time);
     }
     if (player->getHp() <= 0) {
-        //player->die
-        mainTheme.stop();
-        if (player->isLaserActive())
-            player->getLaserSound().stop();
-        gameOver.play();
-        gameEnded = true;
-        player->getBoundingBox().setScale(0, 0);
+        if (player->die(time)) {
+            mainTheme.stop();
+            if (player->isLaserActive())
+                player->getLaserSound().stop();
+            gameOver.play();
+            gameEnded = true;
+            player->getBoundingBox().setScale(0, 0);
+        }
     }
 
     if (player->isMovable()) {
@@ -120,7 +121,7 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
             player->recharge(time, specialHud);
 
         if (player->isLaserActive()) {
-            player->getAnimator()->update(time);
+            player->getLaserAnimator()->update(time);
             checkForLaserCollision(time);
         }
     } else if (finalMovementTime <= finalMovementDuration) {
@@ -310,7 +311,10 @@ void EntityManager::checkForAttractingBeamCollision(std::list<std::unique_ptr<Sp
         player->getBoundingBox().setSize(sf::Vector2f(0, 0));
         player->setMovable(false);
         dynamic_cast<Kamikaze &>(*kamikaze).setTargetAcquired(true);
-        player->setLaserActive(false);
+        if (player->isLaserActive()) {
+            player->getLaserSound().stop();
+            player->setLaserActive(false);
+        }
         auto finalPosition = kamikaze->getSprite().getPosition() +
                              sf::Vector2f(0, kamikaze->getSprite().getOrigin().y * kamikaze->getSprite().getScale().y);
         finalMovement = finalPosition - player->getSprite().getPosition();
