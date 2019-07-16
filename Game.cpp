@@ -138,16 +138,17 @@ void Game::processEvents() {
         if (entityManager.isGameEnded() && entityManager.getGameOver().getStatus() == sf::Sound::Stopped) {
             switch (event.type) {
                 case sf::Event::KeyPressed:
-                    if (event.key.code == sf::Keyboard::Enter) {
+                    if (event.key.code == sf::Keyboard::Enter && !nameEntered) {
                         insertScoreName();
                         nameEntered = true;
-                    } else if (event.key.code == sf::Keyboard::BackSpace) {
+                    } else if (event.key.code == sf::Keyboard::BackSpace && !nameEntered) {
                         std::string name = nameText.getString();
-                        nameText.setString(name.erase(0, 1));
+                        name = name.substr(0, std::max(static_cast<unsigned long>(0), name.length() - 1));
+                        nameText.setString(name);
                     }
                     break;
                 case sf::Event::TextEntered:
-                    if (nameText.getString().getSize() < 10)
+                    if (nameText.getString().getSize() < 10 && !nameEntered && event.text.unicode != 8)
                         nameText.setString(nameText.getString() + (sf::String(event.text.unicode)));
                     break;
                 case sf::Event::Closed:
