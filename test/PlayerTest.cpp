@@ -10,8 +10,8 @@ TEST(BomberTest, Constructor) {
     Bomber bomber;
     ASSERT_EQ(bomber.getHp(), 200);
     ASSERT_EQ(bomber.getMaxHp(), bomber.getHp());
-    ASSERT_EQ(bomber.getSpeed(), 120);
-    ASSERT_EQ(bomber.getStrength(), 15);
+    ASSERT_EQ(bomber.getSpeed(), 150);
+    ASSERT_EQ(bomber.getStrength(), 20);
     ASSERT_EQ(bomber.getFireRate(), 1.2f);
     ASSERT_EQ(bomber.isReceivingDamage(), false);
     ASSERT_EQ(bomber.isCharging(), false);
@@ -30,10 +30,10 @@ TEST(BomberTest, Constructor) {
                     (1.f / (bomber.getFireRate() * bomber.getPrimaryCannon().getFireRateMultiplier())));
     ASSERT_EQ(bomber.getPrimaryCannon().getLocalRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(bomber.getSecondaryCannon().isTracker(), false);
-    ASSERT_EQ(bomber.getSecondaryCannon().getFireRateMultiplier(), 0.5);
+    ASSERT_FLOAT_EQ(bomber.getSecondaryCannon().getFireRateMultiplier(), 0.2);
     ASSERT_EQ(bomber.getSecondaryCannon().getStrengthMultiplier(), 3);
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().isEvil(), false);
-    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getSpeed(), 200);
+    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getSpeed(), 250);
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.9, 0.9));
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, -1));
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getDamage(),
@@ -46,13 +46,13 @@ TEST(RaptorTest, Constructor) {
     Raptor raptor;
     ASSERT_EQ(raptor.getHp(), 140);
     ASSERT_EQ(raptor.getHp(), raptor.getMaxHp());
-    ASSERT_EQ(raptor.getSpeed(), 160);
+    ASSERT_EQ(raptor.getSpeed(), 180);
     ASSERT_EQ(raptor.getStrength(), 10);
     ASSERT_EQ(raptor.getFireRate(), 1.8f);
     ASSERT_EQ(raptor.isReceivingDamage(), false);
     ASSERT_EQ(raptor.isCharging(), false);
     ASSERT_EQ(raptor.isLaserActive(), false);
-    ASSERT_EQ(raptor.getShieldDuration(), 5);
+    ASSERT_EQ(raptor.getShieldDuration(), 2);
     ASSERT_EQ(raptor.getAuxiliaryCannons().empty(), true);
     ASSERT_EQ(raptor.getPrimaryCannon().isTracker(), false);
     ASSERT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), 1);
@@ -69,7 +69,7 @@ TEST(RaptorTest, Constructor) {
 }
 
 TEST(RaptorTest, shield) {
-    float time = 4;
+    float time = 1.5;
     Raptor raptor;
     sf::RectangleShape r;
     r.setScale(sf::Vector2f(1, 1));

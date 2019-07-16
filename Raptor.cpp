@@ -5,7 +5,7 @@
 #include "Raptor.h"
 #include "ResourceManager.h"
 
-Raptor::Raptor() : Player(140.f, 10.f, 160.f, 1.8f, Cannon(Projectile(400, 10.f * 1, false))), shieldDuration(5) {
+Raptor::Raptor() : Player(140.f, 10.f, 180.f, 1.8f, Cannon(Projectile(400, 10.f * 1, false))), shieldDuration(2) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setElapsedTime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));

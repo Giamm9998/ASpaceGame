@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 #include "Functions.h"
 
-Minion::Minion() : Enemy(30.f, 10.f, 100.f, 0.4f, Cannon(Projectile(200, 10.f * 1))) {
+Minion::Minion() : Enemy(75.f, 15.f, 100.f, 0.5f, Cannon(Projectile(250, 15.f * 1))) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Minion.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(getRandomPosition(sprite.getOrigin().x * maxScale,
