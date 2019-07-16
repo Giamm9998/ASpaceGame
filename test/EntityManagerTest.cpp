@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 #include "../EntityManager.h"
 #include "../Raptor.h"
-#include "../EnemyFactory.h"
+#include "../Factory.h"
 
 TEST(EntityManagerTest, Constructor) {
     EntityManager entityManager;
@@ -85,7 +85,7 @@ TEST(EntityManagerTest, projectileCollision) {
 
 
     entityManager.getEnemyManagerTest().clear(); //todo temporary
-    entityManager.getEnemyManagerTest().emplace_back(EnemyFactory::createEnemy(EnemyType::Fighter));
+    entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Fighter));
     entityManager.updateEnemies(0);
     entityManager.emplaceProjectileTest(std::unique_ptr<Projectile>(new Projectile(0, 10, false)));
     entityManager.getProjectileManager().front()->getSprite().setPosition(
@@ -138,7 +138,7 @@ TEST(EntityManagerTest, laserCollision) {
     EntityManager entityManager;
     entityManager.selectPlayer<Raptor>();
     entityManager.getEnemyManagerTest().clear(); //todo temporary
-    entityManager.getEnemyManagerTest().emplace_back(EnemyFactory::createEnemy(EnemyType::Minion));
+    entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Minion));
     entityManager.getEnemyManagerTest().front()->getSprite().setPosition(0, 0);
     entityManager.updateEnemies(0);
     entityManager.getAsteroidManagerTest().clear(); //todo temporary

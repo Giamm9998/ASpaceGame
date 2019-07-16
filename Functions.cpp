@@ -33,3 +33,44 @@ int getRandomInt(int min, int max) {
     auto random = uni(rng);
     return random;
 }
+
+EnemyType getRandomEnemy(int minionRatio, int fighterRatio, int assaulterRatio, int kamikazeRatio) {
+    int enemy = getRandomInt(1, minionRatio + fighterRatio + assaulterRatio + kamikazeRatio);
+    if (enemy <= minionRatio)
+        return EnemyType::Minion;
+    else if (enemy - minionRatio <= fighterRatio)
+        return EnemyType::Fighter;
+    else if (enemy - minionRatio - fighterRatio <= assaulterRatio)
+        return EnemyType::Assaulter;
+    else
+        return EnemyType::Kamikaze;
+}
+
+PowerUpType getRandomPowerUp(int commonRatio, int specialRatio, bool isLaserActive, bool hasThreeCannons) {
+    int powerUp = getRandomInt(1, commonRatio + specialRatio);
+    if (powerUp <= commonRatio) {
+        switch (getRandomInt(1, 4)) {
+            case 1:
+                return PowerUpType::Speed;
+            case 2:
+                return PowerUpType::FireRate;
+            case 3:
+                return PowerUpType::Strength;
+            case 4:
+                return PowerUpType::FullHealth;
+        }
+    } else {
+        switch (getRandomInt(1, 3 - isLaserActive - hasThreeCannons)) {
+            case 1:
+                return PowerUpType::EnhanceSpecial;
+            case 2:
+                if (isLaserActive)
+                    return PowerUpType::AuxiliaryCannon;
+                else
+                    return PowerUpType::LaserCannon;
+            case 3:
+                return PowerUpType::AuxiliaryCannon;
+        }
+    }
+
+}

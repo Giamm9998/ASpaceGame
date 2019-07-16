@@ -16,26 +16,13 @@
 #include "AuxiliaryCannon.h"
 #include "Bomber.h"
 #include "ResourceManager.h"
-#include "EnemyFactory.h"
+#include "Factory.h"
+#include "Functions.h"
+#include "FullHealth.h"
 
 EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(0) {
 
-    //todo add spawn function
     createSounds();
-
-    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Fighter));
-    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Kamikaze));
-    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Minion));
-    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Assaulter));
-    enemyManager.emplace_back(EnemyFactory::createEnemy(EnemyType::Boss));
-
-    //player = std::unique_ptr<Player>(new Raptor);
-
-    powerUp = std::unique_ptr<PowerUp>(new LaserCannon);
-
-    for (int i = 0; i < 10; i++)
-        asteroidManager.emplace_back(new Asteroid);
-
 }
 
 const std::unique_ptr<Player> &EntityManager::getPlayer() const {
@@ -58,15 +45,51 @@ const std::unique_ptr<PowerUp> &EntityManager::getPowerUp() const {
     return powerUp;
 }
 
-void EntityManager::updatePowerUp(float time) {
+void EntityManager::updateSpawn(float time) {
+    enemySpawnGap += time;
+    asteroidSpawnGap += time;
+    int enemiesOnScreen = getEnemyManager().size();
+    int asteroidsOnScreen = getAsteroidManager().size();
+    if (enemiesOnScreen == 0 ||
+        (enemiesOnScreen < maxEnemiesOnScreen && enemySpawnGap > minEnemySpawnGap * enemiesOnScreen)) {
+        enemySpawnGap = 0;
+        enemyManager.emplace_back(Factory::createEnemy(getRandomEnemy(3, 1, 1, 1)));
+    }
+
+    if (asteroidsOnScreen < maxAsteroidsOnScreen && asteroidSpawnGap > nextAsteroidSpawnGap) {
+        asteroidManager.emplace_back(new Asteroid);
+        asteroidSpawnGap = 0;
+        nextAsteroidSpawnGap = getRandomReal(0, maxAsteroidSpawnGap);
+    }
+
+    if (powerUp == nullptr && score > nextPowerUpSpawnScore) {
+        powerUp = Factory::createPowerUp(
+                getRandomPowerUp(9, 1, player->isLaserActive(), player->getAuxiliaryCannons().size() == 2));
+        nextPowerUpSpawnScore += getRandomInt(400, maxPowerUpSpawnScore);
+    }
+
+    if (score > 1000 && score < 5000) {
+        maxEnemiesOnScreen = 4;
+        minEnemySpawnGap = 4;
+        maxAsteroidsOnScreen = 2;
+        maxAsteroidSpawnGap = 20;
+        maxPowerUpSpawnScore = 700;
+    }
+
+}
+
+void EntityManager::updatePowerUp(float time, sf::RectangleShape &hpHud) {
     if (powerUp != nullptr) {
         powerUp->getAnimator()->update(time);
         powerUp->move(time);
         if (EntityManager::isOutOfSigth(powerUp->getSprite())) {
-            powerUp.reset(new FireRate);
+            powerUp.reset();
         } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
+            auto &powerUpType = *(powerUp.get());
+            if (typeid(powerUpType) == typeid(FullHealth))
+                hpHud.setScale(1, 1);
             powerUp->powerUp(*player);
-            powerUp.reset(new AuxiliaryCannon);
+            powerUp.reset();
         }
     }
 }

@@ -5,7 +5,9 @@
 #include "Strength.h"
 
 
-Strength::Strength() : PowerUp(false) {}
+Strength::Strength() : PowerUp(false) {
+    sprite.setColor(sf::Color::Yellow);
+}
 
 void Strength::powerUp(Player &player) const {
     player.setStrength(player.getStrength() * 1.2f);

@@ -6,7 +6,16 @@
 #define ASPACEGAME_ENTITYMANAGER_H
 
 
+
 static const float finalMovementDuration = 3.f;
+
+static int maxEnemiesOnScreen = 3;
+static float minEnemySpawnGap = 5;
+static int maxAsteroidsOnScreen = 1;
+static float maxAsteroidSpawnGap = 30;
+static float nextAsteroidSpawnGap = 20;
+static int maxPowerUpSpawnScore = 600;
+static int nextPowerUpSpawnScore = 200;
 
 #include <list>
 #include <SFML/Audio.hpp>
@@ -38,9 +47,11 @@ public:
 
     void updateProjectiles(float time, bool isUsingSpecial);
 
-    void updatePowerUp(float time);
+    void updatePowerUp(float time, sf::RectangleShape &hpHud);
 
     void updateAsteroids(float time, bool isUsingSpecial);
+
+    void updateSpawn(float time);
 
     static bool isOutOfSigth(const sf::Sprite &sprite);
 
@@ -91,6 +102,11 @@ private:
     float finalMovementTime = 0;
     std::list<Cannon *> bossCurrentAttack = {};
     sf::Vector2f finalMovement;
+    float enemySpawnGap = 0;
+    float asteroidSpawnGap = 0;
+    float powerUpSpawnGap = 0;
+
+
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
     void

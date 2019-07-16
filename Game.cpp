@@ -154,11 +154,12 @@ void Game::processEvents() {
 void Game::update(const sf::Time &dt) {
 
     float time = dt.asSeconds();
+    entityManager.updateSpawn(time);
     entityManager.updateAsteroids(time, isUsingSpecial);
     entityManager.updateEnemies(time);
     entityManager.updatePlayer(time, isMovingRight, isMovingLeft, isShooting, isUsingSpecial, specialHud, hpHud);
     entityManager.updateProjectiles(time, isUsingSpecial);
-    entityManager.updatePowerUp(time);
+    entityManager.updatePowerUp(time, hpHud);
 
     scoreText.setString("Score: " + std::to_string(entityManager.getScore()));
     updateAchievement(time);

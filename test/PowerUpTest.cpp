@@ -65,7 +65,7 @@ TEST(FireRateTest, powerUp) {
 
     float i = raptor.getFireRate();
     fireRate.powerUp(raptor);
-    ASSERT_FLOAT_EQ(raptor.getFireRate(), i * 5);
+    ASSERT_FLOAT_EQ(raptor.getFireRate(), i * 1.2f);
 }
 
 TEST(FullHealthTest, powerUp) {

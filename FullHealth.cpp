@@ -4,7 +4,9 @@
 
 #include "FullHealth.h"
 
-FullHealth::FullHealth() : PowerUp(false) {}
+FullHealth::FullHealth() : PowerUp(false) {
+    sprite.setColor(sf::Color(255, 152, 214));
+}
 
 void FullHealth::powerUp(Player &player) const {
     player.setHp(player.getMaxHp());
