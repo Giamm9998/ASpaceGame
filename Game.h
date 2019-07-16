@@ -99,6 +99,8 @@ private:
     void insertScoreName(const std::string &currentName);
 
     std::string writeName();
+
+    void readFile();
 };
 
 #endif //ASPACEGAME_GAME_H

@@ -87,25 +87,16 @@ void Game::createHud() {
     gameOver.setPosition(175, 250);
     gameOver.setOutlineThickness(2);
     gameOver.setOutlineColor(sf::Color::Blue);
-    std::ifstream openFile("../leadboard.txt");
-    char fileText[100];
-    std::string fileComplete("Leadboard:\n");
-    int i = 0;
-    while (i++ < 10 && !openFile.eof()) {
-        openFile.getline(fileText, 100);
-        if (i % 2 != 0)
-            fileComplete += "\n";
-        fileComplete += (fileText);
-    }
+
+    readFile();
+
     leadboard.setFont(ResourceManager::getFont("../font/font.ttf"));
-    leadboard.setString(fileComplete);
     leadboard.setOrigin(leadboard.getGlobalBounds().width / 2, 0);
     leadboard.setCharacterSize(22);
     leadboard.setFillColor(sf::Color::White);
     leadboard.setOutlineThickness(0.5);
     leadboard.setOutlineColor(sf::Color::Yellow);
     leadboard.setPosition(windowWidth / 2 + 75, 375);
-    openFile.close();
 
     insertSCore.setFont(ResourceManager::getFont("../font/font.ttf"));
     insertSCore.setFillColor(sf::Color::White);
@@ -360,14 +351,15 @@ void Game::insertScoreName(const std::string &currentName) {
     leadboard.setPosition(insertSCore.getPosition().x + 210, insertSCore.getPosition().y + 200);
     while (i > 0 && !oFile.eof()) {
         oFile.write(scoresVect[i].second.data(), scoresVect[i].second.length());
-        leadboard.setString(leadboard.getString() + scoresVect[i].second + std::string(": "));
+        if (scoresVect[i].second != std::string("defaultvalue:"))
+            leadboard.setString(leadboard.getString() + scoresVect[i].second + std::string(" "));
         oFile.write("\n", 1);
         oFile.write(std::to_string(scoresVect[i].first).data(), std::to_string(scoresVect[i].first).length());
         if (scoresVect[i].second == currentName + std::string(": "))
             leadboard.setString(
                     leadboard.getString() + std::to_string(scoresVect[i].first) + std::string("        <---") +
                     std::string("\n"));
-        else
+        else if (scoresVect[i].second != std::string("defaultvalue:"))
             leadboard.setString(leadboard.getString() + std::to_string(scoresVect[i].first) + std::string("\n"));
         oFile.write("\n", 1);
         i--;
@@ -419,4 +411,33 @@ std::string Game::writeName() {
         }
     }
     return name;
+}
+
+void Game::readFile() {
+    std::ifstream openFile("../leadboard.txt");
+    char fileText[100];
+    std::string fileComplete("Leadboard:\n\n");
+    int i = 0;
+    bool zero = false;
+    while (i < 10 && !openFile.eof()) {
+        openFile.getline(fileText, 100);
+        if (i % 2 == 0) {
+            if (fileText == std::string("defaultvalue:")) {
+                zero = true;
+            } else {
+                fileComplete += (fileText + std::string(" "));
+            }
+        }
+        if (i % 2 != 0) {
+            if (zero) {
+                zero = false;
+            } else {
+                fileComplete += (fileText);
+                fileComplete += "\n";
+            }
+        }
+        i++;
+    }
+    leadboard.setString(fileComplete);
+    openFile.close();
 }
