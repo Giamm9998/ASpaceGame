@@ -20,17 +20,19 @@ std::list<Cannon *> &Boss::chooseAttack() { //fixme
     switch (choice) {
         case 0:
             currentAttack.clear();
-            currentAttack = simpleCannons;
+            for (auto &cannon : simpleCannons)
+                currentAttack.push_back(&cannon);
             currentAttack.push_back(&primaryCannon);
             break;
         case 1:
             currentAttack.clear();
-            currentAttack.push_back(mobileCannon);
+            currentAttack.push_back(&mobileCannon);
             break;
         case 2:
             currentAttack.clear();
-            currentAttack = bombCannon;
-            currentAttack.push_back(trackerCannon);
+            for (auto &cannon: bombCannon)
+                currentAttack.push_back(&cannon);
+            currentAttack.push_back(&trackerCannon);
             break;
         default:
             break;
@@ -52,19 +54,19 @@ Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f, Cannon(Projectile(400, 10.f * 1)),
     boundingBox.setScale(sprite.getScale());
     boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
-    simpleCannons.emplace_back(new Cannon(primaryCannon));
-    simpleCannons.back()->setLocalRelativePosition(sf::Vector2f(-250, 0));
-    simpleCannons.emplace_back(new Cannon(primaryCannon));
-    simpleCannons.back()->setLocalRelativePosition(sf::Vector2f(250, 0));
+    simpleCannons.emplace_back(Cannon(primaryCannon));
+    simpleCannons.back().setLocalRelativePosition(sf::Vector2f(-250, 0));
+    simpleCannons.emplace_back(Cannon(primaryCannon));
+    simpleCannons.back().setLocalRelativePosition(sf::Vector2f(250, 0));
     bombCannon.emplace_back(
-            new Cannon(Projectile(400, strength * 3, true, sf::Vector2f(0.9, 0.9)), 1, 3, false,
-                       sf::Vector2f(-250, 0)));
+            Cannon(Projectile(400, strength * 3, true, sf::Vector2f(0.9, 0.9)), 1, 3, false,
+                   sf::Vector2f(-250, 0)));
     bombCannon.emplace_back(
-            new Cannon(Projectile(400, strength * 3, true, sf::Vector2f(0.9, 0.9)), 1, 3, false, sf::Vector2f(250, 0)));
-    mobileCannon = new Cannon(primaryCannon);
-    mobileCannon->setFireRateMultiplier(5);
-    mobileCannon->setElapsedTime(0);
-    trackerCannon = new Cannon(Projectile(300, strength * 2), 1, 2, true);
+            Cannon(Projectile(400, strength * 3, true, sf::Vector2f(0.9, 0.9)), 1, 3, false, sf::Vector2f(250, 0)));
+    mobileCannon = Cannon(primaryCannon);
+    mobileCannon.setFireRateMultiplier(5);
+    mobileCannon.setElapsedTime(0);
+    trackerCannon = Cannon(Projectile(300, strength * 2), 1, 2, true);
 }
 
 std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
@@ -96,10 +98,4 @@ std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon) {
 }
 
 Boss::~Boss() {
-    delete mobileCannon;
-    delete trackerCannon;
-    for (auto &i:simpleCannons)
-        delete i;
-    for (auto &i:bombCannon)
-        delete i;
 }

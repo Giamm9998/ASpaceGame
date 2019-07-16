@@ -46,34 +46,60 @@ const std::unique_ptr<PowerUp> &EntityManager::getPowerUp() const {
 }
 
 void EntityManager::updateSpawn(float time) {
-    enemySpawnGap += time;
-    asteroidSpawnGap += time;
     int enemiesOnScreen = getEnemyManager().size();
     int asteroidsOnScreen = getAsteroidManager().size();
-    if (enemiesOnScreen == 0 ||
-        (enemiesOnScreen < maxEnemiesOnScreen && enemySpawnGap > minEnemySpawnGap * enemiesOnScreen)) {
-        enemySpawnGap = 0;
-        enemyManager.emplace_back(Factory::createEnemy(getRandomEnemy(3, 1, 1, 1)));
-    }
+    asteroidSpawnGap += time;
+    if (!bossMode) {
+        enemySpawnGap += time;
+        if ((enemiesOnScreen == 0 && enemySpawnGap >= 0) ||
+            (enemiesOnScreen < maxEnemiesOnScreen && enemySpawnGap > minEnemySpawnGap * enemiesOnScreen)) {
+            enemySpawnGap = 0;
+            enemyManager.emplace_back(Factory::createEnemy(getRandomEnemy(3, 1, 1, 1)));
+        }
 
-    if (asteroidsOnScreen < maxAsteroidsOnScreen && asteroidSpawnGap > nextAsteroidSpawnGap) {
-        asteroidManager.emplace_back(new Asteroid);
-        asteroidSpawnGap = 0;
-        nextAsteroidSpawnGap = getRandomReal(0, maxAsteroidSpawnGap);
-    }
+        if (asteroidsOnScreen < maxAsteroidsOnScreen && asteroidSpawnGap > nextAsteroidSpawnGap) {
+            asteroidManager.emplace_back(new Asteroid);
+            asteroidSpawnGap = 0;
+            nextAsteroidSpawnGap = getRandomReal(0, maxAsteroidSpawnGap);
+        }
 
-    if (powerUp == nullptr && score > nextPowerUpSpawnScore) {
-        powerUp = Factory::createPowerUp(
-                getRandomPowerUp(9, 1, player->isLaserActive(), player->getAuxiliaryCannons().size() == 2));
-        nextPowerUpSpawnScore += getRandomInt(400, maxPowerUpSpawnScore);
-    }
+        if (powerUp == nullptr && score > nextPowerUpSpawnScore) {
+            powerUp = Factory::createPowerUp(
+                    getRandomPowerUp(9, 1, player->isLaserActive(), player->getAuxiliaryCannons().size() == 2));
+            nextPowerUpSpawnScore += getRandomInt(400, maxPowerUpSpawnScore);
+        }
 
-    if (score > 1000 && score < 5000) {
-        maxEnemiesOnScreen = 4;
-        minEnemySpawnGap = 4;
-        maxAsteroidsOnScreen = 2;
-        maxAsteroidSpawnGap = 20;
-        maxPowerUpSpawnScore = 700;
+        if (score > 1000 && score < 5000) {
+            maxEnemiesOnScreen = 4;
+            minEnemySpawnGap = 4;
+            maxAsteroidsOnScreen = 2;
+            maxAsteroidSpawnGap = 20;
+            maxPowerUpSpawnScore = 700;
+        } else if (score > 5000 * (killedBosses + 1)) {
+            bossMode = true;
+        }
+    } else {
+        if (!bossKilled) {
+            if (enemiesOnScreen == 0) {
+                enemyManager.emplace_back(Factory::createEnemy(EnemyType::Boss));
+                bossAttackTime = 10;
+                bossCurrentAttack.clear();
+            }
+
+            if (asteroidsOnScreen < (maxAsteroidsOnScreen + killedBosses) && asteroidSpawnGap > nextAsteroidSpawnGap) {
+                asteroidManager.emplace_back(new Asteroid);
+                asteroidSpawnGap = 0;
+                nextAsteroidSpawnGap = getRandomReal(0, maxAsteroidSpawnGap / (killedBosses + 1));
+            }
+        } else {
+            powerUp = Factory::createPowerUp(
+                    getRandomPowerUp(0, 1, player->isLaserActive(), player->getAuxiliaryCannons().size() == 2));
+            asteroidSpawnGap = -5;
+            enemySpawnGap = -5;
+            nextPowerUpSpawnScore = score + getRandomInt(400, maxPowerUpSpawnScore);
+            bossMode = false;
+            bossKilled = false;
+        }
     }
 
 }
@@ -159,20 +185,27 @@ void EntityManager::updateEnemies(float time) {
         if ((enemy)->getHp() <= 0) {
             if (typeid(*enemy) == typeid(Kamikaze) && enemy->getDyingTime() == 0) {
                 if (enemy->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds())) {
-                    player->receiveDamage(1000);
+                    player->receiveDamage(200);
                 }
                 for (auto otherEnemyIter = enemyManager.begin(); otherEnemyIter != enemyManager.end(); otherEnemyIter++)
                     if (otherEnemyIter != enemyIter) {
                         if (enemy->getSprite().getGlobalBounds().intersects(
                                 (*otherEnemyIter)->getSprite().getGlobalBounds())) {
-                            (*otherEnemyIter)->receiveDamage(1000);
+                            (*otherEnemyIter)->receiveDamage(200);
                         }
+                    }
+                for (auto &asteroidIter : asteroidManager) //todo test if works in game
+                    if (enemy->getSprite().getGlobalBounds().intersects(
+                            asteroidIter->getSprite().getGlobalBounds())) {
+                        asteroidIter->receiveDamage(200);
                     }
             }
             if ((enemy)->die(time)) {
                 killedSpaceships++;
-                if (typeid(*enemy) == typeid(Boss))
+                if (typeid(*enemy) == typeid(Boss)) {
                     killedBosses++;
+                    bossKilled = true;
+                }
                 score += static_cast<int>(enemy->getMaxHp());
                 notify();
                 enemyManager.erase(enemyIter++);

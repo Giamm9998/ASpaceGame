@@ -31,10 +31,10 @@ public:
     std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon) override;
 
 private:
-    std::list<Cannon *> simpleCannons;
-    Cannon *mobileCannon;
-    Cannon *trackerCannon;
-    std::list<Cannon *> bombCannon;
+    std::list<Cannon> simpleCannons;
+    Cannon mobileCannon;
+    Cannon trackerCannon;
+    std::list<Cannon> bombCannon;
     float mobileTime = 0;
     double angle = M_PI / 4;
     std::list<Cannon *> currentAttack = {};

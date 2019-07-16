@@ -104,8 +104,8 @@ private:
     sf::Vector2f finalMovement;
     float enemySpawnGap = 0;
     float asteroidSpawnGap = 0;
-    float powerUpSpawnGap = 0;
-
+    bool bossMode = false;
+    bool bossKilled = false;
 
     static float dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
