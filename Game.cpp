@@ -23,8 +23,8 @@ Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), stat
     achievement.attach();
     achievementDuration = 0;
     achievementSound.setBuffer(ResourceManager::getSoundBuffer("../sound/achievement.wav"));
-
-
+    achievementSound.setVolume(50);
+    key.setBuffer(ResourceManager::getSoundBuffer("../sound/key.wav"));
     background = std::unique_ptr<Background>(new Background);
 
     window.setFramerateLimit(60);
@@ -149,17 +149,21 @@ void Game::processEvents() {
             switch (event.type) {
                 case sf::Event::KeyPressed:
                     if (event.key.code == sf::Keyboard::Enter && !nameEntered) {
+                        key.play();
                         insertScoreName();
                         nameEntered = true;
                     } else if (event.key.code == sf::Keyboard::BackSpace && !nameEntered) {
+                        key.play();
                         std::string name = nameText.getString();
                         name = name.substr(0, std::max(static_cast<unsigned long>(0), name.length() - 1));
                         nameText.setString(name);
                     }
                     break;
                 case sf::Event::TextEntered:
-                    if (nameText.getString().getSize() < 10 && !nameEntered && event.text.unicode != 8)
+                    if (nameText.getString().getSize() < 10 && !nameEntered && event.text.unicode != 8) {
+                        key.play();
                         nameText.setString(nameText.getString() + (sf::String(event.text.unicode)));
+                    }
                     break;
                 case sf::Event::Closed:
                     window.close();

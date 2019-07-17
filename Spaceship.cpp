@@ -12,7 +12,7 @@ Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, cons
     sprite.setScale(maxScale, maxScale);
 
     explosionSound.setBuffer(ResourceManager::getSoundBuffer("../sound/explosion.wav"));
-    explosionSound.setVolume(75);
+    explosionSound.setVolume(50);
     unsigned int frames = 8;
     unsigned int rows = 5;
     for (int i = 0; i < this->explosionNum; i++) {

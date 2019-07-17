@@ -78,6 +78,7 @@ private:
     Achievement achievement;
     float achievementDuration;
     sf::Sound achievementSound;
+    sf::Sound key;
 
     bool nameEntered = false;
 

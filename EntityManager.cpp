@@ -414,14 +414,17 @@ bool EntityManager::isOutOfSigth(const sf::Sprite &sprite) {
 
 void EntityManager::createSounds() {
     shotSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shot.wav"));
-    shotSound.setVolume(30);
+    shotSound.setVolume(20);
     bombSound.setBuffer(ResourceManager::getSoundBuffer("../sound/bomb.wav"));
-    bombSound.setVolume(30);
+    bombSound.setVolume(20);
     mainTheme.setBuffer(ResourceManager::getSoundBuffer("../sound/Music.wav"));
     mainTheme.setLoop(true);
+    mainTheme.setVolume(70);
     shieldSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shield.wav"));
+    shieldSound.setVolume(60);
     mainTheme.play();
     gameOver.setBuffer(ResourceManager::getSoundBuffer("../sound/gameOver.wav"));
+    gameOver.setVolume(50);
 }
 
 void EntityManager::subscribe(Observer *o) {

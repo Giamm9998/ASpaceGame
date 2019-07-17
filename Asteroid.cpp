@@ -27,7 +27,7 @@ void Asteroid::move(float dt) {
 Asteroid::Asteroid() : speed(getRandomReal(asteroidMinSpeed, asteroidMaxSpeed)),
                        size(getRandomReal(asteroidMinSize, asteroidMaxSize)) {
     crash.setBuffer(ResourceManager::getSoundBuffer("../sound/crash.wav"));
-    crash.setVolume(50);
+    crash.setVolume(20);
     hp = asteroidMaxHp / asteroidMaxSize * size;
     startingHp = hp;
     auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
