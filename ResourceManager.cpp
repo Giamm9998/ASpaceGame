@@ -4,6 +4,8 @@
 
 #include <cassert>
 #include "ResourceManager.h"
+#include <exception>
+#include <iostream>
 
 ResourceManager *ResourceManager::sInstance = nullptr;
 
@@ -21,7 +23,7 @@ sf::Texture &ResourceManager::getTexture(std::string const &filename) {
         return pairFound->second;
     } else {
         auto &texture = texMap[filename];
-        texture.loadFromFile(filename); //todo handle exception
+        texture.loadFromFile(filename);
         return texture;
     }
 }

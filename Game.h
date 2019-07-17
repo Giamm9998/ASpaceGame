@@ -68,6 +68,7 @@ private:
     sf::Text playerNames;
     sf::Text gameOver;
     sf::Text leadboard;
+    sf::Text leadboardTitle;
     sf::Text insertScore;
     sf::Text nameText;
     sf::Sprite bomberSprite;

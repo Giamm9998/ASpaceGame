@@ -26,6 +26,8 @@ void Asteroid::move(float dt) {
 
 Asteroid::Asteroid() : speed(getRandomReal(asteroidMinSpeed, asteroidMaxSpeed)),
                        size(getRandomReal(asteroidMinSize, asteroidMaxSize)) {
+    crash.setBuffer(ResourceManager::getSoundBuffer("../sound/crash.wav"));
+    crash.setVolume(50);
     hp = asteroidMaxHp / asteroidMaxSize * size;
     startingHp = hp;
     auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
@@ -61,6 +63,8 @@ void Asteroid::blink(float time) {
 }
 
 bool Asteroid::die(float time) {
+    if (dyingTime == 0)
+        crash.play();
     dyingTime += time;
     sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
     return dyingTime >= dyingDuration;
