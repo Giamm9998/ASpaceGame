@@ -20,7 +20,7 @@
 #include "Functions.h"
 #include "FullHealth.h"
 
-EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(0) {
+EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(5001) {
 
     createSounds();
 }
@@ -50,6 +50,8 @@ void EntityManager::updateSpawn(float time) {
     int asteroidsOnScreen = getAsteroidManager().size();
     asteroidSpawnGap += time;
     if (!bossMode) {
+        if (mainTheme.getStatus() == sf::Sound::Stopped && bossEnd.getStatus() == sf::Sound::Stopped)
+            mainTheme.play();
         enemySpawnGap += time;
         if ((enemiesOnScreen == 0 && enemySpawnGap >= 0) ||
             (enemiesOnScreen < maxEnemiesOnScreen && enemySpawnGap > minEnemySpawnGap)) {
@@ -111,11 +113,16 @@ void EntityManager::updateSpawn(float time) {
     } else {
         if (!bossKilled) {
             if (enemiesOnScreen == 0) {
+                mainTheme.stop();
+                bossBegin.play();
                 enemyManager.emplace_back(Factory::createEnemy(EnemyType::Boss));
                 bossAttackTime = 10;
                 bossCurrentAttack.clear();
                 enemyManager.front()->setHp(3000 * (1 + killedBosses));
             }
+            if (bossMiddle.getStatus() != sf::Sound::Playing && typeid(*enemyManager.front().get()) == typeid(Boss) &&
+                bossBegin.getStatus() == sf::Sound::Stopped) //todo
+                bossMiddle.play();
 
             if (asteroidsOnScreen < (maxAsteroidsOnScreen + killedBosses) && asteroidSpawnGap > nextAsteroidSpawnGap) {
                 asteroidManager.emplace_back(new Asteroid);
@@ -123,6 +130,8 @@ void EntityManager::updateSpawn(float time) {
                 nextAsteroidSpawnGap = getRandomReal(0, maxAsteroidSpawnGap / (killedBosses + 1));
             }
         } else {
+            bossMiddle.stop();
+            bossEnd.play();
             powerUp = Factory::createPowerUp(
                     getRandomPowerUp(0, 1, player->getHp() == player->getMaxHp(), player->isLaserActive(),
                                      player->getAuxiliaryCannons().size() == 2));
@@ -449,6 +458,11 @@ void EntityManager::createSounds() {
     mainTheme.play();
     gameOver.setBuffer(ResourceManager::getSoundBuffer("../sound/gameOver.wav"));
     gameOver.setVolume(50);
+    bossBegin.setBuffer(ResourceManager::getSoundBuffer("../sound/bossBegin.wav"));
+    bossMiddle.setBuffer(ResourceManager::getSoundBuffer("../sound/bossMiddle.wav"));
+    bossMiddle.setLoop(true);
+    bossEnd.setBuffer(ResourceManager::getSoundBuffer("../sound/bossEnd.wav"));
+
 }
 
 void EntityManager::subscribe(Observer *o) {
