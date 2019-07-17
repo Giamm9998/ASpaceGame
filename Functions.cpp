@@ -48,16 +48,18 @@ EnemyType getRandomEnemy(int minionRatio, int fighterRatio, int assaulterRatio, 
 
 PowerUpType
 getRandomPowerUp(int commonRatio, int specialRatio, bool hasMaxHp, bool isLaserActive, bool hasThreeCannons) {
-    int powerUp = getRandomInt(1, 1);
+    int powerUp = getRandomInt(1, commonRatio + specialRatio);
     if (powerUp <= commonRatio) {
-        switch (getRandomInt(1, 1)) {
+        switch (getRandomInt(1, 4 - hasMaxHp)) {
             case 1:
-                return PowerUpType::EnhanceSpecial;
+                return PowerUpType::Speed;
             case 2:
                 return PowerUpType::FireRate;
             case 3:
                 return PowerUpType::Strength;
             case 4:
+                return PowerUpType::FullHealth;
+            default:
                 return PowerUpType::FullHealth;
         }
     } else {
@@ -71,6 +73,8 @@ getRandomPowerUp(int commonRatio, int specialRatio, bool hasMaxHp, bool isLaserA
                     return PowerUpType::LaserCannon;
             case 3:
                 return PowerUpType::AuxiliaryCannon;
+            default:
+                return PowerUpType::EnhanceSpecial;
         }
     }
 
