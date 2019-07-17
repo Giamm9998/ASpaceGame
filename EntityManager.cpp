@@ -52,7 +52,7 @@ void EntityManager::updateSpawn(float time) {
     if (!bossMode) {
         enemySpawnGap += time;
         if ((enemiesOnScreen == 0 && enemySpawnGap >= 0) ||
-            (enemiesOnScreen < maxEnemiesOnScreen && enemySpawnGap > minEnemySpawnGap * enemiesOnScreen)) {
+            (enemiesOnScreen < maxEnemiesOnScreen && enemySpawnGap > minEnemySpawnGap)) {
             enemySpawnGap = 0;
             enemyManager.emplace_back(Factory::createEnemy(getRandomEnemy(3, 1, 1, 1)));
         }
@@ -66,17 +66,29 @@ void EntityManager::updateSpawn(float time) {
         if (powerUp == nullptr && score > nextPowerUpSpawnScore) {
             powerUp = Factory::createPowerUp(
                     getRandomPowerUp(9, 1, player->isLaserActive(), player->getAuxiliaryCannons().size() == 2));
-            nextPowerUpSpawnScore += getRandomInt(400, maxPowerUpSpawnScore);
+            nextPowerUpSpawnScore += getRandomInt(maxPowerUpSpawnScore - 200, maxPowerUpSpawnScore);
         }
 
-        if (score > 1000 && score < 5000) {
+        if (score > 1000 && score <= 3000) {
             maxEnemiesOnScreen = 4;
-            minEnemySpawnGap = 4;
+            minEnemySpawnGap = 5;
             maxAsteroidsOnScreen = 2;
             maxAsteroidSpawnGap = 20;
-            maxPowerUpSpawnScore = 700;
+            maxPowerUpSpawnScore = 1000;
+        } else if (score > 3000 && score <= 5000) {
+            maxEnemiesOnScreen = 5;
+            minEnemySpawnGap = 4;
+            maxAsteroidsOnScreen = 3;
+            maxAsteroidSpawnGap = 15;
+            maxPowerUpSpawnScore = 1200;
         } else if (score > 5000 * (killedBosses + 1)) {
             bossMode = true;
+        } else if (score > 5000 && score < 10000) {
+            maxEnemiesOnScreen = 6;
+            minEnemySpawnGap = 3.5;
+            maxAsteroidsOnScreen = 4;
+            maxAsteroidSpawnGap = 10;
+            maxPowerUpSpawnScore = 1500;
         }
     } else {
         if (!bossKilled) {
@@ -94,9 +106,9 @@ void EntityManager::updateSpawn(float time) {
         } else {
             powerUp = Factory::createPowerUp(
                     getRandomPowerUp(0, 1, player->isLaserActive(), player->getAuxiliaryCannons().size() == 2));
-            asteroidSpawnGap = -5;
-            enemySpawnGap = -5;
-            nextPowerUpSpawnScore = score + getRandomInt(400, maxPowerUpSpawnScore);
+            asteroidSpawnGap = -10;
+            enemySpawnGap = -10;
+            nextPowerUpSpawnScore = score + getRandomInt(maxPowerUpSpawnScore - 200, maxPowerUpSpawnScore);
             bossMode = false;
             bossKilled = false;
         }

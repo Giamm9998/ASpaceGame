@@ -10,11 +10,11 @@
 static const float finalMovementDuration = 3.f;
 
 static int maxEnemiesOnScreen = 3;
-static float minEnemySpawnGap = 5;
+static float minEnemySpawnGap = 6;
 static int maxAsteroidsOnScreen = 1;
 static float maxAsteroidSpawnGap = 30;
 static float nextAsteroidSpawnGap = 20;
-static int maxPowerUpSpawnScore = 600;
+static int maxPowerUpSpawnScore = 800;
 static int nextPowerUpSpawnScore = 200;
 
 #include <list>
