@@ -46,10 +46,11 @@ EnemyType getRandomEnemy(int minionRatio, int fighterRatio, int assaulterRatio, 
         return EnemyType::Kamikaze;
 }
 
-PowerUpType getRandomPowerUp(int commonRatio, int specialRatio, bool isLaserActive, bool hasThreeCannons) {
+PowerUpType
+getRandomPowerUp(int commonRatio, int specialRatio, bool hasMaxHp, bool isLaserActive, bool hasThreeCannons) {
     int powerUp = getRandomInt(1, commonRatio + specialRatio);
     if (powerUp <= commonRatio) {
-        switch (getRandomInt(1, 4)) {
+        switch (getRandomInt(1, 4 - hasMaxHp)) {
             case 1:
                 return PowerUpType::Speed;
             case 2:

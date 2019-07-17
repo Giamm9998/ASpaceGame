@@ -82,6 +82,13 @@ TEST(EntityManagerTest, projectileCollision) {
     ASSERT_TRUE(entityManager.getProjectileManager().empty());
     ASSERT_FLOAT_EQ (entityManager.getAsteroidManager().front()->getHp(),
                      (asteroidMaxHp / asteroidMaxSize * entityManager.getAsteroidManager().front()->getSize()) - 10);
+    entityManager.emplaceProjectileTest(std::unique_ptr<Projectile>(new Projectile(0, 10, false)));
+    entityManager.getAsteroidManagerTest().front()->receiveDamage(1000);
+    entityManager.getProjectileManager().front()->getSprite().setPosition(
+            entityManager.getAsteroidManager().front()->getSprite().getPosition());
+    entityManager.checkForProjectileCollisionsTest(projectileIter, false);
+    ASSERT_FALSE(entityManager.getProjectileManager().empty());
+    entityManager.getProjectileManagerTest().clear();
 
 
     entityManager.getEnemyManagerTest().clear(); //todo temporary

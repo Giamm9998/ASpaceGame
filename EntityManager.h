@@ -9,9 +9,9 @@
 
 static const float finalMovementDuration = 3.f;
 
-static int maxEnemiesOnScreen = 3;
+static int maxEnemiesOnScreen = 2;
 static float minEnemySpawnGap = 6;
-static int maxAsteroidsOnScreen = 1;
+static int maxAsteroidsOnScreen = 2;
 static float maxAsteroidSpawnGap = 30;
 static float nextAsteroidSpawnGap = 20;
 static int maxPowerUpSpawnScore = 800;

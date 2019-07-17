@@ -7,7 +7,11 @@
 #include "Functions.h"
 
 void Fighter::move(float time) {
-    Enemy::move(time);
+    elapsedTime += time;
+    if (elapsedTime < 0)
+        spawn(time);
+    else
+        Enemy::move(time);
 }
 
 Fighter::Fighter() : Enemy(125.f, 20.f, 70.f, 0.6f, Cannon(Projectile(250, 20.f * 1)), 5) {

@@ -17,7 +17,7 @@ void EnhanceSpecial::powerUp(Player &player) const {
     }
     if (typeid(player) == typeid(Bomber)) {
         dynamic_cast<Bomber &>(player).getSecondaryCannon().setFireRateMultiplier(
-                dynamic_cast<Bomber &>(player).getSecondaryCannon().getFireRateMultiplier() * 2);
+                dynamic_cast<Bomber &>(player).getSecondaryCannon().getFireRateMultiplier() * 1.5f);
         player.getPowerUpSound().play();
     }
 }

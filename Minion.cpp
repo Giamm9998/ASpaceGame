@@ -22,7 +22,9 @@ Minion::Minion() : Enemy(75.f, 15.f, 100.f, 0.5f, Cannon(Projectile(250, 15.f * 
 
 void Minion::move(float time) {
     elapsedTime += time;
-    if (elapsedTime <= minionFreezeDuration) {
+    if (elapsedTime < 0)
+        spawn(time);
+    else if (elapsedTime <= minionFreezeDuration) {
         Enemy::move(time);
     } else if (elapsedTime > 2 * minionFreezeDuration)
         elapsedTime = 0;

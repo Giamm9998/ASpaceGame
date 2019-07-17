@@ -106,6 +106,10 @@ const std::list<sf::Sprite> &Spaceship::getExplosions() const {
     return explosions;
 }
 
+float Spaceship::getElapsedTime() const {
+    return elapsedTime;
+}
+
 
 Spaceship::~Spaceship() = default;
 

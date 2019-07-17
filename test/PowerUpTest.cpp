@@ -56,16 +56,16 @@ TEST(EnhanceSpecialTest, powerUp) {
 
     i = bomber.getSecondaryCannon().getFireRateMultiplier();
     enhanceSpecial.powerUp(bomber);
-    ASSERT_FLOAT_EQ(bomber.getSecondaryCannon().getFireRateMultiplier(), i * 2);
+    ASSERT_FLOAT_EQ(bomber.getSecondaryCannon().getFireRateMultiplier(), i * 1.5f);
 }
 
 TEST(FireRateTest, powerUp) {
     Raptor raptor;
     FireRate fireRate;
 
-    float i = raptor.getFireRate();
+    float i = raptor.getPrimaryCannon().getFireRateMultiplier();
     fireRate.powerUp(raptor);
-    ASSERT_FLOAT_EQ(raptor.getFireRate(), i * 1.2f);
+    ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), i * 1.2f);
 }
 
 TEST(FullHealthTest, powerUp) {

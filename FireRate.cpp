@@ -5,10 +5,10 @@
 #include "FireRate.h"
 
 FireRate::FireRate() : PowerUp(false) {
-    sprite.setColor(sf::Color(216, 143, 255));
+    sprite.setColor(sf::Color(132, 70, 240));
 }
 
 void FireRate::powerUp(Player &player) const {
-    player.setFireRate(player.getFireRate() * 1.2f);
+    player.getPrimaryCannon().setFireRateMultiplier(player.getPrimaryCannon().getFireRateMultiplier() * 1.2f);
     player.getPowerUpSound().play();
 }

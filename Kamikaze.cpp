@@ -10,7 +10,12 @@
 void Kamikaze::move(float time) {
     if (!attacking) {
         elapsedTime += time;
-        if (elapsedTime >= kamikazeFreezeDuration && elapsedTime - kamikazeFreezeDuration < kamikazeMoveDuration) {
+        if (elapsedTime < 0) {
+            spawn(time);
+            if (elapsedTime > -enemySpawnDuration)
+                elapsedTime = kamikazeFreezeDuration;
+        } else if (elapsedTime >= kamikazeFreezeDuration &&
+                   elapsedTime - kamikazeFreezeDuration < kamikazeMoveDuration) {
             sprite.move(movement * speed * time);
             boundingBox.setPosition(sprite.getPosition());
         } else if (elapsedTime >= kamikazeFreezeDuration + kamikazeMoveDuration) {
@@ -132,7 +137,6 @@ Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStregth, kamikazeSpeed, kamikaz
     sprite.setPosition(static_cast<float>(windowWidth) / 2,
                        (kamikazeMaxHeight + sprite.getOrigin().y * sprite.getScale().y) / 2);
 
-    elapsedTime = kamikazeFreezeDuration;
     boundingBox.setSize(sf::Vector2f(1.5f * sprite.getOrigin().x,
                                      1.5f * sprite.getOrigin().y));
     boundingBox.setScale(sprite.getScale());
@@ -143,6 +147,7 @@ Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStregth, kamikazeSpeed, kamikaz
         explosion.setScale(explosion.getScale() * 1.5f);
     }
 
+    elapsedTime = -2 * enemySpawnDuration;
     attacking = false;
 }
 

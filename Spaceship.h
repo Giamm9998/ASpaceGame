@@ -63,6 +63,8 @@ public:
 
     const std::list<sf::Sprite> &getExplosions() const;
 
+    float getElapsedTime() const;
+
 protected:
     float hp;
     float strength;

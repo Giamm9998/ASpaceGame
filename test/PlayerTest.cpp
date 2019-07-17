@@ -52,7 +52,7 @@ TEST(RaptorTest, Constructor) {
     ASSERT_EQ(raptor.isReceivingDamage(), false);
     ASSERT_EQ(raptor.isCharging(), false);
     ASSERT_EQ(raptor.isLaserActive(), false);
-    ASSERT_EQ(raptor.getShieldDuration(), 2);
+    ASSERT_EQ(raptor.getShieldDuration(), 1);
     ASSERT_EQ(raptor.getAuxiliaryCannons().empty(), true);
     ASSERT_EQ(raptor.getPrimaryCannon().isTracker(), false);
     ASSERT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), 1);
@@ -69,7 +69,7 @@ TEST(RaptorTest, Constructor) {
 }
 
 TEST(RaptorTest, shield) {
-    float time = 1.5;
+    float time = 0.75;
     Raptor raptor;
     sf::RectangleShape r;
     r.setScale(sf::Vector2f(1, 1));
