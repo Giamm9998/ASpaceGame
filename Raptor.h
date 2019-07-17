@@ -5,7 +5,7 @@
 #ifndef ASPACEGAME_RAPTOR_H
 #define ASPACEGAME_RAPTOR_H
 
-static const int rechargeTime = 30;
+static const int rechargeTime = 60;
 
 #include "Player.h"
 

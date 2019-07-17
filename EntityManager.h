@@ -16,6 +16,8 @@ static float maxAsteroidSpawnGap = 30;
 static float nextAsteroidSpawnGap = 20;
 static int maxPowerUpSpawnScore = 800;
 static int nextPowerUpSpawnScore = 200;
+static int nextBossSpawnScore = 5000;
+
 
 #include <list>
 #include <SFML/Audio.hpp>
@@ -47,7 +49,7 @@ public:
 
     void updateProjectiles(float time, bool isUsingSpecial);
 
-    void updatePowerUp(float time, sf::RectangleShape &hpHud);
+    void updatePowerUp(float time, sf::RectangleShape &hpHud, sf::RectangleShape &specialHud);
 
     void updateAsteroids(float time, bool isUsingSpecial);
 

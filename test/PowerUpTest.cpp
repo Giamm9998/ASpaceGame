@@ -52,7 +52,7 @@ TEST(EnhanceSpecialTest, powerUp) {
 
     float i = raptor.getShieldDuration();
     enhanceSpecial.powerUp(raptor);
-    ASSERT_FLOAT_EQ(raptor.getShieldDuration(), i * 1.5);
+    ASSERT_FLOAT_EQ(raptor.getShieldDuration(), i * 1.2f);
 
     i = bomber.getSecondaryCannon().getFireRateMultiplier();
     enhanceSpecial.powerUp(bomber);

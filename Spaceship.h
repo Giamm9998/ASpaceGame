@@ -65,6 +65,8 @@ public:
 
     float getElapsedTime() const;
 
+    void setElapsedTime(float elapsedTime);
+
 protected:
     float hp;
     float strength;

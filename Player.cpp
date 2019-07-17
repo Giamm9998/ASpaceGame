@@ -6,6 +6,7 @@
 #include "Raptor.h"
 #include "Game.h"
 #include "Functions.h"
+#include "Player.h"
 
 
 Player::Player(float hp, float strength, float speed, float fireRate, const Cannon &cannon) :
@@ -125,3 +126,6 @@ void Player::setMovable(bool move) {
     Player::movable = move;
 }
 
+void Player::setCharging(bool charge) {
+    Player::charging = charge;
+}

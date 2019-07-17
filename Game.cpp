@@ -168,6 +168,8 @@ void Game::processEvents() {
                 case sf::Event::Closed:
                     window.close();
                     break;
+                default:
+                    break;
             }
         } else {
             switch (event.type) {
@@ -201,7 +203,7 @@ void Game::update(const sf::Time &dt) {
     entityManager.updateEnemies(time);
     entityManager.updatePlayer(time, isMovingRight, isMovingLeft, isShooting, isUsingSpecial, specialHud, hpHud);
     entityManager.updateProjectiles(time, isUsingSpecial);
-    entityManager.updatePowerUp(time, hpHud);
+    entityManager.updatePowerUp(time, hpHud, specialHud);
 
     scoreText.setString("Score: " + std::to_string(entityManager.getScore()));
     updateAchievement(time);

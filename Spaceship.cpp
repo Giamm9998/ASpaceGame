@@ -110,6 +110,10 @@ float Spaceship::getElapsedTime() const {
     return elapsedTime;
 }
 
+void Spaceship::setElapsedTime(float elapsedTime) {
+    Spaceship::elapsedTime = elapsedTime;
+}
+
 
 Spaceship::~Spaceship() = default;
 

@@ -104,6 +104,7 @@ void Kamikaze::attract(float time) {
                 hp = 0;
         }
     } else {
+        boundingBox.setScale(0, 0);
         if (elapsedTime - acquiringTime <= finalMovementDuration) {
             if (static_cast<int>((elapsedTime) * 4) % (1 * 2) < 1)
                 beam.setFillColor(

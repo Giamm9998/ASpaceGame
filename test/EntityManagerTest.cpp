@@ -51,7 +51,7 @@ TEST(EntityManagerTest, projectileCollision) {
     entityManager.checkForProjectileCollisionsTest(projectileIter, false);
     ASSERT_TRUE(entityManager.getProjectileManager().empty());
 
-    entityManager.getPlayer()->setChargingTest(false);
+    entityManager.getPlayer()->setCharging(false);
     entityManager.emplaceProjectileTest(std::unique_ptr<Projectile>(new Projectile(0, 10)));
     entityManager.getProjectileManager().front()->getSprite().setPosition(
             entityManager.getPlayer()->getSprite().getPosition());
@@ -121,7 +121,7 @@ TEST(EntityManagerTest, asteroidCollision) {
     entityManager.checkForAsteroidCollisionsTest(asteroidIter, false);
     ASSERT_TRUE(entityManager.getAsteroidManager().empty());
 
-    entityManager.getPlayer()->setChargingTest(false);
+    entityManager.getPlayer()->setCharging(false);
     entityManager.getAsteroidManagerTest().emplace_back(new Asteroid);
     entityManager.getAsteroidManager().front()->getSprite().setPosition(
             entityManager.getPlayer()->getSprite().getPosition());

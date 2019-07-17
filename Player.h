@@ -52,8 +52,9 @@ public:
 
     void setMovable(bool move);
 
-protected:
+    void setCharging(bool charge);
 
+protected:
     bool charging;
     bool movable = true;
     std::vector<Cannon> auxiliaryCannons;
@@ -61,14 +62,9 @@ protected:
     sf::Sprite laser;
     Animator *laserAnimator = new Animator(laser);
     sf::Sound laserSound;
+
+
     sf::Sound powerUpSound;
-
-
-    /// TEST METHODS
-public:
-    void setChargingTest(bool charge) {
-        Player::charging = charge;
-    }
 
 };
 

@@ -19,8 +19,9 @@
 #include "Factory.h"
 #include "Functions.h"
 #include "FullHealth.h"
+#include "EnhanceSpecial.h"
 
-EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(5001) {
+EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(0) {
 
     createSounds();
 }
@@ -67,7 +68,7 @@ void EntityManager::updateSpawn(float time) {
 
         if (powerUp == nullptr && score > nextPowerUpSpawnScore) {
             powerUp = Factory::createPowerUp(
-                    getRandomPowerUp(9, 1, player->getHp() == player->getMaxHp(), player->isLaserActive(),
+                    getRandomPowerUp(1, 0, player->getHp() == player->getMaxHp(), player->isLaserActive(),
                                      player->getAuxiliaryCannons().size() == 2));
             nextPowerUpSpawnScore += getRandomInt(maxPowerUpSpawnScore - 200, maxPowerUpSpawnScore);
         }
@@ -89,7 +90,7 @@ void EntityManager::updateSpawn(float time) {
             maxAsteroidsOnScreen = 3;
             maxAsteroidSpawnGap = 15;
             maxPowerUpSpawnScore = 1100;
-        } else if (score > 5000 * (killedBosses + 1)) {
+        } else if (score > nextBossSpawnScore) {
             bossMode = true;
         } else if (score > 5000 && score < 10000) {
             maxEnemiesOnScreen = 5;
@@ -140,21 +141,25 @@ void EntityManager::updateSpawn(float time) {
             nextPowerUpSpawnScore = score + getRandomInt(maxPowerUpSpawnScore - 200, maxPowerUpSpawnScore);
             bossMode = false;
             bossKilled = false;
+            nextBossSpawnScore = score + 5000;
         }
     }
 
 }
 
-void EntityManager::updatePowerUp(float time, sf::RectangleShape &hpHud) {
+void EntityManager::updatePowerUp(float time, sf::RectangleShape &hpHud, sf::RectangleShape &specialHud) {
     if (powerUp != nullptr) {
         powerUp->getAnimator()->update(time);
         powerUp->move(time);
         if (EntityManager::isOutOfSigth(powerUp->getSprite())) {
             powerUp.reset();
         } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
+            auto &playerType = *(player.get());
             auto &powerUpType = *(powerUp.get());
             if (typeid(powerUpType) == typeid(FullHealth))
                 hpHud.setScale(1, 1);
+            if (typeid(powerUpType) == typeid(EnhanceSpecial) && typeid(playerType) == typeid(Raptor))
+                specialHud.setScale(1, 1);
             powerUp->powerUp(*player);
             powerUp.reset();
         }
