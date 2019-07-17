@@ -74,41 +74,41 @@ void EntityManager::updateSpawn(float time) {
 
         if (score > 500 && score <= 1000) {
             maxEnemiesOnScreen = 3;
-            minEnemySpawnGap = 5;
+            minEnemySpawnGap = 6;
             maxAsteroidSpawnGap = 25;
-            maxPowerUpSpawnScore = 900;
+            maxPowerUpSpawnScore = 800;
         } else if (score > 1000 && score <= 3000) {
+            maxEnemiesOnScreen = 4;
+            minEnemySpawnGap = 5;
+            maxAsteroidsOnScreen = 3;
+            maxAsteroidSpawnGap = 20;
+            maxPowerUpSpawnScore = 900;
+        } else if (score > 3000 && score <= 5000) {
             maxEnemiesOnScreen = 4;
             minEnemySpawnGap = 4;
             maxAsteroidsOnScreen = 3;
-            maxAsteroidSpawnGap = 20;
-            maxPowerUpSpawnScore = 1000;
-        } else if (score > 3000 && score <= 5000) {
-            maxEnemiesOnScreen = 5;
-            minEnemySpawnGap = 3;
-            maxAsteroidsOnScreen = 4;
             maxAsteroidSpawnGap = 15;
-            maxPowerUpSpawnScore = 1200;
+            maxPowerUpSpawnScore = 1100;
         } else if (score > 5000 * (killedBosses + 1)) {
             bossMode = true;
         } else if (score > 5000 && score < 10000) {
+            maxEnemiesOnScreen = 5;
+            minEnemySpawnGap = 3.5;
+            maxAsteroidsOnScreen = 4;
+            maxAsteroidSpawnGap = 12;
+            maxPowerUpSpawnScore = 1300;
+        } else if (score > 10000 && score < 15000) {
             maxEnemiesOnScreen = 6;
-            minEnemySpawnGap = 2.5;
+            minEnemySpawnGap = 3;
             maxAsteroidsOnScreen = 5;
             maxAsteroidSpawnGap = 10;
-            maxPowerUpSpawnScore = 1500;
-        } else if (score > 10000 && score < 15000) {
-            maxEnemiesOnScreen = 7;
-            minEnemySpawnGap = 2;
+            maxPowerUpSpawnScore = 1600;
+        } else if (score > 15000) {
+            maxEnemiesOnScreen = 6;
+            minEnemySpawnGap = 2.5;
             maxAsteroidsOnScreen = 6;
             maxAsteroidSpawnGap = 8;
             maxPowerUpSpawnScore = 2000;
-        } else if (score > 15000) {
-            maxEnemiesOnScreen = 8;
-            minEnemySpawnGap = 1;
-            maxAsteroidsOnScreen = 7;
-            maxAsteroidSpawnGap = 6;
-            maxPowerUpSpawnScore = 3000;
         }
     } else {
         if (!bossKilled) {
