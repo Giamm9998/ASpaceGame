@@ -400,6 +400,7 @@ void Game::insertScoreName() {
     std::ofstream oFile;
     oFile.open("../leadboard.txt", std::ofstream::out | std::ofstream::trunc);
     i = 5;
+    bool arrow = false;
     leadboard.setString("");
     leadboard.setPosition(insertScore.getPosition().x + 205, leadboardTitle.getPosition().y + 50);
     while (i > 0 && !oFile.eof()) {
@@ -408,10 +409,13 @@ void Game::insertScoreName() {
             leadboard.setString(leadboard.getString() + scoresVect[i].second + std::string(" "));
         oFile.write("\n", 1);
         oFile.write(std::to_string(scoresVect[i].first).data(), std::to_string(scoresVect[i].first).length());
-        if (scoresVect[i].second == nameText.getString() + std::string(": "))
+        if (scoresVect[i].second == nameText.getString() + std::string(": ") &&
+            scoresVect[i].first == entityManager.getScore() && !arrow) {
             leadboard.setString(
                     leadboard.getString() + std::to_string(scoresVect[i].first) + std::string("        <---") +
                     std::string("\n"));
+            arrow = true;
+        }
         else if (scoresVect[i].second != std::string("defaultvalue:"))
             leadboard.setString(leadboard.getString() + std::to_string(scoresVect[i].first) + std::string("\n"));
         oFile.write("\n", 1);
