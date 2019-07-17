@@ -13,7 +13,7 @@ enum class EnemyType {
 };
 
 enum class PowerUpType {
-    Speed, FireRate, Strength, FullHealth, AuxiliaryCannon, LaserCannon, EnhanceSpecial
+    Speed, FireRate, Strength, Health, AuxiliaryCannon, LaserCannon, EnhanceSpecial
 };
 
 class Factory {

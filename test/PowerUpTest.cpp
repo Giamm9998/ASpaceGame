@@ -7,7 +7,7 @@
 #include "../Bomber.h"
 #include "../EnhanceSpecial.h"
 #include "../FireRate.h"
-#include "../FullHealth.h"
+#include "../Health.h"
 #include "../LaserCannon.h"
 #include "../Speed.h"
 #include "../Strength.h"
@@ -70,7 +70,7 @@ TEST(FireRateTest, powerUp) {
 
 TEST(FullHealthTest, powerUp) {
     Raptor raptor;
-    FullHealth fullHealth;
+    Health fullHealth;
 
     raptor.receiveDamage(40);
     ASSERT_EQ(raptor.getHp(), raptor.getMaxHp() - 40);

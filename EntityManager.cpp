@@ -18,7 +18,7 @@
 #include "ResourceManager.h"
 #include "Factory.h"
 #include "Functions.h"
-#include "FullHealth.h"
+#include "Health.h"
 #include "EnhanceSpecial.h"
 
 EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(0) {
@@ -94,22 +94,28 @@ void EntityManager::updateSpawn(float time) {
             bossMode = true;
         } else if (score > 5000 && score < 10000) {
             maxEnemiesOnScreen = 5;
-            minEnemySpawnGap = 3.5;
+            minEnemySpawnGap = 3;
             maxAsteroidsOnScreen = 4;
             maxAsteroidSpawnGap = 12;
-            maxPowerUpSpawnScore = 1300;
+            maxPowerUpSpawnScore = 1500;
         } else if (score > 10000 && score < 15000) {
             maxEnemiesOnScreen = 6;
-            minEnemySpawnGap = 3;
+            minEnemySpawnGap = 2;
             maxAsteroidsOnScreen = 5;
             maxAsteroidSpawnGap = 10;
-            maxPowerUpSpawnScore = 1600;
+            maxPowerUpSpawnScore = 2000;
         } else if (score > 15000) {
-            maxEnemiesOnScreen = 6;
-            minEnemySpawnGap = 2.5;
+            maxEnemiesOnScreen = 8;
+            minEnemySpawnGap = 1;
             maxAsteroidsOnScreen = 6;
             maxAsteroidSpawnGap = 8;
-            maxPowerUpSpawnScore = 2000;
+            maxPowerUpSpawnScore = 3000;
+        } else if (score > 20000) {
+            maxEnemiesOnScreen = 10;
+            minEnemySpawnGap = 0.5;
+            maxAsteroidsOnScreen = 7;
+            maxAsteroidSpawnGap = 5;
+            maxPowerUpSpawnScore = 5000;
         }
     } else {
         if (!bossKilled) {
@@ -156,11 +162,11 @@ void EntityManager::updatePowerUp(float time, sf::RectangleShape &hpHud, sf::Rec
         } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
             auto &playerType = *(player.get());
             auto &powerUpType = *(powerUp.get());
-            if (typeid(powerUpType) == typeid(FullHealth))
-                hpHud.setScale(1, 1);
+            powerUp->powerUp(*player);
+            if (typeid(powerUpType) == typeid(Health))
+                hpHud.setScale(1, player->getHp() / player->getMaxHp());
             if (typeid(powerUpType) == typeid(EnhanceSpecial) && typeid(playerType) == typeid(Raptor))
                 specialHud.setScale(1, 1);
-            powerUp->powerUp(*player);
             powerUp.reset();
         }
     }

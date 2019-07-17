@@ -11,7 +11,7 @@
 #include "Speed.h"
 #include "FireRate.h"
 #include "Strength.h"
-#include "FullHealth.h"
+#include "Health.h"
 #include "AuxiliaryCannon.h"
 #include "LaserCannon.h"
 #include "EnhanceSpecial.h"
@@ -43,8 +43,8 @@ std::unique_ptr<PowerUp> Factory::createPowerUp(PowerUpType type) {
             return std::unique_ptr<PowerUp>(new FireRate);
         case PowerUpType::Strength:
             return std::unique_ptr<PowerUp>(new Strength);
-        case PowerUpType::FullHealth:
-            return std::unique_ptr<PowerUp>(new FullHealth);
+        case PowerUpType::Health:
+            return std::unique_ptr<PowerUp>(new Health);
         case PowerUpType::AuxiliaryCannon:
             return std::unique_ptr<PowerUp>(new AuxiliaryCannon);
         case PowerUpType::LaserCannon:

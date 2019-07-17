@@ -6,7 +6,7 @@
 #define ASPACEGAME_BOMBER_H
 
 
-static const float bomberStrength = 20;
+static const float bomberStrength = 15;
 static const float bomberSecondaryStrengthMult = 3;
 static const float bomberHp = 250;
 static const float bomberSpeed = 180;
