@@ -9,7 +9,7 @@
 static const float bomberStrength = 20;
 static const float bomberSecondaryStrengthMult = 3;
 static const float bomberHp = 200;
-static const float bomberSpeed = 150;
+static const float bomberSpeed = 180;
 static const float bomberFireRate = 1.2;
 static const float bomberProjectileSpeed = 400;
 static const float bombSpeed = 250;

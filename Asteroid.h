@@ -16,6 +16,7 @@ static const float asteroidMaxHp = 50.f;
 static const int asteroidMaxSpawnHeight = 50;
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Animator.h"
 
 class Asteroid {

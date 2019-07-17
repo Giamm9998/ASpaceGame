@@ -10,7 +10,7 @@ TEST(BomberTest, Constructor) {
     Bomber bomber;
     ASSERT_EQ(bomber.getHp(), 200);
     ASSERT_EQ(bomber.getMaxHp(), bomber.getHp());
-    ASSERT_EQ(bomber.getSpeed(), 150);
+    ASSERT_EQ(bomber.getSpeed(), 180);
     ASSERT_EQ(bomber.getStrength(), 20);
     ASSERT_EQ(bomber.getFireRate(), 1.2f);
     ASSERT_EQ(bomber.isReceivingDamage(), false);
