@@ -8,14 +8,14 @@
 
 void Boss::move(float time) {
     elapsedTime += time;
-    if (elapsedTime < bossSpawnDuration) {
+    if (elapsedTime < 0) {
         sprite.move(0, (bossFinalPosition - bossStartPosition) / bossSpawnDuration * time);
-        //boundingBox.setScale(0,0); //todo invincible during spawn
+        boundingBox.setPosition(sprite.getPosition());
     } else
         Enemy::move(time);
 }
 
-std::list<Cannon *> &Boss::chooseAttack() { //fixme
+std::list<Cannon *> &Boss::chooseAttack() {
     int choice = getRandomInt(0, 2);
     switch (choice) {
         case 0:
@@ -63,10 +63,10 @@ Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f, Cannon(Projectile(400, 10.f * 1)),
                    sf::Vector2f(-250, 0)));
     bombCannon.emplace_back(
             Cannon(Projectile(400, strength * 3, true, sf::Vector2f(0.9, 0.9)), 1, 3, false, sf::Vector2f(250, 0)));
-    mobileCannon = Cannon(primaryCannon);
-    mobileCannon.setFireRateMultiplier(5);
+    mobileCannon = Cannon(Projectile(300, 10.f * 1), 1.8f);
     mobileCannon.setElapsedTime(0);
     trackerCannon = Cannon(Projectile(300, strength * 2), 1, 2, true);
+    elapsedTime = -bossSpawnDuration;
 }
 
 std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {

@@ -17,6 +17,8 @@ void Enemy::move(float time) {
 Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum)
         : Spaceship(hp, strength, speed, fireRate, cannon, explosionNum) {
     sprite.setRotation(180.f);
+    elapsedTime = -enemySpawnDuration;
+    sprite.setScale(0, 0);
 }
 
 void Enemy::setPosition(float x, float y) {
@@ -55,6 +57,11 @@ bool Enemy::die(float time) {
     dyingTime += time;
     sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
     return dyingTime >= dyingDuration;
+}
+
+void Enemy::spawn(float time) {
+    sprite.setScale(sprite.getScale() + sf::Vector2f(1, 1) * std::min(maxScale, maxScale / enemySpawnDuration * time));
+    boundingBox.setScale(sprite.getScale());
 }
 
 Enemy::~Enemy() = default;

@@ -9,26 +9,31 @@
 
 void Assaulter::move(float time) {
     elapsedTime += time;
-    boundingBox.setScale(sprite.getScale());
-    if (elapsedTime >= assaulterFreezeDuration &&
-        elapsedTime - assaulterFreezeDuration < assaulterAppearingDuration) {
-        sprite.setScale(maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration),
-                        maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration));
-    } else if (elapsedTime >= assaulterFreezeDuration + assaulterAppearingDuration &&
-               elapsedTime - assaulterFreezeDuration < 2 * assaulterAppearingDuration) {
-        if (!moved) {
-            setPosition(getRandomPosition(sprite.getOrigin().x * maxScale,
-                                                      windowWidth - sprite.getOrigin().x * maxScale,
-                                          assaulterSpawnHeight, assaulterSpawnHeight));
-            moved = true;
+    if (elapsedTime < 0)
+        spawn(time);
+    else {
+        boundingBox.setScale(sprite.getScale());
+        if (elapsedTime >= assaulterFreezeDuration &&
+            elapsedTime - assaulterFreezeDuration < assaulterAppearingDuration) {
+            sprite.setScale(
+                    maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration),
+                    maxScale - (maxScale * (elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration));
+        } else if (elapsedTime >= assaulterFreezeDuration + assaulterAppearingDuration &&
+                   elapsedTime - assaulterFreezeDuration < 2 * assaulterAppearingDuration) {
+            if (!moved) {
+                setPosition(getRandomPosition(sprite.getOrigin().x * maxScale,
+                                              windowWidth - sprite.getOrigin().x * maxScale,
+                                              assaulterSpawnHeight, assaulterSpawnHeight));
+                moved = true;
+            }
+            sprite.setScale(maxScale * ((elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration - 1),
+                            maxScale * ((elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration - 1));
+        } else if (elapsedTime >= assaulterFreezeDuration + 2 * assaulterAppearingDuration) {
+            elapsedTime = 0;
+            moved = false;
         }
-        sprite.setScale(maxScale * ((elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration - 1),
-                        maxScale * ((elapsedTime - assaulterFreezeDuration) / assaulterAppearingDuration - 1));
-    } else if (elapsedTime >= assaulterFreezeDuration + 2 * assaulterAppearingDuration) {
-        elapsedTime = 0;
-        moved = false;
+        Enemy::move(0);
     }
-    Enemy::move(0);
 }
 
 Assaulter::Assaulter() : Enemy(assaulterHp, assaulterStrength, assaulterSpeed, assaulterFireRate,

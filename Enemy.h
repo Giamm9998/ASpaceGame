@@ -5,6 +5,7 @@
 #ifndef ASPACEGAME_ENEMY_H
 #define ASPACEGAME_ENEMY_H
 
+static const float enemySpawnDuration = 0.5;
 
 static const float enemyBlinkDuration = 0.15;
 static const float explosionDuration = 1;
@@ -31,6 +32,8 @@ public:
     void blink(float time) final;
 
     bool die(float time) override;
+
+    void spawn(float time);
 
 protected:
     short int direction = right;
