@@ -91,6 +91,9 @@ private:
     sf::Sound mainTheme;
     sf::Sound shieldSound;
     sf::Sound gameOver;
+    sf::Sound bossBegin;
+    sf::Sound bossMiddle;
+    sf::Sound bossEnd;
     bool shieldActive = false;
     bool gameEnded = false;
     std::list<Observer *> observers;
