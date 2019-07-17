@@ -14,70 +14,85 @@ void Achievement::detach() {
 }
 
 void Achievement::update() {
-    if (scoreBadges < 3)
+    if (scoreBadges < 4)
         checkForScore();
-    if (asteroidsBadges < 3)
+    if (asteroidsBadges < 4)
         checkForAsteroids();
-    if (bossesBadges < 3)
+    if (bossesBadges < 4)
         checkForBosses();
-    if (spaceshipsBadges < 3)
+    if (spaceshipsBadges < 4)
         checkForSpaceships();
-    if (scoreBadges + bossesBadges + spaceshipsBadges + asteroidsBadges == 12)
+    if (scoreBadges + bossesBadges + spaceshipsBadges + asteroidsBadges == 16)
         detach();
 }
 
 void Achievement::checkForScore() {
-    if (subject->getScore() >= 1 && scoreBadges == 0) {
+    if (subject->getScore() >= 3000 && scoreBadges == 0) {
         scoreBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement1.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getScore() >= 1000 && scoreBadges == 1) {
+    if (subject->getScore() >= 80000 && scoreBadges == 1) {
         scoreBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement2.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getScore() >= 50000 && scoreBadges == 2) {
+    if (subject->getScore() >= 150000 && scoreBadges == 2) {
         scoreBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement3.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getScore() >= 25000 && scoreBadges == 3) {
+        scoreBadges++;
+        sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement4.png"));
         sprites.emplace_back(sprite);
     }
 
 }
 
 void Achievement::checkForAsteroids() {
-    if (subject->getDestroyedAsteroids() >= 1 && asteroidsBadges == 0) {
+    if (subject->getDestroyedAsteroids() >= 10 && asteroidsBadges == 0) {
         asteroidsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement1.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getDestroyedAsteroids() >= 3 && asteroidsBadges == 1) {
+    if (subject->getDestroyedAsteroids() >= 25 && asteroidsBadges == 1) {
         asteroidsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement2.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getDestroyedAsteroids() >= 5 && asteroidsBadges == 2) {
+    if (subject->getDestroyedAsteroids() >= 50 && asteroidsBadges == 2) {
         asteroidsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement3.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getDestroyedAsteroids() >= 80 && asteroidsBadges == 3) {
+        asteroidsBadges++;
+        sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement4.png"));
         sprites.emplace_back(sprite);
     }
 }
 
 
 void Achievement::checkForSpaceships() {
-    if (subject->getKilledSpaceships() >= 2 && spaceshipsBadges == 0) {
+    if (subject->getKilledSpaceships() >= 20 && spaceshipsBadges == 0) {
         spaceshipsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement1.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getKilledSpaceships() >= 5 && spaceshipsBadges == 1) {
+    if (subject->getKilledSpaceships() >= 50 && spaceshipsBadges == 1) {
         spaceshipsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement2.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getKilledSpaceships() >= 10 && spaceshipsBadges == 2) {
+    if (subject->getKilledSpaceships() >= 100 && spaceshipsBadges == 2) {
         spaceshipsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement3.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getKilledSpaceships() >= 200 && spaceshipsBadges == 3) {//200
+        spaceshipsBadges++;
+        sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement4.png"));
         sprites.emplace_back(sprite);
     }
 }
@@ -96,6 +111,11 @@ void Achievement::checkForBosses() {
     if (subject->getKilledBosses() >= 3 && bossesBadges == 2) {
         bossesBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/BossAchievement3.png"));
+        sprites.emplace_back(sprite);
+    }
+    if (subject->getKilledBosses() >= 4 && bossesBadges == 3) {
+        bossesBadges++;
+        sprite.setTexture(ResourceManager::getTexture("../Texture/BossAchievement4.png"));
         sprites.emplace_back(sprite);
     }
 }
