@@ -7,7 +7,7 @@
 
 
 static const float minionFreezeDuration = 1;
-static const int minionSpawnHeight = 150;
+static const int minionSpawnHeight = 160;
 
 #include "Enemy.h"
 #include "Game.h"

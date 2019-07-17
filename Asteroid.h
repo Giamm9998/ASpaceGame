@@ -66,6 +66,7 @@ private:
     float dyingTime = 0;
     bool receivingDamage = false;
     sf::Vector2f initialPosition;
+    sf::Sound crash;
 };
 
 

@@ -20,7 +20,7 @@
 #include "Functions.h"
 #include "FullHealth.h"
 
-EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(0) {
+EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(5001) {
 
     createSounds();
 }
@@ -121,7 +121,7 @@ void EntityManager::updateSpawn(float time) {
                 enemyManager.front()->setHp(3000 * (1 + killedBosses));
             }
             if (bossMiddle.getStatus() != sf::Sound::Playing && typeid(*enemyManager.front().get()) == typeid(Boss) &&
-                bossBegin.getStatus() == sf::Sound::Stopped)
+                bossBegin.getStatus() == sf::Sound::Stopped) //todo
                 bossMiddle.play();
 
             if (asteroidsOnScreen < (maxAsteroidsOnScreen + killedBosses) && asteroidSpawnGap > nextAsteroidSpawnGap) {
@@ -447,14 +447,17 @@ bool EntityManager::isOutOfSigth(const sf::Sprite &sprite) {
 
 void EntityManager::createSounds() {
     shotSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shot.wav"));
-    shotSound.setVolume(30);
+    shotSound.setVolume(20);
     bombSound.setBuffer(ResourceManager::getSoundBuffer("../sound/bomb.wav"));
-    bombSound.setVolume(30);
+    bombSound.setVolume(20);
     mainTheme.setBuffer(ResourceManager::getSoundBuffer("../sound/Music.wav"));
     mainTheme.setLoop(true);
+    mainTheme.setVolume(70);
     shieldSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shield.wav"));
+    shieldSound.setVolume(60);
     mainTheme.play();
     gameOver.setBuffer(ResourceManager::getSoundBuffer("../sound/gameOver.wav"));
+    gameOver.setVolume(50);
     bossBegin.setBuffer(ResourceManager::getSoundBuffer("../sound/bossBegin.wav"));
     bossMiddle.setBuffer(ResourceManager::getSoundBuffer("../sound/bossMiddle.wav"));
     bossMiddle.setLoop(true);

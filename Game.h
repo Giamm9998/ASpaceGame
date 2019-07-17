@@ -68,6 +68,7 @@ private:
     sf::Text playerNames;
     sf::Text gameOver;
     sf::Text leadboard;
+    sf::Text leadboardTitle;
     sf::Text insertScore;
     sf::Text nameText;
     sf::Sprite bomberSprite;
@@ -77,6 +78,7 @@ private:
     Achievement achievement;
     float achievementDuration;
     sf::Sound achievementSound;
+    sf::Sound key;
 
     bool nameEntered = false;
 

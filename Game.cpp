@@ -23,8 +23,8 @@ Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), stat
     achievement.attach();
     achievementDuration = 0;
     achievementSound.setBuffer(ResourceManager::getSoundBuffer("../sound/achievement.wav"));
-
-
+    achievementSound.setVolume(50);
+    key.setBuffer(ResourceManager::getSoundBuffer("../sound/key.wav"));
     background = std::unique_ptr<Background>(new Background);
 
     window.setFramerateLimit(60);
@@ -90,13 +90,23 @@ void Game::createHud() {
 
     readFile();
 
+    leadboardTitle.setFont(ResourceManager::getFont("../font/font.ttf"));
+    leadboardTitle.setString("Leadboard:");
+    leadboardTitle.setCharacterSize(22);
+    leadboardTitle.setFillColor(sf::Color::White);
+    leadboardTitle.setOutlineThickness(0.5);
+    leadboardTitle.setOutlineColor(sf::Color::Yellow);
+    leadboardTitle.setOrigin(leadboardTitle.getLocalBounds().width / 2, 0);
+    leadboardTitle.setPosition(windowWidth / 2, 375);
+
+
     leadboard.setFont(ResourceManager::getFont("../font/font.ttf"));
     leadboard.setOrigin(leadboard.getGlobalBounds().width / 2, 0);
-    leadboard.setCharacterSize(22);
     leadboard.setFillColor(sf::Color::White);
+    leadboard.setCharacterSize(22);
     leadboard.setOutlineThickness(0.5);
     leadboard.setOutlineColor(sf::Color::Yellow);
-    leadboard.setPosition(windowWidth / 2 + 75, 375);
+    leadboard.setPosition(leadboardTitle.getPosition().x - 50, leadboardTitle.getPosition().y + 50);
 
     insertScore.setFont(ResourceManager::getFont("../font/font.ttf"));
     insertScore.setFillColor(sf::Color::White);
@@ -139,17 +149,21 @@ void Game::processEvents() {
             switch (event.type) {
                 case sf::Event::KeyPressed:
                     if (event.key.code == sf::Keyboard::Enter && !nameEntered) {
+                        key.play();
                         insertScoreName();
                         nameEntered = true;
                     } else if (event.key.code == sf::Keyboard::BackSpace && !nameEntered) {
+                        key.play();
                         std::string name = nameText.getString();
                         name = name.substr(0, std::max(static_cast<unsigned long>(0), name.length() - 1));
                         nameText.setString(name);
                     }
                     break;
                 case sf::Event::TextEntered:
-                    if (nameText.getString().getSize() < 10 && !nameEntered && event.text.unicode != 8)
+                    if (nameText.getString().getSize() < 10 && !nameEntered && event.text.unicode != 8) {
+                        key.play();
                         nameText.setString(nameText.getString() + (sf::String(event.text.unicode)));
+                    }
                     break;
                 case sf::Event::Closed:
                     window.close();
@@ -215,6 +229,7 @@ void Game::render() {
         window.draw(playerNames);
         window.draw(bomberSprite);
         window.draw(raptorSprite);
+        window.draw(leadboardTitle);
         window.draw(leadboard);
     } else if (entityManager.isGameEnded()) {
         if (entityManager.getGameOver().getStatus() == sf::Sound::Playing)
@@ -225,6 +240,7 @@ void Game::render() {
             window.draw(insertScore);
             window.draw(nameText);
             if (nameEntered) {
+                window.draw(leadboardTitle);
                 window.draw(leadboard);
             }
         }
@@ -324,7 +340,7 @@ void Game::drawHud() {
     window.draw(specialText);
 }
 
-bool Game::isLegalMove(float x, float origin, short int direction) { // todo &sprite instead of x and origin
+bool Game::isLegalMove(float x, float origin, short int direction) {
     return !((x <= origin && direction == left) || (x >= windowWidth - origin && direction == right));
 }
 
@@ -360,7 +376,7 @@ void Game::updateAchievement(float time) {
 
 void Game::insertScoreName() {
     std::ifstream iFile("../leadboard.txt");
-    char fileText[50];//todo set with maxScore&&maxNameLetters
+    char fileText[50];
     std::vector<std::pair<int, std::string>> scoresVect;
     int i = 0;
     int score = 0;
@@ -382,8 +398,8 @@ void Game::insertScoreName() {
     std::ofstream oFile;
     oFile.open("../leadboard.txt", std::ofstream::out | std::ofstream::trunc);
     i = 5;
-    leadboard.setString("leadboard:\n\n");
-    leadboard.setPosition(insertScore.getPosition().x + 210, insertScore.getPosition().y + 200);
+    leadboard.setString("");
+    leadboard.setPosition(insertScore.getPosition().x + 205, leadboardTitle.getPosition().y + 50);
     while (i > 0 && !oFile.eof()) {
         oFile.write(scoresVect[i].second.data(), scoresVect[i].second.length());
         if (scoresVect[i].second != std::string("defaultvalue:"))
@@ -405,7 +421,7 @@ void Game::insertScoreName() {
 void Game::readFile() {
     std::ifstream openFile("../leadboard.txt");
     char fileText[100];
-    std::string fileComplete("Leadboard:\n\n");
+    std::string fileComplete;
     int i = 0;
     bool zero = false;
     while (i < 10 && !openFile.eof()) {

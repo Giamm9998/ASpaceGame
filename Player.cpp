@@ -85,7 +85,7 @@ void Player::blink(float time) {
 bool Player::die(float time) {
     if (dyingTime == 0) {
         movable = false;
-        explosionSound.play(); //todo play with every explosion
+        explosionSound.play();
         for (auto &explosion : explosions)
             explosion.setPosition(getRandomPosition(sprite.getGlobalBounds().left,
                                                     sprite.getGlobalBounds().left + sprite.getGlobalBounds().width,
