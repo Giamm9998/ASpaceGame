@@ -65,7 +65,7 @@ TEST(FireRateTest, powerUp) {
 
     float i = raptor.getPrimaryCannon().getFireRateMultiplier();
     fireRate.powerUp(raptor);
-    ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), i * 1.2f);
+    ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), i + 0.25f);
 }
 
 TEST(FullHealthTest, powerUp) {
@@ -93,7 +93,7 @@ TEST(SpeedTest, powerUp) {
 
     float i = raptor.getSpeed();
     speed.powerUp(raptor);
-    ASSERT_FLOAT_EQ(raptor.getSpeed(), i * 1.2f);
+    ASSERT_FLOAT_EQ(raptor.getSpeed(), i + 20.f);
 }
 
 TEST(StrengthTest, powerUp) {
@@ -102,5 +102,5 @@ TEST(StrengthTest, powerUp) {
 
     float i = raptor.getStrength();
     strength.powerUp(raptor);
-    ASSERT_FLOAT_EQ(raptor.getStrength(), i * 1.2f);
+    ASSERT_FLOAT_EQ(raptor.getStrength(), i + 2.5f);
 }

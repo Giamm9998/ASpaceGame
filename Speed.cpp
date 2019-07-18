@@ -9,6 +9,6 @@ Speed::Speed() : PowerUp(false) {
 }
 
 void Speed::powerUp(Player &player) const {
-    player.setSpeed(player.getSpeed() * 1.2f);
+    player.setSpeed(player.getSpeed() + 20.f);
     player.getPowerUpSound().play();
 }

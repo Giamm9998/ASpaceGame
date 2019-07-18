@@ -12,7 +12,8 @@
 #include <cmath>
 
 Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), static_cast<unsigned int>(windowHeight)),
-                      "A Space Game"), isPaused(false), isMovingLeft(false), isMovingRight(false), isShooting(false),
+                      "A Space Game", sf::Style::Titlebar | sf::Style::Close), isPaused(false), isMovingLeft(false),
+               isMovingRight(false), isShooting(false),
                isChoosingPlayer(true),
                isUsingSpecial(false), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))),
                achievement(&entityManager) {

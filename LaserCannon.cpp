@@ -13,7 +13,7 @@ LaserCannon::LaserCannon() : PowerUp(true) {
 void LaserCannon::powerUp(Player &player) const {
     player.setLaserActive(true);
     player.getLaserSound().play();
-    std::string textureName = "../Texture/"; //fixme duplicate code
+    std::string textureName = "../Texture/";
     if (typeid(player) == typeid(Raptor)) {
         textureName += "Raptor";
     } else {
