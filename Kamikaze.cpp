@@ -133,9 +133,9 @@ void Kamikaze::attract(float time) {
                 beam.setFillColor(
                         sf::Color(255, 255, 255, beam.getFillColor().a + static_cast<sf::Uint8>(100. / 0.25 * time)));
             else
-                beam.setFillColor(sf::Color(255, 255, 255,
-                                            std::max(0, beam.getFillColor().a -
-                                                        static_cast<sf::Uint8>(100. / 0.25 * time))));
+                beam.setFillColor(sf::Color(255, 255, 255, (sf::Uint8) std::max(0, beam.getFillColor().a -
+                                                                                   static_cast<int>(100. / 0.25 *
+                                                                                                    time))));
 
         } else if (elapsedTime - acquiringTime - finalMovementDuration >= 0.5) {
             targetAcquired = false;
