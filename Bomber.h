@@ -16,6 +16,10 @@ static const float bombSpeed = 250;
 static const float bombSize = 0.9;
 static const float bomberSecondaryFireRateMult = 0.2;
 
+static const float bomberBoxSizeX = 1.2f;
+
+static const float bomberBoxSizeY = 1.3f;
+
 #include "Player.h"
 
 class Bomber: public Player {

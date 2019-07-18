@@ -5,6 +5,7 @@
 #include "Boss.h"
 #include "ResourceManager.h"
 #include "Functions.h"
+#include "Game.h"
 
 void Boss::move(float time) {
     elapsedTime += time;
@@ -40,32 +41,34 @@ std::list<Cannon *> &Boss::chooseAttack() {
     return currentAttack;
 }
 
-Boss::Boss() : Enemy(1000.f, 10.f, 50.f, 1.f, Cannon(Projectile(400, 10.f * 1)), 15) {
+Boss::Boss() : Enemy(bossHp, bossStrength, bossSpeed, bossFireRate,
+                     Cannon(Projectile(bossProjectileSpeed, bossStrength * bossStrengthMult)), bossExplosions) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/Boss.png"));
-    sprite.setScale(0.5, 0.4);
+    sprite.setScale(bossScaleX, bossScaleY);
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     bossStartPosition = -sprite.getScale().y * sprite.getOrigin().y;
     bossFinalPosition = sprite.getScale().y * sprite.getOrigin().y + bossSpawnHeight;
 
-    sprite.setPosition(static_cast<float>(windowWidth) / 2, bossStartPosition);
+    sprite.setPosition(windowWidth / 2, bossStartPosition);
 
-    boundingBox.setSize(sf::Vector2f(1.6f * sprite.getOrigin().x,
-                                     1.4f * sprite.getOrigin().y));
+    boundingBox.setSize(sf::Vector2f(bossBoxSizeX * sprite.getOrigin().x,
+                                     bossBoxSizeY * sprite.getOrigin().y));
     boundingBox.setScale(sprite.getScale());
     boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
     simpleCannons.emplace_back(Cannon(primaryCannon));
-    simpleCannons.back().setLocalRelativePosition(sf::Vector2f(-250, 0));
+    simpleCannons.back().setLocalRelativePosition(sf::Vector2f(-bossCannonRelativePosX, 0));
     simpleCannons.emplace_back(Cannon(primaryCannon));
-    simpleCannons.back().setLocalRelativePosition(sf::Vector2f(250, 0));
-    bombCannon.emplace_back(
-            Cannon(Projectile(400, strength * 3, true, sf::Vector2f(0.9, 0.9)), 1, 3, false,
-                   sf::Vector2f(-250, 0)));
-    bombCannon.emplace_back(
-            Cannon(Projectile(400, strength * 3, true, sf::Vector2f(0.9, 0.9)), 1, 3, false, sf::Vector2f(250, 0)));
-    mobileCannon = Cannon(Projectile(300, 10.f * 1), 1.8f);
+    simpleCannons.back().setLocalRelativePosition(sf::Vector2f(bossCannonRelativePosX, 0));
+    bombCannon.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
+                                              sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
+                                   sf::Vector2f(-bossCannonRelativePosX, 0)));
+    bombCannon.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
+                                              sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
+                                   sf::Vector2f(bossCannonRelativePosX, 0)));
+    mobileCannon = Cannon(Projectile(300, bossStrength * bossStrengthMult), bossMobileFireRateMult);
     mobileCannon.setElapsedTime(0);
-    trackerCannon = Cannon(Projectile(300, strength * 2), 1, 2, true);
+    trackerCannon = Cannon(Projectile(300, bossStrength * bossTrackerStrengthMult), 1, bossTrackerStrengthMult, true);
     elapsedTime = -bossSpawnDuration;
 }
 
@@ -78,13 +81,13 @@ std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon, const sf::
 
 std::unique_ptr<Projectile> Boss::useMobileCannon(float dt, Cannon &cannon) {
     mobileTime += dt;
-    if (mobileTime <= 5) {
-        angle += (((M_PI / 2) / 5) * dt);
-        sf::Vector2f movement(cos(angle), sin(angle));
+    if (mobileTime <= bossMobileAttackDuration) {
+        angle += (((M_PI / 2) / bossMobileAttackDuration) * dt);
+        sf::Vector2f movement(static_cast<float>(cos(angle)), static_cast<float>(sin(angle)));
         cannon.getProjectilePrototype().setMovement(movement);
-    } else if (mobileTime > 5 && mobileTime < 2 * 5) {
-        angle -= (((M_PI / 2) / 5) * dt);
-        sf::Vector2f movement(cos(angle), sin(angle));
+    } else if (mobileTime > bossMobileAttackDuration && mobileTime < 2 * bossMobileAttackDuration) {
+        angle -= (((M_PI / 2) / bossMobileAttackDuration) * dt);
+        sf::Vector2f movement(static_cast<float>(cos(angle)), static_cast<float>(sin(angle)));
         cannon.getProjectilePrototype().setMovement(movement);
     } else {
         mobileTime = 0;
@@ -97,5 +100,4 @@ std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon) {
     return Spaceship::useCannon(dt, cannon);
 }
 
-Boss::~Boss() {
-}
+Boss::~Boss() = default;

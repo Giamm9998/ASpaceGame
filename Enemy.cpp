@@ -5,17 +5,18 @@
 #include "Enemy.h"
 #include "ResourceManager.h"
 #include "Functions.h"
+#include "Game.h"
 
 void Enemy::move(float time) {
     if (!(Game::isLegalMove(sprite.getPosition().x, sprite.getScale().x * sprite.getOrigin().x, direction)))
         direction = -direction;
     sprite.move(direction * speed * time, 0);
     boundingBox.setPosition(sprite.getPosition());
-
 }
 
 Enemy::Enemy(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum)
         : Spaceship(hp, strength, speed, fireRate, cannon, explosionNum) {
+    direction = right;
     sprite.setRotation(180.f);
     elapsedTime = -enemySpawnDuration;
     sprite.setScale(0, 0);
@@ -44,10 +45,9 @@ bool Enemy::die(float time) {
     if (dyingTime == 0) {
         explosionSound.play();
         for (auto &explosion : explosions)
-            explosion.setPosition(getRandomPosition(sprite.getGlobalBounds().left,
-                                                    sprite.getGlobalBounds().left + sprite.getGlobalBounds().width,
-                                                    sprite.getGlobalBounds().top,
-                                                    sprite.getGlobalBounds().top + sprite.getGlobalBounds().height));
+            explosion.setPosition(getRandomPosition(
+                    sprite.getGlobalBounds().left, sprite.getGlobalBounds().left + sprite.getGlobalBounds().width,
+                    sprite.getGlobalBounds().top, sprite.getGlobalBounds().top + sprite.getGlobalBounds().height));
         boundingBox.setSize(sf::Vector2f(0, 0));
     }
     int i = 0;
@@ -55,7 +55,7 @@ bool Enemy::die(float time) {
         animator->update(time, ((dyingDuration - explosionDuration) / explosionNum) * i++);
     }
     dyingTime += time;
-    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<sf::Uint8>(255. * dyingTime / dyingDuration)));
     return dyingTime >= dyingDuration;
 }
 

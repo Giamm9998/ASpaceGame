@@ -10,20 +10,19 @@ static const float kamikazeMoveDuration = 0.2;
 static const float kamikazeMaxHeight = 120;
 static const float kamikazeSpanWidth = 150;
 static const float kamikazeHp = 150;
-static const float kamikazeStregth = 30;
+static const float kamikazeStrength = 30;
 static const float kamikazeSpeed = 70;
 static const float kamikazeFireRate = 0.8;
-static const float kamikazeProjectileSpeed = 200;
 
 static const float attractFreezeT = 1.5;
 static const float beamAppearingT = attractFreezeT + 1;
-static const float attractFreezeT2 = beamAppearingT + 0.5;
+static const float attractFreezeT2 = beamAppearingT + 0.5f;
 static const float beamRotatingT = attractFreezeT2 + 1;
 static const float attractFreezeT3 = beamRotatingT + 1;
 static const float beamAttractingT = attractFreezeT3 + 5;
 static const float beamRotatingT2 = beamAttractingT + 1;
-
-static const int beamDisappearingT = 12;
+static const float beamDisappearingT = 12;
+static const int kamikazeExplosions = 10;
 
 #include "Enemy.h"
 
@@ -43,7 +42,7 @@ public:
 
     bool isAttacking() const;
 
-    void setTargetAcquired(bool targetAcquired);
+    void setTargetAcquired(bool acquired);
 
 private:
     sf::Vector2f movement;

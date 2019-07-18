@@ -3,7 +3,6 @@
 //
 
 #include "EnhanceSpecial.h"
-#include "ResourceManager.h"
 #include "Raptor.h"
 #include "Bomber.h"
 

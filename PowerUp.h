@@ -10,7 +10,7 @@
 #include "Player.h"
 #include "Animator.h"
 
-static const int powerUpSpeed = 200;
+static const float powerUpSpeed = 200;
 static const float powerUpMinAngle = 0.4;
 static const float powerUpMaxAngle = 0.8;
 

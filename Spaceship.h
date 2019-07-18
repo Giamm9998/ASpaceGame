@@ -7,7 +7,7 @@
 
 static const float dyingDuration = 3;
 static const float playerBlinkDuration = 0.3;
-static const float maxScale = 0.35f;
+static const float maxScale = 0.35;
 
 #include <SFML/Graphics.hpp>
 #include "Cannon.h"
@@ -17,7 +17,7 @@ static const float maxScale = 0.35f;
 
 class Spaceship {
 public:
-    Spaceship(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosionNum);
+    Spaceship(float hp, float strength, float speed, float fireRate, Cannon cannon, int explosionNum);
 
     virtual ~Spaceship();
 
@@ -53,8 +53,6 @@ public:
 
     float getFireRate() const;
 
-    void setFireRate(float rate);
-
     bool isReceivingDamage() const;
 
     void setReceivingDamage(bool receiveDamage);
@@ -65,7 +63,7 @@ public:
 
     float getElapsedTime() const;
 
-    void setElapsedTime(float elapsedTime);
+    void setElapsedTime(float time);
 
 protected:
     float hp;

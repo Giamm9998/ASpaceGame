@@ -5,7 +5,7 @@
 #ifndef ASPACEGAME_PLAYER_H
 #define ASPACEGAME_PLAYER_H
 
-static const int PlayerSpawnHeight = 80;
+static const int playerSpawnHeight = 80;
 static const float laserDPS = 7.5f;
 
 #include "Spaceship.h"
@@ -62,8 +62,6 @@ protected:
     sf::Sprite laser;
     Animator *laserAnimator = new Animator(laser);
     sf::Sound laserSound;
-
-
     sf::Sound powerUpSound;
 
 };

@@ -18,7 +18,7 @@ void Asteroid::move(float dt) {
             float t = elapsedTime - asteroidFreezeDuration;
             float deltaT = asteroidAppearanceDuration - asteroidFreezeDuration;
             sprite.setPosition(sprite.getPosition().x,
-                               initialPosition.y + 0.5f * (speed / (deltaT)) * pow(t, 2));
+                               static_cast<float>(initialPosition.y + 0.5f * (speed / (deltaT)) * pow(t, 2)));
         }
     } else
         sprite.move(0, speed * dt);
@@ -66,7 +66,7 @@ bool Asteroid::die(float time) {
     if (dyingTime == 0)
         crash.play();
     dyingTime += time;
-    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<sf::Uint8>(255. * dyingTime / dyingDuration)));
     return dyingTime >= dyingDuration;
 }
 

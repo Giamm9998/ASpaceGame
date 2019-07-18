@@ -26,26 +26,6 @@ EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyed
     createSounds();
 }
 
-const std::unique_ptr<Player> &EntityManager::getPlayer() const {
-    return player;
-}
-
-const std::list<std::unique_ptr<Spaceship>> &EntityManager::getEnemyManager() const {
-    return enemyManager;
-}
-
-const std::list<std::unique_ptr<Projectile>> &EntityManager::getProjectileManager() const {
-    return projectileManager;
-}
-
-const std::list<std::unique_ptr<Asteroid>> &EntityManager::getAsteroidManager() const {
-    return asteroidManager;
-}
-
-const std::unique_ptr<PowerUp> &EntityManager::getPowerUp() const {
-    return powerUp;
-}
-
 void EntityManager::updateSpawn(float time) {
     int enemiesOnScreen = getEnemyManager().size();
     int asteroidsOnScreen = getAsteroidManager().size();
@@ -127,8 +107,9 @@ void EntityManager::updateSpawn(float time) {
                 bossCurrentAttack.clear();
                 enemyManager.front()->setHp(3000 * (1 + killedBosses));
             }
-            if (bossMiddle.getStatus() != sf::Sound::Playing && typeid(*enemyManager.front().get()) == typeid(Boss) &&
-                bossBegin.getStatus() == sf::Sound::Stopped) //todo
+            auto &enemyType = *(enemyManager.front().get());
+            if (bossMiddle.getStatus() != sf::Sound::Playing && typeid(enemyType) == typeid(Boss) &&
+                bossBegin.getStatus() == sf::Sound::Stopped)
                 bossMiddle.play();
 
             if (asteroidsOnScreen < (maxAsteroidsOnScreen + killedBosses) && asteroidSpawnGap > nextAsteroidSpawnGap) {
@@ -157,7 +138,7 @@ void EntityManager::updatePowerUp(float time, sf::RectangleShape &hpHud, sf::Rec
     if (powerUp != nullptr) {
         powerUp->getAnimator()->update(time);
         powerUp->move(time);
-        if (EntityManager::isOutOfSigth(powerUp->getSprite())) {
+        if (isOutOfSight(powerUp->getSprite())) {
             powerUp.reset();
         } else if (powerUp->getSprite().getGlobalBounds().intersects(player->getBoundingBox().getGlobalBounds())) {
             auto &playerType = *(player.get());
@@ -180,6 +161,8 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
     }
     if (player->getHp() <= 0) {
         if (player->die(time)) {
+            bossMiddle.stop();
+            bossEnd.stop();
             mainTheme.stop();
             if (player->isLaserActive())
                 player->getLaserSound().stop();
@@ -217,7 +200,8 @@ void EntityManager::updatePlayer(float time, bool isMovingRight, bool isMovingLe
                     dynamic_cast<Raptor &>(*player).useShield(time, specialHud);
                 }
             }
-        } else shieldActive = false;
+        } else
+            shieldActive = false;
         if (player->isCharging()) //exploit late binding
             player->recharge(time, specialHud);
 
@@ -237,19 +221,19 @@ void EntityManager::updateEnemies(float time) {
         if ((enemy)->getHp() <= 0) {
             if (typeid(*enemy) == typeid(Kamikaze) && enemy->getDyingTime() == 0) {
                 if (enemy->getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds())) {
-                    player->receiveDamage(200);
+                    player->receiveDamage(300);
                 }
                 for (auto otherEnemyIter = enemyManager.begin(); otherEnemyIter != enemyManager.end(); otherEnemyIter++)
                     if (otherEnemyIter != enemyIter) {
                         if (enemy->getSprite().getGlobalBounds().intersects(
                                 (*otherEnemyIter)->getSprite().getGlobalBounds())) {
-                            (*otherEnemyIter)->receiveDamage(200);
+                            (*otherEnemyIter)->receiveDamage(300);
                         }
                     }
                 for (auto &asteroidIter : asteroidManager) //todo test if works in game
                     if (enemy->getSprite().getGlobalBounds().intersects(
                             asteroidIter->getSprite().getGlobalBounds())) {
-                        asteroidIter->receiveDamage(200);
+                        asteroidIter->receiveDamage(300);
                     }
             }
             if ((enemy)->die(time)) {
@@ -285,7 +269,7 @@ void EntityManager::updateEnemies(float time) {
                     if (cannon->isTracker()) {
                         emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useCannon(time, *cannon,
                                                                                    player->getSprite().getPosition()));
-                    } else if (cannon->getFireRateMultiplier() == 1.8f) {
+                    } else if (cannon->getFireRateMultiplier() == bossMobileFireRateMult) {
                         emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useMobileCannon(time, *cannon));
                     } else emplaceProjectile(enemy->useCannon(time, *cannon));
                 }
@@ -331,7 +315,7 @@ void EntityManager::updateProjectiles(float time, bool isUsingSpecial) {
 void EntityManager::checkForProjectileCollisions(std::list<std::unique_ptr<Projectile>>::iterator projectileIter,
                                                  bool isUsingSpecial) {
     sf::Sprite &projSprite = (*projectileIter)->getSprite();
-    if (isOutOfSigth(projSprite)) {
+    if (isOutOfSight(projSprite)) {
         projectileManager.erase(projectileIter);
         return;
     }
@@ -379,7 +363,7 @@ void EntityManager::checkForProjectileCollisions(std::list<std::unique_ptr<Proje
 void EntityManager::checkForAsteroidCollisions(std::list<std::unique_ptr<Asteroid>>::iterator asteroidIter,
                                                bool isUsingSpecial) {
     sf::Sprite &asteroidSprite = (*asteroidIter)->getSprite();
-    if (isOutOfSigth(asteroidSprite)) {
+    if (isOutOfSight(asteroidSprite)) {
         asteroidManager.erase(asteroidIter);
         return;
     }
@@ -405,7 +389,8 @@ void EntityManager::checkForAsteroidCollisions(std::list<std::unique_ptr<Asteroi
 void EntityManager::checkForLaserCollision(float time) {
     for (auto &enemy : enemyManager) {
         if (enemy->getBoundingBox().getGlobalBounds().intersects((player->getLaser().getGlobalBounds()))) {
-            enemy->receiveDamage(laserDPS * time);
+            if (enemy->getElapsedTime() >= 0)
+                enemy->receiveDamage(laserDPS * time);
         }
     }
 
@@ -449,7 +434,7 @@ float EntityManager::dist(const sf::Vector2f &pointA, const sf::Vector2f &pointB
     return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2));
 }
 
-bool EntityManager::isOutOfSigth(const sf::Sprite &sprite) {
+bool EntityManager::isOutOfSight(const sf::Sprite &sprite) {
     return sprite.getPosition().y + sprite.getOrigin().y < 0 ||
            sprite.getPosition().y - sprite.getOrigin().y > windowHeight ||
            sprite.getPosition().x + sprite.getOrigin().x < 0 ||
@@ -487,6 +472,26 @@ void EntityManager::unsubscribe(Observer *o) {
 void EntityManager::notify() {
     for (auto &i: observers)
         i->update();
+}
+
+const std::unique_ptr<Player> &EntityManager::getPlayer() const {
+    return player;
+}
+
+const std::list<std::unique_ptr<Spaceship>> &EntityManager::getEnemyManager() const {
+    return enemyManager;
+}
+
+const std::list<std::unique_ptr<Projectile>> &EntityManager::getProjectileManager() const {
+    return projectileManager;
+}
+
+const std::list<std::unique_ptr<Asteroid>> &EntityManager::getAsteroidManager() const {
+    return asteroidManager;
+}
+
+const std::unique_ptr<PowerUp> &EntityManager::getPowerUp() const {
+    return powerUp;
 }
 
 unsigned int EntityManager::getDestroyedAsteroids() const {

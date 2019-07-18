@@ -29,34 +29,9 @@ void Animator::switchAnimation(Animator::Animation *animation) {
 
 }
 
-bool Animator::switchAnimation(std::string const &name) {
-
-    auto animation = findAnimation(name);
-    if (animation != nullptr) {
-        switchAnimation(animation);
-        return true;
-    }
-    return false;
-}
-
-Animator::Animation *Animator::findAnimation(std::string const &name) {
-
-    for (auto &animation : animations) {
-        if (animation.animName == name)
-            return &animation;
-    }
-    return nullptr;
-}
-
-std::string Animator::getCurrentAnimationName() const {
-    if (currentAnimation != nullptr)
-        return currentAnimation->animName;
-    return "";
-}
-
 void Animator::update(float time, float delay) {
 
-    unsigned long numFrames = currentAnimation->animFrames.size();
+    unsigned int numFrames = currentAnimation->animFrames.size();
 
     if (time == 0) {
         sprite.setTextureRect(currentAnimation->animFrames[numFrames - 1]);
@@ -72,7 +47,7 @@ void Animator::update(float time, float delay) {
         return;
 
     float scaledTime = ((currentTime - delay) / currentAnimation->animDuration.asSeconds());
-    int currentFrame = static_cast<int>(scaledTime * numFrames);
+    auto currentFrame = static_cast<unsigned int>(scaledTime * numFrames);
 
     if (currentAnimation->animLooping)
         currentFrame %= numFrames;

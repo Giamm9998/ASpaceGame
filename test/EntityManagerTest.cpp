@@ -28,14 +28,14 @@ TEST(EntityManagerTest, shots) {
 TEST(EntityManagerTest, isOutOfSigth) {
     Raptor raptor;
     raptor.getSprite().move(-2000, 0);
-    ASSERT_TRUE(EntityManager::isOutOfSigth(raptor.getSprite()));
+    ASSERT_TRUE(EntityManager::isOutOfSight(raptor.getSprite()));
     raptor.getSprite().move(4000, 0);
-    ASSERT_TRUE(EntityManager::isOutOfSigth(raptor.getSprite()));
+    ASSERT_TRUE(EntityManager::isOutOfSight(raptor.getSprite()));
     raptor.getSprite().move(-2000, 0);
     raptor.getSprite().move(0, 2000);
-    ASSERT_TRUE(EntityManager::isOutOfSigth(raptor.getSprite()));
+    ASSERT_TRUE(EntityManager::isOutOfSight(raptor.getSprite()));
     raptor.getSprite().move(0, -4000);
-    ASSERT_TRUE(EntityManager::isOutOfSigth(raptor.getSprite()));
+    ASSERT_TRUE(EntityManager::isOutOfSight(raptor.getSprite()));
 }
 
 TEST(EntityManagerTest, projectileCollision) {

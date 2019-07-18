@@ -9,8 +9,8 @@ Background::Background() {
     sprite1.setTexture(ResourceManager::getTexture("../Texture/Background.png"));
     sprite2.setTexture(ResourceManager::getTexture("../Texture/Background.png"));
     scrollSpeed = 75;
-    sprite1.scale(static_cast<float>(windowWidth) / sprite1.getTexture()->getSize().x,
-                  static_cast<float>(windowHeight) / sprite1.getTexture()->getSize().y);
+    sprite1.scale(windowWidth / sprite1.getTexture()->getSize().x,
+                  windowHeight / sprite1.getTexture()->getSize().y);
     sprite2.scale(sprite1.getScale());
     sprite1.setPosition(0, 0);
     sprite2.setPosition(0, -windowHeight);

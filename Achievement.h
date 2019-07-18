@@ -27,6 +27,8 @@ private:
     unsigned int scoreBadges;
     unsigned int spaceshipsBadges;
     unsigned int bossesBadges;
+    std::list<sf::Sprite> sprites;
+    sf::Sprite sprite;
 
     void checkForAsteroids();
 
@@ -35,10 +37,6 @@ private:
     void checkForBosses();
 
     void checkForScore();
-
-    std::list<sf::Sprite> sprites;
-    sf::Sprite sprite;
-
 };
 
 

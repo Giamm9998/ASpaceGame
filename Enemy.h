@@ -13,7 +13,6 @@ static const float explosionDuration = 1;
 #include "Spaceship.h"
 #include <list>
 #include <SFML/Audio/Sound.hpp>
-#include "Game.h"
 #include "Animator.h"
 
 class Enemy: public Spaceship{
@@ -27,7 +26,7 @@ public:
 
     void setPosition(const sf::Vector2f &pos);
 
-    void move(float time) override; //Todo make abstract
+    void move(float time) override;
 
     void blink(float time) final;
 
@@ -36,7 +35,7 @@ public:
     void spawn(float time);
 
 protected:
-    short int direction = right;
+    short int direction{};
 };
 
 

@@ -5,7 +5,8 @@
 #include "Raptor.h"
 #include "ResourceManager.h"
 
-Raptor::Raptor() : Player(150.f, 10.f, 180.f, 1.8f, Cannon(Projectile(400, 10.f * 1, false))), shieldDuration(0.75) {
+Raptor::Raptor() : Player(raptorHp, raptorStrength, raptorSpeed, raptorFireRate, Cannon(Projectile(
+        raptorProjectileSpeed, raptorStrength * 1, false))), shieldDuration(0.75) {
     sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setElapsedTime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
@@ -19,8 +20,8 @@ Raptor::Raptor() : Player(150.f, 10.f, 180.f, 1.8f, Cannon(Projectile(400, 10.f 
     shield.setOutlineThickness(5);
     shield.setFillColor(sf::Color(255, 255, 255, 0));
 
-    boundingBox.setSize(sf::Vector2f(1.2f * sprite.getOrigin().x,
-                                     1.4f * sprite.getOrigin().y));
+    boundingBox.setSize(sf::Vector2f(raptorBoxSizeX * sprite.getOrigin().x,
+                                     raptorBoxSizeY * sprite.getOrigin().y));
     boundingBox.setScale(sprite.getScale());
     boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y + sprite.getGlobalBounds().height / 8);
@@ -37,15 +38,10 @@ void Raptor::useShield(float dt, sf::RectangleShape &specialHud) {
 
 }
 
-sf::CircleShape &Raptor::getShield() {
-    return shield;
-}
-
 void Raptor::move(float time, short int movement) {
     Player::move(time, movement);
     shield.setPosition(sprite.getPosition());
 }
-
 
 void Raptor::recharge(float dt, sf::RectangleShape &specialHud) {
     elapsedTime += dt;
@@ -55,6 +51,11 @@ void Raptor::recharge(float dt, sf::RectangleShape &specialHud) {
         elapsedTime = 0;
         charging = false;
     }
+}
+
+
+sf::CircleShape &Raptor::getShield() {
+    return shield;
 }
 
 float Raptor::getShieldDuration() const {

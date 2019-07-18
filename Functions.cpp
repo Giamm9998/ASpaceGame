@@ -50,7 +50,7 @@ PowerUpType
 getRandomPowerUp(int commonRatio, int specialRatio, bool hasMaxHp, bool isLaserActive, bool hasThreeCannons) {
     int powerUp = getRandomInt(1, commonRatio + specialRatio);
     if (powerUp <= commonRatio) {
-        switch (getRandomInt(4, 4 - hasMaxHp)) {
+        switch (getRandomInt(1, 4 - hasMaxHp)) {
             case 1:
                 return PowerUpType::Speed;
             case 2:

@@ -32,12 +32,12 @@ void Achievement::checkForScore() {
         sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement1.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getScore() >= 80000 && scoreBadges == 1) {
+    if (subject->getScore() >= 8000 && scoreBadges == 1) {
         scoreBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement2.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getScore() >= 150000 && scoreBadges == 2) {
+    if (subject->getScore() >= 15000 && scoreBadges == 2) {
         scoreBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/ScoreAchievement3.png"));
         sprites.emplace_back(sprite);
@@ -66,7 +66,7 @@ void Achievement::checkForAsteroids() {
         sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement3.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getDestroyedAsteroids() >= 80 && asteroidsBadges == 3) {
+    if (subject->getDestroyedAsteroids() >= 150 && asteroidsBadges == 3) {
         asteroidsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/AsteroidAchievement4.png"));
         sprites.emplace_back(sprite);
@@ -90,7 +90,7 @@ void Achievement::checkForSpaceships() {
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement3.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getKilledSpaceships() >= 200 && spaceshipsBadges == 3) {//200
+    if (subject->getKilledSpaceships() >= 200 && spaceshipsBadges == 3) {
         spaceshipsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement4.png"));
         sprites.emplace_back(sprite);
@@ -129,5 +129,4 @@ Achievement::Achievement(EntityManager *subject) : subject(subject),
                                                    scoreBadges(0),
                                                    spaceshipsBadges(0),
                                                    bossesBadges(0) {
-    //sprite.setScale(1.2f, 1.2f);
 }

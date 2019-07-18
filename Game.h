@@ -15,7 +15,7 @@ static const float windowHeight = 675;
 
 static const float achievementFadeDuration = 0.5;
 static const float achievementDisappearT = 3;
-static const float achievementAnimationT = achievementDisappearT + 0.5;
+static const float achievementAnimationT = achievementDisappearT + 0.5f;
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -67,8 +67,8 @@ private:
     sf::Text playerSelection;
     sf::Text playerNames;
     sf::Text gameOver;
-    sf::Text leadboard;
-    sf::Text leadboardTitle;
+    sf::Text leaderboard;
+    sf::Text leaderboardTitle;
     sf::Text insertScore;
     sf::Text nameText;
     sf::Sprite bomberSprite;
@@ -76,9 +76,9 @@ private:
     std::unique_ptr<Background> background;
     std::list<std::unique_ptr<sf::Sprite>> achievementSprites;
     Achievement achievement;
-    float achievementDuration;
+    float achievementTime;
     sf::Sound achievementSound;
-    sf::Sound key;
+    sf::Sound keySound;
 
     bool nameEntered = false;
 

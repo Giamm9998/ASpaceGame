@@ -101,7 +101,7 @@ TEST(BomberTest, bomb) {
 
 TEST(PlayerTest, blink) {
     Raptor raptor;
-    raptor.blink(playerBlinkDuration - 0.1);
+    raptor.blink(playerBlinkDuration - 0.1f);
     ASSERT_EQ(raptor.getSprite().getColor(), sf::Color(255, 255, 255, 100));
     raptor.blink(0.2);
     ASSERT_EQ(raptor.getSprite().getColor(), sf::Color::White);
@@ -119,7 +119,7 @@ TEST(PlayerTest, move) {
     sf::Vector2f laserPos = bomber.getLaser().getPosition();
     sf::Vector2f boundPos = bomber.getBoundingBox().getPosition();
     bomber.move(0.5, 1);
-    sf::Vector2f movement(0.5 * bomber.getSpeed() * 1, 0);
+    sf::Vector2f movement(0.5f * bomber.getSpeed() * 1, 0);
     ASSERT_EQ(bomber.getSprite().getPosition(), initialPosition + movement);
     ASSERT_EQ(bomber.getLaser().getPosition(), laserPos + movement);
     ASSERT_EQ(bomber.getBoundingBox().getPosition(), boundPos + movement);

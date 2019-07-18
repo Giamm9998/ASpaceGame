@@ -4,7 +4,6 @@
 
 #include <cassert>
 #include "ResourceManager.h"
-#include <exception>
 #include <iostream>
 
 ResourceManager *ResourceManager::sInstance = nullptr;

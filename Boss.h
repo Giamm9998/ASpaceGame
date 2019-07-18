@@ -7,7 +7,23 @@
 
 
 static const float bossSpawnDuration = 6.7;
-static const int bossSpawnHeight = 5;
+static const float bossSpawnHeight = 5;
+static const float bossHp = 1000;
+static const float bossStrength = 15;
+static const float bossSpeed = 50;
+static const float bossFireRate = 1;
+static const float bossProjectileSpeed = 400;
+static const float bossStrengthMult = 1;
+static const int bossExplosions = 15;
+static const float bossScaleX = 0.5;
+static const float bossScaleY = 0.4;
+static const float bossBoxSizeX = 1.6;
+static const float bossBoxSizeY = 1.4;
+static const float bossBombStrengthMult = 3;
+static const float bossCannonRelativePosX = 250;
+static const float bossMobileFireRateMult = 1.8;
+static const float bossTrackerStrengthMult = 1.5;
+static const float bossMobileAttackDuration = 5;
 static float bossStartPosition = 0;
 static float bossFinalPosition = 0;
 
@@ -18,7 +34,7 @@ class Boss: public Enemy {
 public:
     Boss();
 
-    virtual ~Boss();
+    ~Boss() override;
 
     void move(float time) override;
 

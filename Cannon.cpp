@@ -10,10 +10,6 @@ Cannon::Cannon(const Projectile &projectilePrototype, float fireRateMultiplier, 
         fireRateMultiplier(fireRateMultiplier), strengthMultiplier(strengthMultiplier),
         tracker(tracker), localRelativePosition(relativePosition), projectilePrototype(projectilePrototype) {}
 
-void Cannon::setFireRateMultiplier(double multiplier) {
-    Cannon::fireRateMultiplier = multiplier;
-}
-
 std::unique_ptr<Projectile> Cannon::shoot(const sf::Vector2f &position, float dt, float fireRate) {
     elapsedTime += dt;
     if (elapsedTime >= (1.f / (fireRate * fireRateMultiplier))) {
@@ -24,6 +20,10 @@ std::unique_ptr<Projectile> Cannon::shoot(const sf::Vector2f &position, float dt
     }
     return nullptr;
 
+}
+
+void Cannon::setFireRateMultiplier(float multiplier) {
+    Cannon::fireRateMultiplier = multiplier;
 }
 
 
@@ -57,8 +57,4 @@ void Cannon::setLocalRelativePosition(const sf::Vector2f &position) {
 
 float Cannon::getStrengthMultiplier() const {
     return strengthMultiplier;
-}
-
-void Cannon::setTracker(bool tracker) {
-    Cannon::tracker = tracker;
 }

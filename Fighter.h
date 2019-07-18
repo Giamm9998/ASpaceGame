@@ -6,6 +6,15 @@
 #define ASPACEGAME_FIGHTER_H
 
 static const float fighterSpawnHeight = 60;
+static const float fighterHp = 125;
+static const float fighterStrength = 20;
+static const float fighterSpeed = 70;
+static const float fighterFireRate = 0.6;
+static const float fighterProjectileSpeed = 250;
+static const int fighterExplosions = 5;
+static const float fighterBoxSizeX = 1.5;
+static const float fighterBoxSizeY = 1.5;
+static const float fighterCannonRelativePosition = 114;
 
 #include "Enemy.h"
 

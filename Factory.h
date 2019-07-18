@@ -7,6 +7,7 @@
 
 #include <memory>
 #include "Enemy.h"
+#include "PowerUp.h"
 
 enum class EnemyType {
     Kamikaze, Assaulter, Fighter, Minion, Boss

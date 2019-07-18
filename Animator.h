@@ -47,13 +47,7 @@ public:
 
     void update(float dt, float delay = 0);
 
-    bool switchAnimation(std::string const &name);
-
-    std::string getCurrentAnimationName() const;
-
 private:
-    Animator::Animation *findAnimation(std::string const &name);
-
     void switchAnimation(Animator::Animation *animation);
 
     sf::Sprite &sprite;

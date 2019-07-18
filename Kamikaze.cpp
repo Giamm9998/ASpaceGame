@@ -6,6 +6,28 @@
 #include "Kamikaze.h"
 #include "ResourceManager.h"
 #include "Functions.h"
+#include "Game.h"
+
+Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStrength, kamikazeSpeed, kamikazeFireRate, Cannon(),
+                             kamikazeExplosions) {
+    sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(windowWidth / 2,
+                       (kamikazeMaxHeight + sprite.getOrigin().y * sprite.getScale().y) / 2);
+
+    boundingBox.setSize(sf::Vector2f(1.5f * sprite.getOrigin().x,
+                                     1.5f * sprite.getOrigin().y));
+    boundingBox.setScale(sprite.getScale());
+    boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
+    boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+
+    for (auto &explosion : explosions) {
+        explosion.setScale(explosion.getScale() * 1.5f);
+    }
+
+    elapsedTime = -2 * enemySpawnDuration;
+    attacking = false;
+}
 
 void Kamikaze::move(float time) {
     if (!attacking) {
@@ -64,25 +86,26 @@ void Kamikaze::attract(float time) {
                                                 (elapsedTime - attractFreezeT)));
             beamBorderRight.setSize(beamBorderLeft.getSize());
         } else if (elapsedTime > attractFreezeT2 && elapsedTime <= beamRotatingT) {
-            beamBorderLeft.rotate(10. / (beamRotatingT - attractFreezeT2) * time);
-            beamBorderRight.rotate(-10. / (beamRotatingT - attractFreezeT2) * time);
+            beamBorderLeft.rotate(10.f / (beamRotatingT - attractFreezeT2) * time);
+            beamBorderRight.rotate(-10.f / (beamRotatingT - attractFreezeT2) * time);
         } else if (elapsedTime >= attractFreezeT3 && elapsedTime < beamAttractingT) {
             acquiringTime = elapsedTime;
             if (beam.getPointCount() == 0)
                 createBeam();
             if (static_cast<int>((elapsedTime - attractFreezeT3) * 2) % (1 * 2) < 1)
                 beam.setFillColor(
-                        sf::Color(255, 255, 255, beam.getFillColor().a + static_cast<int>(100. / 0.5 * time)));
+                        sf::Color(255, 255, 255, beam.getFillColor().a + static_cast<sf::Uint8>(100. / 0.5 * time)));
             else
                 beam.setFillColor(sf::Color(255, 255, 255,
-                                            std::max(0, beam.getFillColor().a - static_cast<int>(100. / 0.5 * time))));
+                                            (sf::Uint8) std::max(0, beam.getFillColor().a -
+                                                                    static_cast<int>(100. / 0.5 * time))));
         } else if (elapsedTime > beamAttractingT && elapsedTime <= beamRotatingT2) {
             if (beam.getPointCount() != 0) {
                 beam.setPointCount(0);
                 beam.setScale(0, 0);
             }
-            beamBorderLeft.rotate(-10. / (beamRotatingT2 - beamAttractingT) * time);
-            beamBorderRight.rotate(10. / (beamRotatingT2 - beamAttractingT) * time);
+            beamBorderLeft.rotate(-10.f / (beamRotatingT2 - beamAttractingT) * time);
+            beamBorderRight.rotate(10.f / (beamRotatingT2 - beamAttractingT) * time);
         } else if (elapsedTime > beamRotatingT2 && elapsedTime <= beamDisappearingT) {
             beamBorderLeft.setSize(sf::Vector2f(3,
                                                 400 / (beamDisappearingT - beamRotatingT2) *
@@ -108,10 +131,11 @@ void Kamikaze::attract(float time) {
         if (elapsedTime - acquiringTime <= finalMovementDuration) {
             if (static_cast<int>((elapsedTime) * 4) % (1 * 2) < 1)
                 beam.setFillColor(
-                        sf::Color(255, 255, 255, beam.getFillColor().a + static_cast<int>(100. / 0.25 * time)));
+                        sf::Color(255, 255, 255, beam.getFillColor().a + static_cast<sf::Uint8>(100. / 0.25 * time)));
             else
                 beam.setFillColor(sf::Color(255, 255, 255,
-                                            std::max(0, beam.getFillColor().a - static_cast<int>(100. / 0.25 * time))));
+                                            std::max(0, beam.getFillColor().a -
+                                                        static_cast<sf::Uint8>(100. / 0.25 * time))));
 
         } else if (elapsedTime - acquiringTime - finalMovementDuration >= 0.5) {
             targetAcquired = false;
@@ -132,26 +156,6 @@ void Kamikaze::createBeam() {
     beam.setFillColor(sf::Color(255, 255, 255, 0));
 }
 
-Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStregth, kamikazeSpeed, kamikazeFireRate, Cannon(), 10) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
-    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-    sprite.setPosition(static_cast<float>(windowWidth) / 2,
-                       (kamikazeMaxHeight + sprite.getOrigin().y * sprite.getScale().y) / 2);
-
-    boundingBox.setSize(sf::Vector2f(1.5f * sprite.getOrigin().x,
-                                     1.5f * sprite.getOrigin().y));
-    boundingBox.setScale(sprite.getScale());
-    boundingBox.setOrigin(boundingBox.getSize().x / 2, boundingBox.getSize().y / 2);
-    boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
-
-    for (auto &explosion : explosions) {
-        explosion.setScale(explosion.getScale() * 1.5f);
-    }
-
-    elapsedTime = -2 * enemySpawnDuration;
-    attacking = false;
-}
-
 const sf::RectangleShape &Kamikaze::getBeamBorderLeft() const {
     return beamBorderLeft;
 }
@@ -168,6 +172,6 @@ bool Kamikaze::isAttacking() const {
     return attacking;
 }
 
-void Kamikaze::setTargetAcquired(bool targetAcquired) {
-    Kamikaze::targetAcquired = targetAcquired;
+void Kamikaze::setTargetAcquired(bool acquired) {
+    Kamikaze::targetAcquired = acquired;
 }

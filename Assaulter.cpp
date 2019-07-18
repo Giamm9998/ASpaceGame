@@ -6,6 +6,7 @@
 #include "Assaulter.h"
 #include "ResourceManager.h"
 #include "Functions.h"
+#include "Game.h"
 
 void Assaulter::move(float time) {
     elapsedTime += time;

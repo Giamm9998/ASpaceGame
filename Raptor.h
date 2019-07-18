@@ -5,7 +5,14 @@
 #ifndef ASPACEGAME_RAPTOR_H
 #define ASPACEGAME_RAPTOR_H
 
-static const int rechargeTime = 60;
+static const float rechargeTime = 60;
+static const float raptorHp = 150;
+static const float raptorStrength = 10;
+static const float raptorSpeed = 180;
+static const float raptorFireRate = 1.8;
+static const float raptorProjectileSpeed = 400;
+static const float raptorBoxSizeX = 1.2;
+static const float raptorBoxSizeY = 1.4;
 
 #include "Player.h"
 

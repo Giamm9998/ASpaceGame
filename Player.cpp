@@ -11,7 +11,7 @@
 
 Player::Player(float hp, float strength, float speed, float fireRate, const Cannon &cannon) :
         Spaceship(hp, strength, speed, fireRate, cannon, 5), charging(false), laserActive(false) {
-    sprite.setPosition(static_cast<float>(windowWidth) / 2, windowHeight - PlayerSpawnHeight);
+    sprite.setPosition(windowWidth / 2, windowHeight - playerSpawnHeight);
 
     auto &laserAnim = laserAnimator->createAnimation("Laser", "../Texture/Laser.png", sf::seconds(1), true);
     unsigned int frames = 12;
@@ -31,40 +31,6 @@ void Player::move(float time, short int direction) {
     }
 }
 
-
-bool Player::isCharging() const {
-    return charging;
-}
-
-void Player::receiveDamage(float damage) {
-    if (!receivingDamage)
-        Spaceship::receiveDamage(damage);
-}
-
-std::vector<Cannon> &Player::getAuxiliaryCannons() {
-    return auxiliaryCannons;
-}
-
-bool Player::isLaserActive() const {
-    return laserActive;
-}
-
-void Player::setLaserActive(bool active) {
-    Player::laserActive = active;
-    laserAnimator->update(0);
-}
-
-sf::Sprite &Player::getLaser() {
-    return laser;
-}
-
-void Player::setStrength(float strength) {
-    Spaceship::setStrength(strength);
-    primaryCannon.getProjectilePrototype().setDamage(strength * primaryCannon.getStrengthMultiplier());
-    for (auto &cannon : auxiliaryCannons) {
-        cannon.getProjectilePrototype().setDamage(strength * cannon.getStrengthMultiplier());
-    }
-}
 
 void Player::blink(float time) {
     blinkingTime += time;
@@ -98,8 +64,42 @@ bool Player::die(float time) {
         animator->update(time, ((dyingDuration - explosionDuration) / explosionNum) * i++);
     }
     dyingTime += time;
-    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<int>(255. * dyingTime / dyingDuration)));
+    sprite.setColor(sf::Color(255, 255, 255, 255 - static_cast<sf::Uint8>(255. * dyingTime / dyingDuration)));
     return dyingTime >= dyingDuration;
+}
+
+bool Player::isCharging() const {
+    return charging;
+}
+
+void Player::receiveDamage(float damage) {
+    if (!receivingDamage)
+        Spaceship::receiveDamage(damage);
+}
+
+std::vector<Cannon> &Player::getAuxiliaryCannons() {
+    return auxiliaryCannons;
+}
+
+bool Player::isLaserActive() const {
+    return laserActive;
+}
+
+void Player::setLaserActive(bool active) {
+    Player::laserActive = active;
+    laserAnimator->update(0);
+}
+
+sf::Sprite &Player::getLaser() {
+    return laser;
+}
+
+void Player::setStrength(float strength) {
+    Spaceship::setStrength(strength);
+    primaryCannon.getProjectilePrototype().setDamage(strength * primaryCannon.getStrengthMultiplier());
+    for (auto &cannon : auxiliaryCannons) {
+        cannon.getProjectilePrototype().setDamage(strength * cannon.getStrengthMultiplier());
+    }
 }
 
 Animator *Player::getLaserAnimator() const {

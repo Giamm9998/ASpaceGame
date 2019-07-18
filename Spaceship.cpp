@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by gianmarco on 30/06/19.
 //
@@ -6,8 +8,8 @@
 #include "ResourceManager.h"
 #include "Functions.h"
 
-Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, const Cannon &cannon, int explosion) :
-        hp(hp), strength(strength), speed(speed), fireRate(fireRate), maxHp(hp), primaryCannon(cannon),
+Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, Cannon cannon, int explosion) :
+        hp(hp), strength(strength), speed(speed), fireRate(fireRate), maxHp(hp), primaryCannon(std::move(cannon)),
         explosionNum(explosion) {
     sprite.setScale(maxScale, maxScale);
 
@@ -27,6 +29,14 @@ Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, cons
                                     explosions.back().getLocalBounds().height / (2 * rows));
         animators.back()->update(0);
     }
+}
+
+std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon &cannon) {
+    sf::Vector2f position(sprite.getPosition().x + cannon.getLocalRelativePosition().x * sprite.getScale().x,
+                          sprite.getPosition().y -
+                          (sprite.getGlobalBounds().height / 2) * cos(sprite.getRotation() * M_PI / 180) +
+                          cannon.getLocalRelativePosition().y * sprite.getScale().y);
+    return cannon.shoot(position, dt, fireRate);
 }
 
 float Spaceship::getHp() const {
@@ -61,14 +71,6 @@ Cannon &Spaceship::getPrimaryCannon() {
     return primaryCannon;
 }
 
-std::unique_ptr<Projectile> Spaceship::useCannon(float dt, Cannon &cannon) {
-    sf::Vector2f position(sprite.getPosition().x + cannon.getLocalRelativePosition().x * sprite.getScale().x,
-                          sprite.getPosition().y -
-                          (sprite.getGlobalBounds().height / 2) * cos(sprite.getRotation() * M_PI / 180) +
-                          cannon.getLocalRelativePosition().y * sprite.getScale().y);
-    return cannon.shoot(position, dt, fireRate);
-}
-
 void Spaceship::receiveDamage(float damage) {
     receivingDamage = true;
     this->hp -= damage;
@@ -89,11 +91,6 @@ void Spaceship::setReceivingDamage(bool receiveDamage) {
 float Spaceship::getFireRate() const {
     return fireRate;
 }
-
-void Spaceship::setFireRate(float rate) {
-    Spaceship::fireRate = rate;
-}
-
 float Spaceship::getMaxHp() const {
     return maxHp;
 }
@@ -110,8 +107,8 @@ float Spaceship::getElapsedTime() const {
     return elapsedTime;
 }
 
-void Spaceship::setElapsedTime(float elapsedTime) {
-    Spaceship::elapsedTime = elapsedTime;
+void Spaceship::setElapsedTime(float time) {
+    Spaceship::elapsedTime = time;
 }
 
 

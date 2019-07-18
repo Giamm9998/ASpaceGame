@@ -8,7 +8,6 @@
 
 
 static const float finalMovementDuration = 3.f;
-
 static int maxEnemiesOnScreen = 2;
 static float minEnemySpawnGap = 6;
 static int maxAsteroidsOnScreen = 2;
@@ -17,7 +16,6 @@ static float nextAsteroidSpawnGap = 20;
 static int maxPowerUpSpawnScore = 800;
 static int nextPowerUpSpawnScore = 200;
 static int nextBossSpawnScore = 5000;
-
 
 #include <list>
 #include <SFML/Audio.hpp>
@@ -55,7 +53,7 @@ public:
 
     void updateSpawn(float time);
 
-    static bool isOutOfSigth(const sf::Sprite &sprite);
+    static bool isOutOfSight(const sf::Sprite &sprite);
 
     void subscribe(Observer *o) override;
 

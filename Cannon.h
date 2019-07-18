@@ -17,7 +17,7 @@ public:
 
     std::unique_ptr<Projectile> shoot(const sf::Vector2f &position, float dt, float fireRate);
 
-    void setFireRateMultiplier(double multiplier);
+    void setFireRateMultiplier(float multiplier);
 
     float getFireRateMultiplier() const;
 
@@ -35,10 +35,8 @@ public:
 
     void setLocalRelativePosition(const sf::Vector2f &position);
 
-    void setTracker(bool tracker);
-
 private:
-    float fireRateMultiplier = 1;
+    double fireRateMultiplier = 1;
     float strengthMultiplier = 1;
     Projectile projectilePrototype;
     bool tracker = false;

@@ -18,7 +18,7 @@ int getRandomInt(int min, int max);
 EnemyType getRandomEnemy(int minionRatio = 1, int fighterRatio = 1, int assaulterRatio = 1, int kamikazeRatio = 1);
 
 PowerUpType
-getRandomPowerUp(int commonRatio = 9, int specialRatio = 1, bool hasMaxHp = 1, bool isLaserActive = false,
+getRandomPowerUp(int commonRatio = 9, int specialRatio = 1, bool hasMaxHp = true, bool isLaserActive = false,
                  bool hasThreeCannons = false);
 
 #endif //ASPACEGAME_FUNCTIONS_H
