@@ -77,7 +77,6 @@ TEST(EntityManagerTest, projectileCollision) {
     ASSERT_TRUE(entityManager.getProjectileManager().empty());
     ASSERT_FLOAT_EQ(entityManager.getPlayer()->getHp(), entityManager.getPlayer()->getMaxHp() - 10);
 
-    entityManager.getAsteroidManagerTest().clear(); //todo temporary
     entityManager.getAsteroidManagerTest().emplace_back(new Asteroid);
     entityManager.updateAsteroids(0, false);
     entityManager.emplaceProjectileTest(std::unique_ptr<Projectile>(new Projectile(0, 10, false)));
@@ -101,7 +100,6 @@ TEST(EntityManagerTest, projectileCollision) {
     entityManager.getProjectileManagerTest().clear();
 
 
-    entityManager.getEnemyManagerTest().clear(); //todo temporary
     entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Fighter));
     entityManager.updateEnemies(0);
     entityManager.emplaceProjectileTest(std::unique_ptr<Projectile>(new Projectile(0, 10, false)));
@@ -115,7 +113,7 @@ TEST(EntityManagerTest, projectileCollision) {
     entityManager.checkForProjectileCollisionsTest(projectileIter, false);
     ASSERT_FALSE(entityManager.getProjectileManager().empty());
     auto time = 0.001;
-    while (time < 2 * enemySpawnDuration) {
+    while (time <= 2 * enemySpawnDuration) {
         entityManager.updateEnemies(time);
         time += 0.001;
     }
@@ -133,7 +131,6 @@ TEST(EntityManagerTest, projectileCollision) {
 TEST(EntityManagerTest, asteroidCollision) {
     EntityManager entityManager;
     entityManager.selectPlayer<Raptor>();
-    entityManager.getAsteroidManagerTest().clear(); //todo temporary
     entityManager.getAsteroidManagerTest().emplace_back(new Asteroid);
     entityManager.getAsteroidManagerTest().front()->getSprite().setPosition(0, 0);
     auto asteroidIter = entityManager.getAsteroidManagerTest().begin();
@@ -169,7 +166,7 @@ TEST(EntityManagerTest, laserCollision) {
     entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Minion));
     entityManager.getEnemyManagerTest().front()->getSprite().setPosition(0, 0);
     auto time = 0.001;
-    while (time < 2 * enemySpawnDuration) {
+    while (time <= 2 * enemySpawnDuration) {
         entityManager.updateEnemies(time);
         time += 0.001;
     }
@@ -196,6 +193,3 @@ TEST(EntityManagerTest, laserCollision) {
                     (asteroidMaxHp / asteroidMaxSize * entityManager.getAsteroidManager().front()->getSize()) -
                     laserDPS * 0.2);
 }
-
-//todo test update
-//todo test attractivebeam collision

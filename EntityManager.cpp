@@ -230,11 +230,12 @@ void EntityManager::updateEnemies(float time) {
                             (*otherEnemyIter)->receiveDamage(300);
                         }
                     }
-                for (auto &asteroidIter : asteroidManager) //todo test if works in game
+                for (auto &asteroidIter : asteroidManager) {
                     if (enemy->getSprite().getGlobalBounds().intersects(
                             asteroidIter->getSprite().getGlobalBounds())) {
                         asteroidIter->receiveDamage(300);
                     }
+                }
             }
             if ((enemy)->die(time)) {
                 killedSpaceships++;

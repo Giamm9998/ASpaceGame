@@ -75,22 +75,22 @@ void Achievement::checkForAsteroids() {
 
 
 void Achievement::checkForSpaceships() {
-    if (subject->getKilledSpaceships() >= 20 && spaceshipsBadges == 0) {
+    if (subject->getKilledSpaceships() >= 40 && spaceshipsBadges == 0) {
         spaceshipsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement1.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getKilledSpaceships() >= 50 && spaceshipsBadges == 1) {
+    if (subject->getKilledSpaceships() >= 100 && spaceshipsBadges == 1) {
         spaceshipsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement2.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getKilledSpaceships() >= 100 && spaceshipsBadges == 2) {
+    if (subject->getKilledSpaceships() >= 200 && spaceshipsBadges == 2) {
         spaceshipsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement3.png"));
         sprites.emplace_back(sprite);
     }
-    if (subject->getKilledSpaceships() >= 200 && spaceshipsBadges == 3) {
+    if (subject->getKilledSpaceships() >= 400 && spaceshipsBadges == 3) {
         spaceshipsBadges++;
         sprite.setTexture(ResourceManager::getTexture("../Texture/EnemyAchievement4.png"));
         sprites.emplace_back(sprite);
