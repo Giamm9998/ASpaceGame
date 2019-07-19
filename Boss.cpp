@@ -43,7 +43,7 @@ std::list<Cannon *> &Boss::chooseAttack() {
 
 Boss::Boss() : Enemy(bossHp, bossStrength, bossSpeed, bossFireRate,
                      Cannon(Projectile(bossProjectileSpeed, bossStrength * bossStrengthMult)), bossExplosions) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/Boss.png"));
+    sprite.setTexture(ResourceManager::getTexture("./Texture/Boss.png"));
     sprite.setScale(bossScaleX, bossScaleY);
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     bossStartPosition = -sprite.getScale().y * sprite.getOrigin().y;

@@ -8,7 +8,7 @@
 #include "Functions.h"
 
 PowerUp::PowerUp(bool special) : special(special), angle(getRandomReal(powerUpMinAngle, powerUpMaxAngle)) {
-    auto &rotation = animator->createAnimation("Rotation", "../Texture/BasicPowerUp.png", sf::seconds(0.33), true);
+    auto &rotation = animator->createAnimation("Rotation", "./Texture/BasicPowerUp.png", sf::seconds(0.33), true);
     unsigned int frames = 16;
     rotation.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames);
     sf::Vector2f distOrigin(sprite.getLocalBounds().width / (2 * frames),

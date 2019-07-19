@@ -8,7 +8,7 @@
 
 Minion::Minion() : Enemy(minionHp, minionStrength, minionSpeed, minionFireRate,
                          Cannon(Projectile(minionProjectileSpeed, minionStrength * 1))) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/Minion.png"));
+    sprite.setTexture(ResourceManager::getTexture("./Texture/Minion.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(getRandomPosition(sprite.getOrigin().x * maxScale,
                                                      windowWidth - sprite.getOrigin().x * maxScale,

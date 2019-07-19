@@ -444,22 +444,22 @@ bool EntityManager::isOutOfSight(const sf::Sprite &sprite) {
 }
 
 void EntityManager::createSounds() {
-    shotSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shot.wav"));
+    shotSound.setBuffer(ResourceManager::getSoundBuffer("./sound/shot.wav"));
     shotSound.setVolume(20);
-    bombSound.setBuffer(ResourceManager::getSoundBuffer("../sound/bomb.wav"));
+    bombSound.setBuffer(ResourceManager::getSoundBuffer("./sound/bomb.wav"));
     bombSound.setVolume(20);
-    mainTheme.setBuffer(ResourceManager::getSoundBuffer("../sound/Music.wav"));
+    mainTheme.setBuffer(ResourceManager::getSoundBuffer("./sound/Music.wav"));
     mainTheme.setLoop(true);
     mainTheme.setVolume(70);
-    shieldSound.setBuffer(ResourceManager::getSoundBuffer("../sound/shield.wav"));
+    shieldSound.setBuffer(ResourceManager::getSoundBuffer("./sound/shield.wav"));
     shieldSound.setVolume(60);
     mainTheme.play();
-    gameOver.setBuffer(ResourceManager::getSoundBuffer("../sound/gameOver.wav"));
+    gameOver.setBuffer(ResourceManager::getSoundBuffer("./sound/gameOver.wav"));
     gameOver.setVolume(50);
-    bossBegin.setBuffer(ResourceManager::getSoundBuffer("../sound/bossBegin.wav"));
-    bossMiddle.setBuffer(ResourceManager::getSoundBuffer("../sound/bossMiddle.wav"));
+    bossBegin.setBuffer(ResourceManager::getSoundBuffer("./sound/bossBegin.wav"));
+    bossMiddle.setBuffer(ResourceManager::getSoundBuffer("./sound/bossMiddle.wav"));
     bossMiddle.setLoop(true);
-    bossEnd.setBuffer(ResourceManager::getSoundBuffer("../sound/bossEnd.wav"));
+    bossEnd.setBuffer(ResourceManager::getSoundBuffer("./sound/bossEnd.wav"));
 
 }
 

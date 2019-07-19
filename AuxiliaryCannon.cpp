@@ -14,7 +14,7 @@ void AuxiliaryCannon::powerUp(Player &player) const {
     Cannon cannon(player.getPrimaryCannon());
     if (player.getAuxiliaryCannons().empty()) {
         sf::Vector2f relativePosition;
-        std::string textureName = "../Texture/";
+        std::string textureName = "./Texture/";
         if (typeid(player) == typeid(Raptor)) {
             textureName += "Raptor";
             relativePosition = sf::Vector2f(76, 0);

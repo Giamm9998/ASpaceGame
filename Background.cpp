@@ -6,8 +6,8 @@
 #include "Game.h"
 
 Background::Background() {
-    sprite1.setTexture(ResourceManager::getTexture("../Texture/Background.png"));
-    sprite2.setTexture(ResourceManager::getTexture("../Texture/Background.png"));
+    sprite1.setTexture(ResourceManager::getTexture("./Texture/Background.png"));
+    sprite2.setTexture(ResourceManager::getTexture("./Texture/Background.png"));
     scrollSpeed = 75;
     sprite1.scale(windowWidth / sprite1.getTexture()->getSize().x,
                   windowHeight / sprite1.getTexture()->getSize().y);

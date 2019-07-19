@@ -7,7 +7,7 @@
 
 Raptor::Raptor() : Player(raptorHp, raptorStrength, raptorSpeed, raptorFireRate, Cannon(Projectile(
         raptorProjectileSpeed, raptorStrength * 1, false))), shieldDuration(0.75) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
+    sprite.setTexture(ResourceManager::getTexture("./Texture/RaptorBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setElapsedTime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
 

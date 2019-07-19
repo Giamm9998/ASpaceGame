@@ -21,9 +21,9 @@ Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), stat
     createHud();
     achievement.attach();
     achievementTime = 0;
-    achievementSound.setBuffer(ResourceManager::getSoundBuffer("../sound/achievement.wav"));
+    achievementSound.setBuffer(ResourceManager::getSoundBuffer("./sound/achievement.wav"));
     achievementSound.setVolume(50);
-    keySound.setBuffer(ResourceManager::getSoundBuffer("../sound/key.wav"));
+    keySound.setBuffer(ResourceManager::getSoundBuffer("./sound/key.wav"));
     background = std::unique_ptr<Background>(new Background);
 
     window.setFramerateLimit(60);
@@ -55,7 +55,7 @@ void Game::createHud() {
     hpHudOutline.setOutlineThickness(2);
     hpHudOutline.setOutlineColor(sf::Color(173, 161, 161, 255));
 
-    sf::Text text("Score: " + std::to_string(entityManager.getScore()), ResourceManager::getFont("../font/font.ttf"));
+    sf::Text text("Score: " + std::to_string(entityManager.getScore()), ResourceManager::getFont("./font/font.ttf"));
     text.setScale(0.7, 0.7);
     scoreText = text;
     scoreText.setPosition(600, windowHeight - 25);
@@ -89,7 +89,7 @@ void Game::createHud() {
 
     readFile();
 
-    leaderboardTitle.setFont(ResourceManager::getFont("../font/font.ttf"));
+    leaderboardTitle.setFont(ResourceManager::getFont("./font/font.ttf"));
     leaderboardTitle.setString("Leaderboard:");
     leaderboardTitle.setCharacterSize(22);
     leaderboardTitle.setFillColor(sf::Color::White);
@@ -98,7 +98,7 @@ void Game::createHud() {
     leaderboardTitle.setOrigin(leaderboardTitle.getLocalBounds().width / 2, 0);
     leaderboardTitle.setPosition(windowWidth / 2, 375);
 
-    leaderboard.setFont(ResourceManager::getFont("../font/font.ttf"));
+    leaderboard.setFont(ResourceManager::getFont("./font/font.ttf"));
     leaderboard.setOrigin(leaderboard.getGlobalBounds().width / 2, 0);
     leaderboard.setFillColor(sf::Color::White);
     leaderboard.setCharacterSize(22);
@@ -106,17 +106,17 @@ void Game::createHud() {
     leaderboard.setOutlineColor(sf::Color::Yellow);
     leaderboard.setPosition(leaderboardTitle.getPosition().x - 50, leaderboardTitle.getPosition().y + 50);
 
-    insertScore.setFont(ResourceManager::getFont("../font/font.ttf"));
+    insertScore.setFont(ResourceManager::getFont("./font/font.ttf"));
     insertScore.setFillColor(sf::Color::White);
     insertScore.setOutlineThickness(1);
     insertScore.setOutlineColor(sf::Color::Blue);
     insertScore.setPosition(200, 100);
 
-    bomberSprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
+    bomberSprite.setTexture(ResourceManager::getTexture("./Texture/BomberBasic.png"));
     bomberSprite.setScale(maxScale, maxScale);
     bomberSprite.setOrigin(bomberSprite.getLocalBounds().width / 2, 0);
     bomberSprite.setPosition(playerSelection.getGlobalBounds().left, 200);
-    raptorSprite.setTexture(ResourceManager::getTexture("../Texture/RaptorBasic.png"));
+    raptorSprite.setTexture(ResourceManager::getTexture("./Texture/RaptorBasic.png"));
     raptorSprite.setScale(maxScale, maxScale);
     raptorSprite.setOrigin(raptorSprite.getLocalBounds().width / 2, 0);
     raptorSprite.setPosition(playerSelection.getGlobalBounds().left + playerSelection.getGlobalBounds().width, 200);
@@ -125,9 +125,9 @@ void Game::createHud() {
     nameText.setFillColor(sf::Color::White);
     nameText.setOutlineThickness(1);
     nameText.setOutlineColor(sf::Color::Blue);
-    nameText.setFont(ResourceManager::getFont("../font/font.ttf"));
+    nameText.setFont(ResourceManager::getFont("./font/font.ttf"));
 
-    paused.setFont(ResourceManager::getFont("../font/font.ttf"));
+    paused.setFont(ResourceManager::getFont("./font/font.ttf"));
     paused.setString("Paused");
     paused.setOrigin(paused.getLocalBounds().width / 2, paused.getLocalBounds().height / 2);
     paused.setPosition(windowWidth / 2, windowHeight / 2);
@@ -392,7 +392,7 @@ void Game::updateAchievement(float time) {
 }
 
 void Game::insertScoreName() {
-    std::ifstream iFile("../leaderboard.txt");
+    std::ifstream iFile("./leaderboard.txt");
     char fileText[50];
     std::vector<std::pair<int, std::string>> scores;
     int i = 0;
@@ -413,7 +413,7 @@ void Game::insertScoreName() {
     scores.emplace_back(entityManager.getScore(), nameText.getString() + std::string(": "));
     std::sort(scores.begin(), scores.end());
     std::ofstream oFile;
-    oFile.open("../leaderboard.txt", std::ofstream::out | std::ofstream::trunc);
+    oFile.open("./leaderboard.txt", std::ofstream::out | std::ofstream::trunc);
     i = 5;
     bool arrow = false;
     leaderboard.setString("");
@@ -439,7 +439,7 @@ void Game::insertScoreName() {
 }
 
 void Game::readFile() {
-    std::ifstream openFile("../leaderboard.txt");
+    std::ifstream openFile("./leaderboard.txt");
     char fileText[100];
     std::string fileComplete;
     int i = 0;

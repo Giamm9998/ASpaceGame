@@ -17,7 +17,7 @@ void Fighter::move(float time) {
 
 Fighter::Fighter() : Enemy(fighterHp, fighterStrength, fighterSpeed, fighterFireRate, Cannon(Projectile(
         fighterProjectileSpeed, fighterStrength * 1)), fighterExplosions) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/Fighter.png"));
+    sprite.setTexture(ResourceManager::getTexture("./Texture/Fighter.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(getRandomPosition(sprite.getOrigin().x * maxScale,
                                          windowWidth - sprite.getOrigin().x * maxScale,

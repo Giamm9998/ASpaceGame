@@ -26,11 +26,11 @@ void Asteroid::move(float dt) {
 
 Asteroid::Asteroid() : speed(getRandomReal(asteroidMinSpeed, asteroidMaxSpeed)),
                        size(getRandomReal(asteroidMinSize, asteroidMaxSize)) {
-    crashSound.setBuffer(ResourceManager::getSoundBuffer("../sound/crash.wav"));
+    crashSound.setBuffer(ResourceManager::getSoundBuffer("./sound/crash.wav"));
     crashSound.setVolume(20);
     hp = asteroidMaxHp / asteroidMaxSize * size;
     startingHp = hp;
-    auto &rotation = animator->createAnimation("Rotation", "../Texture/Asteroid.png", sf::seconds(1), true);
+    auto &rotation = animator->createAnimation("Rotation", "./Texture/Asteroid.png", sf::seconds(1), true);
     unsigned int frames = 8, rows = 4, animInFile = 2;
     int startAnim = getRandomInt(0, 1) ? 0 : 128 * (rows);
     rotation.addFrames(sf::Vector2i(0, startAnim), sf::Vector2i(128, 128), frames, rows);

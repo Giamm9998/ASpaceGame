@@ -13,7 +13,7 @@ Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, Cann
         explosionNum(explosion) {
     sprite.setScale(maxScale, maxScale);
 
-    explosionSound.setBuffer(ResourceManager::getSoundBuffer("../sound/explosion.wav"));
+    explosionSound.setBuffer(ResourceManager::getSoundBuffer("./sound/explosion.wav"));
     explosionSound.setVolume(50);
     unsigned int frames = 8;
     unsigned int rows = 5;
@@ -21,7 +21,7 @@ Spaceship::Spaceship(float hp, float strength, float speed, float fireRate, Cann
         explosions.emplace_back();
         explosions.back().setScale(sf::Vector2f(1, 1) * getRandomReal(0.5, 1.2));
         animators.emplace_back(new Animator(explosions.back()));
-        std::string textureName = getRandomInt(0, 1) ? "../Texture/Explosion.png" : "../Texture/Explosion1.png";
+        std::string textureName = getRandomInt(0, 1) ? "./Texture/Explosion.png" : "./Texture/Explosion1.png";
         auto &explosionAnim = animators.back()->createAnimation("Explosion", textureName, sf::seconds(
                 explosionDuration), false);
         explosionAnim.addFrames(sf::Vector2i(0, 0), sf::Vector2i(128, 128), frames, rows);

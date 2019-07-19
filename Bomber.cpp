@@ -10,7 +10,7 @@ Bomber::Bomber() : Player(bomberHp, bomberStrength, bomberSpeed, bomberFireRate,
                    secondaryCannon(Projectile(bombSpeed, bomberStrength * bomberSecondaryStrengthMult,
                                               false, sf::Vector2f(bombSize, bombSize)), bomberSecondaryFireRateMult,
                                    bomberSecondaryStrengthMult, false) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/BomberBasic.png"));
+    sprite.setTexture(ResourceManager::getTexture("./Texture/BomberBasic.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     primaryCannon.setElapsedTime(1.f / (fireRate * primaryCannon.getFireRateMultiplier()));
     laser.setPosition(sprite.getPosition().x, sprite.getPosition().y - sprite.getGlobalBounds().height / 2);

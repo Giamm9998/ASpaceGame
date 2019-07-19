@@ -10,7 +10,7 @@
 
 Kamikaze::Kamikaze() : Enemy(kamikazeHp, kamikazeStrength, kamikazeSpeed, kamikazeFireRate, Cannon(),
                              kamikazeExplosions) {
-    sprite.setTexture(ResourceManager::getTexture("../Texture/Kamikaze.png"));
+    sprite.setTexture(ResourceManager::getTexture("./Texture/Kamikaze.png"));
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
     sprite.setPosition(windowWidth / 2,
                        (kamikazeMaxHeight + sprite.getOrigin().y * sprite.getScale().y) / 2);
