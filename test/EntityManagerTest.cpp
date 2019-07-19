@@ -5,20 +5,30 @@
 #include "../EntityManager.h"
 #include "../Raptor.h"
 #include "../Factory.h"
+#include "../Game.h"
 
 TEST(EntityManagerTest, Constructor) {
     EntityManager entityManager;
     ASSERT_TRUE(entityManager.getProjectileManager().empty());
-    //ASSERT_TRUE(entityManager.getEnemyManager().empty());
-    //ASSERT_TRUE(entityManager.getAsteroidManager().empty());
-    ASSERT_TRUE(entityManager.getPlayer() == nullptr);
+    ASSERT_TRUE(entityManager.getEnemyManager().empty());
+    ASSERT_TRUE(entityManager.getAsteroidManager().empty());
+    ASSERT_EQ(entityManager.getScore(), 0);
+    ASSERT_EQ(entityManager.getDestroyedAsteroids(), 0);
+    ASSERT_EQ(entityManager.getKilledSpaceships(), 0);
+    ASSERT_EQ(entityManager.getKilledBosses(), 0);
+    ASSERT_EQ(entityManager.getPlayer(), nullptr);
+    ASSERT_EQ(entityManager.getPowerUp(), nullptr);
 }
 
 TEST(EntityManagerTest, shots) {
     EntityManager entityManager;
     entityManager.selectPlayer<Raptor>();
     entityManager.updateEnemies(10);
+    ASSERT_TRUE(entityManager.getProjectileManager().empty());
+    entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Minion));
+    entityManager.updateEnemies(10);
     ASSERT_FALSE(entityManager.getProjectileManager().empty());
+    entityManager.getEnemyManagerTest().clear();
     sf::RectangleShape a;
     sf::RectangleShape b;
     entityManager.updatePlayer(10, false, false, true, false, a, b);
@@ -103,6 +113,18 @@ TEST(EntityManagerTest, projectileCollision) {
     entityManager.getProjectileManager().front()->getSprite().setPosition(
             entityManager.getEnemyManager().front()->getSprite().getPosition());
     entityManager.checkForProjectileCollisionsTest(projectileIter, false);
+    ASSERT_FALSE(entityManager.getProjectileManager().empty());
+    auto time = 0.001;
+    while (time < 2 * enemySpawnDuration) {
+        entityManager.updateEnemies(time);
+        time += 0.001;
+    }
+    entityManager.getProjectileManagerTest().clear();
+    entityManager.emplaceProjectileTest(std::unique_ptr<Projectile>(new Projectile(0, 10, false)));
+    entityManager.getProjectileManager().front()->getSprite().setPosition(
+            entityManager.getEnemyManager().front()->getSprite().getPosition());
+    projectileIter = entityManager.getProjectileManagerTest().begin();
+    entityManager.checkForProjectileCollisionsTest(projectileIter, false);
     ASSERT_TRUE(entityManager.getProjectileManager().empty());
     ASSERT_FLOAT_EQ (entityManager.getEnemyManager().front()->getHp(),
                      entityManager.getEnemyManager().front()->getMaxHp() - 10);
@@ -144,25 +166,29 @@ TEST(EntityManagerTest, asteroidCollision) {
 TEST(EntityManagerTest, laserCollision) {
     EntityManager entityManager;
     entityManager.selectPlayer<Raptor>();
-    entityManager.getEnemyManagerTest().clear(); //todo temporary
     entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Minion));
     entityManager.getEnemyManagerTest().front()->getSprite().setPosition(0, 0);
-    entityManager.updateEnemies(0);
-    entityManager.getAsteroidManagerTest().clear(); //todo temporary
+    auto time = 0.001;
+    while (time < 2 * enemySpawnDuration) {
+        entityManager.updateEnemies(time);
+        time += 0.001;
+    }
     entityManager.getAsteroidManagerTest().emplace_back(new Asteroid);
     entityManager.getAsteroidManagerTest().front()->getSprite().setPosition(0, 0);
     entityManager.getAsteroidManager().front()->getSprite().setScale(
             sf::Vector2f(1, 1) * entityManager.getAsteroidManager().front()->getSize());
+    entityManager.getPlayer()->setLaserActive(true);
+    entityManager.getPlayer()->getLaser().setPosition(entityManager.getPlayer()->getSprite().getPosition());
     entityManager.checkForLaserCollisionTest(0.2);
     ASSERT_FLOAT_EQ(entityManager.getEnemyManager().front()->getHp(),
                     entityManager.getEnemyManager().front()->getMaxHp());
     ASSERT_FLOAT_EQ(entityManager.getAsteroidManager().front()->getHp(),
                     (asteroidMaxHp / asteroidMaxSize * entityManager.getAsteroidManager().front()->getSize()));
     entityManager.getEnemyManagerTest().front()->getSprite().setPosition(
-            entityManager.getPlayer()->getSprite().getPosition().y, 0);
+            entityManager.getPlayer()->getSprite().getPosition().x, 0);
     entityManager.updateEnemies(0);
     entityManager.getAsteroidManagerTest().front()->getSprite().setPosition(
-            entityManager.getPlayer()->getSprite().getPosition().y, 0);
+            entityManager.getPlayer()->getSprite().getPosition().x, 0);
     entityManager.checkForLaserCollisionTest(0.2);
     ASSERT_FLOAT_EQ(entityManager.getEnemyManager().front()->getHp(),
                     entityManager.getEnemyManager().front()->getMaxHp() - laserDPS * 0.2);
@@ -172,3 +198,4 @@ TEST(EntityManagerTest, laserCollision) {
 }
 
 //todo test update
+//todo test attractivebeam collision
