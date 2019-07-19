@@ -111,6 +111,10 @@ void Spaceship::setElapsedTime(float time) {
     Spaceship::elapsedTime = time;
 }
 
+sf::Sound &Spaceship::getExplosionSound() {
+    return explosionSound;
+}
+
 
 Spaceship::~Spaceship() = default;
 

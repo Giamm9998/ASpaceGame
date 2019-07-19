@@ -21,6 +21,8 @@ Player::Player(float hp, float strength, float speed, float fireRate, const Cann
     laserSound.setLoop(true);
     laserSound.setVolume(50);
     powerUpSound.setBuffer(ResourceManager::getSoundBuffer("../sound/powerUp.wav"));
+    hitSound.setBuffer(ResourceManager::getSoundBuffer("../sound/hit.wav"));
+    hitSound.setVolume(40);
 }
 
 void Player::move(float time, short int direction) {
@@ -73,8 +75,10 @@ bool Player::isCharging() const {
 }
 
 void Player::receiveDamage(float damage) {
-    if (!receivingDamage)
+    if (!receivingDamage) {
+        hitSound.play();
         Spaceship::receiveDamage(damage);
+    }
 }
 
 std::vector<Cannon> &Player::getAuxiliaryCannons() {
@@ -128,4 +132,8 @@ void Player::setMovable(bool move) {
 
 void Player::setCharging(bool charge) {
     Player::charging = charge;
+}
+
+sf::Sound &Player::getHitSound() {
+    return hitSound;
 }

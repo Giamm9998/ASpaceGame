@@ -106,6 +106,10 @@ private:
     void readFile();
 
     void drawAchievement();
+
+    void pauseAllSounds();
+
+    void playAllSounds();
 };
 
 #endif //ASPACEGAME_GAME_H

@@ -48,6 +48,8 @@ public:
 
     sf::Sound &getPowerUpSound();
 
+    sf::Sound &getHitSound();
+
     bool isMovable() const;
 
     void setMovable(bool move);
@@ -63,6 +65,7 @@ protected:
     Animator *laserAnimator = new Animator(laser);
     sf::Sound laserSound;
     sf::Sound powerUpSound;
+    sf::Sound hitSound;
 
 };
 

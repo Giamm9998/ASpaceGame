@@ -53,6 +53,8 @@ public:
 
     bool die(float time);
 
+    sf::Sound &getCrashSound();
+
 private:
 
     float damage = 60.f;
@@ -67,7 +69,7 @@ private:
     float dyingTime = 0;
     bool receivingDamage = false;
     sf::Vector2f initialPosition;
-    sf::Sound crash;
+    sf::Sound crashSound;
 };
 
 

@@ -65,6 +65,8 @@ public:
 
     void setElapsedTime(float time);
 
+    sf::Sound &getExplosionSound();
+
 protected:
     float hp;
     float strength;
