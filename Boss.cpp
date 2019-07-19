@@ -31,7 +31,7 @@ std::list<Cannon *> &Boss::chooseAttack() {
             break;
         case 2:
             currentAttack.clear();
-            for (auto &cannon: bombCannon)
+            for (auto &cannon: bombCannons)
                 currentAttack.push_back(&cannon);
             currentAttack.push_back(&trackerCannon);
             break;
@@ -60,12 +60,12 @@ Boss::Boss() : Enemy(bossHp, bossStrength, bossSpeed, bossFireRate,
     simpleCannons.back().setLocalRelativePosition(sf::Vector2f(-bossCannonRelativePosX, 0));
     simpleCannons.emplace_back(Cannon(primaryCannon));
     simpleCannons.back().setLocalRelativePosition(sf::Vector2f(bossCannonRelativePosX, 0));
-    bombCannon.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
-                                              sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
-                                   sf::Vector2f(-bossCannonRelativePosX, 0)));
-    bombCannon.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
-                                              sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
-                                   sf::Vector2f(bossCannonRelativePosX, 0)));
+    bombCannons.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
+                                               sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
+                                    sf::Vector2f(-bossCannonRelativePosX, 0)));
+    bombCannons.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
+                                               sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
+                                    sf::Vector2f(bossCannonRelativePosX, 0)));
     mobileCannon = Cannon(Projectile(300, bossStrength * bossStrengthMult), bossMobileFireRateMult);
     mobileCannon.setElapsedTime(0);
     trackerCannon = Cannon(Projectile(300, bossStrength * bossTrackerStrengthMult), 1, bossTrackerStrengthMult, true);
