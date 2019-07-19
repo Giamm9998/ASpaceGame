@@ -42,9 +42,7 @@ public:
 
     std::unique_ptr<Projectile> useMobileCannon(float dt, Cannon &cannon);
 
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos);
-
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon) override;
+    std::unique_ptr<Projectile> useTrackerCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos);
 
 private:
     std::list<Cannon> simpleCannons;

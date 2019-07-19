@@ -126,6 +126,14 @@ void Game::createHud() {
     nameText.setOutlineThickness(1);
     nameText.setOutlineColor(sf::Color::Blue);
     nameText.setFont(ResourceManager::getFont("../font/font.ttf"));
+
+    paused.setFont(ResourceManager::getFont("../font/font.ttf"));
+    paused.setString("Paused");
+    paused.setOrigin(paused.getLocalBounds().width / 2, paused.getLocalBounds().height / 2);
+    paused.setPosition(windowWidth / 2, windowHeight / 2);
+    paused.setFillColor(sf::Color::White);
+    paused.setOutlineThickness(1);
+    paused.setOutlineColor(sf::Color::Blue);
 }
 
 void Game::run() {
@@ -223,6 +231,8 @@ void Game::render() {
     window.clear(sf::Color::Black);
 
     drawBackground();
+    if (isPaused)
+        window.draw(paused);
     if (!isChoosingPlayer && !entityManager.isGameEnded()) {
         draw<Asteroid>(entityManager.getAsteroidManager());
         draw<Projectile>(entityManager.getProjectileManager());

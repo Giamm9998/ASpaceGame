@@ -26,9 +26,7 @@ public:
 
     void move(float time) override;
 
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon) override;
-
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos);
+    std::unique_ptr<Projectile> useTrackerCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos);
 
 private:
     bool moved = false;

@@ -53,11 +53,8 @@ Assaulter::Assaulter() : Enemy(assaulterHp, assaulterStrength, assaulterSpeed, a
     boundingBox.setPosition(sprite.getPosition().x, sprite.getPosition().y);
 }
 
-std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon) {
-    return Spaceship::useCannon(dt, cannon);
-}
 
-std::unique_ptr<Projectile> Assaulter::useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
+std::unique_ptr<Projectile> Assaulter::useTrackerCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
     if (elapsedTime <= assaulterFreezeDuration) {
         sf::Vector2f vector(playerPos - (sprite.getPosition() + sf::Vector2f(0, sprite.getGlobalBounds().height / 2)));
         float module = hypot(vector.x, vector.y);

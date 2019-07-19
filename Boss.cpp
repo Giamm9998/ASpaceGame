@@ -72,7 +72,7 @@ Boss::Boss() : Enemy(bossHp, bossStrength, bossSpeed, bossFireRate,
     elapsedTime = -bossSpawnDuration;
 }
 
-std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
+std::unique_ptr<Projectile> Boss::useTrackerCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
     sf::Vector2f vector(playerPos - (sprite.getPosition() + sf::Vector2f(0, sprite.getGlobalBounds().height / 2)));
     float module = hypot(vector.x, vector.y);
     cannon.getProjectilePrototype().setMovement(sf::Vector2f(vector.x / module, vector.y / module));
@@ -93,10 +93,6 @@ std::unique_ptr<Projectile> Boss::useMobileCannon(float dt, Cannon &cannon) {
         mobileTime = 0;
         angle = M_PI / 4;
     }
-    return Spaceship::useCannon(dt, cannon);
-}
-
-std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon) {
     return Spaceship::useCannon(dt, cannon);
 }
 
