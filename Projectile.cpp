@@ -26,14 +26,6 @@ const sf::Vector2f &Projectile::getSize() const {
     return size;
 }
 
-float Projectile::getSpeed() const {
-    return speed;
-}
-
-const sf::Vector2f &Projectile::getMovement() const {
-    return movement;
-}
-
 float Projectile::getDamage() const {
     return damage;
 }

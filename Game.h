@@ -80,9 +80,7 @@ private:
     float achievementTime;
     sf::Sound achievementSound;
     sf::Sound keySound;
-
     bool nameEntered = false;
-
     EntityManager entityManager;
 
     void createHud();
@@ -111,6 +109,40 @@ private:
     void pauseAllSounds();
 
     void playAllSounds();
+
+    ///TEST
+public:
+    const sf::RenderWindow &getWindowTest() const {
+        return window;
+    }
+
+    bool isPausedTest() const {
+        return isPaused;
+    }
+
+    bool isMovingLeftTest() const {
+        return isMovingLeft;
+    }
+
+    bool isMovingRightTest() const {
+        return isMovingRight;
+    }
+
+    bool isShootingTest() const {
+        return isShooting;
+    }
+
+    bool isUsingSpecialTest() const {
+        return isUsingSpecial;
+    }
+
+    bool isChoosingPlayerTest() const {
+        return isChoosingPlayer;
+    }
+
+    bool isNameEnteredTest() const {
+        return nameEntered;
+    }
 };
 
 #endif //ASPACEGAME_GAME_H

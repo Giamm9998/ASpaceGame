@@ -17,12 +17,16 @@ public:
 
     const sf::Sprite &getSprite2() const;
 
-    float getScrollSpeed() const;
-
 private:
     sf::Sprite sprite1;
     sf::Sprite sprite2;
     float scrollSpeed;
+
+    ///TEST
+public:
+    float getScrollSpeedTest() const {
+        return scrollSpeed;
+    }
 };
 
 

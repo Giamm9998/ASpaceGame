@@ -45,8 +45,6 @@ public:
 
     float getStartingHp() const;
 
-    float getSpeed() const;
-
     bool isReceivingDamage() const;
 
     void setReceivingDamage(bool receiveDamage);
@@ -70,6 +68,12 @@ private:
     bool receivingDamage = false;
     sf::Vector2f initialPosition;
     sf::Sound crashSound;
+
+    ///TEST
+public:
+    float getSpeedTest() const {
+        return speed;
+    }
 };
 
 

@@ -39,10 +39,6 @@ bool Cannon::isTracker() const {
     return tracker;
 }
 
-float Cannon::getElapsedTime() const {
-    return elapsedTime;
-}
-
 void Cannon::setElapsedTime(float time) {
     Cannon::elapsedTime = time;
 }
