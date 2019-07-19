@@ -333,6 +333,7 @@ void EntityManager::checkForProjectileCollisions(std::list<std::unique_ptr<Proje
             }
 
         if (player->getBoundingBox().getGlobalBounds().intersects((projSprite.getGlobalBounds()))) {
+
             player->receiveDamage((*projectileIter)->getDamage());
             projectileManager.erase(projectileIter);
             return;
@@ -516,4 +517,70 @@ sf::Sound &EntityManager::getGameOver() {
 
 bool EntityManager::isGameEnded() const {
     return gameEnded;
+}
+
+void EntityManager::pauseAllSounds() {
+    if (shotSound.getStatus() == sf::Sound::Playing)
+        shotSound.pause();
+    if (bombSound.getStatus() == sf::Sound::Playing)
+        bombSound.pause();
+    if (mainTheme.getStatus() == sf::Sound::Playing)
+        mainTheme.pause();
+    if (shieldSound.getStatus() == sf::Sound::Playing)
+        shieldSound.pause();
+    if (bossBegin.getStatus() == sf::Sound::Playing)
+        bossBegin.pause();
+    if (bossMiddle.getStatus() == sf::Sound::Playing)
+        bossMiddle.pause();
+    if (bossEnd.getStatus() == sf::Sound::Playing)
+        bossEnd.pause();
+    if (player->getLaserSound().getStatus() == sf::Sound::Playing)
+        player->getLaserSound().pause();
+    if (player->getPowerUpSound().getStatus() == sf::Sound::Playing)
+        player->getPowerUpSound().pause();
+    if (player->getHitSound().getStatus() == sf::Sound::Playing)
+        player->getHitSound().pause();
+    if (player->getExplosionSound().getStatus() == sf::Sound::Playing)
+        player->getExplosionSound().pause();
+    for (auto &enemy : enemyManager) {
+        if (enemy->getExplosionSound().getStatus() == sf::Sound::Playing)
+            enemy->getExplosionSound().pause();
+    }
+    for (auto &asteroid : asteroidManager) {
+        if (asteroid->getCrashSound().getStatus() == sf::Sound::Playing)
+            asteroid->getCrashSound().pause();
+    }
+}
+
+void EntityManager::playAllSounds() {
+    if (shotSound.getStatus() == sf::Sound::Paused)
+        shotSound.play();
+    if (bombSound.getStatus() == sf::Sound::Paused)
+        bombSound.play();
+    if (mainTheme.getStatus() == sf::Sound::Paused)
+        mainTheme.play();
+    if (shieldSound.getStatus() == sf::Sound::Paused)
+        shieldSound.play();
+    if (bossBegin.getStatus() == sf::Sound::Paused)
+        bossBegin.play();
+    if (bossMiddle.getStatus() == sf::Sound::Paused)
+        bossMiddle.play();
+    if (bossEnd.getStatus() == sf::Sound::Paused)
+        bossEnd.play();
+    if (player->getLaserSound().getStatus() == sf::Sound::Paused)
+        player->getLaserSound().play();
+    if (player->getPowerUpSound().getStatus() == sf::Sound::Paused)
+        player->getPowerUpSound().play();
+    if (player->getHitSound().getStatus() == sf::Sound::Paused)
+        player->getHitSound().play();
+    if (player->getExplosionSound().getStatus() == sf::Sound::Paused)
+        player->getExplosionSound().play();
+    for (auto &enemy : enemyManager) {
+        if (enemy->getExplosionSound().getStatus() == sf::Sound::Paused)
+            enemy->getExplosionSound().play();
+    }
+    for (auto &asteroid : asteroidManager) {
+        if (asteroid->getCrashSound().getStatus() == sf::Sound::Paused)
+            asteroid->getCrashSound().play();
+    }
 }

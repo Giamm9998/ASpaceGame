@@ -12,7 +12,8 @@
 #include <cmath>
 
 Game::Game() : window(sf::VideoMode(static_cast<unsigned int>(windowWidth), static_cast<unsigned int>(windowHeight)),
-                      "A Space Game"), isPaused(false), isMovingLeft(false), isMovingRight(false), isShooting(false),
+                      "A Space Game", sf::Style::Titlebar | sf::Style::Close), isPaused(false), isMovingLeft(false),
+               isMovingRight(false), isShooting(false),
                isChoosingPlayer(true),
                isUsingSpecial(false), view((sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))),
                achievement(&entityManager) {
@@ -175,9 +176,11 @@ void Game::processEvents() {
                     window.close();
                     break;
                 case sf::Event::KeyPressed:
-                    if (event.key.code == sf::Keyboard::P)
-                        isPaused = !isPaused;
-                        //todo pause all sounds
+                    if (event.key.code == sf::Keyboard::P && !isChoosingPlayer)
+                        if ((isPaused = !isPaused))
+                            pauseAllSounds();
+                        else
+                            playAllSounds();
                     else
                         handlePlayerInput(event.key.code, true);
                     break;
@@ -452,4 +455,16 @@ void Game::readFile() {
     }
     leaderboard.setString(fileComplete);
     openFile.close();
+}
+
+void Game::pauseAllSounds() {
+    entityManager.pauseAllSounds();
+    if (achievementSound.getStatus() == sf::Sound::Playing)
+        achievementSound.pause();
+}
+
+void Game::playAllSounds() {
+    entityManager.playAllSounds();
+    if (achievementSound.getStatus() == sf::Sound::Paused)
+        achievementSound.play();
 }

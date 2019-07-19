@@ -78,6 +78,10 @@ public:
 
     bool isGameEnded() const;
 
+    void pauseAllSounds();
+
+    void playAllSounds();
+
 private:
 
 

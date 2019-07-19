@@ -36,7 +36,7 @@ public:
     void setLocalRelativePosition(const sf::Vector2f &position);
 
 private:
-    double fireRateMultiplier = 1;
+    float fireRateMultiplier = 1;
     float strengthMultiplier = 1;
     Projectile projectilePrototype;
     bool tracker = false;

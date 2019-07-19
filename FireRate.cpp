@@ -9,8 +9,8 @@ FireRate::FireRate() : PowerUp(false) {
 }
 
 void FireRate::powerUp(Player &player) const {
-    player.getPrimaryCannon().setFireRateMultiplier(player.getPrimaryCannon().getFireRateMultiplier() * 1.2f);
+    player.getPrimaryCannon().setFireRateMultiplier(player.getPrimaryCannon().getFireRateMultiplier() + 0.25f);
     for (auto &cannon : player.getAuxiliaryCannons())
-        cannon.setFireRateMultiplier(cannon.getFireRateMultiplier() * 1.2f);
+        cannon.setFireRateMultiplier(cannon.getFireRateMultiplier() + 0.25f);
     player.getPowerUpSound().play();
 }

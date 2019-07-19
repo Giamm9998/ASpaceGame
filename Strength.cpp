@@ -10,7 +10,7 @@ Strength::Strength() : PowerUp(false) {
 }
 
 void Strength::powerUp(Player &player) const {
-    player.setStrength(player.getStrength() * 1.2f);
+    player.setStrength(player.getStrength() + 2.5f);
     player.getPowerUpSound().play();
 }
 
