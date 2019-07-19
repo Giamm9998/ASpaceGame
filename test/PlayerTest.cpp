@@ -22,25 +22,25 @@ TEST(BomberTest, Constructor) {
     ASSERT_EQ(bomber.getPrimaryCannon().isTracker(), false);
     ASSERT_EQ(bomber.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(bomber.getPrimaryCannon().getStrengthMultiplier(), 1);
-    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getSpeed(), 400);
+    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getSpeedTest(), 400);
     ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
-    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, -1));
+    ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getMovementTest(), sf::Vector2f(0, -1));
     ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().getDamage(),
               bomber.getStrength() * bomber.getPrimaryCannon().getStrengthMultiplier());
     ASSERT_EQ(bomber.getPrimaryCannon().getProjectilePrototype().isEvil(), false);
-    ASSERT_FLOAT_EQ(bomber.getPrimaryCannon().getElapsedTime(),
+    ASSERT_FLOAT_EQ(bomber.getPrimaryCannon().getElapsedTimeTest(),
                     (1.f / (bomber.getFireRate() * bomber.getPrimaryCannon().getFireRateMultiplier())));
     ASSERT_EQ(bomber.getPrimaryCannon().getLocalRelativePosition(), sf::Vector2f(0, 0));
     ASSERT_EQ(bomber.getSecondaryCannon().isTracker(), false);
     ASSERT_FLOAT_EQ(bomber.getSecondaryCannon().getFireRateMultiplier(), 0.2);
     ASSERT_EQ(bomber.getSecondaryCannon().getStrengthMultiplier(), 3);
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().isEvil(), false);
-    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getSpeed(), 250);
+    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getSpeedTest(), 250);
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.9, 0.9));
-    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, -1));
+    ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getMovementTest(), sf::Vector2f(0, -1));
     ASSERT_EQ(bomber.getSecondaryCannon().getProjectilePrototype().getDamage(),
               bomber.getStrength() * bomber.getSecondaryCannon().getStrengthMultiplier());
-    ASSERT_EQ(bomber.getSecondaryCannon().getElapsedTime(), 0);
+    ASSERT_EQ(bomber.getSecondaryCannon().getElapsedTimeTest(), 0);
     ASSERT_EQ(bomber.getSecondaryCannon().getLocalRelativePosition(), sf::Vector2f(0, 0));
 }
 
@@ -61,12 +61,12 @@ TEST(RaptorTest, Constructor) {
     ASSERT_EQ(raptor.getPrimaryCannon().isTracker(), false);
     ASSERT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), 1);
     ASSERT_EQ(raptor.getPrimaryCannon().getStrengthMultiplier(), 1);
-    ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getElapsedTime(),
+    ASSERT_FLOAT_EQ(raptor.getPrimaryCannon().getElapsedTimeTest(),
                     (1.f / (raptor.getFireRate() * raptor.getPrimaryCannon().getFireRateMultiplier())));
     ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().isEvil(), false);
-    ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getSpeed(), 400);
+    ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getSpeedTest(), 400);
     ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
-    ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, -1));
+    ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getMovementTest(), sf::Vector2f(0, -1));
     ASSERT_EQ(raptor.getPrimaryCannon().getProjectilePrototype().getDamage(),
               raptor.getStrength() * raptor.getPrimaryCannon().getStrengthMultiplier());
     ASSERT_EQ(raptor.getPrimaryCannon().getLocalRelativePosition(), sf::Vector2f(0, 0));

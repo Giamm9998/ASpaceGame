@@ -21,10 +21,6 @@ public:
 
     const sf::Vector2f &getSize() const;
 
-    float getSpeed() const;
-
-    const sf::Vector2f &getMovement() const;
-
     float getDamage() const;
 
     sf::Sprite &getSprite();
@@ -42,6 +38,16 @@ private:
     sf::Vector2f movement;
     float damage{};
     bool evil{};
+
+    ///TEST
+public:
+    float getSpeedTest() const {
+        return speed;
+    }
+
+    const sf::Vector2f &getMovementTest() const {
+        return movement;
+    }
 };
 
 

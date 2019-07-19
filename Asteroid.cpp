@@ -106,10 +106,6 @@ Asteroid::~Asteroid() {
     delete animator;
 }
 
-float Asteroid::getSpeed() const {
-    return speed;
-}
-
 sf::Sound &Asteroid::getCrashSound() {
     return crashSound;
 }

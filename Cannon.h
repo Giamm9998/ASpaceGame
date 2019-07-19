@@ -25,8 +25,6 @@ public:
 
     bool isTracker() const;
 
-    float getElapsedTime() const;
-
     void setElapsedTime(float time);
 
     float getStrengthMultiplier() const;
@@ -42,5 +40,11 @@ private:
     bool tracker = false;
     float elapsedTime = 0;
     sf::Vector2f localRelativePosition = sf::Vector2f(0, 0);
+
+    ///TEST
+public:
+    float getElapsedTimeTest() const {
+        return elapsedTime;
+    }
 };
 #endif //ASPACEGAME_CANNON_H

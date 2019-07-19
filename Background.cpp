@@ -34,7 +34,3 @@ const sf::Sprite &Background::getSprite1() const {
 const sf::Sprite &Background::getSprite2() const {
     return sprite2;
 }
-
-float Background::getScrollSpeed() const {
-    return scrollSpeed;
-}

@@ -55,31 +55,31 @@ private:
 
     ///TEST METHODS
 public:
-    std::list<Cannon> &getSimpleCannons() {
+    std::list<Cannon> &getSimpleCannonsTest() {
         return simpleCannons;
     }
 
-    Cannon &getMobileCannon() {
+    Cannon &getMobileCannonTest() {
         return mobileCannon;
     }
 
-    Cannon &getTrackerCannon() {
+    Cannon &getTrackerCannonTest() {
         return trackerCannon;
     }
 
-    std::list<Cannon> &getBombCannons() {
+    std::list<Cannon> &getBombCannonsTest() {
         return bombCannons;
     }
 
-    float getMobileTime() const {
+    float getMobileTimeTest() const {
         return mobileTime;
     }
 
-    double getAngle() const {
+    double getAngleTest() const {
         return angle;
     }
 
-    const std::list<Cannon *> &getCurrentAttack() const {
+    const std::list<Cannon *> &getCurrentAttackTest() const {
         return currentAttack;
     }
 };
