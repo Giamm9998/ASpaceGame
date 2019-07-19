@@ -65,4 +65,3 @@ std::unique_ptr<Projectile> Assaulter::useTrackerCannon(float dt, Cannon &cannon
     return Spaceship::useCannon(0, cannon);
 
 }
-
