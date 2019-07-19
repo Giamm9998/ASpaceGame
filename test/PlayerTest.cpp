@@ -16,6 +16,8 @@ TEST(BomberTest, Constructor) {
     ASSERT_EQ(bomber.isReceivingDamage(), false);
     ASSERT_EQ(bomber.isCharging(), false);
     ASSERT_EQ(bomber.isLaserActive(), false);
+    ASSERT_EQ(bomber.getBoundingBox().getSize(), sf::Vector2f(bomberBoxSizeX * bomber.getSprite().getOrigin().x,
+                                                              bomberBoxSizeY * bomber.getSprite().getOrigin().y));
     ASSERT_EQ(bomber.getAuxiliaryCannons().empty(), true);
     ASSERT_EQ(bomber.getPrimaryCannon().isTracker(), false);
     ASSERT_EQ(bomber.getPrimaryCannon().getFireRateMultiplier(), 1);
@@ -53,6 +55,8 @@ TEST(RaptorTest, Constructor) {
     ASSERT_EQ(raptor.isCharging(), false);
     ASSERT_EQ(raptor.isLaserActive(), false);
     ASSERT_EQ(raptor.getShieldDuration(), 0.75);
+    ASSERT_EQ(raptor.getBoundingBox().getSize(), sf::Vector2f(raptorBoxSizeX * raptor.getSprite().getOrigin().x,
+                                                              raptorBoxSizeY * raptor.getSprite().getOrigin().y));
     ASSERT_EQ(raptor.getAuxiliaryCannons().empty(), true);
     ASSERT_EQ(raptor.getPrimaryCannon().isTracker(), false);
     ASSERT_EQ(raptor.getPrimaryCannon().getFireRateMultiplier(), 1);

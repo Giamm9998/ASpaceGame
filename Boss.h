@@ -42,18 +42,46 @@ public:
 
     std::unique_ptr<Projectile> useMobileCannon(float dt, Cannon &cannon);
 
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos);
-
-    std::unique_ptr<Projectile> useCannon(float dt, Cannon &cannon) override;
+    std::unique_ptr<Projectile> useTrackerCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos);
 
 private:
     std::list<Cannon> simpleCannons;
     Cannon mobileCannon;
     Cannon trackerCannon;
-    std::list<Cannon> bombCannon;
+    std::list<Cannon> bombCannons;
     float mobileTime = 0;
     double angle = M_PI / 4;
     std::list<Cannon *> currentAttack = {};
+
+    ///TEST METHODS
+public:
+    std::list<Cannon> &getSimpleCannons() {
+        return simpleCannons;
+    }
+
+    Cannon &getMobileCannon() {
+        return mobileCannon;
+    }
+
+    Cannon &getTrackerCannon() {
+        return trackerCannon;
+    }
+
+    std::list<Cannon> &getBombCannons() {
+        return bombCannons;
+    }
+
+    float getMobileTime() const {
+        return mobileTime;
+    }
+
+    double getAngle() const {
+        return angle;
+    }
+
+    const std::list<Cannon *> &getCurrentAttack() const {
+        return currentAttack;
+    }
 };
 
 

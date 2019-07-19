@@ -7,6 +7,7 @@
 #include "../Assaulter.h"
 #include "../Kamikaze.h"
 #include "../Fighter.h"
+#include "../Boss.h"
 
 TEST(MinionTest, Constructor) {
     Minion minion;
@@ -90,4 +91,73 @@ TEST(EnemyTest, Die) {
     ASSERT_FALSE(a);
     a = minion.die(2);
     ASSERT_TRUE(a);
+}
+
+TEST(BossTest, constructor) {
+    Boss boss;
+
+    //ASSERT_TRUE(EntityManager::isOutOfSight(boss.getSprite()));
+    ASSERT_FLOAT_EQ(boss.getElapsedTime(), -6.7);
+    ASSERT_FLOAT_EQ(boss.getHp(), 1000);
+    ASSERT_FLOAT_EQ(boss.getHp(), boss.getMaxHp());
+    ASSERT_FLOAT_EQ(boss.getStrength(), 15);
+    ASSERT_FLOAT_EQ(boss.getSpeed(), 50);
+    ASSERT_FLOAT_EQ(boss.getFireRate(), 1);
+    ASSERT_DOUBLE_EQ(boss.getAngle(), M_PI / 4);
+    ASSERT_FLOAT_EQ(boss.getMobileTime(), 0);
+    ASSERT_FLOAT_EQ(boss.getPrimaryCannon().getFireRateMultiplier(), 1);
+    ASSERT_FLOAT_EQ(boss.getPrimaryCannon().getStrengthMultiplier(), 1);
+    ASSERT_EQ(boss.getPrimaryCannon().getLocalRelativePosition(), sf::Vector2f(0, 0));
+    ASSERT_FALSE(boss.isReceivingDamage());
+    ASSERT_FALSE(boss.getPrimaryCannon().isTracker());
+    ASSERT_FLOAT_EQ(boss.getPrimaryCannon().getProjectilePrototype().getSpeed(), 400);
+    ASSERT_FLOAT_EQ(boss.getPrimaryCannon().getProjectilePrototype().getDamage(), 15);
+    ASSERT_EQ(boss.getPrimaryCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
+    ASSERT_TRUE(boss.getPrimaryCannon().getProjectilePrototype().isEvil());
+
+    ASSERT_EQ(boss.getSimpleCannons().size(), 2);
+    ASSERT_FLOAT_EQ(boss.getSimpleCannons().back().getFireRateMultiplier(), 1);
+    ASSERT_FLOAT_EQ(boss.getSimpleCannons().back().getStrengthMultiplier(), 1);
+    ASSERT_EQ(boss.getSimpleCannons().back().getLocalRelativePosition(), sf::Vector2f(250, 0));
+    ASSERT_EQ(boss.getSimpleCannons().front().getLocalRelativePosition(), sf::Vector2f(-250, 0));
+    ASSERT_FALSE(boss.getSimpleCannons().back().isTracker());
+    ASSERT_FLOAT_EQ(boss.getSimpleCannons().back().getProjectilePrototype().getSpeed(), 400);
+    ASSERT_FLOAT_EQ(boss.getSimpleCannons().back().getProjectilePrototype().getDamage(), 15);
+    ASSERT_EQ(boss.getSimpleCannons().back().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
+    ASSERT_TRUE(boss.getSimpleCannons().back().getProjectilePrototype().isEvil());
+    ASSERT_EQ(boss.getSimpleCannons().back().getProjectilePrototype().getMovement(), sf::Vector2f(0, 1));
+
+    ASSERT_FLOAT_EQ(boss.getMobileCannon().getFireRateMultiplier(), 1.8);
+    ASSERT_FLOAT_EQ(boss.getMobileCannon().getStrengthMultiplier(), 1);
+    ASSERT_FALSE(boss.getMobileCannon().isTracker());
+    ASSERT_EQ(boss.getMobileCannon().getLocalRelativePosition(), sf::Vector2f(0, 0));
+    ASSERT_FLOAT_EQ(boss.getMobileCannon().getElapsedTime(), 0);
+    ASSERT_FLOAT_EQ(boss.getMobileCannon().getProjectilePrototype().getSpeed(), 300);
+    ASSERT_FLOAT_EQ(boss.getMobileCannon().getProjectilePrototype().getDamage(), 15);
+    ASSERT_EQ(boss.getMobileCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
+    ASSERT_TRUE(boss.getMobileCannon().getProjectilePrototype().isEvil());
+    ASSERT_EQ(boss.getMobileCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, 1));
+
+    ASSERT_EQ(boss.getBombCannons().size(), 2);
+    ASSERT_FLOAT_EQ(boss.getBombCannons().back().getFireRateMultiplier(), 1);
+    ASSERT_FLOAT_EQ(boss.getBombCannons().back().getStrengthMultiplier(), 3);
+    ASSERT_EQ(boss.getBombCannons().back().getLocalRelativePosition(), sf::Vector2f(250, 0));
+    ASSERT_EQ(boss.getBombCannons().front().getLocalRelativePosition(), sf::Vector2f(-250, 0));
+    ASSERT_FALSE(boss.getBombCannons().back().isTracker());
+    ASSERT_FLOAT_EQ(boss.getBombCannons().back().getProjectilePrototype().getSpeed(), 400);
+    ASSERT_FLOAT_EQ(boss.getBombCannons().back().getProjectilePrototype().getDamage(), 45);
+    ASSERT_EQ(boss.getBombCannons().back().getProjectilePrototype().getSize(), sf::Vector2f(0.9, 0.9));
+    ASSERT_TRUE(boss.getBombCannons().back().getProjectilePrototype().isEvil());
+    ASSERT_EQ(boss.getBombCannons().back().getProjectilePrototype().getMovement(), sf::Vector2f(0, 1));
+
+    ASSERT_FLOAT_EQ(boss.getTrackerCannon().getFireRateMultiplier(), 1);
+    ASSERT_FLOAT_EQ(boss.getTrackerCannon().getStrengthMultiplier(), 1.5);
+    ASSERT_TRUE(boss.getTrackerCannon().isTracker());
+    ASSERT_EQ(boss.getTrackerCannon().getLocalRelativePosition(), sf::Vector2f(0, 0));
+    ASSERT_FLOAT_EQ(boss.getTrackerCannon().getProjectilePrototype().getSpeed(), 300);
+    ASSERT_FLOAT_EQ(boss.getTrackerCannon().getProjectilePrototype().getDamage(), 22.5);
+    ASSERT_EQ(boss.getTrackerCannon().getProjectilePrototype().getSize(), sf::Vector2f(0.5, 0.5));
+    ASSERT_TRUE(boss.getTrackerCannon().getProjectilePrototype().isEvil());
+    ASSERT_EQ(boss.getTrackerCannon().getProjectilePrototype().getMovement(), sf::Vector2f(0, 1));
+
 }

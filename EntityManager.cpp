@@ -254,7 +254,7 @@ void EntityManager::updateEnemies(float time) {
 
             enemy->move(time);
             if (typeid(*enemy) == typeid(Assaulter)) {
-                emplaceProjectile(dynamic_cast<Assaulter &>(*enemy).useCannon(
+                emplaceProjectile(dynamic_cast<Assaulter &>(*enemy).useTrackerCannon(
                         time, enemy->getPrimaryCannon(), player->getSprite().getPosition()));
             } else if (typeid(*enemy) == typeid(Fighter)) {
                 emplaceProjectile(enemy->useCannon(time, enemy->getPrimaryCannon()));
@@ -268,8 +268,8 @@ void EntityManager::updateEnemies(float time) {
                 }
                 for (auto &cannon: bossCurrentAttack) {
                     if (cannon->isTracker()) {
-                        emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useCannon(time, *cannon,
-                                                                                   player->getSprite().getPosition()));
+                        emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useTrackerCannon(time, *cannon,
+                                                                                          player->getSprite().getPosition()));
                     } else if (cannon->getFireRateMultiplier() == bossMobileFireRateMult) {
                         emplaceProjectile(dynamic_cast<Boss &>(*(enemy)).useMobileCannon(time, *cannon));
                     } else emplaceProjectile(enemy->useCannon(time, *cannon));

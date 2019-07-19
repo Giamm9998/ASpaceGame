@@ -31,7 +31,7 @@ std::list<Cannon *> &Boss::chooseAttack() {
             break;
         case 2:
             currentAttack.clear();
-            for (auto &cannon: bombCannon)
+            for (auto &cannon: bombCannons)
                 currentAttack.push_back(&cannon);
             currentAttack.push_back(&trackerCannon);
             break;
@@ -60,19 +60,19 @@ Boss::Boss() : Enemy(bossHp, bossStrength, bossSpeed, bossFireRate,
     simpleCannons.back().setLocalRelativePosition(sf::Vector2f(-bossCannonRelativePosX, 0));
     simpleCannons.emplace_back(Cannon(primaryCannon));
     simpleCannons.back().setLocalRelativePosition(sf::Vector2f(bossCannonRelativePosX, 0));
-    bombCannon.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
-                                              sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
-                                   sf::Vector2f(-bossCannonRelativePosX, 0)));
-    bombCannon.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
-                                              sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
-                                   sf::Vector2f(bossCannonRelativePosX, 0)));
+    bombCannons.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
+                                               sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
+                                    sf::Vector2f(-bossCannonRelativePosX, 0)));
+    bombCannons.emplace_back(Cannon(Projectile(bossProjectileSpeed, bossStrength * bossBombStrengthMult, true,
+                                               sf::Vector2f(0.9, 0.9)), 1, bossBombStrengthMult, false,
+                                    sf::Vector2f(bossCannonRelativePosX, 0)));
     mobileCannon = Cannon(Projectile(300, bossStrength * bossStrengthMult), bossMobileFireRateMult);
     mobileCannon.setElapsedTime(0);
     trackerCannon = Cannon(Projectile(300, bossStrength * bossTrackerStrengthMult), 1, bossTrackerStrengthMult, true);
     elapsedTime = -bossSpawnDuration;
 }
 
-std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
+std::unique_ptr<Projectile> Boss::useTrackerCannon(float dt, Cannon &cannon, const sf::Vector2f &playerPos) {
     sf::Vector2f vector(playerPos - (sprite.getPosition() + sf::Vector2f(0, sprite.getGlobalBounds().height / 2)));
     float module = hypot(vector.x, vector.y);
     cannon.getProjectilePrototype().setMovement(sf::Vector2f(vector.x / module, vector.y / module));
@@ -93,10 +93,6 @@ std::unique_ptr<Projectile> Boss::useMobileCannon(float dt, Cannon &cannon) {
         mobileTime = 0;
         angle = M_PI / 4;
     }
-    return Spaceship::useCannon(dt, cannon);
-}
-
-std::unique_ptr<Projectile> Boss::useCannon(float dt, Cannon &cannon) {
     return Spaceship::useCannon(dt, cannon);
 }
 

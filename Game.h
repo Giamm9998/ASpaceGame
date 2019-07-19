@@ -71,6 +71,7 @@ private:
     sf::Text leaderboardTitle;
     sf::Text insertScore;
     sf::Text nameText;
+    sf::Text paused;
     sf::Sprite bomberSprite;
     sf::Sprite raptorSprite;
     std::unique_ptr<Background> background;
