@@ -193,3 +193,21 @@ TEST(EntityManagerTest, laserCollision) {
                     (asteroidMaxHp / asteroidMaxSize * entityManager.getAsteroidManager().front()->getSize()) -
                     laserDPS * 0.2);
 }
+
+TEST(EntityManagerTest, death) {
+    EntityManager entityManager;
+    entityManager.selectPlayer<Raptor>();
+    entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Minion));
+    entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Assaulter));
+    entityManager.getEnemyManagerTest().emplace_back(Factory::createEnemy(EnemyType::Fighter));
+    for (auto &enemy : entityManager.getEnemyManager()) {
+        enemy->receiveDamage(10);
+    }
+    entityManager.updateEnemies(5);
+    ASSERT_FALSE(entityManager.getEnemyManager().empty());
+    for (auto &enemy : entityManager.getEnemyManager()) {
+        enemy->receiveDamage(500);
+    }
+    entityManager.updateEnemies(5);
+    ASSERT_TRUE(entityManager.getEnemyManager().empty());
+}
