@@ -32,6 +32,7 @@ TEST(MinionTest, Constructor) {
 
 TEST(AssaulterTest, Constructor) {
     Assaulter assaulter;
+    ASSERT_FALSE(assaulter.isMovedTest());
     ASSERT_EQ(assaulter.getHp(), 100);
     ASSERT_EQ(assaulter.getHp(), assaulter.getMaxHp());
     ASSERT_EQ(assaulter.getSpeed(), 0);
@@ -53,6 +54,10 @@ TEST(AssaulterTest, Constructor) {
 
 TEST(KamikazeTest, Constructor) {
     Kamikaze kamikaze;
+    ASSERT_FALSE(kamikaze.isAttacking());
+    ASSERT_FALSE(kamikaze.isTargetAcquiredTest());
+    ASSERT_FALSE(kamikaze.isTargetAttractedTest());
+    ASSERT_FLOAT_EQ(kamikaze.getAcquiringTimeTest(), 0);
     ASSERT_FLOAT_EQ(kamikaze.getHp(), 150.f);
     ASSERT_FLOAT_EQ(kamikaze.getMaxHp(), kamikaze.getHp());
     ASSERT_FLOAT_EQ(kamikaze.getSpeed(), 70.f);

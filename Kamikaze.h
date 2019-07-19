@@ -57,6 +57,20 @@ private:
     void createBeamOutline();
 
     void createBeam();
+
+    ///TEST
+public:
+    bool isTargetAcquiredTest() const {
+        return targetAcquired;
+    }
+
+    bool isTargetAttractedTest() const {
+        return targetAttracted;
+    }
+
+    float getAcquiringTimeTest() const {
+        return acquiringTime;
+    }
 };
 
 

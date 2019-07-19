@@ -30,6 +30,12 @@ public:
 
 private:
     bool moved = false;
+
+    ///TEST
+public:
+    bool isMovedTest() const {
+        return moved;
+    }
 };
 
 
