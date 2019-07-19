@@ -210,4 +210,18 @@ TEST(EntityManagerTest, death) {
     }
     entityManager.updateEnemies(5);
     ASSERT_TRUE(entityManager.getEnemyManager().empty());
+
+    for (int i = 0; i < 10; i++) {
+        entityManager.getAsteroidManagerTest().emplace_back(new Asteroid);
+    }
+    for (auto &asteroid : entityManager.getAsteroidManager()) {
+        asteroid->receiveDamage(5);
+    }
+    entityManager.updateAsteroids(5, false);
+    ASSERT_FALSE(entityManager.getAsteroidManager().empty());
+    for (auto &asteroid : entityManager.getAsteroidManager()) {
+        asteroid->receiveDamage(500);
+    }
+    entityManager.updateAsteroids(5, false);
+    ASSERT_TRUE(entityManager.getAsteroidManager().empty());
 }
