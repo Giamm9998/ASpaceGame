@@ -21,7 +21,7 @@
 #include "Health.h"
 #include "EnhanceSpecial.h"
 
-EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(5000) {
+EntityManager::EntityManager() : killedBosses(0), killedSpaceships(0), destroyedAsteroids(0), score(0) {
 
     createSounds();
 }
